@@ -1,0 +1,6 @@
+[submodule "tools/llm-repok-generator"]
+	path = tools/llm-repok-generator
+	url = https://github.com/ValenButtignol/llm-repok-generator.git
+[submodule "tools/repok-verifier-and-injector"]
+	path = tools/repok-verifier-and-injector
+	url = https://github.com/ValenButtignol/repok-verifier-and-injector.git

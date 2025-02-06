@@ -20,5 +20,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'repok.generator.tool.Main'
+    mainClass = 'generator.Main'
 }

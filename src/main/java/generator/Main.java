@@ -1,7 +1,10 @@
 package generator;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import generator.executor.LlmExecutor;
 import generator.executor.VerifierAndInjectorExecutor;
@@ -11,18 +14,25 @@ public class Main {
     
     public static void main(String[] args) {
 
-        String modelName = "Llama3.2";
-        String classPath = "LinkedList.java";
-        String nameOfClass = "LinkedList";
-        String promptType = "dual-w";
+        if (args.length < 4) {
+            throw new IllegalArgumentException("Usage: gradle run --args=<modelName> <classPath> <className> <promptType>");
+        }
+
+        String modelName = args[0];
+        String classPath = args[1];
+        String nameOfClass = args[2];
+        String promptType = args[3];
         String classString = getClassString(classPath);
-        String specClassPath = getSpecClassPath(promptType);
+        List<String> invClassPaths = getInvClassPaths();
 
         Executor llmExecutor = new LlmExecutor(modelName, promptType, classString, nameOfClass);
-        Executor verifierExecutor = new VerifierAndInjectorExecutor(classPath, nameOfClass, promptType, specClassPath);
-
+        Executor verifierExecutor;
+        
         llmExecutor.execute();
-        verifierExecutor.execute();
+        for (String invClassPath : invClassPaths) {
+            verifierExecutor = new VerifierAndInjectorExecutor(classPath, nameOfClass, invClassPath);
+            verifierExecutor.execute();
+        }
     }
 
     private static String getClassString(String classPath) {
@@ -34,20 +44,19 @@ public class Main {
         return null;
     }
 
-    private static String getSpecClassPath(String promptType) {
-        switch (promptType) {
-            case Constants.GLOBAL_PROMPT_TYPE:
-                return Constants.REPOK_CLASS_PATH;
-            case Constants.FS_W_PROMPT_TYPE:
-                return Constants.REPOK_CLASS_PATH;
-            case Constants.FS_P_PROMPT_TYPE:
-                return Constants.REPOK_CLASS_PATH;
-            case Constants.DUAL_W_PROMPT_TYPE:
-                return Constants.PROPERTIES_CLASS_PATH;
-            case Constants.DUAL_P_PROMPT_TYPE:
-                return Constants.PROPERTIES_CLASS_PATH;
-            default:
-                return null;
+    private static List<String> getInvClassPaths() {
+        List<String> invClassPaths = new ArrayList<>();
+        File directory = new File(Constants.INV_DIRECTORY_PATH);
+
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles((dir, name) -> name.endsWith(".java"));
+            if (files != null) {
+                for (File file : files) {
+                    invClassPaths.add(file.getPath());
+                }
+            }
         }
+
+        return invClassPaths;
     }
 }

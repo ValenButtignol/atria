@@ -6,12 +6,12 @@ import generator.Constants;
 
 public class VerifierAndInjectorExecutor extends Executor {
     
-    public VerifierAndInjectorExecutor(String classPath, String className, String promptType, String specClassPath) {
+    public VerifierAndInjectorExecutor(String classPath, String className, String invariantClassPath) {
         super();
         command = new String[]{
             "./gradlew",
             "run",
-            "--args=" + "../../" + classPath + " " + className + " " + promptType + " " + specClassPath
+            "--args=" + "../../" + classPath + " " + className + " " + " " + invariantClassPath
         };
 
         processBuilder = new ProcessBuilder(command);

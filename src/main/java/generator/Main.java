@@ -52,7 +52,9 @@ public class Main {
             File[] files = directory.listFiles((dir, name) -> name.endsWith(".java"));
             if (files != null) {
                 for (File file : files) {
-                    invClassPaths.add(file.getPath());
+                    String path = file.getPath();
+                    path = path.replace("tools", "..");
+                    invClassPaths.add(path);
                 }
             }
         }

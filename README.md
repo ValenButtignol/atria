@@ -27,6 +27,8 @@ bash dependencies.sh
 wget -P tools/llm-repok-generator/models <model_download_url>
 ```
 
+> NOTE: Make sure of adding the model name to the [ModelPathFactory](tools/llm-repok-generator/classes/factories/model_path_factory.py) file. In this file are the model_paths and model_names of the models that we used to test the tool. The download links are in the [README.md](tools/llm-repok-generator/README.md) file.
+
 ### Execute program
 ```
 gradle run --args="<modelName> <classPath> <className>"

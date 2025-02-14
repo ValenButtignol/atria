@@ -1,4 +1,4 @@
-# repok-generator-tool
+# ATRIA: AI & Testing-based RepOk Inference Approach
 
 ### Steps for tool setup
 

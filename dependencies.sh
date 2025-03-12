@@ -4,4 +4,4 @@ wget -P tools/llm-repok-generator/tools https://repo1.maven.org/maven2/com/githu
 
 wget -P tools/repok-verifier-and-injector/tools https://github.com/randoop/randoop/releases/download/v4.3.2/randoop-all-4.3.2.jar
 
-tools/repok-verifier-and-injector/.gradlew build
+./tools/repok-verifier-and-injector/gradlew build

@@ -1,5 +1,4 @@
-
-package casestudies.schedule;
+package casestudies.pli.schedule;
 
 import java.util.HashSet;
 import java.util.Set;

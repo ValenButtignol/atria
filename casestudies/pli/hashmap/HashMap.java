@@ -5,7 +5,7 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package casestudies.hashmap;
+package casestudies.pli.hashmap;
 
 import java.util.*;
 
@@ -706,10 +706,6 @@ public class HashMap {
             }
             return false;
         }
-
-        // public int hashCode() {
-        // return key ^ (value == null ? 0 : value.hashCode());
-        // }
 
         public String toString() {
             return getKey() + "=" + getValue();

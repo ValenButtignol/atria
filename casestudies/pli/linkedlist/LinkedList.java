@@ -1,10 +1,11 @@
-/*LinkedList.java	1.46 03/01/23
+/*
+ * @(#)LinkedList.java	1.46 03/01/23
  *
  * Copyright 2003 Sun Microsystems, Inc. All rights reserved.
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package casestudies.linkedlist;
+package casestudies.pli.linkedlist;
 
 import java.util.*;
 
@@ -263,23 +264,6 @@ public class LinkedList {
     public void add(int index, int element) {
         addBefore(element, (index == size ? header : entry(index)));
     }
-
-    /**
-     * Removes the element at the specified position in this list. Shifts any
-     * subsequent elements to the left (subtracts one from their indices). Returns
-     * the element that was removed from the list.
-     *
-     * @param index the index of the element to removed.
-     * @return the element previously at the specified position.
-     *
-     * @throws IndexOutOfBoundsException if the specified index is out of range
-     *                                   (<tt>index &lt; 0 || index &gt;= size()</tt>).
-     */
-    // public int remove(int index) {
-    // Entry e = entry(index);
-    // remove(e);
-    // return e.element;
-    // }
 
     /**
      * Return the indexed entry.

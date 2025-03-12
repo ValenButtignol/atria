@@ -5,7 +5,7 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package casestudies.treemap;
+package casestudies.pli.treemap;
 
 import java.util.*;
 
@@ -809,7 +809,7 @@ public class TreeMap {
         public boolean equals(Object o) {
             if (!(o instanceof Entry))
                 return false;
-            Etry e = (Entry) o;
+            Entry e = (Entry) o;
 
             return valEquals(key, e.getKey()) && valEquals(value, e.getValue());
         }
@@ -837,6 +837,4 @@ public class TreeMap {
             return b;
         }
     }
-
-
 }

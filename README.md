@@ -7,7 +7,7 @@
 git clone --recurse-submodules https://github.com/ValenButtignol/repok-generator-tool.git atria
 ```
 
-2. Make sure having installed Java 21 and Gradle 8.8.
+2. Make sure having installed Java 21 and Gradle 8.12.
 
 3. Download [Miniconda](https://docs.anaconda.com/miniconda/).
 

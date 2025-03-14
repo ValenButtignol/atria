@@ -707,6 +707,10 @@ public class HashMap {
             return false;
         }
 
+        public int hashCode() {
+            return key ^ (value == null ? 0 : value.hashCode());
+        }
+
         public String toString() {
             return getKey() + "=" + getValue();
         }

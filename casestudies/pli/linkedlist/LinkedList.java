@@ -77,8 +77,8 @@ import java.util.*;
  * @since 1.2
  */
 public class LinkedList {
-    public Entry header = new Entry();
-    public int size = 0;
+    private Entry header = new Entry();
+    private int size = 0;
 
     /**
      * Constructs an empty list.

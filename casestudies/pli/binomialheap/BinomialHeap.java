@@ -72,6 +72,8 @@ public class BinomialHeap {
      * return <= y.key ) ;
      */
     public int findMinimum() {
+        if (Nodes == null)
+            throw new IllegalStateException();
         return Nodes.findMinNode().key;
     }
 
@@ -173,59 +175,6 @@ public class BinomialHeap {
         }
     }
 
-    /**
-     * @Modifies_Everything
-     * @Ensures (@ old ( this).@old(Nodes)==null => ( this.Nodes==null && return==null
-     * ) ) && ( @old(this).@old(Nodes)!=null => ( (return
-     * in @old(this.nodes)) && ( all y : BinomialHeapNode | ( y
-     * in @old(this.nodes.key) && y.key >= return.key ) ) &&
-     * (this.nodes=@old(this.nodes) @- return ) && (this.nodes.key @+
-     * return.key = @old(this.nodes.key) ) ));
-     */
-    public/* @ nullable @ */BinomialHeapNode extractMinBugged() {
-        if (Nodes == null)
-            return null;
-
-        BinomialHeapNode temp = Nodes, prevTemp = null;
-        BinomialHeapNode minNode = null;
-
-        minNode = Nodes.findMinNode();
-        while (temp.key != minNode.key) {
-            prevTemp = temp;
-            temp = temp.sibling;
-        }
-
-        if (prevTemp == null) {
-            Nodes = temp.sibling;
-        } else {
-            prevTemp.sibling = temp.sibling;
-        }
-        temp = temp.child;
-        BinomialHeapNode fakeNode = temp;
-        while (temp != null) {
-            temp.parent = null;
-            temp = temp.sibling;
-        }
-
-        if ((Nodes == null) && (fakeNode == null)) {
-            size = 0;
-        } else {
-            if ((Nodes == null) && (fakeNode != null)) {
-                Nodes = fakeNode.reverse(null);
-                size--;
-            } else {
-                if ((Nodes != null) && (fakeNode == null)) {
-                    size--;
-                } else {
-                    unionNodes(fakeNode.reverse(null));
-                    size--;
-                }
-            }
-        }
-
-        return minNode;
-    }
-
     public /* @ nullable @ */BinomialHeapNode extractMinFixed() {
         if (Nodes == null)
             return null;
@@ -274,6 +223,8 @@ public class BinomialHeap {
 
     // 6. Decrease a key value
     public void decreaseKeyValue(int old_value, int new_value) {
+        if (Nodes == null)
+            throw new IllegalStateException();
         BinomialHeapNode temp = Nodes.findANodeWithKey(old_value);
         decreaseKeyNode(temp, new_value);
     }
@@ -449,7 +400,6 @@ public class BinomialHeap {
         }
 
         public BinomialHeapNode(int k) {
-            // public BinomialHeapNode(Integer k) {
             key = k;
             degree = 0;
             parent = null;

@@ -806,6 +806,12 @@ public class TreeMap {
             return oldValue;
         }
 
+        public int hashCode() {
+            int result = Integer.hashCode(key); // Hash of key
+            result = 31 * result + (value == null ? 0 : value.hashCode()); // Combine with value's hash
+            return result;
+        }
+
         public boolean equals(Object o) {
             if (!(o instanceof Entry))
                 return false;

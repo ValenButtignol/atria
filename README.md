@@ -31,8 +31,9 @@ wget -P tools/llm-repok-generator/models <model_download_url>
 
 ### Execute program
 ```
-gradle run --args="<modelName> <classPath> <className>"
+gradle run --args="<modelName> <classPath> <className> <promptType>"
 ```
 
 > NOTE: The `modelName` is the name of the model captured by the [ModelPathFactory](tools/llm-repok-generator/classes/factories/model_path_factory.py) If you want to test another model, you can add another option to this factory. 
->The `classPath` is the path to the class file. The `className` is the name of the class. 
+> The `classPath` is the path to the class file. The `className` is the name of the class.
+> The `promptType`is the style of prompt to use for the LLM. More details in [README.md](tools/llm-repok-generator/README.md)

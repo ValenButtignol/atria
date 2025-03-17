@@ -23,12 +23,14 @@ public class Main {
         String nameOfClass = args[2];
         String promptType = args[3];
         String classString = getClassString(classPath);
-        List<String> invClassPaths = getInvClassPaths();
-
+        
         Executor llmExecutor = new LlmExecutor(modelName, promptType, classString, nameOfClass);
         Executor verifierExecutor;
         
         llmExecutor.execute();
+        List<String> invClassPaths = getInvClassPaths();
+        System.out.println(invClassPaths);
+        
         for (String invClassPath : invClassPaths) {
             verifierExecutor = new VerifierAndInjectorExecutor(classPath, nameOfClass, invClassPath);
             verifierExecutor.execute();
@@ -54,11 +56,19 @@ public class Main {
                 for (File file : files) {
                     String path = file.getPath();
                     path = path.replace("tools", "..");
+                    
+                    System.out.println("PATHS");
+                    System.out.println("PATHS");
+                    System.out.println("PATHS");
+                    System.out.println(path);
+                    System.out.println("PATHS");
+                    System.out.println("PATHS");
+                    System.out.println("PATHS");
                     invClassPaths.add(path);
                 }
             }
         }
-
+        
         return invClassPaths;
     }
 }

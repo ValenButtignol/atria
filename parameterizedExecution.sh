@@ -36,6 +36,7 @@ prompts=(
 
 output_dir="tools/llm-repok-generator/output"
 test_dir="tools/repok-verifier-and-injector/src/test/java"
+log_dir="tools/repok-verifier-and-injector/logs"
 
 for class_path in "${!classes[@]}"; do
   class_name="${classes[$class_path]}"
@@ -56,6 +57,8 @@ for class_path in "${!classes[@]}"; do
       mv "$output_dir/completions.txt" "$target_dir/" 2>/dev/null
       mkdir -p "$target_dir/tests"
       cp "$test_dir"/ErrorTest*.java "$target_dir/tests/" 2>/dev/null
+      cp "$log_dir"/compile.log "$target_dir/tests/" 2>/dev/null
+      cp "$log_dir"/randoop.log "$target_dir/tests/" 2>/dev/null
     done
   done
 done

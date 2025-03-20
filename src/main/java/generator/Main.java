@@ -56,14 +56,6 @@ public class Main {
                 for (File file : files) {
                     String path = file.getPath();
                     path = path.replace("tools", "..");
-                    
-                    System.out.println("PATHS");
-                    System.out.println("PATHS");
-                    System.out.println("PATHS");
-                    System.out.println(path);
-                    System.out.println("PATHS");
-                    System.out.println("PATHS");
-                    System.out.println("PATHS");
                     invClassPaths.add(path);
                 }
             }

@@ -1,12 +1,11 @@
 #!/bin/bash
 
-models=(
-  "Qwen2.5.1-Coder"
-  "Llama3.1"
-  "Distill-Qwen-7b"
-  "Distill-Qwen-14b"
-  "Distill-Llama"
-)
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <model1> [model2 ... modelN]"
+  exit 1
+fi
+
+models=("$@")
 
 declare -A classes
 classes=(
@@ -42,7 +41,7 @@ for class_path in "${!classes[@]}"; do
       cp "$class_dir"/*.java "$target_dir/"
       copied_class_path="$target_dir/$(basename "$class_path")"
     
-      echo "Executing: gradle run --args=\"$model $class_path $class_name $prompt\""
+      echo "Executing: gradle run --args=\"$model $copied_class_path $class_name $prompt\""
       gradle run --args="$model $copied_class_path $class_name $prompt"
     
       cp "$output_dir"/RepOkClass*.java "$target_dir/" 2>/dev/null

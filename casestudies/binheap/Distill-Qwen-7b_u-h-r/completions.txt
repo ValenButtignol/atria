@@ -1,0 +1,55 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinomialHeap class in Java. Representation invariants are crucial because they ensure that the internal state of the object remains consistent and correct, which is essential for the correctness of the algorithms that operate on it.
+
+First, I'll look at the structure of the BinomialHeap class. It has a private member 'Nodes' which is of type BinomialHeapNode, and a 'size' variable that tracks the number of elements in the heap. The class also has methods for inserting, extracting, and manipulating nodes, which suggests that the heap is built using a collection of BinomialHeapNode objects.
+
+I remember that a BinomialHeap is a collection of binomial trees, each of which is a k-ary heap. Each tree in the heap is characterized by its degree, which is the number of children it has. The root of each tree has a degree equal to the number of children it has, and each node's degree is one more than the degree of its parent.
+
+So, the first thing I should check is the structure of the 'Nodes' collection. Each node should have a correct degree, and the degrees should follow the properties of a binomial tree. For example, the root's degree should be equal to the number of children it has, and each node's degree should be one more than its parent's.
+
+Another important aspect is the size of the heap. The size should accurately reflect the number of nodes in the structure. The 'size' variable is initialized to 0 and is incremented when nodes are added. However, I should verify that the size is correctly maintained, especially after operations like insert, extractMin, and decreaseKey.
+
+I should also consider the invariant that the 'Nodes' collection represents a valid binomial heap. This means that each tree in the heap should be properly structured, and the degrees of the nodes should follow the binomial tree properties.
+
+Putting this together, the representation invariant should ensure that:
+1. The 'Nodes' collection is a valid binomial tree.
+2. The size accurately reflects the number of nodes in the heap.
+3. Each node's degree is correctly set and follows the binomial tree structure.
+
+I'll structure the repOK method to check these conditions. It should return true only if all these invariants are satisfied.
+</think>
+
+```java
+public boolean repOK() {
+    if (Nodes == null) {
+        return size == 0;
+    }
+    
+    // Check each node's degree and parent relationships
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        if (current.parent != null && current.parent.degree != current.getDegree() - 1) {
+            return false;
+        }
+        current = current.sibling;
+    }
+    
+    // Check the root's degree
+    BinomialHeapNode root = Nodes;
+    while (root != null && root.sibling != null) {
+        root = root.sibling;
+    }
+    if (root != null) {
+        int expectedDegree = 0;
+        while (expectedDegree < root.getDegree()) {
+            expectedDegree++;
+            if (root.sibling != null && root.sibling.getDegree() >= expectedDegree) {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+```

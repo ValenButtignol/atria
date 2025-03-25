@@ -1,0 +1,76 @@
+
+
+
+To solve this problem, we need to write a representation invariant for the HashMap class. The representation invariant is a boolean method that checks if the object's state is valid. It should return `true` if the object is valid and `false` otherwise. The invariant should only verify properties that we are completely sure are valid.
+
+### Approach
+The HashMap class in Java is a data structure that stores key-value pairs. It uses hashing to allow average O(1) time complexity for insertions, deletions, and lookups. The key aspects to verify for the HashMap are:
+1. **No duplicates**: Each key should be unique.
+2. **Load factor**: The number of elements in the HashMap should not exceed the threshold, which is calculated as the capacity multiplied by the load factor.
+3. **Hashing**: The hash function should distribute the keys evenly across the table.
+4. **Consistency**: The structure should be consistent with the number of elements and the state of each bucket.
+
+The representation invariant will check these aspects to ensure the HashMap is in a valid state.
+
+### Solution Code
+```java
+public boolean repOK() {
+    if (size() == 0) {
+        return true;
+    }
+
+    if (modCount != 0) {
+        return false;
+    }
+
+    if (noDuplicates()) {
+        return false;
+    }
+
+    if (isOverloaded()) {
+        return false;
+    }
+
+    if (isConsistent()) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean noDuplicates() {
+    Set<Object> seenKeys = new HashSet<>();
+    for (Entry e : table) {
+        if (e != null && seenKeys.contains(e.getKey())) {
+            return false;
+        }
+        seenKeys.add(e.getKey());
+    }
+    return true;
+}
+
+private boolean isOverloaded() {
+    return size() > threshold;
+}
+
+private boolean isConsistent() {
+    for (Entry e : table) {
+        if (e == null) {
+            continue;
+        }
+        int bucketIndex = indexFor(e.hash, table.length);
+        if (bucketIndex != e.bucketIndex) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+### Explanation
+1. **Check for Duplicates**: The `noDuplicates` method uses a set to track seen keys. If a key is encountered more than once, the method returns `false`.
+2. **Check Load Factor**: The `isOverloaded` method checks if the number of elements exceeds the threshold, which would violate the load factor constraint.
+3. **Check Consistency**: The `isConsistent` method ensures that each entry is in the correct bucket as per its hash value. If any entry is not in the correct bucket, the method returns `false`.
+4. **ModCount Check**: The `modCount` variable is used to track structural modifications. If it is non-zero, the HashMap has been modified, and the invariant returns `false`.
+
+This approach ensures that all critical aspects of the HashMap's state are validated efficiently, maintaining the integrity of the data structure.

@@ -1,0 +1,98 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. The representation invariant is a boolean method called repOK that returns true if the object is valid and false otherwise. I should only verify properties that I'm completely sure are valid.
+
+First, I'll look at the AvlTree class. It has a root node, and methods for inserting and removing elements. The key operations are insert and remove, which balance the tree to maintain the Avl property.
+
+The Avl property ensures that the height difference between the left and right subtrees doesn't exceed a certain limit, which is defined as ALLOWED_IMBALANCE. This is set to 1 in the class.
+
+So, the invariant should check whether the tree is balanced according to the Avl rules. Specifically, for each node, the left and right subtrees should not differ in height by more than ALLOWED_IMBALANCE.
+
+I'll start by thinking about how to traverse the tree and check each node's balance. The balance method in the class already checks and balances the tree, but the repOK method needs to verify that the tree is in a valid state.
+
+I'll write a helper method, maybe called checkBalance, which recursively checks each node. For each node, it will compare the heights of the left and right children. If the difference exceeds ALLOWED_IMBALANCE, the tree is invalid.
+
+Wait, but the balance method also handles rotations and rebalancing. So, the repOK method should ensure that after any operation (insert or remove), the tree remains balanced.
+
+I should make sure that for every node, the left and right heights are within the allowed imbalance. So, in the repOK method, I'll traverse the tree and check each node's left and right children's heights.
+
+Also, I need to ensure that the root is not null. If the root is null, the tree is empty, which is valid. But if any node's left or right child is null when it shouldn't be, that could cause issues.
+
+Wait, no. The AvlTree can be empty, so root can be null. But during insert or remove, the tree should maintain the Avl property. So, the repOK method should check that all nodes satisfy the height condition.
+
+Putting it all together, the repOK method will:
+
+1. Check if the root is null. If it is, return true because an empty tree is valid.
+2. For each node, check if the left and right children's heights differ by more than ALLOWED_IMBALANCE.
+3. If any node violates this, return false.
+4. If all nodes are okay, return true.
+
+I'll write a recursive method to check each node. The method will call itself for the left and right children, passing along the current node's left and right heights.
+
+Wait, but in the balance method, the tree is rebalanced, so the heights are adjusted. So, the repOK method should reflect the current state after any operations.
+
+I think that's the plan. Now, I'll structure the code.
+
+The repOK method will be a boolean method in the AvlTree class. It will first check if the root is null. Then, it will call a helper method, maybe checkBalance, which will recursively check each node.
+
+In the helper method, for each node, it will check if the left and right heights differ by more than ALLOWED_IMBALANCE. If so, return false. Otherwise, proceed to check the children.
+
+So, the code will look something like this:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+    return checkBalance(root);
+}
+
+private boolean checkBalance(AvlNode node) {
+    if (node.left == null && node.right != null) {
+        return true;
+    }
+    if (node.right == null && node.left != null) {
+        return true;
+    }
+    int diff = height(node.left) - height(node.right);
+    if (Math.abs(diff) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+    return checkBalance(node.left) && checkBalance(node.right);
+}
+
+Wait, but in the balance method, the tree is adjusted, so the heights are maintained. So, the check should ensure that for each node, the left and right heights are within the allowed difference.
+
+I think that's correct. So, the repOK method will ensure that the tree is balanced according to the Avl property.
+
+I should also consider edge cases, like a single node, or a tree with all nodes on one side. The helper method should handle those.
+
+Another thing: the balance method returns the balanced tree, so the root is always updated. Therefore, the repOK method should reflect the current state after any operations.
+
+I think this should work. Now, I'll write the code accordingly.
+</think>
+
+To determine if the AvlTree is in a valid state, the representation invariant `repOK` checks that each node's left and right subtrees do not differ in height by more than `ALLOWED_IMBALANCE`. This ensures the tree adheres to the Avl property.
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+    return checkBalance(root);
+}
+
+private boolean checkBalance(AvlNode node) {
+    if (node.left == null && node.right != null) {
+        return true;
+    }
+    if (node.right == null && node.left != null) {
+        return true;
+    }
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+    return checkBalance(node.left) && checkBalance(node.right);
+}
+```

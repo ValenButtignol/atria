@@ -1,0 +1,27 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (root == null) {
+            return size == 0;
+        }
+        return checkNode(root, Integer.MIN_VALUE, Integer.MAX_VALUE) && size == countNodes(root);
+    }
+
+    private boolean checkNode(Node node, int min, int max) {
+        if (node == null) {
+            return true;
+        }
+        if (node.info <= min || node.info >= max) {
+            return false;
+        }
+        return checkNode(node.left, min, node.info) && checkNode(node.right, node.info, max);
+    }
+
+    private int countNodes(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+
+
+}

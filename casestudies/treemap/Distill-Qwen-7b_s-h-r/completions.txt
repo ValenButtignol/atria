@@ -1,0 +1,71 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. Representation invariants are boolean methods that check if the object's state is valid. They must return true if the object is valid and false otherwise. 
+
+Looking at the TreeMap class, it's a balanced binary search tree (BST) that uses red-black tree properties. So, the key aspects to verify are the BST property, the red-black tree properties, and the size and empty methods.
+
+First, the BST property: for every node, all keys in the left subtree are less than the node's key, and all keys in the right subtree are greater. This ensures the tree is ordered correctly.
+
+Next, the red-black tree properties:
+1. Every node is either red or black.
+2. The root is black.
+3. All leaves (null children) are black.
+4. No red node has a red parent.
+5. Every path from a node to a leaf has the same number of black nodes.
+
+Also, the size should accurately reflect the number of nodes, and the isEmpty and clear methods should correctly set the size and root.
+
+I'll start by checking if the root is null, which would mean the tree is empty. Then, I'll verify that the root is black, as per property 2. Each node's color should be either red or black. 
+
+For the BST property, I'll check that the comparator is null or that the compare method returns the correct order. Then, I'll ensure that all keys in the left subtree are less than the root's key and those in the right are greater.
+
+For the red nodes, I'll check that no red node has a red parent. This involves traversing the tree and checking each node's parent.
+
+Finally, I'll verify that the size is correct and that the root is black if the tree is not empty.
+
+Putting it all together, the repOK method will perform these checks step by step.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+    
+    // Check root color
+    if (!isBlack(root)) {
+        return false;
+    }
+    
+    // Check all nodes are either red or black
+    for (Node node : nodes()) {
+        if (!isRed(node) && !isBlack(node)) {
+            return false;
+        }
+    }
+    
+    // Check BST property
+    if (!isBST(root)) {
+        return false;
+    }
+    
+    // Check red nodes have black parents
+    for (Node node : nodes()) {
+        if (isRed(node) && (node.parent == null || isBlack(node.parent))) {
+            return false;
+        }
+    }
+    
+    // Check size is correct
+    if (size != nodes().size()) {
+        return false;
+    }
+    
+    // Check root is black
+    if (!isBlack(root)) {
+        return false;
+    }
+    
+    return true;
+}
+```

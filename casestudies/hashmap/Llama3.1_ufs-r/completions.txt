@@ -1,0 +1,92 @@
+
+Here are the representation invariants for the HashMap class:
+
+```java
+public boolean repOK() {
+    if (table == null) {
+        return size == 0;
+    }
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            Entry next = e.next;
+            if (e.hash == 0) {
+                return false; // hash code is 0
+            }
+            if (e.key == null && e.value != null) {
+                return false; // key is null but value is not
+            }
+            if (e.key != null && e.value == null) {
+                return false; // key is not null but value is null
+            }
+            e = next;
+        }
+    }
+
+    return true;
+}
+```
+
+However, the above representation invariant is not sufficient to ensure the correctness of the HashMap class. We need to add more conditions to ensure that the HashMap class is in a consistent state.
+
+Here is a more comprehensive representation invariant:
+
+```java
+public boolean repOK() {
+    if (table == null) {
+        return size == 0;
+    }
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            Entry next = e.next;
+            if (e.hash == 0) {
+                return false; // hash code is 0
+            }
+            if (e.key == null && e.value != null) {
+                return false; // key is null but value is not
+            }
+            if (e.key != null && e.value == null) {
+                return false; // key is not null but value is null
+            }
+            if (e.next != null && e.next.hash == e.hash) {
+                return false; // next entry has the same hash code
+            }
+            e = next;
+        }
+    }
+
+    if (size != countEntries()) {
+        return false; // size is not equal to the number of entries
+    }
+
+    if (threshold != (int) (table.length * loadFactor)) {
+        return false; // threshold is not equal to the expected value
+    }
+
+    return true;
+}
+
+private int countEntries() {
+    int count = 0;
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            count++;
+            e = e.next;
+        }
+    }
+    return count;
+}
+```
+
+This representation invariant checks the following conditions:
+
+*   The table is not null and the size is 0.
+*   Each entry in the table has a non-zero hash code.
+*   Each entry in the table has a key and a value, or neither key nor value is null.
+*   Each entry in the table does not have a next entry with the same hash code.
+*   The size of the HashMap is equal to the number of entries in the table.
+*   The threshold is equal to the expected value based on the load factor and the table size.

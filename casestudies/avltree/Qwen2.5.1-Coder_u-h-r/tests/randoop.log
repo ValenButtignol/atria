@@ -1,0 +1,40 @@
+
+> Task :runRandoop
+Randoop for Java version "4.3.2, local changes, branch master, commit df17bc8, 2023-01-08".
+ANNOTATION: Detected @CheckRep-annotated method "public boolean system.classfixer.classes.AvlTree.repOK_2()". Will use it to check rep invariant of class system.classfixer.classes.AvlTree during generation.
+
+Will try to generate tests for 1 classes.
+PUBLIC MEMBERS=21
+Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
+    allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
+
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-23T09:47:18.036700642Z     7,94M used)
+Progress update: steps=1000, test inputs generated=857, failing inputs=0      (2025-03-23T09:47:27.352368589Z     112M used)
+Progress update: steps=1169, test inputs generated=1001, failing inputs=0      (2025-03-23T09:47:28.608420438Z     27,6M used)
+Normal method executions: 777181
+Exceptional method executions: 9
+
+Average method execution time (normal termination):      5,60e-05
+Average method execution time (exceptional termination): 0,0386
+Approximate memory usage 27,6M
+Explorer = ForwardGenerator(steps: 1169, null steps: 168, num_sequences_generated: 1001;
+    allSequences: 1001, regresson seqs: 1000, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 40)
+
+No error-revealing tests to output.
+
+About to look for failing assertions in 498 regression sequences.
+
+Regression test output:
+Regression test count: 498
+Writing regression JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest.java
+Wrote regression JUnit tests.
+About to look for flaky methods.
+
+Invalid tests generated: 0
+
+BUILD SUCCESSFUL in 12s
+1 actionable task: 1 executed

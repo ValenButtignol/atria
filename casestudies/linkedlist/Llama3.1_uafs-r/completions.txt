@@ -1,0 +1,30 @@
+
+```java
+public boolean repOK() {
+    if (header.next != header) {
+        for (Entry e = header.next; e != header; e = e.next) {
+            if (e.previous != e.previous.previous) {
+                return false;
+            }
+            if (e.next != e.next.next) {
+                return false;
+            }
+            if (e.element == null) {
+                return false;
+            }
+        }
+    } else {
+        return true;
+    }
+    return size == countEntries();
+}
+
+private int countEntries() {
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        count++;
+    }
+    return count;
+}
+```
+This representation invariant checks that the linked list is in a consistent state. It checks that each entry's previous and next pointers are correctly set, and that there are no null elements in the list. It also checks that the size of the list is equal to the number of entries in the list.

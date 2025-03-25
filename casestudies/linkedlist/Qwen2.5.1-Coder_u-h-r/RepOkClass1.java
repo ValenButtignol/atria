@@ -1,0 +1,25 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (header == null) {
+            return false;
+        }
+        if (header.next == null || header.previous == null) {
+            return false;
+        }
+        if (header.next == header && header.previous == header) {
+            return size == 0;
+        }
+        Entry current = header.next;
+        int count = 0;
+        while (current != header) {
+            if (current.next == null || current.previous == null) {
+                return false;
+            }
+            current = current.next;
+            count++;
+        }
+        return count == size;
+    }
+
+
+}

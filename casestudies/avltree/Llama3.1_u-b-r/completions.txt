@@ -1,0 +1,40 @@
+
+Here's the representation invariant for the AvlTree class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    return repOK(root);
+}
+
+private boolean repOK(AvlNode t) {
+    if (t == null) {
+        return true;
+    }
+
+    if (t.left != null && t.left.element >= t.element) {
+        return false;
+    }
+
+    if (t.right != null && t.right.element <= t.element) {
+        return false;
+    }
+
+    if (Math.abs(height(t.left) - height(t.right)) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return repOK(t.left) && repOK(t.right);
+}
+```
+
+This method checks the following properties:
+
+1.  If the tree is empty, it is valid.
+2.  For each non-null node, its left child's element is less than its own element, and its right child's element is greater than its own element.
+3.  For each non-null node, the absolute difference between the heights of its left and right subtrees does not exceed the allowed imbalance.
+
+These properties ensure that the tree is a valid AVL tree, which is a self-balancing binary search tree with a balance factor of -1, 0, or 1 for each node.

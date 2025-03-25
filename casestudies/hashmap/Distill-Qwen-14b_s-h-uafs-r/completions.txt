@@ -1,0 +1,143 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class. The repOK method should check all the invariants that ensure the object is valid. Let me think about what properties the HashMap must satisfy.
+
+First, the HashMap uses an array of Entry objects called table. Each Entry has a key, value, hash, and a next pointer for collision handling. The size variable keeps track of the number of key-value pairs. The threshold is used to determine when to resize the table based on the load factor.
+
+So, the invariants I need to check are:
+
+1. **Capacity Constraints**: The initial capacity must be a power of two and at least 1. Also, the capacity shouldn't exceed MAXIMUM_CAPACITY. This ensures that the table is properly initialized and managed.
+
+2. **Load Factor Check**: The load factor should be a positive number and not NaN. This is because the load factor determines when resizing occurs, so it must be valid.
+
+3. **Threshold Validity**: The threshold should be less than or equal to the current capacity multiplied by the load factor. This ensures that resizing happens correctly when the size exceeds the threshold.
+
+4. **Consistency Between Size and Threshold**: The size should be less than or equal to the threshold. This is because the threshold is the point at which the HashMap resizes, so the size shouldn't exceed it.
+
+5. **No Null Keys or Values**: The HashMap uses a special NULL_KEY object to handle null keys. However, values can be null. So, I need to ensure that no Entry has a null key except for the special case, and values can be null.
+
+6. **Correct Hashing**: Each Entry's hash should be computed correctly using the hash method provided. This ensures that entries are placed in the correct buckets.
+
+7. **Consistent Key-Value Pairs**: For each Entry, the key and value should not be null unless the key is the special NULL_KEY. This maintains the integrity of the key-value pairs.
+
+8. **Cycle-Free Structure**: The Entries should form a cycle-free linked list within each bucket. This prevents infinite loops during traversal and ensures that each Entry can be properly accessed.
+
+9. **Entry Validity**: Each Entry's next pointer should either point to another Entry or be null. This ensures that the linked list structure is maintained correctly.
+
+10. **Entry Consistency**: For each Entry, the key and value should not be null unless the key is the special NULL_KEY. This maintains the correct structure of each Entry.
+
+I should implement each of these checks in the repOK method. Let me outline how each check will be performed:
+
+- **Capacity Check**: Verify that the table's length is a power of two and within bounds.
+- **Load Factor Check**: Ensure loadFactor is positive and not NaN.
+- **Threshold Check**: Confirm threshold is within the valid range based on capacity and load factor.
+- **Size Check**: Ensure size doesn't exceed the threshold.
+- **Null Handling**: Check that keys are either the special NULL_KEY or non-null, and values can be null.
+- **Hashing**: Verify that each Entry's hash is computed correctly.
+- **Cycle-Free Check**: Use a visited set to ensure no cycles in the linked list of Entries.
+- **Entry Structure**: Ensure each Entry's next is either null or another Entry.
+- **Consistency**: Ensure keys and values are correctly set, with proper handling of nulls.
+
+I need to write each of these checks in the repOK method. Some checks might be redundant or too time-consuming, so I should only include those I'm certain are valid. Also, I should avoid unnecessary computations to keep repOK efficient.
+
+Wait, the Entry's equals method might not be correctly implemented, but that's beyond the repOK's scope. The repOK only checks the structural integrity, not the correctness of the data beyond what's necessary for the HashMap's operation.
+
+I should also consider that the HashMap might have multiple threads modifying it, but since repOK is a single-threaded check, I don't need to handle concurrency here.
+
+Putting it all together, the repOK method will iterate through each Entry, check their hashes, ensure no cycles, validate keys and values, and confirm that all other variables like capacity, load factor, and threshold are within their expected ranges.
+
+I think I've covered all the necessary checks. Now, I'll write the repOK method incorporating these invariants.
+</think>
+
+```java
+public boolean repOK() {
+    // Check that the table is initialized and has a valid capacity
+    if (table == null) {
+        return false;
+    }
+    int capacity = table.length;
+    if (capacity < 1 || (capacity & (capacity - 1)) != 0) {
+        return false; // Capacity must be a power of two and at least 1
+    }
+    if (capacity > MAXIMUM_CAPACITY) {
+        return false;
+    }
+
+    // Check that the load factor is valid
+    if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
+        return false;
+    }
+
+    // Check that the threshold is valid
+    if (threshold < 0 || threshold > capacity) {
+        return false;
+    }
+
+    // Check that the size is consistent with the threshold
+    if (size > threshold) {
+        return false;
+    }
+
+    // Check that all entries are valid
+    for (int i = 0; i < capacity; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            // Check that the entry's key is either null (represented by NULL_KEY) or valid
+            if (e.key != null && e.key != HashMap.NULL_KEY) {
+                // Check that the key's hash is correctly computed
+                int computedHash = HashMap.hash(e.key);
+                if (e.hash != computedHash) {
+                    return false;
+                }
+            }
+            // Check that the value can be null
+            if (e.value == null) {
+                // This is allowed
+            } else {
+                // Check that the value is not null (though it's allowed to be null)
+                // No further check needed as null is allowed
+            }
+            // Check that the entry's next pointer is either null or points to another entry
+            if (e.next != null && !(e.next instanceof Entry)) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+
+    // Check that the modCount is non-negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    // Check that the size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check that the threshold is not negative
+    if (threshold < 0) {
+        return false;
+    }
+
+    // Check that the load factor is not NaN
+    if (Float.isNaN(loadFactor)) {
+        return false;
+    }
+
+    // Check that the table is cycle-free
+    Set<Entry> visited = new HashSet<>();
+    for (int i = 0; i < capacity; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (visited.contains(e)) {
+                return false; // Cycle detected
+            }
+            visited.add(e);
+            e = e.next;
+        }
+    }
+
+    return true;
+}
+```

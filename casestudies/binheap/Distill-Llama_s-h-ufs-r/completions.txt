@@ -1,0 +1,123 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinomialHeap class. Let me first understand what the BinomialHeap does. From the code, it seems like it's a heap implementation that uses a binary heap structure, but with some specific operations like insert, delete, and extractMin. 
+
+The BinomialHeapNode class has methods to manage siblings, children, and other heap-related operations. The main operations in BinomialHeap include inserting a value, deleting a value, and extracting the minimum value. 
+
+So, the representation invariant should be a method called repOK that returns true if the heap is in a valid state and false otherwise. I need to ensure that the heap adheres to the properties that a valid heap should have.
+
+First, I should think about what properties define a valid BinomialHeap. The heap should be a binary tree where each parent node has a key less than or equal to its children. Also, each node should have the correct parent, child, and sibling pointers. Additionally, the size of the heap should be correctly maintained.
+
+I'll start by checking if the root node is null when the size is zero. That's a basic invariant. Then, I'll check if the number of nodes in the tree matches the size. This ensures that there are no extra nodes or missing nodes.
+
+Next, I need to ensure that the heap is a binary tree. I'll traverse the tree to check that each node has at most two children and that each child correctly points to its parent.
+
+Another important property is that each node's key is less than or equal to its parent's key. I'll traverse the tree to verify this.
+
+I should also check that there are no duplicate keys in the heap. This can be done by traversing the tree and ensuring that each key is unique.
+
+Additionally, I'll verify that the size is correctly updated after each operation. For example, after an insert, the size should increase by one, and after an extractMin, it should decrease by one.
+
+I'll structure the repOK method to perform these checks step by step. If any check fails, the method returns false, indicating the heap is invalid. If all checks pass, it returns true.
+
+Now, let me outline the steps for the repOK method:
+
+1. Check if the root is null and the size is zero. If not, return false.
+2. Verify that the number of nodes in the tree equals the size.
+3. Ensure the heap is a binary tree by checking each node's children.
+4. Confirm that each node's key is less than or equal to its parent's key.
+5. Check for duplicates by ensuring each key is unique.
+6. Ensure the size is correct after operations.
+
+I'll implement each of these checks within the repOK method. For checking the tree structure and key ordering, I'll use a recursive helper method to traverse the tree. This helper will check the parent-child relationships and key comparisons.
+
+For the duplicate check, I'll use a Set to track seen keys as I traverse the tree. If a key is encountered more than once, the heap is invalid.
+
+Finally, I'll make sure that the size is correctly maintained by comparing the size variable with the actual number of nodes in the tree.
+
+Putting it all together, the repOK method will systematically check each necessary property, ensuring the heap is valid.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null && size != 0) {
+        return false;
+    }
+
+    if (numNodes(root) != size) {
+        return false;
+    }
+
+    if (!isAcyclic(root)) {
+        return false;
+    }
+
+    if (!isOrdered(root)) {
+        return false;
+    }
+
+    if (!noDuplicates(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isAcyclic() {
+    Set<Node> visited = new HashSet<Node>();
+    visited.add(root);
+    LinkedList<Node> workList = new LinkedList<Node>();
+    workList.add(root);
+    while (!workList.isEmpty()) {
+        Node current = (Node) workList.removeFirst();
+        if (current.left != null) {
+            if (!visited.add(current.left))
+                return false;
+            workList.add(current.left);
+        }
+        if (current.right != null) {
+            if (!visited.add(current.right))
+                return false;
+            workList.add(current.right);
+        }
+    }
+    return true;
+}
+
+private int numNodes(Node n) {
+    if (n == null)
+        return 0;
+    return 1 + numNodes(n.left) + numNodes(n.right);
+}
+
+private boolean isOrdered(Node n) {
+    return isOrdered(n, -1, -1);
+}
+
+private boolean isOrdered(Node n, int min, int max) {
+    if (n.info == null)
+        return false;
+    if ((min != -1 && n.info <= (min)) || (max != -1 && n.info >= (max)))
+        return false;
+    if (n.left != null)
+        if (!isOrdered(n.left, min, n.info))
+            return false;
+    if (n.right != null)
+        if (!isOrdered(n.right, n.info, max))
+            return false;
+    return true;
+}
+
+private boolean noDuplicates(Node root) {
+    Set<Integer> seen = new HashSet<>();
+    return noDuplicatesHelper(root, seen);
+}
+
+private boolean noDuplicatesHelper(Node node, Set<Integer> seen) {
+    if (node == null) return true;
+
+    if (!seen.add(node.info)) return false;
+
+    return noDuplicatesHelper(node.left, seen) && noDuplicatesHelper(node.right, seen);
+}
+```

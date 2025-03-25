@@ -1,0 +1,32 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        // Check if the root is null and size is 0
+        if (root == null && size != 0) {
+            return false;
+        }
+    
+        // Check if the size is negative
+        if (size < 0) {
+            return false;
+        }
+    
+        // Check if the tree satisfies the binary search tree property
+        return checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private boolean checkBST(Node node, int min, int max) {
+        if (node == null) {
+            return true;
+        }
+    
+        // Check if the current node's value is within the valid range
+        if (node.info <= min || node.info >= max) {
+            return false;
+        }
+    
+        // Recursively check the left and right subtrees
+        return checkBST(node.left, min, node.info) && checkBST(node.right, node.info, max);
+    }
+
+
+}

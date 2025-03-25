@@ -1,0 +1,74 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. Representation invariants are crucial because they define the conditions that must hold for the data structure to be in a valid state. This ensures that operations like insert and remove maintain the tree's balance and structural integrity.
+
+Looking at the AvlTree class, it's an AVL tree implementation. AVL trees are self-balancing binary search trees where the difference between the heights of the left and right subtrees (the balance factor) for every node is either -1, 0, or 1. This balance factor is maintained through rotations whenever insertions or deletions cause the tree to become unbalanced.
+
+So, the key here is to ensure that every node in the tree has a balance factor within the allowed range. The allowed imbalance is given as 1 in the class definition. That means for any node, the height difference between its left and right children can't exceed 1 in either direction.
+
+I should think about what the repOK method needs to check. It needs to verify that all nodes satisfy the balance condition. That means for each node, the height of the left subtree minus the height of the right subtree should be between -1 and 1, inclusive.
+
+How do I traverse the tree to check this? I'll need a helper method that recursively checks each node. For each node, I'll calculate the balance factor and ensure it's within the allowed range. If any node violates this, the repOK method should return false; otherwise, it returns true.
+
+Wait, but how do I get the height of each subtree? The tree already has a height method, so I can use that. For each node, I'll get the height of the left child and the right child. Then, compute the difference. If the difference is less than -1 or greater than 1, the tree is unbalanced.
+
+I should also handle the base case where a node is a leaf. In that case, both left and right heights are -1 (since height is defined as the maximum number of edges to the deepest leaf). The difference would be 0, which is within the allowed range.
+
+Putting it all together, the repOK method will traverse each node, compute the balance factor, and ensure it's within the allowed limits. If all nodes pass this check, the tree is in a valid state.
+
+I should also consider edge cases, like an empty tree. If the tree is empty, the method should return true because there are no nodes to violate the balance condition.
+
+So, the steps are:
+
+1. Check if the tree is empty. If so, return true.
+2. Traverse each node in the tree.
+3. For each node, get the heights of the left and right children.
+4. Compute the balance factor (left height - right height).
+5. If the balance factor is not between -1 and 1, return false.
+6. If all nodes pass, return true.
+
+I think that covers all necessary checks. Now, I'll implement this in Java.
+</think>
+
+To write a representation invariant for the `AvlTree` class, we need to ensure that the tree maintains its AVL properties. Specifically, the balance factor (the difference in heights between the left and right subtrees) for every node must be within the allowed range of -1 to 1.
+
+### Approach
+The approach involves:
+1. Checking if the tree is empty, which is a valid state.
+2. Traversing each node in the tree.
+3. For each node, calculating the heights of its left and right subtrees.
+4. Ensuring the balance factor (left height minus right height) is within the allowed range of -1 to 1.
+5. Returning false if any node violates this condition; otherwise, returning true.
+
+### Solution Code
+```java
+public boolean repOK() {
+    if (isEmpty()) {
+        return true;
+    }
+    
+    Node current = getRoot();
+    while (current != null) {
+        int leftHeight = current.left != null ? current.left.height : -1;
+        int rightHeight = current.right != null ? current.right.height : -1;
+        int balanceFactor = leftHeight - rightHeight;
+        
+        if (balanceFactor < -1 || balanceFactor > 1) {
+            return false;
+        }
+        
+        current = current.right;
+    }
+    
+    return true;
+}
+```
+
+### Explanation
+- **Check for Empty Tree:** If the tree is empty (`isEmpty()` returns true), the invariant holds, so we return true.
+- **Traversal:** We traverse each node starting from the root using a while loop.
+- **Height Calculation:** For each node, we calculate the heights of its left and right children. If a child is null, its height is considered -1.
+- **Balance Factor Check:** We compute the balance factor as the difference between the left and right subtree heights. If this factor is outside the range [-1, 1], the tree is unbalanced, and we return false.
+- **Return True:** If all nodes pass the balance check, the tree is in a valid state, and we return true.
+
+This invariant ensures that the `AvlTree` maintains its AVL properties, guaranteeing logarithmic time complexity for search, insert, and delete operations.

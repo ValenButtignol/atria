@@ -1,0 +1,342 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. Let me first understand what a representation invariant is. From what I remember, it's a method that checks whether the current state of the object is consistent with its invariants. So, for the TreeMap, I need to ensure that it behaves correctly according to its design.
+
+Looking at the TreeMap code, it's a balanced binary search tree implementation using the treap (tree + heap) structure. Each node has a key, value, color (red or black), and pointers to left and right children, as well as its parent.
+
+The key operations are insertion, which involves maintaining the heap property and balancing the tree. The insert method adds a new node, then fixes the tree's structure to ensure it remains balanced.
+
+So, for the repOK method, I need to verify that the tree is correctly structured. That means checking that for every node, it's either a red node with two children or a black node with one or zero children. Also, the tree should be properly balanced, meaning that the structure doesn't violate the treap properties.
+
+Let me think about how to traverse the tree to check these conditions. A post-order traversal might be suitable because we need to check the children before the parent.
+
+In the traversal, for each node, I should check:
+1. If the node is red, it should have exactly two children. If it's black, it can have zero, one, or two children, but the left and right subtrees should be balanced.
+2. For each child, recursively check their structure.
+3. Also, ensure that the tree isn't empty when it shouldn't be and that the size matches the actual count.
+
+Wait, but the size is maintained separately, so maybe I don't need to count nodes. Instead, I can check the structure without counting.
+
+Another thing to consider is the root node. It should always be black because the initial insertion sets it to black, and the fixInsertion method ensures that the root remains black.
+
+So, the steps for the repOK method could be:
+- Check if the root is null when it shouldn't be.
+- Traverse the tree in post-order.
+- For each node, if it's red, ensure it has both left and right children. If it's black, ensure it has at most one child (but actually, in a treap, a black node can have two children if they are smaller, but I think the structure should enforce that only red nodes can have two children).
+- For each node, check that its left and right children are correctly placed according to the treap structure.
+
+Wait, maybe I should think about the properties of a treap. In a treap, each node is either a left child or a right child based on the key comparison. So, for each node, its left and right children should be correctly positioned based on the comparator.
+
+But checking that might be too detailed for a repOK method. Maybe the repOK should focus on the structural invariants rather than the key order.
+
+So, focusing on structure:
+- All red nodes must have exactly two children.
+- The root must be black.
+- The left and right subtrees of each node must themselves be treaps, meaning their structures are correct.
+
+So, the repOK method can perform a recursive check:
+1. If the tree is empty, return true.
+2. Check if the root is black. If not, return false.
+3. For each node, if it's red, check that it has both left and right children. If it's black, check that it has at most one child (but actually, in a treap, a black node can have two children if the left is smaller, but I think the structure should prevent that. Hmm, maybe I'm overcomplicating.)
+4. Recursively check the left and right subtrees.
+
+Wait, perhaps the key is that in a treap, only red nodes can have two children. So, for each node:
+- If it's red, it must have both left and right children.
+- If it's black, it must have zero or one child.
+
+But I'm not entirely sure. Maybe I should look up the treap properties. From what I recall, in a treap, each node has a priority (the color, where red is higher priority), and the structure is a binary search tree based on keys. The heap property is that parent nodes have higher priority than their children.
+
+So, for the structural invariant, the key points are:
+- The root has the highest priority (is black).
+- Each node's left and right children have lower priority than the node.
+- The heap property holds: for any node, the priority of the parent is higher than the priorities of its children.
+
+But checking the heap property directly might be too involved. Instead, the repOK method can check that each node's children have lower priority (i.e., are red) and that the structure is a valid BST.
+
+Wait, but the comparator is used to compare keys. So, the left child should have a key less than the current node's key, and the right child should have a key greater than the current node's key.
+
+But in the repOK method, how do I check that without knowing the actual keys? Maybe I can't, so perhaps the repOK method only checks the structural aspects, not the key order.
+
+So, focusing on structure:
+- The root is black.
+- Every red node has exactly two children.
+- The tree is properly formed as a binary search tree.
+
+But how to check that it's a BST without knowing the keys? That's tricky. Maybe the repOK method can't check that, so it only verifies the structural invariants related to the treap's heap property and node colors.
+
+So, the repOK method would:
+1. Check if the root is black. If not, return false.
+2. For each node, if it's red, ensure it has both left and right children. If it's black, ensure it has at most one child.
+3. Ensure that each node's left child has a lower key than the node and the right child has a higher key. But since we don't have the actual keys, maybe this isn't possible. Alternatively, perhaps the structure is maintained through the insertions, so the key order is already correct.
+
+Wait, but the repOK method is supposed to check the invariants, which include the structural integrity. So, perhaps the method should ensure that the tree is correctly structured as a treap, meaning that each node's children are correctly placed based on the key order.
+
+But without knowing the keys, how can we check that? Maybe it's not possible, so the repOK method only checks the structural aspects related to colors and children counts.
+
+Alternatively, perhaps the repOK method can perform a traversal and check that for each node, the left child is less than the node and the right child is greater than the node, but that would require knowing the keys, which we don't have in the method.
+
+Hmm, this is a bit confusing. Let me think again.
+
+The TreeMap's repOK method should ensure that the tree is correctly structured. So, the key points are:
+- The root is black.
+- Every red node has exactly two children.
+- The tree is a valid binary search tree.
+
+But since the keys are not known, perhaps the repOK method can't check the BST property directly. Therefore, it might only check the structural aspects related to node colors and children counts.
+
+So, the repOK method would:
+1. Check if the root is black. If not, return false.
+2. For each node, if it's red, check that it has both left and right children. If it's black, check that it has at most one child.
+3. Ensure that the tree is properly formed, meaning that the left subtree of a node contains only nodes with keys less than the node's key, and the right subtree contains only nodes with keys greater than the node's key. But without knowing the keys, this can't be done.
+
+Wait, but the insert method maintains the BST property, so perhaps the repOK method doesn't need to check it because it's ensured by the insertions. So, maybe the repOK method only needs to check the structural aspects related to node colors and children.
+
+Therefore, the repOK method would:
+- Check if the root is black.
+- For each node, if it's red, ensure it has both left and right children.
+- For each node, if it's black, ensure it has at most one child.
+
+Additionally, it should ensure that the tree is not null when it shouldn't be and that the size is correct. But the size is maintained separately, so perhaps the repOK method doesn't need to check it unless the size is inconsistent with the structure.
+
+Wait, but the size is part of the object's state, so the repOK method should check that the size matches the actual number of nodes.
+
+So, putting it all together, the repOK method would:
+1. If the size is incorrect (not equal to the actual node count), return false.
+2. Check that the root is black.
+3. Traverse the tree in post-order:
+   a. For each node, if it's red, check that it has both left and right children.
+   b. If it's black, check that it has at most one child.
+4. Ensure that the tree is properly formed as a BST, but since we can't check the keys, perhaps this is beyond the scope of the repOK method.
+
+Wait, but the fixInsertion method ensures that the tree remains a BST, so maybe the keys are already in the correct order. Therefore, the repOK method doesn't need to check the key order, just the structure.
+
+So, the repOK method would:
+- Check that the root is black.
+- For each node, if it's red, ensure it has two children.
+- For each node, if it's black, ensure it has at most one child.
+- Ensure that the size is correct.
+
+Additionally, it should check that all nodes are properly linked and that there are no cycles or missing links.
+
+So, the steps for the repOK method would be:
+1. If the size is not equal to the actual number of nodes, return false.
+2. Check if the root is null when it shouldn't be or not black.
+3. Traverse the tree, checking each node's color and children.
+4. Ensure that each node's left and right children are correctly set.
+
+Now, how to implement this in Java.
+
+The method would start by checking if the size is correct. Then, check if the root is black. Then, perform a post-order traversal to check each node's structure.
+
+In the traversal, for each node:
+- If it's red, check that both left and right children exist and are not null.
+- If it's black, check that it has at most one child (either left or right, but not both).
+
+Wait, but in a treap, a black node can have two children if the left is smaller. Or is that not allowed? I think in a treap, only red nodes can have two children. So, a black node can have at most one child.
+
+So, in the repOK method, for each node:
+- If color is RED, check that left and right are not null.
+- If color is BLACK, check that left and right are null or only one is not null.
+
+Wait, no. Actually, in a treap, a red node must have two children, and a black node can have zero, one, or two children, but the structure must maintain the heap property. However, for the structural invariant, perhaps the rule is that only red nodes can have two children, and black nodes can have at most one.
+
+So, in the repOK method, for each node:
+- If it's red, it must have both left and right children.
+- If it's black, it must have at most one child (either left or right, but not both).
+
+So, the code would look something like this:
+
+public boolean repOK() {
+    // Check size
+    if (size != sizeOfTree()) {
+        return false;
+    }
+
+    // Check root
+    if (root == null || root.color != BLACK) {
+        return false;
+    }
+
+    // Post-order traversal
+    return postOrderCheck(root);
+}
+
+private boolean postOrderCheck(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check children
+    boolean leftOK = postOrderCheck(node.left);
+    boolean rightOK = postOrderCheck(node.right);
+
+    // Check node's color and children
+    if (node.color == RED) {
+        if (node.left == null || node.right == null) {
+            return false;
+        }
+    } else {
+        int childrenCount = 0;
+        if (node.left != null) childrenCount++;
+        if (node.right != null) childrenCount++;
+        if (childrenCount > 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+Wait, but the size is maintained in the TreeMap, so how to get the actual size? The size variable in the TreeMap is the actual size, so perhaps the repOK method can just use that.
+
+But wait, in the TreeMap, the size is maintained correctly through insertions and deletions, so the size variable should match the actual number of nodes.
+
+So, in the repOK method, first check if size != size, which would be impossible, but perhaps it's redundant. Alternatively, perhaps the size is correct, so no need to check.
+
+But to be thorough, the repOK method can count the nodes during traversal and compare with the size.
+
+So, in the postOrder traversal, count the nodes and ensure it equals the size.
+
+Putting it all together:
+
+public boolean repOK() {
+    // Check if the size is correct
+    if (size != countNodes()) {
+        return false;
+    }
+
+    // Check root is black
+    if (root == null || root.color != BLACK) {
+        return false;
+    }
+
+    // Post-order check
+    return postOrderCheck(root);
+}
+
+private int countNodes() {
+    int count = 0;
+    Node current = root;
+    while (current != null) {
+        count++;
+        current = current.left;
+    }
+    return count;
+}
+
+private boolean postOrderCheck(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check left subtree
+    boolean leftOK = postOrderCheck(node.left);
+
+    // Check right subtree
+    boolean rightOK = postOrderCheck(node.right);
+
+    // Check current node
+    if (node.color == RED) {
+        if (node.left == null || node.right == null) {
+            return false;
+        }
+    } else {
+        int children = 0;
+        if (node.left != null) children++;
+        if (node.right != null) children++;
+        if (children > 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+Wait, but in the TreeMap, the size is maintained, so the countNodes() method should return the same as size. So, perhaps the size check is redundant, but it's better to include it for safety.
+
+Alternatively, perhaps the size check is unnecessary because the size is correctly maintained. But to be thorough, it's included.
+
+Another thing to consider: the root's color must be black. So, if the root is null, the tree is empty, which is allowed only if size is zero.
+
+So, in the repOK method, if the root is null but size is not zero, it's invalid.
+
+Putting it all together, the repOK method would:
+
+1. Check if the size is correct.
+2. Check if the root is black and not null when size is positive.
+3. Traverse the tree in post-order to check each node's structure.
+
+So, the final code would include these checks.
+</think>
+
+To write a representation invariant for the `TreeMap` class, we need to ensure that the tree adheres to the structural properties of a treap. A treap is a balanced binary search tree where each node has a key, a value, a color (red or black), and pointers to its left and right children. The key properties to verify are:
+
+1. **Root Node**: The root must be a black node.
+2. **Node Colors and Children**: 
+   - Red nodes must have exactly two children.
+   - Black nodes must have at most one child.
+3. **Size Consistency**: The size of the tree as reported by the `size()` method must match the actual number of nodes in the tree.
+
+Here is the `repOK` method for the `TreeMap` class:
+
+```java
+public boolean repOK() {
+    // Check if the size is consistent
+    if (size != countNodes()) {
+        return false;
+    }
+
+    // Check if the root is black and not null when the tree is non-empty
+    if (root == null) {
+        return size == 0;
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Post-order traversal to check node structure
+    return postOrderCheck(root);
+}
+
+private int countNodes() {
+    int count = 0;
+    Node current = root;
+    while (current != null) {
+        count++;
+        current = current.left;
+    }
+    return count;
+}
+
+private boolean postOrderCheck(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check left subtree
+    boolean leftOK = postOrderCheck(node.left);
+
+    // Check right subtree
+    boolean rightOK = postOrderCheck(node.right);
+
+    // Check current node's structure based on color
+    if (node.color == RED) {
+        // Red node must have both left and right children
+        if (node.left == null || node.right == null) {
+            return false;
+        }
+    } else {
+        // Black node can have at most one child
+        int childrenCount = 0;
+        if (node.left != null) childrenCount++;
+        if (node.right != null) childrenCount++;
+        if (childrenCount > 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```
+
+This method ensures that the `TreeMap` adheres to the structural invariants required for a treap, maintaining the correct node colors, child counts, and overall tree structure.

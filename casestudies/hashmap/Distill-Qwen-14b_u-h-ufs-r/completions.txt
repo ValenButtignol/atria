@@ -1,0 +1,295 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class. The repOK method should check all the invariants that ensure the object is valid. Let me think about what properties the HashMap must satisfy.
+
+First, the HashMap uses an array of Entry objects called table. Each Entry has a key, value, hash, and a next pointer for collision handling. The size variable keeps track of the number of key-value pairs. The threshold is used to determine when to resize the table based on the load factor.
+
+So, what invariants must hold?
+
+1. **Consistency between size and the actual number of entries in the table.** The size should equal the sum of all entries across all buckets. I can check this by iterating through each bucket and counting the entries.
+
+2. **Load factor consistency.** The threshold should be equal to the capacity multiplied by the load factor. Since the capacity is the length of the table array, I can compute threshold as (table.length * loadFactor) and see if it matches the current threshold.
+
+3. **No null keys except for the special NULL_KEY instance.** Wait, in the HashMap, the maskNull method replaces null keys with a special object. So, I should ensure that all keys are either non-null or the special NULL_KEY. But in the Entry class, the key is stored as an Object, so I need to check that any null key is represented by the NULL_KEY object.
+
+4. **Each Entry's hash is correctly computed.** The hash should be computed using the hash method provided. So, for each Entry, I can recompute the hash from the key and see if it matches the stored hash.
+
+5. **Proper handling of Entry.next pointers.** Each Entry's next pointer should point to another Entry or be null. I need to ensure that the linked list structure in each bucket is correctly formed without any cycles or invalid references.
+
+6. **Check for null values.** The value can be null, so that's allowed. But the key cannot be null unless it's the special NULL_KEY.
+
+7. **Consistency in Entry equality.** The equals method in Entry should correctly compare keys and values. So, for each Entry, if two entries are equal according to equals, their key and value should be the same.
+
+Let me structure the repOK method to check each of these.
+
+First, check if the size is consistent with the actual number of entries. I can loop through each bucket, traverse the linked list, and count the entries. If the count doesn't match size, return false.
+
+Next, verify that threshold equals (table.length * loadFactor). But wait, the threshold is an int, and table.length * loadFactor could be a float. So, I should check if threshold is equal to (int) (table.length * loadFactor). However, looking at the constructor, threshold is computed as (int) (capacity * loadFactor). So, I can compute it again and compare.
+
+Then, check that all keys are either the special NULL_KEY or non-null. For each Entry, if the key is null, it should be the NULL_KEY. Wait, no: the maskNull method replaces null keys with NULL_KEY, so in the table, the key should never be null except as NULL_KEY. So, for each Entry, the key should not be null unless it's the special NULL_KEY.
+
+Wait, no. The Entry's key is stored as an Object. The maskNull method is called when putting a key, so null keys are converted to NULL_KEY. So, in the table, the key should never be null. So, for each Entry, key should not be null. But wait, the Entry's key can be null if someone puts a null key, but in the HashMap, it's handled by the maskNull method. So, in the table, the key is either non-null or the special NULL_KEY. So, in the repOK, I should check that for each Entry, key is either the special NULL_KEY or not null.
+
+Wait, no. The maskNull method is called when putting, so any null key is stored as NULL_KEY. So, in the table, the key should never be null. So, for each Entry, key should not be null. So, in repOK, I can check that for all entries, key is not null, except perhaps for the special case where it's the NULL_KEY. Wait, no: the Entry's key is stored as either the original key (if not null) or the NULL_KEY if the key was null. So, in the table, the key is never null. So, in repOK, I can check that for each Entry, key is not null.
+
+Wait, but the Entry's key can be null if someone directly creates an Entry with a null key, but in the HashMap's put method, it's masked. So, in the repOK, I should ensure that all keys are non-null, except for the special NULL_KEY. Hmm, perhaps I should check that any null key in the Entry is actually the special NULL_KEY. So, for each Entry, if key is null, it should be equal to HashMap.NULL_KEY.
+
+Wait, no. The maskNull method converts null to NULL_KEY, so in the table, the key is never null. So, in the repOK, I can check that for all entries, key is not null. Because if someone tried to put a null key, it's stored as NULL_KEY, which is a non-null object.
+
+So, in repOK, for each Entry, key should not be null.
+
+Next, check that each Entry's hash is correctly computed. For each Entry, compute the hash of the key (using the hash method) and compare it with the stored hash. If they don't match, return false.
+
+Then, check that the Entry's next pointers form a valid linked list. Each next should point to another Entry or null. Also, there should be no cycles in the linked lists. So, for each bucket, traverse the next pointers and ensure that each step leads to a new Entry until null is reached.
+
+Also, check that the Entry's equals method is correctly implemented. For each pair of Entries, if they are equal according to equals, their key and value should be the same. But this might be too time-consuming for repOK, which is supposed to be a quick check. So, perhaps it's better to rely on the fact that the hash and equals methods are correct, as they are part of the contract.
+
+Wait, but in the repOK, I'm supposed to check the invariants that I'm completely sure are valid. So, perhaps I should not check the equals method's correctness, as that's part of the class's contract, not the representation invariant.
+
+So, focusing on the main points:
+
+1. Size equals the total number of entries.
+2. Threshold equals (table.length * loadFactor).
+3. All keys are non-null (since null is masked to NULL_KEY).
+4. Each Entry's hash is correct.
+5. The linked lists in each bucket are correctly formed without cycles.
+
+Let me structure the repOK method.
+
+First, check if the table is initialized. If table is null, but size is zero, that's okay. Wait, in the constructor, table is initialized as new Entry[capacity], so table should never be null. So, in repOK, if table is null, return false.
+
+Then, check that size is non-negative and does not exceed the maximum capacity.
+
+Next, compute the expected threshold as (int) (table.length * loadFactor). If it doesn't match the current threshold, return false.
+
+Then, count the actual number of entries. Loop through each bucket, and for each Entry in the linked list, increment a counter. If the counter doesn't equal size, return false.
+
+For each Entry, check that the key is not null. Because in the HashMap, null keys are stored as NULL_KEY, so the key should never be null.
+
+Compute the hash for each Entry's key and compare it with the stored hash. If they don't match, return false.
+
+Check that the linked lists are correctly formed. For each bucket, traverse the next pointers and ensure that each next is either null or another Entry. Also, ensure there are no cycles. To detect cycles, we can keep track of visited Entries. If during traversal, we encounter an Entry more than once, it's a cycle.
+
+Wait, but in a correctly implemented HashMap, the linked lists shouldn't have cycles because each Entry is added in a specific order, and next pointers are set correctly. So, perhaps it's sufficient to check that each next is either null or a valid Entry.
+
+Putting it all together, the repOK method would:
+
+- Check that table is not null.
+- Check that size is between 0 and the current capacity.
+- Check that threshold equals (table.length * loadFactor).
+- Count the number of entries and compare with size.
+- For each Entry, check key is not null.
+- For each Entry, check hash is correct.
+- Check that the linked lists are correctly formed.
+
+But wait, the Entry's key can be the special NULL_KEY, which is a non-null object. So, in the repOK, I should allow key to be equal to NULL_KEY, but not null. So, the check should be: if (e.key == null) return false; but since maskNull replaces null with NULL_KEY, the key should never be null. So, in repOK, for each Entry, if e.key is null, return false.
+
+Wait, no. Because in the Entry, the key is stored as either the original key (non-null) or the special NULL_KEY (non-null). So, e.key should never be null. So, in repOK, for each Entry, if e.key is null, return false.
+
+So, putting it all together, the repOK method would look something like this:
+
+public boolean repOK() {
+    if (table == null) return false;
+    if (size < 0 || size > table.length) return false;
+    int expectedThreshold = (int) (table.length * loadFactor);
+    if (threshold != expectedThreshold) return false;
+
+    int actualSize = 0;
+    for (Entry e : table) {
+        while (e != null) {
+            actualSize++;
+            e = e.next;
+        }
+    }
+    if (actualSize != size) return false;
+
+    for (Entry e : table) {
+        while (e != null) {
+            if (e.key == null) return false;
+            int computedHash = hash(e.key);
+            if (computedHash != e.hash) return false;
+            e = e.next;
+        }
+    }
+
+    // Check for cycles in linked lists
+    Set<Entry> visited = new HashSet<>();
+    for (Entry e : table) {
+        Entry current = e;
+        while (current != null) {
+            if (visited.contains(current)) {
+                return false;
+            }
+            visited.add(current);
+            current = current.next;
+        }
+    }
+
+    return true;
+}
+
+Wait, but in the Entry class, the key is stored as an Object, which could be the special NULL_KEY. So, in the repOK, I should allow e.key to be equal to NULL_KEY, but not null. So, the check should be if (e.key == null) return false; because the maskNull method replaces null with NULL_KEY, which is a non-null object.
+
+Also, the hash method in the HashMap uses the key's hashCode, but for the special NULL_KEY, it's handled in the hash method. Wait, looking at the hash method:
+
+static int hash(Object x) {
+    int h = x.hashCode();
+    // some operations
+}
+
+But for x = NULL_KEY, which is an Object, its hashCode is called. The Entry's key is stored as either the original key or NULL_KEY. So, when computing the hash for the Entry, it's correct.
+
+Wait, but in the Entry's hashCode method, it's computed as (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode()). So, the hash stored in the Entry is computed correctly.
+
+So, in the repOK, for each Entry, compute the hash of the key (using the HashMap's hash method) and compare it with the Entry's hash.
+
+Wait, but the Entry's hash is computed differently. The Entry's hash is computed as (key == NULL_KEY ? 0 : key.hashCode()) XOR (value == null ? 0 : value.hashCode()). But in the HashMap's put method, the hash is computed using the HashMap's hash method, which is based on the key's hashCode. So, the stored hash in the Entry is different from the hash computed by the HashMap's hash method.
+
+Wait, this is a problem. Because in the repOK, I'm trying to verify that the Entry's hash matches the hash computed from the key. But the Entry's hash includes the value's hash as well. So, perhaps I should not check that. Because the Entry's hash is used for equality in the Entry's equals method, but the HashMap's hash function is based only on the key.
+
+Wait, no. The HashMap's hash function for the key is computed separately, and the Entry's hash is computed differently. So, perhaps the repOK should not check the Entry's hash against the HashMap's hash function, because they are different.
+
+Wait, this is confusing. Let me clarify:
+
+In the HashMap, when a key is inserted, the hash is computed using the static hash method, which is based on the key's hashCode. This hash is used to compute the bucket index. However, the Entry's hash field is set to the same hash value as computed by the static hash method. Wait, looking at the addEntry method:
+
+table[bucketIndex] = new Entry(hash, key, value, table[bucketIndex]);
+
+So, the hash passed to the Entry constructor is the hash computed by the HashMap's hash method. So, the Entry's hash field is the same as the hash computed from the key.
+
+But in the Entry's hashCode method, it's computed as (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode()). So, the Entry's hashCode is different from the hash stored in the Entry's hash field.
+
+Wait, that's a problem. Because the hash stored in the Entry is the same as the HashMap's hash function, but the Entry's hashCode is different. So, in the repOK, I need to ensure that the Entry's hash field matches the hash computed from the key using the HashMap's hash method.
+
+So, in the repOK, for each Entry, compute the hash using the HashMap's hash method on the key, and compare it with the Entry's hash field. If they don't match, return false.
+
+So, in the repOK method, for each Entry e:
+
+int computedHash = hash(e.key);
+if (computedHash != e.hash) return false;
+
+This ensures that the hash stored in the Entry is correct.
+
+Another point: the Entry's equals method compares both key and value. So, in the repOK, perhaps we should ensure that if two Entries are equal according to equals, their key and value are the same. But this might be too time-consuming for the repOK method, which is supposed to be a quick check. So, perhaps it's better to skip this check.
+
+Putting it all together, the repOK method would:
+
+- Check that the table is not null.
+- Check that the size is between 0 and the table's length.
+- Check that the threshold equals (table.length * loadFactor).
+- Count the actual number of entries and compare with size.
+- For each Entry, ensure the key is not null.
+- For each Entry, compute the hash from the key and compare with the stored hash.
+- Check that the linked lists have no cycles.
+
+So, the code would look something like this:
+
+public boolean repOK() {
+    if (table == null) {
+        return false;
+    }
+    if (size < 0 || size > table.length) {
+        return false;
+    }
+    int expectedThreshold = (int) (table.length * loadFactor);
+    if (threshold != expectedThreshold) {
+        return false;
+    }
+
+    int actualSize = 0;
+    for (Entry[] tab = table; tab != null && tab.length > 0; tab = null) { // Wait, no, table is fixed.
+        for (Entry e : table) {
+            while (e != null) {
+                actualSize++;
+                e = e.next;
+            }
+        }
+    }
+    if (actualSize != size) {
+        return false;
+    }
+
+    for (Entry[] tab = table; tab != null && tab.length > 0; tab = null) { // Again, no, table is fixed.
+        for (Entry e : table) {
+            while (e != null) {
+                if (e.key == null) {
+                    return false;
+                }
+                int computedHash = hash(e.key);
+                if (computedHash != e.hash) {
+                    return false;
+                }
+                e = e.next;
+            }
+        }
+    }
+
+    // Check for cycles
+    Set<Entry> visited = new HashSet<>();
+    for (Entry[] tab = table; tab != null && tab.length > 0; tab = null) { // No, table is fixed.
+        for (Entry e : table) {
+            Entry current = e;
+            while (current != null) {
+                if (visited.contains(current)) {
+                    return false;
+                }
+                visited.add(current);
+                current = current.next;
+            }
+        }
+    }
+
+    return true;
+}
+
+Wait, but in the code above, the loops for traversing the table are incorrect. The table is a fixed array, so I should loop through each index of the table array, not through the array itself as if it's a variable.
+
+So, correct loops:
+
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    while (e != null) {
+        // process e
+        e = e.next;
+    }
+}
+
+So, in the repOK method, the loops should be:
+
+// Count actual size
+int actualSize = 0;
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    while (e != null) {
+        actualSize++;
+        e = e.next;
+    }
+}
+if (actualSize != size) {
+    return false;
+}
+
+// Check keys and hashes
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    while (e != null) {
+        if (e.key == null) {
+            return false;
+        }
+        int computedHash = hash(e.key);
+        if (computedHash != e.hash) {
+            return false;
+        }
+        e = e.next;
+    }
+}
+
+// Check for cycles
+Set<Entry> visited = new HashSet<>();
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    while (e != null) {
+        if (visited.contains(e)) {
+            return false;
+        }
+        visited.add(e

@@ -1,0 +1,77 @@
+
+To write the `repOK` method for the `TreeMap` class, we need to ensure that the representation invariant holds true. The `TreeMap` is a self-balancing binary search tree (specifically, a Red-Black Tree) with the following properties:
+
+1. **Root Property**: The root node is always black.
+2. **Leaf Property**: All leaf nodes (NIL nodes) are black.
+3. **Red Property**: Red nodes cannot have red children.
+4. **Black Property**: All paths from any node to its descendant NIL nodes must have the same number of black nodes.
+
+Here is the `repOK` method for the `TreeMap` class:
+
+```java
+public boolean repOK() {
+    // Root property: The root node is always black.
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    // Leaf property: All leaf nodes (NIL nodes) are black.
+    // We can't directly check leaf nodes since they are not explicitly represented.
+    // Instead, we rely on the Red-Black properties to ensure they are black.
+
+    // Red property: Red nodes cannot have red children.
+    if (!isRedOK(root)) {
+        return false;
+    }
+
+    // Black property: All paths from any node to its descendant NIL nodes must have the same number of black nodes.
+    if (!isBlackHeightEqual(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isRedOK(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    return isRedOK(node.left) && isRedOK(node.right);
+}
+
+private boolean isBlackHeightEqual(Node node) {
+    if (node == null) {
+        return true;
+    }
+    int leftBlackHeight = blackHeight(node.left);
+    int rightBlackHeight = blackHeight(node.right);
+    return leftBlackHeight == rightBlackHeight && isBlackHeightEqual(node.left) && isBlackHeightEqual(node.right);
+}
+
+private int blackHeight(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    int leftBlackHeight = blackHeight(node.left);
+    int rightBlackHeight = blackHeight(node.right);
+    if (leftBlackHeight != rightBlackHeight) {
+        return -1; // Not a valid Red-Black Tree
+    }
+    return node.color == BLACK ? leftBlackHeight + 1 : leftBlackHeight;
+}
+```
+
+### Explanation:
+1. **Root Property**: We check if the root node is black.
+2. **Red Property**: We recursively check that no red node has a red child.
+3. **Black Property**: We ensure that all paths from any node to its descendant NIL nodes have the same number of black nodes by calculating the black height for each node.
+
+This `repOK` method ensures that the `TreeMap` adheres to the Red-Black Tree properties, which are crucial for maintaining the balance and performance of the tree.

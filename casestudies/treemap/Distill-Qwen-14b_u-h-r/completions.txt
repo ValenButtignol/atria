@@ -1,0 +1,439 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. The invariant should be a method called repOK that returns true if the object is valid, and false otherwise. 
+
+First, I'll look at the structure of the TreeMap class. It has a root node, a comparator, and a size. The nodes have keys, values, left and right children, a parent, and a color. The class also has methods for putting elements, fixing insertions, rotating nodes, and other operations.
+
+The representation invariant needs to check all the properties that must hold for the tree to be in a valid state. Let me think about what these properties are.
+
+1. **Comparator Check**: The comparator should not be null unless the keys are Comparable. Wait, no, in the constructor, if the comparator is null, it uses the natural ordering. So, if the comparator is null, the keys must be Comparable. So, in repOK, if comparator is null, then K must be Comparable. But how do I check that? Maybe by seeing if the key can be cast to Comparable. But since K is a generic type, perhaps it's better to check that if comparator is null, then the class of K is Comparable. But in Java, the type is erased, so maybe this isn't directly checkable. Alternatively, perhaps the invariant doesn't need to check this because it's enforced by the API. Maybe it's better to focus on the structural properties of the tree.
+
+2. **Root Node Check**: If the tree is empty, the root should be null, and size should be zero. So, if root is null, size must be zero. Conversely, if size is zero, root is null.
+
+3. **Tree Structure**: Each node must have a parent except the root. So, for every node except root, parent != null.
+
+4. **Color Properties**: The root must be black. Also, every left and right child of a node must be properly colored. In a red-black tree, every node is either red or black. Additionally, any red node's parent must be black. Wait, no, in a red-black tree, the parent of a red node can be red or black? No, wait, the properties are: the root is black, every leaf is black, and if a node is red, its children are black. Or wait, no, the standard properties are: every node is either red or black, the root is black, every leaf (null nodes are considered black) is black, and if a node is red, then its children are black. Also, all paths from root to leaves have the same number of black nodes.
+
+But checking all these properties might be complex. For the repOK method, perhaps we can check some of the simpler properties.
+
+So, for each node:
+- Its color is either RED or BLACK.
+- If the node is red, its parent is not null (since root is black).
+- The parent of any node is not null unless the node is the root.
+
+Wait, but the root's parent is null, which is correct.
+
+So, in the repOK method, I can iterate through all nodes and check these properties.
+
+But how do I iterate through all nodes? Since the tree is a binary search tree, perhaps I can perform a traversal, like in-order, to visit all nodes.
+
+Alternatively, perhaps the method can check the root's color, that the root is not null when size > 0, and that each node's parent is set correctly.
+
+But implementing a traversal in repOK might be too heavy, especially since it's called frequently. So perhaps the invariant can check some necessary conditions without full traversal.
+
+Let me outline the checks:
+
+- If root is null, size must be zero.
+- If size is zero, root must be null.
+- Root's color must be black.
+- For every node, if it's red, its parent must be black.
+- Every node except root has a non-null parent.
+- The tree must be a valid binary search tree, meaning that for every node, all left descendants are less than (according to the comparator) and all right descendants are greater.
+
+Wait, the last point is about the BST property. Checking the BST property for the entire tree might be too time-consuming, but perhaps for the repOK method, it's necessary to ensure that the tree is a valid BST.
+
+So, putting it all together, the repOK method should:
+
+1. Check that if root is null, size is zero, and vice versa.
+2. Check that root's color is black.
+3. Check that every node except root has a non-null parent.
+4. Check that for every node, if it's red, its parent is black.
+5. Check that the tree satisfies the BST property.
+
+But how to implement these checks.
+
+First, the root checks:
+
+if (root == null) {
+    return size == 0;
+}
+else {
+    if (size == 0) return false;
+    if (root.color != BLACK) return false;
+}
+
+Then, for each node, check parent and color:
+
+We can perform a traversal, perhaps using a helper method that recursively checks each node.
+
+But since the tree can be large, but for the purposes of the invariant, it's necessary to check all nodes.
+
+So, perhaps a helper method that traverses the tree and checks each node's properties.
+
+Alternatively, in the repOK method, we can perform an in-order traversal, but that might be too slow. Alternatively, perhaps we can write a helper method that checks each node's parent and color.
+
+Wait, but in Java, for a generic tree, it's difficult to write a helper without knowing the structure. But since the TreeMap is implemented with a Node class, perhaps we can write a helper that starts from the root and checks each node.
+
+So, the helper could be a method that takes a node and its parent, and checks:
+
+- If the node is red, its parent is black.
+- The node's parent is correctly set.
+
+But how to traverse all nodes.
+
+Alternatively, perhaps the helper can perform a pre-order traversal, checking each node as it goes.
+
+So, the helper method could look like this:
+
+private boolean checkNodes(Node node, Node parent) {
+    if (node == null) return true;
+    // Check parent
+    if (parent == null) {
+        if (node.parent != null) return false;
+    } else {
+        if (node.parent != parent) return false;
+    }
+    // Check color: if red, parent must be black
+    if (node.color == RED) {
+        if (parent == null || parent.color != BLACK) {
+            return false;
+        }
+    }
+    // Check left and right
+    return checkNodes(node.left, node) && checkNodes(node.right, node);
+}
+
+Then, in repOK, after checking the root, we call this helper starting from the root with parent null.
+
+Additionally, we need to check the BST property. For that, we can perform an in-order traversal and ensure that the keys are in order.
+
+But implementing the BST check might be more involved. Alternatively, perhaps for the repOK method, it's sufficient to check that each node's left and right children are correctly positioned relative to the node's key.
+
+Wait, but the BST property is crucial for the correctness of the TreeMap. So, the repOK must ensure that the tree is a valid BST.
+
+So, how to check the BST property.
+
+One approach is to perform an in-order traversal and collect the keys, then check that they are in sorted order. But this could be time-consuming for large trees.
+
+Alternatively, during the traversal, we can keep track of the last visited key and ensure that each subsequent key is greater than or equal to the previous one.
+
+So, perhaps a helper method that performs an in-order traversal and checks the order.
+
+But again, this might be time-consuming, but for the purposes of the invariant, it's necessary.
+
+Alternatively, perhaps the BST property can be checked during the insertion and other operations, but the repOK must still verify it.
+
+So, putting it all together, the repOK method would:
+
+- Check root and size consistency.
+- Check root color.
+- Check each node's parent and color.
+- Check BST property.
+
+Now, let's think about how to implement the BST check.
+
+We can write a helper method that takes a node and a lower and upper bound, and checks that all keys in the subtree are within those bounds.
+
+For example:
+
+private boolean isBST(Node node, K lower, K upper) {
+    if (node == null) return true;
+    int cmp = compare(node.key, lower);
+    if (cmp <= 0) return false;
+    cmp = compare(node.key, upper);
+    if (cmp >= 0) return false;
+    return isBST(node.left, lower, node.key) && isBST(node.right, node.key, upper);
+}
+
+Wait, but the initial call would need to set lower to negative infinity and upper to positive infinity, but since K is generic, perhaps we can use a helper that uses the comparator to determine the bounds.
+
+Alternatively, perhaps the initial call is isBST(root, null, null), and the helper handles null as indicating no lower or upper bound.
+
+But in Java, comparing with null might cause issues, so perhaps we can adjust the helper.
+
+Alternatively, perhaps the helper can take lower and upper as K, and use the comparator to determine if the current node's key is within the allowed range.
+
+So, the helper could be:
+
+private boolean isBST(Node node, K lower, K upper) {
+    if (node == null) return true;
+    if (lower != null) {
+        int cmp = compare(node.key, lower);
+        if (cmp <= 0) return false;
+    }
+    if (upper != null) {
+        int cmp = compare(node.key, upper);
+        if (cmp >= 0) return false;
+    }
+    return isBST(node.left, lower, node.key) && isBST(node.right, node.key, upper);
+}
+
+Then, in repOK, after checking the other properties, we call isBST(root, null, null).
+
+But wait, the initial call would have lower and upper as null, which would mean no bounds. So, the first node can be any key.
+
+But in the helper, if lower is null, it doesn't check the lower bound, and similarly for upper.
+
+So, putting it all together, the repOK method would:
+
+- Check root and size.
+- Check root color.
+- Check each node's parent and color.
+- Check BST property.
+
+Now, let's outline the code.
+
+First, the method signature:
+
+public boolean repOK() {
+    // checks here
+}
+
+Then, the first check:
+
+if (root == null) {
+    return size == 0;
+}
+if (size == 0) {
+    return false;
+}
+if (root.color != BLACK) {
+    return false;
+}
+
+Then, check each node's parent and color:
+
+if (!checkNodes(root, null)) {
+    return false;
+}
+
+Then, check BST property:
+
+if (!isBST(root, null, null)) {
+    return false;
+}
+
+return true;
+
+Now, implement the helper methods.
+
+The checkNodes method:
+
+private boolean checkNodes(Node node, Node parent) {
+    if (node == null) {
+        return true;
+    }
+    // Check parent
+    if (parent == null) {
+        if (node.parent != null) {
+            return false;
+        }
+    } else {
+        if (node.parent != parent) {
+            return false;
+        }
+    }
+    // Check color: if red, parent must be black
+    if (node.color == RED) {
+        if (parent == null || parent.color != BLACK) {
+            return false;
+        }
+    }
+    // Check left and right
+    return checkNodes(node.left, node) && checkNodes(node.right, node);
+}
+
+Wait, but in the case where node is the root, parent is null, and node.parent should also be null, which is correct.
+
+Now, the isBST method:
+
+private boolean isBST(Node node, K lower, K upper) {
+    if (node == null) {
+        return true;
+    }
+    if (lower != null) {
+        int cmp = compare(node.key, lower);
+        if (cmp <= 0) {
+            return false;
+        }
+    }
+    if (upper != null) {
+        int cmp = compare(node.key, upper);
+        if (cmp >= 0) {
+            return false;
+        }
+    }
+    return isBST(node.left, lower, node.key) && isBST(node.right, node.key, upper);
+}
+
+But wait, in the initial call, lower and upper are null, so the first node's key is allowed to be any value. Then, for the left subtree, lower remains null, and upper is the current node's key. For the right subtree, lower is the current node's key, and upper remains null.
+
+This should correctly enforce the BST property.
+
+Putting it all together, the repOK method would perform all these checks.
+
+But wait, what about the case where the comparator is null? The compare method would then use the natural ordering. So, the BST property is based on the comparator.
+
+But in the isBST method, the compare method is used, which correctly uses the comparator or natural ordering.
+
+So, the BST check should work regardless of whether the comparator is null or not.
+
+Another thing to consider: the size must be consistent with the actual number of nodes. But checking the size would require traversing all nodes and counting them, which is time-consuming. However, the size is maintained in the class, so perhaps it's better to rely on the class's size variable. But for the repOK, perhaps it's necessary to ensure that the size is correct.
+
+But checking the size would require traversing the tree and counting the nodes, which might be too slow. So, perhaps the repOK method doesn't check the size, assuming that the class's size variable is correctly maintained. Alternatively, perhaps it's better to include a check that the size is correct.
+
+But for the purposes of the invariant, perhaps it's better to include that check.
+
+So, how to count the number of nodes.
+
+We can write a helper method that counts the nodes:
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+Then, in repOK:
+
+if (countNodes(root) != size) {
+    return false;
+}
+
+But this would add an O(n) check, which might be acceptable for the invariant.
+
+So, adding this check:
+
+int actualSize = countNodes(root);
+if (actualSize != size) {
+    return false;
+}
+
+But wait, in the case where root is null, size must be zero, which is already checked earlier.
+
+So, putting it all together, the repOK method would:
+
+- Check root and size consistency.
+- Check root color.
+- Check each node's parent and color.
+- Check BST property.
+- Check that the actual node count matches the size.
+
+Now, let's write the code.
+
+But wait, the helper methods are private, so they can be called within the class.
+
+So, the final repOK method would look like this:
+
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+    if (size == 0) {
+        return false;
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+    if (!checkNodes(root, null)) {
+        return false;
+    }
+    if (!isBST(root, null, null)) {
+        return false;
+    }
+    int actualSize = countNodes(root);
+    if (actualSize != size) {
+        return false;
+    }
+    return true;
+}
+
+But wait, the countNodes method is O(n), which might be slow, but for the invariant, it's necessary to ensure correctness.
+
+Alternatively, perhaps the size is maintained correctly in the class, so maybe it's not necessary to check it. But for the repOK, it's better to ensure that the size is correct.
+
+So, including that check.
+
+Now, the helper methods:
+
+private boolean checkNodes(Node node, Node parent) {
+    if (node == null) {
+        return true;
+    }
+    if (parent == null) {
+        if (node.parent != null) {
+            return false;
+        }
+    } else {
+        if (node.parent != parent) {
+            return false;
+        }
+    }
+    if (node.color == RED) {
+        if (parent == null || parent.color != BLACK) {
+            return false;
+        }
+    }
+    return checkNodes(node.left, node) && checkNodes(node.right, node);
+}
+
+private boolean isBST(Node node, K lower, K upper) {
+    if (node == null) {
+        return true;
+    }
+    if (lower != null) {
+        int cmp = compare(node.key, lower);
+        if (cmp <= 0) {
+            return false;
+        }
+    }
+    if (upper != null) {
+        int cmp = compare(node.key, upper);
+        if (cmp >= 0) {
+            return false;
+        }
+    }
+    return isBST(node.left, lower, node.key) && isBST(node.right, node.key, upper);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+But wait, in the checkNodes method, when node is the root, parent is null, and node.parent is null, which is correct. For other nodes, their parent must be set correctly.
+
+Another thing: in the put method, when a new node is inserted, its parent is set correctly. So, the tree should be correctly linked.
+
+But what about the rotation methods? They might change the parent pointers. So, the repOK method must ensure that after any operation, the parent pointers are correctly set.
+
+But the repOK method is called after each operation, so it's crucial that all invariants are maintained.
+
+Now, considering all these checks, the repOK method should cover all necessary conditions.
+
+Another thing to consider: the comparator must be non-null or the keys must be Comparable. But in the repOK method, perhaps it's not necessary to check this, as it's enforced by the API. For example, if the comparator is null, the keys must be Comparable. But in Java, the class can be instantiated with any K, so perhaps the repOK doesn't need to check this, as it's beyond the scope of the data structure's invariants.
+
+So, the final repOK method includes all the checks mentioned above.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+    if (size == 0) {
+        return false;
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+    if (!checkNodes(root, null)) {
+        return false;
+    }
+    if (!isBST(root, null, null)) {
+        return false;
+    }
+    int actualSize = countNodes(root

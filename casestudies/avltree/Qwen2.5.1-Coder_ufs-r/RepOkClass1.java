@@ -1,0 +1,34 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (root == null) {
+            return true; // An empty tree satisfies the AVL property
+        }
+    
+        return isBalanced(root) && isAVL(root);
+    }
+
+    private boolean isBalanced(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+    
+        int leftHeight = height(node.left);
+        int rightHeight = height(node.right);
+    
+        return Math.abs(leftHeight - rightHeight) <= ALLOWED_IMBALANCE;
+    }
+
+    private boolean isAVL(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+    
+        return isBalanced(node) && isAVL(node.left) && isAVL(node.right);
+    }
+
+    private int height(AvlNode node) {
+        return node == null ? -1 : node.height;
+    }
+
+
+}

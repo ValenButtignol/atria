@@ -1,0 +1,210 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class. The repOK method should return true if the object is valid and false otherwise. I should only check properties that I'm completely sure are valid.
+
+First, I'll look at the HashMap class. It has a table array of Entries, size, threshold, loadFactor, and modCount. The table is initialized with a certain capacity, and entries are added with hash codes computed using a specific hash function.
+
+I remember that in a correct HashMap, each entry must have a unique key. So, I should check that all keys are unique. Also, the size should match the number of non-null entries in the table. If the size doesn't match, the map is invalid.
+
+Another important property is that the table's size should be a power of two. This is because the HashMap uses a technique called "linear probing" which works best when the table size is a power of two. So, I'll check if the table length is a power of two.
+
+The modCount variable is used to track structural modifications, like adds, removes, and clears. It should be equal to the number of such operations performed. So, I'll compare modCount with the number of times add, remove, and clear have been called.
+
+Wait, but how do I track the number of adds, removes, and clears? Maybe I can use the size variable for adds and removes, but clear resets the size. Hmm, perhaps I should have a variable that increments each time a structural modification happens. But since modCount is already there, I can check if modCount equals the number of structural changes.
+
+Wait, no. The modCount is incremented each time put, remove, and clear are called. So, I can check if modCount is equal to the number of times these methods have been called. But since the repOK method can't track that, maybe I should just check that modCount is consistent with the current state.
+
+Alternatively, perhaps I should verify that modCount is equal to the number of times structural modifications have occurred. But since I can't track that in the method, maybe it's better to check that modCount is not negative and that it's consistent with the size changes.
+
+Wait, perhaps the modCount should equal the number of times add, remove, or clear was called. But since the repOK method can't track that, maybe it's better to check that modCount is not negative and that it's at least as large as the number of size changes. Hmm, this might be tricky.
+
+Alternatively, maybe I can check that modCount is equal to the number of times the table has been resized. But again, without tracking, it's hard. Maybe it's better to just check that modCount is not negative and that it's consistent with the current state.
+
+Wait, perhaps the modCount should be equal to the number of times the table has been resized plus the number of adds and removes. But without knowing the exact count, it's hard to verify. Maybe I should skip checking modCount for now, as it's complex, and focus on the other properties.
+
+So, the main properties to check are:
+
+1. All keys are unique.
+2. The size is correct (matches the number of non-null entries in the table).
+3. The table size is a power of two.
+4. The threshold is correctly set based on the load factor and current size.
+
+Wait, the threshold is calculated as (int)(capacity * loadFactor). So, I should check that threshold is correctly set. But how? Because the capacity is a power of two, and the threshold is based on that.
+
+Also, the table should not have any nulls except for the initial state. So, I should check that all entries are non-null.
+
+Wait, no. The table is initialized with all nulls, and as entries are added, they are placed in the table. So, any non-null entry in the table indicates an added key.
+
+So, the size should be equal to the number of non-null entries in the table. So, I can loop through the table and count the non-null entries and compare it to the size.
+
+Also, the table's length should be a power of two. So, I can check if (table.length & (table.length - 1)) == 0.
+
+Additionally, the loadFactor should be greater than 0 and not NaN. But since the constructor checks this, maybe it's already ensured.
+
+Wait, but the loadFactor is set in the constructor, so perhaps it's already correct. So, maybe I don't need to check it again.
+
+So, putting it all together, the repOK method should:
+
+- Check that the table's length is a power of two.
+- Check that all keys are unique by ensuring that each key is only present once.
+- Check that the size is equal to the number of non-null entries in the table.
+- Check that the modCount is consistent with the number of structural modifications, but this might be too complex without tracking.
+
+Alternatively, perhaps I can skip checking modCount for now, as it's more complex, and focus on the key uniqueness, table size, and size consistency.
+
+Wait, but the modCount is used to detect concurrent modifications. So, if modCount is not equal to the number of structural changes, it indicates that the map has been modified concurrently, which is invalid.
+
+But since the repOK method can't track the number of structural changes, maybe it's better to check that modCount is not negative and that it's at least as large as the number of times the table has been resized.
+
+Hmm, perhaps it's better to include a check that modCount is equal to the number of times the table has been resized plus the number of adds and removes. But without knowing the exact counts, it's impossible.
+
+Alternatively, perhaps the modCount should be equal to the number of times the table has been resized plus the number of adds and removes. But again, without tracking, it's impossible.
+
+So, maybe I should skip checking modCount for now, as it's too complex, and focus on the key properties.
+
+So, the steps for repOK would be:
+
+1. Check that the table's length is a power of two.
+2. Check that all keys are unique by ensuring that each key appears only once in the table.
+3. Check that the size is equal to the number of non-null entries in the table.
+4. Check that the modCount is not negative and is consistent with the number of structural modifications, but this might be too complex.
+
+Alternatively, perhaps I can check that modCount is equal to the number of times the table has been resized plus the number of adds and removes. But without knowing the exact counts, it's impossible.
+
+So, perhaps I can skip checking modCount for now and focus on the key properties.
+
+Wait, but the modCount is part of the object's state, so it should be consistent with the current state. So, perhaps I can check that modCount is equal to the number of times the table has been resized plus the number of adds and removes. But again, without knowing the exact counts, it's impossible.
+
+Alternatively, perhaps I can check that modCount is not negative and that it's at least as large as the number of times the table has been resized.
+
+But I'm not sure. Maybe it's better to include a check that modCount is not negative and that it's consistent with the current size.
+
+Wait, perhaps the modCount should be equal to the number of times the table has been resized plus the number of adds and removes. But without knowing the exact counts, it's impossible to verify.
+
+So, perhaps I should skip checking modCount for now and focus on the key properties.
+
+So, the repOK method would:
+
+- Check that the table's length is a power of two.
+- Check that all keys are unique.
+- Check that the size is equal to the number of non-null entries in the table.
+
+Additionally, perhaps check that the threshold is correctly set, but I'm not sure how to do that without knowing the initial capacity and load factor.
+
+Alternatively, perhaps I can check that the threshold is less than or equal to the table's length, but that's already ensured in the constructor.
+
+Wait, the threshold is calculated as (int)(capacity * loadFactor). Since capacity is a power of two, and loadFactor is between 0 and 1, the threshold should be less than the capacity.
+
+So, perhaps I can check that threshold is less than or equal to the table's length.
+
+But in the code, the threshold is set as (int)(capacity * loadFactor), and the table's length is the next power of two greater than or equal to initialCapacity.
+
+So, perhaps the threshold is correctly set, and I don't need to check it again.
+
+So, putting it all together, the repOK method would:
+
+1. Check that the table's length is a power of two.
+2. Check that all keys are unique.
+3. Check that the size is equal to the number of non-null entries in the table.
+
+Additionally, perhaps check that the modCount is not negative, but I'm not sure.
+
+Alternatively, perhaps I can include a check that the modCount is equal to the number of times the table has been resized plus the number of adds and removes. But without knowing the exact counts, it's impossible.
+
+So, perhaps I can skip checking modCount for now.
+
+So, the repOK method would look something like this:
+
+public boolean repOK() {
+    // Check table size is power of two
+    if ((table.length & (table.length - 1)) != 0) {
+        return false;
+    }
+
+    // Check all keys are unique
+    Set<Object> seenKeys = new HashSet<>();
+    for (Entry e : table) {
+        if (e == null) continue;
+        Object key = e.getKey();
+        if (seenKeys.contains(key)) {
+            return false;
+        }
+        seenKeys.add(key);
+    }
+
+    // Check size matches number of non-null entries
+    int nonNullCount = 0;
+    for (Entry e : table) {
+        if (e != null) {
+            nonNullCount++;
+        }
+    }
+    if (nonNullCount != size) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but in the HashMap code, the table is an array of Entries. So, looping through each entry and checking if it's null, then counting non-null entries.
+
+But in the code, the table is initialized with all nulls, and entries are added by addEntry, which sets table[bucketIndex] = new Entry(...), so each non-null entry represents a key.
+
+So, the size should be equal to the number of non-null entries.
+
+Also, the table's length must be a power of two.
+
+Additionally, perhaps I should check that the modCount is consistent with the number of structural modifications, but I'm not sure how to do that without tracking.
+
+Alternatively, perhaps I can check that modCount is not negative and that it's at least as large as the number of times the table has been resized.
+
+But without knowing the exact number of resizes, it's impossible.
+
+So, perhaps I can skip checking modCount for now.
+
+So, the final repOK method would include the three checks: table size is power of two, all keys unique, and size equals non-null entries.
+
+I think that's sufficient for now.
+</think>
+
+To write a representation invariant for the `HashMap` class, we need to ensure that the internal state of the map is consistent and valid. The invariant should return `true` if the map is in a valid state and `false` otherwise. Here's the implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    // Check that the table size is a power of two
+    if ((table.length & (table.length - 1)) != 0) {
+        return false;
+    }
+
+    // Check for duplicate keys
+    Set<Object> seenKeys = new HashSet<>();
+    for (Entry e : table) {
+        if (e == null) continue;
+        Object key = e.getKey();
+        if (seenKeys.contains(key)) {
+            return false;
+        }
+        seenKeys.add(key);
+    }
+
+    // Check that the size matches the number of non-null entries in the table
+    int nonNullCount = 0;
+    for (Entry e : table) {
+        if (e != null) {
+            nonNullCount++;
+        }
+    }
+    if (nonNullCount != size) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+This method performs three key checks:
+1. **Table Size Check**: Ensures the table's length is a power of two, which is a requirement for the HashMap's internal array structure.
+2. **Duplicate Key Check**: Verifies that all keys in the table are unique by using a set to track seen keys.
+3. **Size Consistency Check**: Confirms that the number of non-null entries in the table matches the reported size of the map.
+
+These checks ensure that the HashMap is in a valid state, preventing common issues like key collisions, incorrect sizing, and structural inconsistencies.

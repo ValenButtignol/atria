@@ -1,0 +1,118 @@
+
+<think>
+Okay, I need to write a representation invariant for the NodeCachingLinkedList class. Let me think about what this class does. From the code, it looks like it's a linked list with some caching functionality. The key parts are the header, size, cacheSize, and the linked list structure.
+
+First, the representation invariant is a boolean method that checks if the object is valid. So, I need to verify all the properties that should always hold true for this class.
+
+Looking at the class, the size should represent the number of elements in the linked list. The size variable is maintained correctly when adding and removing nodes. So, I should check that the size matches the actual count of nodes.
+
+The cacheSize is another variable. It's supposed to track how many nodes are in the cache. When adding a new node, if the cache is full, it should either add to the cache or not. So, I need to ensure that the cacheSize doesn't exceed the maximumCacheSize and that it accurately reflects the number of cached nodes.
+
+The header node is part of the linked list structure. It's used to simplify operations like adding to the front. I should verify that the header's next points to the first node in the list. Also, the first node should be correctly linked through the previous and next pointers.
+
+The linked list nodes themselves have previous and next pointers. Each node should have exactly one previous and next node, except for the header and the tail. The header's previous should point to itself, and the tail's next should point to itself to maintain a circular structure.
+
+Another important aspect is the invariant maintained by the removeNode method. It seems that when a node is removed, it's added back to the cache. So, I should check that after removal, the node is correctly placed in the cache if it was previously there.
+
+Also, the addNodeToCache method should only add nodes when the cache isn't full. So, I need to ensure that the cacheSize doesn't go beyond maximumCacheSize and that nodes are correctly added and removed from the cache.
+
+Putting it all together, the repOK method should check:
+1. The size matches the actual number of nodes.
+2. The cacheSize is within the allowed range and correctly reflects the number of cached nodes.
+3. The header's next points to the first node.
+4. Each node has proper previous and next pointers, forming a valid linked list structure.
+5. The removeNode method maintains the cache correctly.
+
+I should write these checks in the repOK method, returning false if any condition fails and true otherwise.
+</think>
+
+```java
+public boolean repOK() {
+    // Check if the size matches the actual number of nodes
+    if (size != countNodes(header)) {
+        return false;
+    }
+
+    // Check if the cacheSize is within allowed bounds
+    if (cacheSize < 0 || cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    // Check if the header points correctly
+    if (header.next != firstCachedNode) {
+        return false;
+    }
+
+    // Check if the header's previous points to itself
+    if (header.previous != header) {
+        return false;
+    }
+
+    // Check if the tail's next points to itself
+    LinkedListNode tail = getTail();
+    if (tail.next != tail) {
+        return false;
+    }
+
+    // Check if each node has exactly one previous and next
+    int count = 0;
+    LinkedListNode current = header.next;
+    while (current != header) {
+        if (current.previous == null || current.next == null) {
+            return false;
+        }
+        count++;
+        current = current.next;
+    }
+
+    // Check if the number of cached nodes matches cacheSize
+    if (!isCacheConsistent(firstCachedNode, cacheSize)) {
+        return false;
+    }
+
+    // Check if the removeNode method maintains the cache correctly
+    if (!checkRemoveNodeMaintainsCache(firstCachedNode, header, cacheSize)) {
+        return false;
+    }
+
+    return true;
+}
+
+private int countNodes(LinkedListNode header) {
+    LinkedListNode current = header.next;
+    int count = 0;
+    while (current != header) {
+        count++;
+        current = current.next;
+    }
+    return count;
+}
+
+private LinkedListNode getTail() {
+    LinkedListNode current = header.next;
+    while (current.next != header) {
+        current = current.next;
+    }
+    return current;
+}
+
+private boolean isCacheConsistent(LinkedListNode firstCachedNode, int cacheSize) {
+    if (firstCachedNode == null) {
+        return cacheSize == 0;
+    }
+    return (cacheSize == 0) || (cacheSize > 0 && firstCachedNode != null);
+}
+
+private boolean checkRemoveNodeMaintainsCache(LinkedListNode firstCachedNode, LinkedListNode header, int cacheSize) {
+    if (cacheSize == 0) {
+        return true;
+    }
+    LinkedListNode nodeToRemove = getNodeFromCache();
+    if (nodeToRemove == null) {
+        return true;
+    }
+    removeNode(nodeToRemove);
+    addNodeToCache(nodeToRemove);
+    return true;
+}
+```

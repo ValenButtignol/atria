@@ -1,0 +1,196 @@
+
+<think>
+Okay, so I need to write a representation invariant for the TreeMap class in Java. I'm not super familiar with TreeMaps, but I know they're typically implemented as balanced binary search trees, like AVL trees or Red-Black trees. The TreeMap in Java uses a Red-Black tree implementation, so I should keep that in mind.
+
+First, I need to understand what a representation invariant is. From what I remember, a representation invariant is a condition that must hold true for the data structure to be considered valid. It's like a set of rules that the internal state of the object must follow to ensure that the object behaves correctly.
+
+Looking at the provided code for TreeMap, I see that it's a generic class with a comparator. It has a root node, and each node has a key, value, color (which indicates if it's red or black), and pointers to left and right children, as well as a parent. The size is tracked, and there are methods like put, remove, rotateLeft, rotateRight, fixInsertion, etc.
+
+So, what properties should hold true for a Red-Black tree?
+
+1. Every node is either red or black.
+2. The root is black.
+3. All leaves (null nodes) are black.
+4. No red node has a red parent.
+5. Every path from a node to a leaf contains the same number of black nodes.
+
+I need to translate these properties into Java code that can be checked in a repOK method.
+
+Let's think about each property:
+
+1. Every node is either red or black: I can check if the color is either RED or BLACK. If any node has a different color, the invariant is violated.
+
+2. The root is black: The root's color must be BLACK. If the root is null, that's a problem because the tree is empty.
+
+3. All leaves are black: Leaves are nodes where both left and right children are null. Their color should be BLACK.
+
+4. No red node has a red parent: For every node, if it's red, its parent must be black.
+
+5. Equal number of black nodes in every path: This is a bit tricky. I can't check all paths, but I can ensure that the number of black nodes from the root to any node is consistent. Maybe by maintaining a count or using some helper method.
+
+Now, how to implement this in Java.
+
+First, I'll check if the root is null. If it's null, the tree is empty, which is valid only if size is zero.
+
+Then, I'll loop through all nodes to check their colors. I can use a helper method to traverse the tree and collect all nodes, then check each node's color.
+
+For the leaves, I'll check if both children are null and then ensure their color is BLACK.
+
+For the red parent rule, I'll check each node to see if it's red and if its parent is also red.
+
+For the equal black nodes in paths, I can keep track of the number of black nodes from the root to the current node during traversal. If any two paths have different counts, the invariant is violated.
+
+Putting it all together, the repOK method will:
+
+1. Check if root is null and size is zero.
+2. Traverse all nodes to check their colors.
+3. Traverse all nodes to check if leaves are black.
+4. Traverse all nodes to ensure no red node has a red parent.
+5. Traverse all nodes to count black nodes from root and ensure consistency.
+
+I need to implement these checks in the repOK method. I'll write helper methods to traverse the tree and collect all nodes, then perform the necessary checks.
+
+Potential issues:
+
+- How to handle the traversal efficiently without causing stack overflows for large trees.
+- Ensuring that all nodes are checked, including those in subtrees.
+- Handling null pointers carefully, especially when checking children.
+
+I'll need to make sure that all nodes are visited, and each check is performed accurately to maintain the Red-Black tree properties.
+
+Finally, I'll write the repOK method with these checks and make sure it returns true only if all invariants are satisfied.
+</think>
+
+To write the representation invariant for the `TreeMap` class, we need to ensure that the underlying Red-Black tree maintains its properties. Here's the step-by-step thought process and the final Java code:
+
+### Thought Process
+
+1. **Check Root Validity**: The root must be black, or the tree is empty.
+2. **Check Node Colors**: Every node must be either red or black.
+3. **Check Leaf Colors**: All leaf nodes (null children) must be black.
+4. **Check Red Parent Rule**: No red node can have a red parent.
+5. **Check Path Consistency**: All paths from the root to leaves must have the same number of black nodes.
+
+### Solution Code
+
+```java
+public boolean repOK() {
+    if (size == 0) {
+        if (root == null) {
+            return true;
+        }
+        return false;
+    }
+
+    // Check root color
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Collect all nodes for color checks
+    Set<Node> nodes = new HashSet<>();
+    collectNodes(root, nodes);
+
+    // Check each node's color
+    for (Node node : nodes) {
+        if (node.color != RED && node.color != BLACK) {
+            return false;
+        }
+    }
+
+    // Check each node's parent to ensure no red-red parent-child
+    for (Node node : nodes) {
+        if (node.color == RED) {
+            Node parent = node.parent;
+            if (parent != null && parent.color == RED) {
+                return false;
+            }
+        }
+    }
+
+    // Check each leaf is black
+    for (Node node : nodes) {
+        if (node.left == null && node.right == null) {
+            if (node.color != BLACK) {
+                return false;
+            }
+        }
+    }
+
+    // Check path consistency (number of black nodes from root)
+    int blackCount = countBlackFromRoot(root);
+    if (blackCount == -1) {
+        return false;
+    }
+
+    // Ensure all paths have the same number of black nodes
+    Set<Integer> blackCounts = new HashSet<>();
+    collectBlackCounts(root, blackCount, blackCounts);
+    if (blackCounts.size() != 1) {
+        return false;
+    }
+
+    return true;
+}
+
+private void collectNodes(Node node, Set<Node> nodes) {
+    if (node != null) {
+        nodes.add(node);
+        collectNodes(node.left, nodes);
+        collectNodes(node.right, nodes);
+    }
+}
+
+private int countBlackFromRoot(Node node) {
+    if (node == null) {
+        return -1;
+    }
+    int count = 0;
+    if (node.color == BLACK) {
+        count++;
+    }
+    Node parent = node.parent;
+    if (parent != null) {
+        count += countBlackFromRoot(parent);
+    }
+    return count;
+}
+
+private void collectBlackCounts(Node node, int currentCount, Set<Integer> counts) {
+    if (node == null) {
+        return;
+    }
+    int current = currentCount;
+    if (node.color == BLACK) {
+        current++;
+    }
+    counts.add(current);
+    collectBlackCounts(node.left, current, counts);
+    collectBlackCounts(node.right, current, counts);
+}
+
+// Ensure all leaves are black
+private void checkLeavesAreBlack() {
+    if (size == 0) {
+        return;
+    }
+    collectNodes(root, new HashSet<>());
+    for (Node node : nodes) {
+        if (node.left == null && node.right == null) {
+            if (node.color != BLACK) {
+                return false;
+            }
+        }
+    }
+}
+```
+
+### Explanation
+
+1. **Root Check**: The root must be black. If the tree is empty (`size == 0`), the root is `null`, which is valid.
+2. **Node Colors**: Every node must be either red or black. This is verified by collecting all nodes and checking their colors.
+3. **Leaf Colors**: Leaf nodes (with both children as `null`) must be black. This is checked during the node collection.
+4. **Red Parent Check**: No red node can have a red parent. This is verified by checking each red node's parent.
+5. **Path Consistency**: All paths from the root to leaves must have the same number of black nodes. This is checked by counting black nodes from the root and ensuring all paths have the same count.
+
+This approach ensures that the `TreeMap` maintains the properties of a Red-Black tree, guaranteeing its correctness and efficiency.

@@ -1,0 +1,63 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class. The invariant should be a method called repOK that returns true if the object is valid and false otherwise. 
+
+First, I'll look at the structure of the LinkedList. It has a header Entry which acts as a sentinel. The size is kept track of, and there are methods like add, remove, and clear. 
+
+The main things to check are the invariants related to the header, the size, and the consistency of the Entry links.
+
+1. The header's next and previous should always point to itself. Because in the constructor, header.next and header.previous are set to header. So, if any of these point to something else, it's invalid.
+
+2. The size should be non-negative. It's an int, so it can't be negative, but maybe after some operations, it could go wrong, so checking it's >=0 is good.
+
+3. For every Entry except the header, their previous and next should not be null. Because each Entry should be properly linked in the list. The header is a special case, so we check other entries.
+
+4. The size should match the number of entries when traversing the list. So, starting from header.next, we can count each Entry until we loop back to header. The count should equal the size.
+
+5. Also, each Entry's previous and next should form a consistent cycle. That is, for every Entry e, e.previous.next should be e, and e.next.previous should be e. This ensures that the links are correctly maintained.
+
+Putting it all together, the repOK method will check all these conditions. If any condition fails, it returns false; otherwise, true.
+
+I should write each condition as an if statement and return false if any condition is not met. Otherwise, return true after all checks.
+
+Wait, but how do I traverse the list? I can start at header.next and keep moving to next until I come back to header. I'll need a loop for that, counting each step. Also, I should ensure that during traversal, I don't loop indefinitely, but since it's a linked list, it should terminate when it reaches header again.
+
+Another thing: when size is zero, the header's next and previous should point to itself, which is correct. So the traversal would immediately stop, and the count would be zero, matching size.
+
+I should also make sure that when size is zero, there are no entries except the header. So, in that case, header.next should be header, and the count would be zero.
+
+I think that covers all the necessary checks. Now, I'll structure the method step by step, checking each condition in order.
+</think>
+
+```java
+public boolean repOK() {
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+    if (size < 0) {
+        return false;
+    }
+    if (header.next != header) {
+        Entry e = header.next;
+        int count = 0;
+        do {
+            if (e.previous == null || e.next == null) {
+                return false;
+            }
+            e = e.next;
+            count++;
+        } while (e != header);
+        if (count != size) {
+            return false;
+        }
+    }
+    Entry e = header.next;
+    while (e != header) {
+        if (e.previous.next != e || e.next.previous != e) {
+            return false;
+        }
+        e = e.next;
+    }
+    return true;
+}
+```

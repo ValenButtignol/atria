@@ -1,0 +1,46 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (root == null) {
+            return true;
+        }
+    
+        return isBalanced(root) && isAVL(root);
+    }
+
+    private boolean isBalanced(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+    
+        int leftHeight = height(node.left);
+        int rightHeight = height(node.right);
+    
+        if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+            return false;
+        }
+    
+        return isBalanced(node.left) && isBalanced(node.right);
+    }
+
+    private boolean isAVL(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+    
+        if (node.left != null && node.left.element >= node.element) {
+            return false;
+        }
+    
+        if (node.right != null && node.right.element <= node.element) {
+            return false;
+        }
+    
+        return isAVL(node.left) && isAVL(node.right);
+    }
+
+    private int height(AvlNode node) {
+        return node == null ? -1 : node.height;
+    }
+
+
+}

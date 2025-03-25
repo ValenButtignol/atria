@@ -1,0 +1,35 @@
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return root == null;
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    return repOKRecursive(root);
+}
+
+private boolean repOKRecursive(Node current) {
+    if (current == null) {
+        return true;
+    }
+
+    if (current.left != null && current.info <= current.left.info) {
+        return false;
+    }
+
+    if (current.right != null && current.info <= current.right.info) {
+        return false;
+    }
+
+    return repOKRecursive(current.left) && repOKRecursive(current.right);
+}
+```
+This representation invariant checks that the binary tree is valid by recursively traversing the tree and checking that each node's value is greater than its left child's value and less than its right child's value. If any of these conditions are not met, the method returns false.

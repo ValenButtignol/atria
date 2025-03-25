@@ -1,0 +1,77 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class in Java. The representation invariant is a boolean method that returns true if the object is valid and false otherwise. I should only verify properties I'm completely sure are valid.
+
+First, I'll look at the LinkedList class structure. It has a header entry which is a dummy node, and each Entry has next and previous pointers. The size is an integer that tracks the number of elements.
+
+I remember that in a linked list, each node (except the header) should have a non-null previous pointer until the header. Similarly, each node (except the tail) should have a non-null next pointer until the header.
+
+So, the first check is to ensure that every node except the header has a non-null previous and next. If any node's previous or next is null when it shouldn't be, the list is invalid.
+
+Next, the size should match the number of nodes. The size is maintained correctly by the add and remove methods, but I should check that the size is accurate. However, since the add and remove methods correctly update the size, maybe I don't need to check it here unless I'm specifically verifying it.
+
+Another important point is that the header's next should point to the first data node, and the header's previous should point to the last data node. If this isn't the case, the list is invalid.
+
+I should also ensure that the list isn't in an inconsistent state, like having a node with a null next but a non-null previous, which would indicate a broken link.
+
+Putting it all together, the repOK method should:
+
+1. Check that the header's next is not null (assuming the list isn't empty).
+2. Check that the header's previous is null (since it's a dummy node).
+3. Iterate through each node (excluding the header) and ensure that both previous and next pointers are non-null.
+4. Ensure that the size is consistent with the number of nodes.
+
+Wait, but how do I count the number of nodes? Maybe I can traverse the list and count, but that might be inefficient. Alternatively, since the size is maintained, I can just check if the size is correct. But since the size is updated correctly, maybe I don't need to check it here.
+
+Alternatively, I can check that the size is equal to the number of nodes by traversing the list. But that might be overkill. Since the size is maintained correctly, perhaps it's sufficient to just check that the header's next is not null and that each node has non-null previous and next.
+
+So, the repOK method would:
+
+- Check if the header's next is null (if the list is empty).
+- Check if the header's previous is null (since it's a dummy node).
+- Iterate through each node starting from header.next, and for each node, check that both previous and next are not null.
+- Also, ensure that the last node's next is null to avoid a dangling pointer.
+
+Wait, the last node's next should be null. So, I should also check that the last node's next is null.
+
+Putting it all together, the repOK method should:
+
+1. Check if the header's next is null (empty list).
+2. Check if the header's previous is null (dummy node).
+3. Iterate through each node starting from header.next:
+   a. For each node, check that its previous is not null (except for the header).
+   b. Check that its next is not null (except for the last node).
+4. Ensure that the last node's next is null.
+
+This should cover all the necessary checks to ensure the linked list is in a valid state.
+</think>
+
+```java
+public boolean repOK() {
+    // Check if the list is empty
+    if (header.next == null && size == 0) {
+        return true;
+    }
+
+    // Check if the header's previous is null (dummy node)
+    if (header.previous != null) {
+        return false;
+    }
+
+    // Check each node's previous and next pointers
+    Entry current = header.next;
+    while (current != null) {
+        if (current.previous == null || current.next == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    // Check if the last node's next is null
+    if (current.next != null) {
+        return false;
+    }
+
+    return true;
+}
+```

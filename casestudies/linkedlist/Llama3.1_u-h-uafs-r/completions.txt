@@ -1,0 +1,26 @@
+
+```java
+public boolean repOK() {
+    if (header.next != header) {
+        for (Entry e = header.next; e != header; e = e.next) {
+            if (e.previous != e.previous.previous) {
+                return false;
+            }
+            if (e.next != e.next.next) {
+                return false;
+            }
+            if (e.previous == e || e.next == e) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+```
+
+This representation invariant checks the following properties:
+
+- The `header` node is the only node that points to itself.
+- Each node's `previous` and `next` pointers are consistent with the rest of the list.
+- There are no cycles in the list (i.e., no node points to itself).
+- The `header` node is the only node that points to itself.

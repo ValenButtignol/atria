@@ -1,0 +1,107 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinomialHeap class. Let me start by understanding what the BinomialHeap class does. From the code, it seems like it's a heap implementation that uses a binary heap structure, but with some specific operations like insert, delete, and extractMin. 
+
+The class has a private BinomialHeapNode called Nodes, which I assume is the root of the heap. There's also a size variable that keeps track of the number of nodes in the heap. The insert method adds a new node, and the delete method removes a node by adjusting the key values and extracting the minimum. 
+
+Looking at the BinomialHeapNode class, each node has a key, degree, parent, sibling, and child. The degree probably refers to the number of children or siblings. The findMinNode method seems to traverse the tree to find the node with the smallest key. The findANodeWithKey method searches for a node with a specific key, which is used in the delete method to find the node to remove.
+
+Now, I need to write a repOK method that checks if the heap is in a valid state. The repOK method should return true if the object is valid and false otherwise. 
+
+First, I should think about what properties the heap must satisfy. In a valid heap, each node should have a key that is greater than or equal to its parent's key. Also, the tree should be a binary heap, meaning each node has at most two children. Additionally, there should be no duplicates, and the size should be consistent with the structure.
+
+I'll start by checking if the root is null. If the root is null, the heap is empty, so size should be zero. If the root exists, I need to verify that the number of nodes matches the size. This can be done by counting the nodes recursively.
+
+Next, I should ensure that the heap is acyclic. Since it's a tree, it should be acyclic by nature, but I should verify that no cycles exist. I can do this by traversing the tree and ensuring that each node's parent is unique and correctly set.
+
+Then, I need to check if the heap is ordered. Each node's key should be greater than or equal to its parent's key. I'll traverse the tree and compare each node's key with its parent's key.
+
+Finally, I should ensure there are no duplicates. I can do this by traversing the tree and checking if any node's key appears more than once.
+
+Putting it all together, the repOK method will perform these checks step by step, returning false if any check fails and true if all checks pass.
+</think>
+
+To ensure the BinomialHeap class maintains a valid heap structure, the repOK method verifies the following properties:
+
+1. **Root Check**: The heap must have a root node if it's not empty.
+2. **Node Count Consistency**: The number of nodes must match the size.
+3. **Acyclic Structure**: The tree must be acyclic.
+4. **Ordered Property**: Each node's key must be greater than or equal to its parent's key.
+5. **No Duplicates**: All keys in the heap must be unique.
+
+Here is the implementation of the repOK method:
+
+```java
+public boolean repOK() {
+    if (Nodes == null) {
+        return size == 0;
+    }
+
+    if (!numNodes(Nodes) == size) {
+        return false;
+    }
+
+    if (!isAcyclic(Nodes)) {
+        return false;
+    }
+
+    if (!isOrdered(Nodes)) {
+        return false;
+    }
+
+    if (!noDuplicates(Nodes)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isAcyclic(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.parent == null) {
+        return isAcyclic(node.left) && isAcyclic(node.right);
+    }
+
+    return isAcyclic(node.parent) && isAcyclic(node.left) && isAcyclic(node.right);
+}
+
+private int numNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + numNodes(node.left) + numNodes(node.right);
+}
+
+private boolean isOrdered(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.parent != null && node.key < node.parent.key) {
+        return false;
+    }
+
+    return isOrdered(node.parent) && isOrdered(node.left) && isOrdered(node.right);
+}
+
+private boolean noDuplicates(Node root) {
+    Set<Integer> seen = new HashSet<>();
+    return noDuplicatesHelper(root, seen);
+}
+
+private boolean noDuplicatesHelper(Node node, Set<Integer> seen) {
+    if (node == null) {
+        return true;
+    }
+
+    if (seen.contains(node.info)) {
+        return false;
+    }
+
+    seen.add(node.info);
+    return noDuplicatesHelper(node.left, seen) && noDuplicatesHelper(node.right, seen);
+}
+```

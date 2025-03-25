@@ -1,0 +1,38 @@
+
+```java
+public boolean repOK() {
+    if (Nodes == null && size != 0) {
+        return false;
+    }
+
+    if (Nodes != null && !isHeapPropertySatisfied(Nodes)) {
+        return false;
+    }
+
+    if (size != countNodes(Nodes)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isHeapPropertySatisfied(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.child != null && node.key > node.child.key) {
+        return false;
+    }
+
+    return isHeapPropertySatisfied(node.sibling) && isHeapPropertySatisfied(node.child);
+}
+
+private int countNodes(BinomialHeapNode node) {
+    if (node == null) {
+        return 0;
+    }
+
+    return 1 + countNodes(node.sibling) + countNodes(node.child);
+}
+```

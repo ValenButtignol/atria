@@ -1,0 +1,362 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. Let me first understand what the TreeMap class does. It's a balanced binary search tree that maintains key-value pairs, and it's based on the JTreeMap implementation. Each node has a key, value, color (red or black), and pointers to left and right children, as well as its parent.
+
+The representation invariant should be a boolean method called repOK that returns true if the tree is correctly structured and false otherwise. I need to ensure that the tree adheres to the properties that make it a valid tree, such as the color constraints and the structure of the tree.
+
+First, I should think about the properties that define a valid TreeMap. The root node must be black. Each node's color must follow the rules: a node's parent must be of a different color, and if a node is red, its parent must be black. Also, the tree must be properly balanced, meaning that all left and right subtrees should be as deep as each other.
+
+So, the repOK method should check these properties. Let me outline the steps:
+
+1. Check if the root is null. If it is, the tree is empty, which is valid only if size is zero. But since the root is null, we need to ensure that the size is correctly zero.
+
+2. Check the color of the root. It must be black; if it's red, the tree is invalid.
+
+3. For each node, check that its color is different from its parent's color. If any node has the same color as its parent, the tree is invalid.
+
+4. Ensure that the tree is properly balanced. For each node, check that the left and right subtrees are either both null or have the same depth. This ensures that the tree doesn't have any skewed structures.
+
+I should also consider the size. If the size doesn't match the number of nodes, that's a problem. But since the size is maintained by the class, maybe I don't need to check it again. However, in the repOK method, it's safer to include a check that the size is correct.
+
+Wait, but the size is a separate variable, so if the size is incorrect, the tree's structure might be wrong. So, perhaps I should include a check that the size matches the number of nodes in the tree.
+
+But how do I count the nodes? I can traverse the tree and count each node, then compare it with the size variable. If they don't match, return false.
+
+So, the steps are:
+
+- If the root is null, check if size is zero. If not, return false.
+
+- Check the root's color is black.
+
+- For each node, check that its color is different from its parent.
+
+- For each node, check that the left and right subtrees are balanced.
+
+Additionally, I should traverse the tree to ensure that all nodes are correctly linked and that there are no cycles or missing links.
+
+Wait, but the add and remove methods should handle that. However, in the repOK method, I should ensure that the tree's structure is correct, so I need to verify that each node's left and right pointers are correctly set.
+
+Alternatively, maybe I can traverse the tree and check that each node's left and right children are either null or point to valid nodes, and that the parent-child relationships are consistent.
+
+But that might be too detailed. Perhaps it's sufficient to check the color constraints and the balance.
+
+I think the key points are:
+
+- Root is black.
+
+- Each node's color is different from its parent.
+
+- The tree is balanced, meaning for each node, the left and right subtree depths are equal.
+
+So, I'll structure the repOK method to check these.
+
+First, check if the root is null. If size is not zero, return false.
+
+Then, check the root's color.
+
+Then, perform a traversal (like a depth-first search) to check each node's color and the balance.
+
+During the traversal, for each node, check that its color is different from its parent.
+
+Also, for each node, check that the left and right subtrees are balanced. If the left subtree is deeper than the right, or vice versa, return false.
+
+I should also ensure that the tree doesn't have any null pointers except for the nodes where left or right children are null.
+
+Wait, but in the TreeMap, nodes can have null left or right children, which is fine. So, I need to check that the pointers are correctly set.
+
+Alternatively, during the traversal, I can check that each node's left and right children are either null or point to valid nodes that are correctly placed.
+
+But that might complicate things. Maybe it's better to focus on the color and balance.
+
+So, the plan is:
+
+1. If the root is null, check if size is zero. If not, return false.
+
+2. Check that the root's color is black.
+
+3. For each node, check that its color is different from its parent.
+
+4. For each node, check that the left and right subtrees are balanced.
+
+Now, how to implement this in Java.
+
+I'll need to traverse the tree, starting from the root. For each node, I'll check its color and then recursively check its left and right children.
+
+I can write a helper method that returns the depth of a subtree. Then, for each node, compare the depths of left and right subtrees. If they differ, return false.
+
+Alternatively, during the traversal, I can check the balance.
+
+Let me outline the code:
+
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (root == null) {
+        return size == 0;
+    }
+
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Check parent-child color constraints
+    checkColors(root);
+
+    // Check balance
+    checkBalance(root);
+
+    return true;
+}
+
+private void checkColors(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    if (node.color == BLACK && node.parent != null && node.parent.color == BLACK) {
+        return false;
+    }
+
+    if (node.color == RED && node.parent != null && node.parent.color == RED) {
+        return false;
+    }
+
+    checkColors(node.left);
+    checkColors(node.right);
+}
+
+private void checkBalance(Node node) {
+    if (node == null || node.left == null && node.right == null) {
+        return;
+    }
+
+    int leftDepth = getDepth(node.left);
+    int rightDepth = getDepth(node.right);
+
+    if (leftDepth != rightDepth) {
+        return false;
+    }
+
+    checkBalance(node.left);
+    checkBalance(node.right);
+}
+
+private int getDepth(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    return 1 + Math.max(getDepth(node.left), getDepth(node.right));
+}
+
+Wait, but this might not be sufficient. For example, in a perfectly balanced tree, each level is filled, but in a skewed tree, one side is longer.
+
+Alternatively, perhaps I should check that for each node, the left and right subtrees are either both null or have the same depth.
+
+Yes, that's what the getDepth method does. It calculates the depth of the left and right subtrees and ensures they are equal.
+
+But I'm not sure if this covers all cases. Maybe I should also ensure that the tree is a proper binary search tree, meaning that for each node, all keys in the left subtree are less than the node's key, and all keys in the right subtree are greater than the node's key.
+
+But that's more of a semantic check rather than a structural invariant. Since the put method ensures that the tree remains a BST, maybe it's not necessary to check it again in repOK.
+
+So, the repOK method should ensure that:
+
+- The root is black.
+
+- Each node's color is different from its parent.
+
+- The tree is balanced, meaning left and right subtrees have the same depth.
+
+Additionally, the size must match the number of nodes.
+
+Wait, but the size is maintained by the class, so if the tree's structure is correct, the size should be accurate. However, in the repOK method, I should verify that the size is correct.
+
+So, I can count the number of nodes by traversing the tree and compare it with the size variable.
+
+So, adding a check:
+
+int actualSize = countNodes(root);
+return actualSize == size;
+
+Where countNodes is a helper method that traverses the tree and counts each node.
+
+Putting it all together:
+
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (root == null) {
+        return size == 0;
+    }
+
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    if (countNodes(root) != size) {
+        return false;
+    }
+
+    checkColors(root);
+    checkBalance(root);
+
+    return true;
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private void checkColors(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    if (node.color == BLACK && node.parent != null && node.parent.color == BLACK) {
+        return false;
+    }
+
+    if (node.color == RED && node.parent != null && node.parent.color == RED) {
+        return false;
+    }
+
+    checkColors(node.left);
+    checkColors(node.right);
+}
+
+private void checkBalance(Node node) {
+    if (node == null || node.left == null && node.right == null) {
+        return;
+    }
+
+    int leftDepth = getDepth(node.left);
+    int rightDepth = getDepth(node.right);
+
+    if (leftDepth != rightDepth) {
+        return false;
+    }
+
+    checkBalance(node.left);
+    checkBalance(node.right);
+}
+
+private int getDepth(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    return 1 + Math.max(getDepth(node.left), getDepth(node.right));
+}
+
+Wait, but in the TreeMap class, the comparator is used to compare keys. However, in the repOK method, I'm not checking the keys' order. Since the put method ensures that the tree remains a BST based on the comparator, maybe it's not necessary to check the keys' order in repOK. So, I can exclude that check.
+
+So, the final repOK method includes checks for the root's color, parent-child color constraints, balance, and correct size.
+
+I think this should cover all necessary structural invariants for the TreeMap class.
+</think>
+
+To solve this problem, we need to write a representation invariant for the `TreeMap` class. The representation invariant is a boolean method called `repOK` that returns `true` if the object is valid and `false` otherwise. This method must verify that the tree adheres to specific structural properties that ensure it remains a valid binary search tree (BST).
+
+### Approach
+The `TreeMap` class is a balanced binary search tree that maintains key-value pairs. The key properties that define a valid `TreeMap` are:
+1. The root node must be black.
+2. Each node's color must be different from its parent's color.
+3. The tree must be properly balanced, meaning the left and right subtrees of each node must have the same depth.
+4. The size of the tree (number of nodes) must match the size variable maintained by the class.
+
+The approach involves:
+1. Checking if the root is black.
+2. Ensuring each node's color is different from its parent's color.
+3. Verifying that the tree is balanced by checking the depth of the left and right subtrees for each node.
+4. Confirming that the number of nodes in the tree matches the size variable.
+
+### Solution Code
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (root == null) {
+        return size == 0;
+    }
+
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    if (countNodes(root) != size) {
+        return false;
+    }
+
+    checkColors(root);
+    checkBalance(root);
+
+    return true;
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private void checkColors(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    if (node.color == BLACK && node.parent != null && node.parent.color == BLACK) {
+        return false;
+    }
+
+    if (node.color == RED && node.parent != null && node.parent.color == RED) {
+        return false;
+    }
+
+    checkColors(node.left);
+    checkColors(node.right);
+}
+
+private void checkBalance(Node node) {
+    if (node == null || node.left == null && node.right == null) {
+        return;
+    }
+
+    int leftDepth = getDepth(node.left);
+    int rightDepth = getDepth(node.right);
+
+    if (leftDepth != rightDepth) {
+        return false;
+    }
+
+    checkBalance(node.left);
+    checkBalance(node.right);
+}
+
+private int getDepth(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    return 1 + Math.max(getDepth(node.left), getDepth(node.right));
+}
+```
+
+### Explanation
+1. **Root Check**: The method first checks if the root node is black. If not, the tree is invalid.
+2. **Node Count Check**: It counts the number of nodes in the tree and compares it with the size variable to ensure they match.
+3. **Color Check**: The `checkColors` method ensures that no two adjacent nodes (parent and child) have the same color.
+4. **Balance Check**: The `checkBalance` method uses a helper function `getDepth` to recursively check the depth of the left and right subtrees of each node. If the depths differ, the tree is unbalanced.
+
+This approach ensures that the `TreeMap` maintains its structural integrity, adhering to the properties of a balanced BST, thereby validating the tree's state through the `repOK` method.

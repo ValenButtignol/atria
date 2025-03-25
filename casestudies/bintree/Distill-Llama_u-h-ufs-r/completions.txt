@@ -1,0 +1,116 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinTree class. Let me look at the code provided.
+
+The BinTree class has a root and a size. The add method adds nodes either to the left or right based on the value, using a recursive approach. So, the structure is a binary tree where each node has a left and right child.
+
+The representation invariant should be a boolean method called repOK that returns true if the object is valid and false otherwise. I should only check properties I'm sure are valid.
+
+First, I should think about what makes a BinTree valid. The tree should be a proper binary search tree, meaning for every node, all left descendants are less than it and all right descendants are greater than it.
+
+Wait, but in the add method, it's adding nodes in a way that maintains the BST property. So, the invariant should ensure that the tree is correctly structured.
+
+I can start by checking the root. If the root is null, but size is not zero, that's invalid. So, if root is null, size must be zero.
+
+Next, for each node, I need to ensure that all left children are less than the parent and all right children are greater. But checking every node recursively might be too slow, but since it's a method, it's acceptable.
+
+I can write a helper method to check each node. For the root, iterate through all nodes, and for each node, check its left and right children.
+
+Wait, but how do I traverse the tree? I can use a recursive approach: for each node, check its left and right children if they exist.
+
+So, the steps are:
+
+1. If size is negative, return false.
+2. If root is null, size must be zero.
+3. For each node, check that all left children are less than the node and all right children are greater.
+4. Also, ensure that there are no cycles, but since we're building a tree, that's already handled.
+
+Wait, but how do I traverse all nodes? I can start from the root and go through each node's left and right children.
+
+Let me outline the method:
+
+- Check if size is negative: return false.
+- If root is null, check if size is zero. If not, return false.
+- For each node, check that if it has a left child, the left child's info is less than the node's info.
+- Similarly, if it has a right child, the right child's info is greater than the node's info.
+- Also, ensure that there are no null pointers where they shouldn't be, but since the add method handles that, maybe it's not necessary.
+
+Wait, but in the add method, it's possible that a node's left or right is null, but the data might not follow the BST property. So, the invariant should enforce that.
+
+So, the method would look like this:
+
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+    if (root == null) {
+        return size == 0;
+    }
+    // Check each node
+    return checkNodes(root);
+}
+
+private boolean checkNodes(Node current) {
+    if (current == null) {
+        return true;
+    }
+    // Check left child
+    if (current.left != null) {
+        if (current.left.info >= current.info) {
+            return false;
+        }
+    }
+    // Check right child
+    if (current.right != null) {
+        if (current.right.info <= current.info) {
+            return false;
+        }
+    }
+    // Recurse on children
+    return checkNodes(current.left) && checkNodes(current.right);
+}
+
+Wait, but this might not cover all cases. For example, if a node's left child is present but the data is not less than the parent, it returns false. Similarly for the right.
+
+But what about the root? The root can have any value, but the left must be less and right greater.
+
+Yes, that seems correct.
+
+So, putting it all together, the repOK method would first check size and root, then recursively check each node's children.
+
+I think that's a solid approach. Now, let me write the code accordingly.
+</think>
+
+To determine if the `BinTree` is valid, the representation invariant must ensure that the tree adheres to the binary search tree property, where each node's left child is less than the node and the right child is greater. Additionally, the size must be non-negative, and if the root is null, the size must be zero.
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+    if (root == null) {
+        return size == 0;
+    }
+    return checkNodes(root);
+}
+
+private boolean checkNodes(Node current) {
+    if (current == null) {
+        return true;
+    }
+    // Check left child
+    if (current.left != null) {
+        if (current.left.info >= current.info) {
+            return false;
+        }
+    }
+    // Check right child
+    if (current.right != null) {
+        if (current.right.info <= current.info) {
+            return false;
+        }
+    }
+    // Recurse on children
+    return checkNodes(current.left) && checkNodes(current.right);
+}
+```

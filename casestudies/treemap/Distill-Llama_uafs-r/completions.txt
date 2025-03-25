@@ -1,0 +1,313 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. Hmm, let me think about what a representation invariant is. From what I remember, it's a method that checks if the current state of the object is consistent with its invariants. So, for the TreeMap, the main invariant is that it's a binary search tree, and for each node, if it's red, its parent must be black, and all the nodes above it must also be black. Also, the tree should be balanced in some way, but maybe that's not necessary here.
+
+Wait, looking at the TreeMap code, it uses a balanced BST approach with red and black nodes. The key operations are put, which maintains the invariants by rotating nodes to keep the tree balanced. So, the repOK method should verify that the tree is correctly structured according to these rules.
+
+Let me start by thinking about the structure. The TreeMap has a root node, and each node has a left and right child. Each node has a color, either RED or BLACK. The root should be BLACK. For any node, if it's RED, its parent must be BLACK. Also, the tree should be properly oriented so that all left children are less than their parents, and right children are greater.
+
+So, the repOK method should check these conditions. How can I traverse the tree to verify this? Maybe a recursive approach where I check each node's color and its parent's color. Also, I need to ensure that the tree is correctly oriented.
+
+Wait, but how do I check the orientation? For each node, I can check if its left child is less than it and the right child is greater. But since the tree is a BST, that's inherent in how it's built. However, because it's a balanced tree, the structure might not be a perfectly balanced BST, but it should still maintain the BST property.
+
+Alternatively, maybe I don't need to check the actual key comparisons because the put method ensures that the tree remains a BST. So, perhaps the main thing to check is the color and parent color invariants.
+
+So, the steps for repOK would be:
+
+1. Check if the root is null or not. If it's null, the tree is empty, which is okay if size is zero.
+2. For each node, check if its color is correct based on its parent.
+3. Ensure that the tree is properly oriented, meaning left children are less than parents and right children are greater.
+
+Wait, but how do I check the orientation without knowing the actual keys? Maybe I can't check the orientation because the keys are not stored in a way that allows easy comparison. So perhaps the repOK method only checks the color and parent color invariants.
+
+Alternatively, maybe the repOK method should also ensure that the tree is a valid BST. But without knowing the actual keys, it's tricky. Maybe the put method ensures that the tree remains a BST, so the repOK can assume that the tree is a BST and only check the color and parent color invariants.
+
+So, the repOK method would:
+
+- Check that the root is not null if size is greater than zero.
+- For each node, check that if it's red, its parent is black.
+- Also, check that the root is black.
+
+Additionally, it should ensure that the tree is properly oriented, but since the put method handles that, maybe it's sufficient to check the color and parent color.
+
+Wait, but in the TreeMap code, the fixInsertion method ensures that the tree remains balanced, so the structure is maintained. Therefore, the repOK method can focus on checking the color and parent color invariants.
+
+So, the repOK method would traverse the tree, checking each node's color and its parent's color. If any node violates the invariant, it returns false.
+
+How to implement this? Maybe a recursive approach where each node checks its parent's color and its own color.
+
+Wait, but the root's parent is null, so it should be black. Then, for each node, if it's red, its parent must be black. If it's black, its parent can be either, but in the fixInsertion, the root is set to black.
+
+So, the algorithm would be:
+
+1. If the size is not equal to the number of nodes in the tree, return false.
+2. Check that the root is not null if size > 0.
+3. For each node, check that if it's red, its parent is black.
+4. Also, ensure that the root is black.
+
+Wait, but how do I count the number of nodes? The size variable in the TreeMap holds the number of nodes, so I can compare that with the actual count during traversal.
+
+So, in the repOK method:
+
+- If size is not equal to the number of nodes in the tree, return false.
+- Check that the root is black.
+- For each node, if it's red, its parent must be black.
+- Also, ensure that the tree is a valid BST, but maybe that's handled by the put method.
+
+Wait, but how do I count the number of nodes? I can traverse the tree and count the nodes, then compare with the size variable.
+
+Alternatively, since the size variable is maintained correctly by the put and remove methods, maybe I don't need to count the nodes again. But for the repOK, I need to ensure that the number of nodes is consistent with the size variable.
+
+So, the steps are:
+
+1. If the size is not equal to the actual number of nodes in the tree, return false.
+2. Check that the root is not null if size > 0.
+3. Check that the root is black.
+4. For each node, if it's red, its parent must be black.
+5. Also, ensure that the tree is properly oriented, but maybe that's not necessary here.
+
+Wait, but how do I count the number of nodes? I can traverse the tree starting from the root, and count each node until I reach null.
+
+So, in code:
+
+int nodeCount = 0;
+Node current = root;
+while (current != null) {
+    nodeCount++;
+    current = current.left; // Or current.right, but to count all nodes, I need to traverse all
+}
+
+Wait, no, that would only count the left subtree. To count all nodes, I need to traverse each node's left and right children.
+
+Alternatively, a breadth-first or depth-first traversal to count all nodes.
+
+But that might be time-consuming for a large tree. However, for the purposes of a repOK method, it's necessary to ensure that the size is correct.
+
+So, in the repOK method:
+
+- Check that the size variable equals the actual number of nodes in the tree.
+- Check that the root is black.
+- For each node, if it's red, its parent must be black.
+
+Additionally, ensure that the tree is a valid BST, but since the put method ensures that, maybe it's sufficient to check the color and size invariants.
+
+So, putting it all together, the repOK method would:
+
+1. Check if the size is not equal to the actual node count. If not, return false.
+2. Check if the root is null when size > 0. If so, return false.
+3. Check if the root's color is black. If not, return false.
+4. For each node, check if it's red and its parent is not black. If so, return false.
+5. Also, ensure that the tree is properly oriented, but maybe that's handled by the put method.
+
+Wait, but how do I ensure the tree is properly oriented? Since the put method ensures that the tree remains a BST, maybe the orientation is already correct. So, perhaps the repOK method doesn't need to check that.
+
+So, the final repOK method would:
+
+- Check size consistency.
+- Check root is black.
+- Check each node's color invariant.
+
+Now, let's think about how to implement this in Java.
+
+The TreeMap class is in a package, so the repOK method would be a public method in the TreeMap class.
+
+In the code, the Node class is private, so the repOK method can access it.
+
+So, the repOK method would:
+
+- Check if size is not equal to the actual node count. To do this, traverse the tree and count the nodes, then compare with size.
+
+- Check if the root is null when size > 0.
+
+- Check if the root's color is black.
+
+- For each node, check if it's red and its parent is not black.
+
+Implementing this, I can write a loop that traverses each node, checking these conditions.
+
+Wait, but how to traverse each node? I can start from the root and traverse all nodes.
+
+Alternatively, I can write a helper method that traverses the tree and checks the conditions.
+
+So, in code:
+
+public boolean repOK() {
+    // Check size consistency
+    int nodeCount = 0;
+    Node current = root;
+    while (current != null) {
+        nodeCount++;
+        current = current.left; // This only counts left subtree, which is incorrect
+        // So, this approach is wrong. I need to traverse all nodes.
+    }
+    if (nodeCount != size) {
+        return false;
+    }
+
+    // Check root is not null if size > 0
+    if (size > 0 && root == null) {
+        return false;
+    }
+
+    // Check root color is black
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    // Check each node's color invariant
+    Set<Node> visitedNodes = new HashSet<>();
+    current = root;
+    while (current != null) {
+        if (visitedNodes.contains(current)) {
+            return false; // cycle detected, which shouldn't happen in a tree
+        }
+        visitedNodes.add(current);
+
+        // Check if current node is red and parent is not black
+        if (current.color == RED && current.parent != null && current.parent.color != BLACK) {
+            return false;
+        }
+
+        // Check if current node is black and parent is red (which is invalid)
+        if (current.color == BLACK && current.parent != null && current.parent.color == RED) {
+            return false;
+        }
+
+        // Move to next node
+        current = current.left; // Again, this only traverses left subtree
+        // So, this approach is incorrect. Need to traverse all nodes.
+    }
+
+    return true;
+}
+
+Wait, but this code only traverses the left subtree. That's not correct. I need to traverse all nodes, including the right children.
+
+So, perhaps a better approach is to use a queue or stack to traverse all nodes.
+
+Alternatively, use a recursive approach.
+
+Let me try a recursive approach:
+
+public boolean repOK() {
+    // Check size consistency
+    if (size != countNodes(root)) {
+        return false;
+    }
+
+    // Check root is not null if size > 0
+    if (size > 0 && root == null) {
+        return false;
+    }
+
+    // Check root color is black
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    // Check each node's color invariant
+    if (!checkColorInvariants(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean checkColorInvariants(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check if node is red and parent is not black
+    if (node.color == RED && node.parent != null && node.parent.color != BLACK) {
+        return false;
+    }
+
+    // Check if node is black and parent is red (invalid)
+    if (node.color == BLACK && node.parent != null && node.parent.color == RED) {
+        return false;
+    }
+
+    // Recurse on left and right children
+    return checkColorInvariants(node.left) && checkColorInvariants(node.right);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+Wait, but in the TreeMap, the nodes are connected in a tree structure, so there are no cycles, and each node has exactly one parent except the root. So, the check for cycles is not necessary.
+
+This approach should work. The countNodes method recursively counts all nodes in the tree. The checkColorInvariants method ensures that each node's color invariant is respected.
+
+So, the repOK method would first check the size consistency, then the root's color, and then recursively check each node's color invariant.
+
+I think this should cover all the necessary invariants for the TreeMap.
+</think>
+
+To ensure the TreeMap class adheres to its structural invariants, the `repOK` method verifies the following:
+
+1. **Size Consistency**: The number of nodes in the tree matches the `size` variable.
+2. **Root Color**: The root node must be black.
+3. **Color Invariants**: Each node's color must be consistent with its parent's color. Specifically:
+   - A red node must have a black parent.
+   - A black node cannot have a red parent.
+
+Here is the implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    // Check size consistency
+    if (size != countNodes(root)) {
+        return false;
+    }
+
+    // Check root is not null if size > 0
+    if (size > 0 && root == null) {
+        return false;
+    }
+
+    // Check root color is black
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    // Check each node's color invariant
+    if (!checkColorInvariants(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean checkColorInvariants(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check if node is red and parent is not black
+    if (node.color == RED && node.parent != null && node.parent.color != BLACK) {
+        return false;
+    }
+
+    // Check if node is black and parent is red (invalid)
+    if (node.color == BLACK && node.parent != null && node.parent.color == RED) {
+        return false;
+    }
+
+    // Recurse on left and right children
+    return checkColorInvariants(node.left) && checkColorInvariants(node.right);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+```
+
+This method ensures that the TreeMap maintains its structural invariants, which are crucial for its correct behavior and efficiency.

@@ -1,0 +1,152 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. The invariant should be a method called repOK that checks the internal consistency of the tree structure. Let me think about what properties an AVL tree must satisfy.
+
+First, I remember that in an AVL tree, the height of the left and right subtrees of any node can differ by at most one. So for every node, the balance condition must hold. That means for any node t, the difference between the heights of left and right should be <= 1 in absolute value.
+
+Wait, but looking at the code, the ALLOWED_IMBALANCE is set to 1. So the condition is that the height difference can't be more than 1. So for each node, height(left) - height(right) should be between -1 and 1.
+
+Another thing to check is that all left children have elements less than their parent, and all right children have elements greater. So for every node, if the left child exists, its element must be less than the parent's. Similarly, the right child's element must be greater.
+
+Also, the height of each node should be correctly calculated as the maximum of the heights of its children plus one. So for any node t, t.height should equal max(height(t.left), height(t.right)) + 1. But wait, in the code, the height is updated after balancing, so this should always hold true.
+
+Additionally, the root should never be null if the tree isn't empty. But the isEmpty() method checks if root is null, so that's already handled.
+
+So putting this together, the repOK method should:
+
+1. Check that every node's left and right children satisfy the AVL balance condition (height difference <= 1).
+2. Ensure that each node's element is greater than its left child and less than its right child.
+3. Verify that each node's height is correctly computed as the max of its children's heights plus one.
+
+I'll need to traverse the tree and check each node. Let's outline the steps:
+
+- If the tree is empty (root is null), then it's trivially correct.
+- Otherwise, start at the root and recursively check each node.
+- For each node:
+   a. Check that the height difference between left and right is <= 1.
+   b. If left child exists, ensure its element is less than current node's.
+   c. If right child exists, ensure its element is greater than current node's.
+   d. Check that the node's height is max(left height, right height) + 1.
+
+Wait, but in the code, the height is maintained correctly because the balance method updates it. So maybe the height check is redundant, but it's still good to include for robustness.
+
+Now, how to implement this. The repOK method can be a helper function that recursively checks each node.
+
+I'll write a helper method that takes a node and returns true if the subtree rooted at that node satisfies the invariants.
+
+In the helper:
+- If the node is null, return true.
+- Check the balance condition: abs(leftHeight - rightHeight) <= 1.
+- Check left child's element if it exists.
+- Check right child's element if it exists.
+- Check that node.height is max(leftHeight, rightHeight) + 1.
+
+Wait, but in the code, the height is stored, so we can compare it directly.
+
+So putting it all together, the repOK method will call this helper on the root and return the result.
+
+Let me draft the code:
+
+public boolean repOK() {
+    return checkRep(root);
+}
+
+private boolean checkRep(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check balance condition
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+    int diff = leftHeight - rightHeight;
+    if (Math.abs(diff) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    // Check left child element
+    if (node.left != null && node.left.element >= node.element) {
+        return false;
+    }
+
+    // Check right child element
+    if (node.right != null && node.right.element <= node.element) {
+        return false;
+    }
+
+    // Check height calculation
+    int expectedHeight = Math.max(leftHeight, rightHeight) + 1;
+    if (node.height != expectedHeight) {
+        return false;
+    }
+
+    // Recurse on children
+    return checkRep(node.left) && checkRep(node.right);
+}
+
+Wait, but in the code, the height is computed as the max of children's heights plus one. So the helper should also check that the node's height matches this value.
+
+But wait, in the code, the height is maintained correctly because the balance method sets it. So perhaps the height is always correct, but it's better to include the check in case of any bugs.
+
+Another thing: the helper function should return false as soon as any condition fails, so using early returns.
+
+Also, need to handle the cases where left or right is null.
+
+Wait, in the code, the height function returns -1 for null nodes. So for a node with only left child, right height is -1, left height is something. The max would be left height, plus 1.
+
+So the helper function should correctly compute the expected height.
+
+Putting it all together, the repOK method will call checkRep on the root, which recursively checks each node.
+
+I think that's a solid approach. Now, I'll write the code accordingly.
+</think>
+
+To ensure the correctness of the AVL tree implementation, we need to verify that the tree maintains its properties after each operation. The representation invariant checks the following conditions for every node in the tree:
+
+1. **Balance Condition**: The difference in heights between the left and right subtrees of any node must not exceed the allowed imbalance (1 in this case).
+2. **Order Condition**: For every node, all elements in the left subtree are less than the node's element, and all elements in the right subtree are greater.
+3. **Height Consistency**: Each node's height must be correctly calculated as the maximum height of its children plus one.
+
+Here is the implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    return checkRep(root);
+}
+
+private boolean checkRep(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+    int diff = leftHeight - rightHeight;
+
+    // Check balance condition
+    if (Math.abs(diff) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    // Check left child element
+    if (node.left != null && node.left.element >= node.element) {
+        return false;
+    }
+
+    // Check right child element
+    if (node.right != null && node.right.element <= node.element) {
+        return false;
+    }
+
+    // Check height calculation
+    int expectedHeight = Math.max(leftHeight, rightHeight) + 1;
+    if (node.height != expectedHeight) {
+        return false;
+    }
+
+    // Recurse on children
+    return checkRep(node.left) && checkRep(node.right);
+}
+```
+
+This method ensures that all nodes in the tree adhere to the AVL tree properties, thus maintaining the integrity of the data structure.

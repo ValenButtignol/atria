@@ -1,0 +1,41 @@
+
+Here's the representation invariant for the LinkedList class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the header is correctly set
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check if all entries are correctly linked
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.next != header || e.previous != e.previous.next) {
+            return false;
+        }
+    }
+
+    // Check if the size is correctly maintained
+    if (size != countEntries()) {
+        return false;
+    }
+
+    return true;
+}
+
+private int countEntries() {
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        count++;
+    }
+    return count;
+}
+```
+
+This `repOK` method checks the following invariants:
+
+1.  The header is correctly set, i.e., `header.next == header` and `header.previous == header`.
+2.  All entries are correctly linked, i.e., for each entry `e`, `e.next == header` and `e.previous == e.previous.next`.
+3.  The size is correctly maintained, i.e., `size == countEntries()`.
+
+The `countEntries` method is a helper method that counts the number of entries in the linked list by traversing from the second entry to the end of the list.

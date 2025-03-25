@@ -1,0 +1,76 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinTree class. The invariant should be a method called repOK that checks the internal consistency of the object. Let me think about what the class does and what invariants it must maintain.
+
+First, looking at the BinTree class, it has a root node and a size variable. The add method adds nodes recursively, and each addition increments the size. So the size should always equal the number of nodes in the tree.
+
+So the first invariant is that the size must be correct. I can write a method to count the nodes in the tree and compare it to the size variable. If they don't match, the invariant is violated.
+
+Next, each node in the tree should follow the binary search tree (BST) property. That means for every node, all the left descendants are less than the node's value, and all the right descendants are greater. I need to check this for every node.
+
+I'll write a helper method, checkBST, that traverses the tree and verifies this property. It can take parameters like the current node, the lower bound, and the upper bound. For each node, it checks if its info is within the bounds and then recursively checks the left and right children with updated bounds.
+
+Also, I should ensure that the tree doesn't have any null nodes pointing incorrectly. For example, if a node's left or right child is null, that's fine, but if a node is added, the links should be correctly set.
+
+Putting it all together, the repOK method will first check if the size is correct by counting the nodes. Then, it will check the BST property for every node. If any of these checks fail, it should throw an IllegalArgumentException with an appropriate message.
+
+Wait, but how do I count the nodes? I can write a helper method countNodes that recursively counts each node starting from the root. Then compare this count to the size variable.
+
+So the steps are:
+
+1. Check that the size is equal to the actual number of nodes.
+2. Check that every node satisfies the BST property.
+
+I should also handle edge cases, like when the tree is empty (root is null). In that case, size should be 0, and there's nothing else to check.
+
+Let me outline the repOK method:
+
+- If root is null, size must be 0.
+- Else, count the nodes and compare to size.
+- Then, check each node's BST property.
+
+I think that's all. Now, I'll write the code for repOK, including these checks.
+</think>
+
+To write the representation invariant for the `BinTree` class, we need to ensure that the internal state of the object remains consistent. The invariant should check two main properties:
+
+1. The `size` variable correctly reflects the number of nodes in the tree.
+2. The tree maintains the binary search tree (BST) property, where for every node, all left descendants are less than the node's value, and all right descendants are greater.
+
+Here is the `repOK` method implementing these checks:
+
+```java
+public boolean repOK() {
+    // Check that size is correct
+    int actualSize = countNodes(root);
+    if (actualSize != size) {
+        throw new IllegalArgumentException("Size is inconsistent with actual number of nodes.");
+    }
+
+    // Check that the tree is a BST
+    if (!checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+        throw new IllegalArgumentException("Tree does not satisfy BST property.");
+    }
+
+    return true;
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean checkBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info <= min || node.info > max) {
+        return false;
+    }
+    return checkBST(node.left, min, node.info) && checkBST(node.right, node.info, max);
+}
+```
+
+This invariant ensures that the `BinTree` object maintains its structural integrity by validating both the size and BST properties.

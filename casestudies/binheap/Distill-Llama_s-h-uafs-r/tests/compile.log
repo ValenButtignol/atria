@@ -1,0 +1,59 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: cannot find symbol
+        return isOrdered(node.left) && isOrdered(node.right);
+                             ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: cannot find symbol
+        return isOrdered(node.left) && isOrdered(node.right);
+                                                     ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:300: error: cannot find symbol
+        return hasNoDuplicates(node.left) && hasNoDuplicates(node.right);
+                                   ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:300: error: cannot find symbol
+        return hasNoDuplicates(node.left) && hasNoDuplicates(node.right);
+                                                                 ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+4 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: cannot find symbol
+          return isOrdered(node.left) && isOrdered(node.right);
+                               ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: cannot find symbol
+          return isOrdered(node.left) && isOrdered(node.right);
+                                                       ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:300: error: cannot find symbol
+          return hasNoDuplicates(node.left) && hasNoDuplicates(node.right);
+                                     ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:300: error: cannot find symbol
+          return hasNoDuplicates(node.left) && hasNoDuplicates(node.right);
+                                                                   ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  4 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 415ms
+1 actionable task: 1 executed

@@ -1,0 +1,38 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (root == null) {
+            return size == 0;
+        }
+    
+        if (root.color != BLACK) {
+            return false;
+        }
+    
+        return checkRedBlackProperties(root, null, -1);
+    }
+
+    private boolean checkRedBlackProperties(Node node, Node parent, int depth) {
+        if (node == null) {
+            return true;
+        }
+    
+        if (node.color == RED) {
+            if (parent == null || parent.color != BLACK) {
+                return false;
+            }
+        }
+    
+        if (node.left != null && node.right != null && compare(node.left.key, node.right.key) > 0) {
+            return false;
+        }
+    
+        if (parent != null && compare(node.key, parent.key) < 0) {
+            return false;
+        }
+    
+        int currentDepth = depth + 1;
+        return checkRedBlackProperties(node.left, node, currentDepth) && checkRedBlackProperties(node.right, node, currentDepth);
+    }
+
+
+}

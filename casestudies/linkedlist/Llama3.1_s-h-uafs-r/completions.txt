@@ -1,0 +1,29 @@
+
+```java
+public boolean repOK() {
+    if (header.next != header) {
+        for (Entry e = header.next; e != header; e = e.next) {
+            if (e.previous != e.previous.previous) {
+                return false;
+            }
+            if (e.next != e.next.next) {
+                return false;
+            }
+            if (e.element == null) {
+                return false;
+            }
+        }
+    } else {
+        return true;
+    }
+    return size == countEntries();
+}
+
+private int countEntries() {
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        count++;
+    }
+    return count;
+}
+```

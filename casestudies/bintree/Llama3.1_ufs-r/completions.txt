@@ -1,0 +1,65 @@
+
+### Representation Invariant for the BinTree class
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return root == null;
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    return repOKRecursive(root);
+}
+
+private boolean repOKRecursive(Node current) {
+    if (current == null) {
+        return true;
+    }
+
+    if (current.left != null && current.info <= current.left.info) {
+        return false;
+    }
+
+    if (current.right != null && current.info <= current.right.info) {
+        return false;
+    }
+
+    return repOKRecursive(current.left) && repOKRecursive(current.right);
+}
+```
+
+### Explanation
+
+The representation invariant for the BinTree class ensures that the binary tree is a valid binary search tree (BST). A BST is a binary tree where for every node, all elements in the left subtree are less than the node, and all elements in the right subtree are greater than the node.
+
+The `repOK` method checks if the size of the tree is non-negative and if the root is null when the size is 0. It then calls the `repOKRecursive` method to recursively check the validity of the tree.
+
+The `repOKRecursive` method checks if a node is null, in which case it returns true. It then checks if the node's left child is not null and if the node's value is less than or equal to its left child's value. If this condition is true, it returns false, indicating that the tree is not a valid BST. It also checks if the node's right child is not null and if the node's value is less than or equal to its right child's value. If this condition is true, it returns false, indicating that the tree is not a valid BST. If both conditions are false, it recursively calls itself on the node's left and right children to check their validity.
+
+### Example Use Case
+
+```java
+public static void main(String[] args) {
+    BinTree binTree = new BinTree();
+    binTree.add(5);
+    binTree.add(3);
+    binTree.add(7);
+    binTree.add(2);
+    binTree.add(4);
+    binTree.add(6);
+    binTree.add(8);
+
+    System.out.println(binTree.repOK()); // prints: true
+
+    binTree.add(1); // adds a value that breaks the BST property
+
+    System.out.println(binTree.repOK()); // prints: false
+}
+```

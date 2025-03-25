@@ -1,0 +1,28 @@
+
+```java
+public boolean repOK() {
+    if (size < 0)
+        return false;
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.hash == 0)
+                return false;
+            if (e.next != null && e.next.hash == e.hash)
+                return false;
+            e = e.next;
+        }
+    }
+
+    return true;
+}
+```
+
+This representation invariant checks the following properties:
+
+1. The size of the map is non-negative.
+2. Each entry in the table has a non-zero hash code.
+3. No two adjacent entries in the table have the same hash code.
+
+These properties ensure that the map is in a consistent state and that the hash table is properly maintained.

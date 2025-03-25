@@ -1,0 +1,32 @@
+
+Here's the representation invariant for the `BinTree` class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the root is null, in which case the tree is empty
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check if the size of the tree is correct
+    return size == countNodes(root);
+
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+}
+```
+
+This `repOK` method checks the following conditions:
+
+1.  If the tree is empty (i.e., the root is `null`), then the size of the tree should be 0.
+2.  If the tree is not empty, then the size of the tree should be equal to the number of nodes in the tree, which is calculated recursively by the `countNodes` method.
+
+The `countNodes` method is a helper method that recursively counts the number of nodes in the tree by adding 1 for the current node and recursively counting the nodes in its left and right subtrees.
+
+By checking these conditions, the `repOK` method ensures that the representation invariant of the `BinTree` class is maintained.

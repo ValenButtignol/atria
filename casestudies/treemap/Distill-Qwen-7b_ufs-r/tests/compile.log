@@ -1,0 +1,52 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:207: error: cannot find symbol
+                if (current.left.color && current.left.key.compareTo(current.key) <= 0) {
+                                                          ^
+  symbol:   method compareTo(K)
+  location: variable key of type K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:212: error: cannot find symbol
+                if (current.right.color && current.right.key.compareTo(current.key) >= 0) {
+                                                            ^
+  symbol:   method compareTo(K)
+  location: variable key of type K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:226: error: variable current is already defined in method repOK_2()
+        Node current = root;
+             ^
+3 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:207: error: cannot find symbol
+                  if (current.left.color && current.left.key.compareTo(current.key) <= 0) {
+                                                            ^
+    symbol:   method compareTo(K)
+    location: variable key of type K
+    where K is a type-variable:
+      K extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:212: error: cannot find symbol
+                  if (current.right.color && current.right.key.compareTo(current.key) >= 0) {
+                                                              ^
+    symbol:   method compareTo(K)
+    location: variable key of type K
+    where K is a type-variable:
+      K extends Object declared in class TreeMap/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:226: error: variable current is already defined in method repOK_2()
+          Node current = root;
+               ^
+  3 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 397ms
+1 actionable task: 1 executed

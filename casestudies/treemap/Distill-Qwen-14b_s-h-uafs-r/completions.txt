@@ -1,0 +1,91 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. The repOK method should check the internal state of the tree to ensure it's valid. Let me think about what properties a balanced binary search tree with red-black coloring must satisfy.
+
+First, every node should adhere to the red-black properties. That means no two adjacent nodes can be red, and all paths from the root to the leaves must have the same number of black nodes. Also, the root should be black.
+
+I should check each node's color. For any node, if it's red, its parent must be black. Wait, no, actually, the rule is that a red node cannot have a red parent. So, for every red node, its parent must be black. Also, the root must be black.
+
+Next, the size of the tree should match the internal size variable. So, I need to traverse the tree and count the nodes to ensure the count equals size.
+
+I also need to verify that the tree is a valid binary search tree. For every node, all nodes in the left subtree have keys less than the current node's key, and all nodes in the right subtree have keys greater than the current node's key.
+
+Additionally, each node's parent pointer should be correctly set. For example, the parent of the left child should be the current node, and the parent of the right child should also be the current node.
+
+I should also check that the root's parent is null, as it should be the top of the tree.
+
+Let me outline the steps:
+
+1. Check if the root is null when size is zero, and vice versa.
+2. Verify the root's color is black.
+3. For each node, ensure that if it's red, its parent is black.
+4. Ensure that all paths from root to leaves have the same number of black nodes.
+5. Verify the size by traversing the tree and counting nodes.
+6. Ensure the tree follows the binary search tree property.
+7. Check that parent pointers are correctly set for each node.
+
+I need to implement these checks in the repOK method. I'll start by checking the root and size consistency. Then, perform a traversal to check each node's properties. I'll also count the nodes to compare with the size variable.
+
+I should be careful with null pointers, especially when the tree is empty. Also, when checking the binary search tree property, I need to handle null children correctly.
+
+I think using a helper method to traverse the tree and perform the checks would be efficient. Maybe a recursive approach where each call checks the current node and then its left and right subtrees.
+
+Wait, but recursion might hit stack limits for large trees. Maybe an iterative approach is better, but for the sake of simplicity, recursion might be acceptable here.
+
+I should also ensure that the comparator is correctly set, but since it's part of the class, maybe it's not necessary to check in repOK unless it's part of the invariant.
+
+Hmm, perhaps the comparator is used to order the keys, so the BST property relies on it. So, I should ensure that the tree maintains the BST property based on the comparator.
+
+I think I've covered all the necessary checks. Now, I'll structure the repOK method to perform these validations step by step.
+</think>
+
+```java
+public boolean repOK() {
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    if (size < 0) {
+        return false;
+    }
+
+    if (root == null && size != 0) {
+        return false;
+    }
+
+    int blackNodes = 0;
+    Node current = root;
+    while (current != null) {
+        if (current.color == BLACK) {
+            blackNodes++;
+        }
+        current = current.right;
+    }
+
+    int expectedBlackNodes = 0;
+    Node node = root;
+    while (node != null) {
+        if (node.color == BLACK) {
+            expectedBlackNodes++;
+        }
+        node = node.left;
+    }
+
+    if (blackNodes != expectedBlackNodes) {
+        return false;
+    }
+
+    int sizeCount = 0;
+    current = root;
+    while (current != null) {
+        sizeCount++;
+        current = current.right;
+    }
+
+    if (sizeCount != size) {
+        return false;
+    }
+
+    return true;
+}
+```

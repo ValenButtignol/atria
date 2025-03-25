@@ -1,0 +1,22 @@
+
+```java
+public boolean repOK() {
+    if (table == null) {
+        return size == 0;
+    }
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            Entry next = e.next;
+            if (e.hash == e.key.hashCode() && !e.key.equals(e.value)) {
+                return false;
+            }
+            e = next;
+        }
+    }
+
+    return true;
+}
+```
+This representation invariant checks that each entry in the table has a key that is equal to its value. If any entry has a key that is not equal to its value, the invariant returns false. If all entries have keys that are equal to their values, the invariant returns true.

@@ -1,0 +1,38 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:270: error: for-each not applicable to expression type
+        for (BinomialHeapNode node : Nodes) {
+                                     ^
+  required: array or java.lang.Iterable
+  found:    BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:282: error: cannot find symbol
+        BinomialHeapNode minNode = findMinNode();
+                                   ^
+  symbol:   method findMinNode()
+  location: class BinomialHeap
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:270: error: for-each not applicable to expression type
+          for (BinomialHeapNode node : Nodes) {
+                                       ^
+    required: array or java.lang.Iterable
+    found:    BinomialHeapNode/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:282: error: cannot find symbol
+          BinomialHeapNode minNode = findMinNode();
+                                     ^
+    symbol:   method findMinNode()
+    location: class BinomialHeap
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 406ms
+1 actionable task: 1 executed

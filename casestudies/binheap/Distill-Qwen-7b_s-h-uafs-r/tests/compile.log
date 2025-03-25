@@ -1,0 +1,58 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:290: error: cannot find symbol
+            if (node.isRoot()) {
+                    ^
+  symbol:   method isRoot()
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:291: error: bad operand types for binary operator '=='
+                if (node.getKey() == null) {
+                                  ^
+  first type:  int
+  second type: <null>
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:297: error: cannot find symbol
+                if (node.getChild() != null && node.getChild().isRoot()) {
+                                                              ^
+  symbol:   method isRoot()
+  location: class BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:306: error: cannot find symbol
+            if (node.getParent() == null && !node.isRoot()) {
+                                                 ^
+  symbol:   method isRoot()
+  location: variable node of type BinomialHeapNode
+4 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:291: error: bad operand types for binary operator '=='
+                  if (node.getKey() == null) {
+                                    ^
+    first type:  int
+    second type: <null>/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:290: error: cannot find symbol
+              if (node.isRoot()) {
+                      ^
+    symbol:   method isRoot()
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:297: error: cannot find symbol
+                  if (node.getChild() != null && node.getChild().isRoot()) {
+                                                                ^
+    symbol:   method isRoot()
+    location: class BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:306: error: cannot find symbol
+              if (node.getParent() == null && !node.isRoot()) {
+                                                   ^
+    symbol:   method isRoot()
+    location: variable node of type BinomialHeapNode
+  4 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 438ms
+1 actionable task: 1 executed

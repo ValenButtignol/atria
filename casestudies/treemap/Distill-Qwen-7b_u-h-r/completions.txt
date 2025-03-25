@@ -1,0 +1,92 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. Representation invariants are boolean methods that check if the object's state is valid. They must return true if the object is valid and false otherwise. 
+
+Looking at the TreeMap class, it's a balanced BST (red-black tree) implementation. So, the key properties I should verify are those that ensure the tree remains balanced and follows the red-black tree rules.
+
+First, the root node's color should be black. Because in a red-black tree, the root cannot be red. If the root is red, the tree is unbalanced, and operations might fail.
+
+Next, every path from the root to a null child must have the same number of black nodes. This ensures the tree is balanced. I can check this by counting the number of black nodes along each path and ensuring they're equal.
+
+Also, no red node should have a red child. This maintains the red-black tree property where a parent and child cannot both be red.
+
+I should also verify that all keys are in order, but that's more of an operation invariant rather than a representation invariant. Representation invariants are about the structure, not the data.
+
+Wait, the size variable is maintained correctly. But that's an operational invariant, not a structural one. So, I don't need to check that here.
+
+So, the main points are:
+1. Root is black.
+2. All paths from root to null have the same number of black nodes.
+3. No red node has a red child.
+
+I'll translate these into code. The repOK method will check these conditions.
+
+First, check if root is null. If it's null, the tree is empty, so root color is effectively black (since it doesn't exist). But in the code, root is initialized as null, so maybe we don't need to check that.
+
+Then, check if root is not null and root.color is not black. That's the first condition.
+
+Next, perform a depth-first traversal to count black nodes along each path. For each node, keep track of the current black count. If any path has a different count than others, return false.
+
+Finally, check that no red node has a red child. For each node, if it's red, check its children. If either left or right child is red, return false.
+
+I need to implement these checks in the repOK method. I'll write helper methods if needed, but since it's a boolean method, I'll include the logic inline.
+
+So, putting it all together, the repOK method will check the root color, the path counts, and the red-red rule.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+    
+    if (!isRootBlack()) {
+        return false;
+    }
+    
+    int expectedBlackCount = countBlackFromRoot(root);
+    if (expectedBlackCount == -1) {
+        return false;
+    }
+    
+    if (!checkNoRedNodeWithRedChild()) {
+        return false;
+    }
+    
+    return true;
+}
+
+private boolean isRootBlack() {
+    return root.color == BLACK;
+}
+
+private int countBlackFromRoot(Node node) {
+    if (node == null) {
+        return -1;
+    }
+    int count = 1; // root is black
+    if (node.left != null) {
+        count += countBlackFromRoot(node.left);
+    }
+    if (node.right != null) {
+        count += countBlackFromRoot(node.right);
+    }
+    return count;
+}
+
+private boolean checkNoRedNodeWithRedChild() {
+    if (root == null) {
+        return true;
+    }
+    if (root.color == RED) {
+        return false;
+    }
+    if (root.left != null && (root.left.color == RED || root.left.right != null && root.left.right.color == RED)) {
+        return false;
+    }
+    if (root.right != null && (root.right.color == RED || root.right.left != null && root.right.left.color == RED)) {
+        return false;
+    }
+    return checkNoRedNodeWithRedChild(root.left) && checkNoRedNodeWithRedChild(root.right);
+}
+```

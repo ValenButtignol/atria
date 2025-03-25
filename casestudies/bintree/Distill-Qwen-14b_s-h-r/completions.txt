@@ -1,0 +1,242 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinTree class. The invariant should be a method called repOK that returns true if the object is valid, and false otherwise. 
+
+First, I'll look at the BinTree class structure. It has a root Node and a size variable. The add method adds nodes recursively, and there's a Node inner class with left and right children and an info field.
+
+The representation invariant needs to check the internal consistency of the object. So, what properties must hold for the BinTree to be valid?
+
+1. The size variable should correctly reflect the number of nodes in the tree. So, I need to verify that size is equal to the number of nodes when traversing the tree.
+
+2. The tree must be a valid binary search tree (BST). This means that for every node, all left descendants are less than the node's value, and all right descendants are greater.
+
+3. The root node should either be null (empty tree) or point to a valid Node.
+
+4. Each Node's left and right children should either be null or point to valid Nodes.
+
+So, the repOK method should check all these conditions.
+
+Let me think about how to implement each check.
+
+First, check if the root is null. If it is, the size should be 0. That's straightforward.
+
+If the root is not null, then the size must be at least 1. Also, the size should match the actual number of nodes in the tree. To get the actual count, I can write a helper method that traverses the tree and counts the nodes.
+
+Next, I need to ensure the BST property holds. For each node, all left nodes are less than it, and all right nodes are greater. I can write a helper method that recursively checks this condition.
+
+Additionally, I should ensure that all left and right pointers are either null or point to valid Nodes. But since the Node constructor doesn't allow setting left or right directly, and the add method correctly creates them, maybe this isn't necessary. However, to be thorough, I can check that left and right are either null or valid instances of Node.
+
+Putting it all together, the repOK method will:
+
+- Check if root is null, then size must be 0.
+- If root is not null, size must equal the count of nodes.
+- Verify the BST property for all nodes.
+- Ensure all left and right children are valid.
+
+Now, I'll outline the steps in code.
+
+First, the helper method to count nodes:
+
+private int countNodes(Node node) {
+    if (node == null) return 0;
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+Then, check if root is null and size is 0.
+
+If root is not null, check that size equals countNodes(root).
+
+Next, check the BST property. For each node, all left nodes are less than it, and all right nodes are greater. So, a helper method:
+
+private boolean isBST(Node node, int min, int max) {
+    if (node == null) return true;
+    if (node.info <= min || node.info >= max) return false;
+    return isBST(node.left, min, node.info) && isBST(node.right, node.info, max);
+}
+
+Wait, but for the initial call, min should be negative infinity and max positive infinity. So, in the repOK method, I'll call isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE).
+
+Also, I need to ensure that all left and right children are valid. But since the add method correctly creates them, maybe this isn't necessary. But to be safe, perhaps check that left and right are either null or valid Nodes. But in Java, if they are null, that's fine. If they are not null, they should be instances of Node, which they will be because the add method creates them correctly. So maybe this isn't needed, but including it can't hurt.
+
+Putting it all together, the repOK method will:
+
+- If root is null, size must be 0.
+- Else, size must equal countNodes(root).
+- The tree must satisfy the BST property.
+- All left and right children must be valid (but perhaps this is redundant).
+
+So, the code for repOK would be:
+
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    } else {
+        int actualSize = countNodes(root);
+        if (actualSize != size) {
+            return false;
+        }
+        if (!isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+            return false;
+        }
+        // Check all left and right children are valid
+        return checkChildren(root);
+    }
+}
+
+Then, implement countNodes, isBST, and checkChildren.
+
+Wait, but checkChildren might not be necessary. Let me think: the add method ensures that left and right are either null or valid Nodes. So, perhaps it's redundant, but including it can't hurt.
+
+Alternatively, perhaps the checkChildren method is not needed because the other checks already ensure the tree is valid. Hmm.
+
+Alternatively, perhaps the checkChildren can be omitted, but including it makes the invariant more thorough.
+
+But for the sake of the invariant, perhaps it's better to include all necessary checks.
+
+So, the checkChildren method would recursively check that each node's left and right are either null or valid.
+
+private boolean checkChildren(Node node) {
+    if (node == null) return true;
+    if (node.left != null && !(node.left instanceof Node)) {
+        return false;
+    }
+    if (node.right != null && !(node.right instanceof Node)) {
+        return false;
+    }
+    return checkChildren(node.left) && checkChildren(node.right);
+}
+
+Wait, but node.left and node.right are always Node instances if they are not null, because the add method creates them as Node objects. So, perhaps this check is redundant. But to be absolutely sure, perhaps it's better to include it.
+
+Alternatively, perhaps it's better to just rely on the other checks.
+
+But perhaps the checkChildren is unnecessary, as the other checks (like BST property and size) would have already failed if the tree structure is invalid.
+
+Hmm, perhaps it's better to include it to catch any inconsistencies, like if a node's left is not null but points to something invalid, though in Java that's not possible because the add method only creates Node instances.
+
+But since the invariant is supposed to check all possible inconsistencies, perhaps it's better to include it.
+
+Alternatively, perhaps the checkChildren is not needed, but including it doesn't hurt.
+
+So, putting it all together, the repOK method would perform these checks.
+
+Wait, but in the helper methods, I need to make sure they are private and static if necessary.
+
+Wait, the countNodes, isBST, and checkChildren methods are all instance methods, so they can access the Node class directly.
+
+Wait, but in the repOK method, I can call these helper methods.
+
+So, the complete repOK method would be:
+
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    } else {
+        int actualSize = countNodes(root);
+        if (actualSize != size) {
+            return false;
+        }
+        if (!isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+            return false;
+        }
+        return checkChildren(root);
+    }
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean isBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info <= min || node.info >= max) {
+        return false;
+    }
+    return isBST(node.left, min, node.info) && isBST(node.right, node.info, max);
+}
+
+private boolean checkChildren(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && !(node.left instanceof Node)) {
+        return false;
+    }
+    if (node.right != null && !(node.right instanceof Node)) {
+        return false;
+    }
+    return checkChildren(node.left) && checkChildren(node.right);
+}
+
+Wait, but in the checkChildren method, node.left and node.right are either null or Node instances, because the add method only creates Node instances. So, the check (node.left != null && !(node.left instanceof Node)) will always be false. So, this check is redundant.
+
+Therefore, perhaps the checkChildren method is unnecessary. So, I can omit it.
+
+Thus, the repOK method can be simplified to:
+
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    } else {
+        int actualSize = countNodes(root);
+        if (actualSize != size) {
+            return false;
+        }
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+}
+
+But wait, what about the case where the tree is not a BST but the size is correct? The invariant would still return false because isBST would fail.
+
+Yes, that's correct.
+
+So, the repOK method checks:
+
+- If root is null, size is 0.
+- Else, size matches the actual node count.
+- The tree is a valid BST.
+
+I think that covers all necessary conditions.
+
+So, the final repOK method would be as above, along with the helper methods countNodes and isBST.
+
+Wait, but in the isBST method, the initial call is with min as Integer.MIN_VALUE and max as Integer.MAX_VALUE. That's correct.
+
+So, putting it all together, the repOK method is as written.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    } else {
+        int actualSize = countNodes(root);
+        if (actualSize != size) {
+            return false;
+        }
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean isBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info <= min || node.info >= max) {
+        return false;
+    }
+    return isBST(node.left, min, node.info) && isBST(node.right, node.info, max);
+}
+```

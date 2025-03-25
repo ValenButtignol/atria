@@ -1,0 +1,68 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (root == null) {
+            return true;
+        }
+        
+        if (root.color != BLACK) {
+            return false;
+        }
+        
+        return isBST(root, null, null) && isBalanced(root) && isRedBlackTree(root);
+    }
+
+    private boolean isBST(Node node, K min, K max) {
+        if (node == null) {
+            return true;
+        }
+        
+        if ((min != null && compare(node.key, min) <= 0) || (max != null && compare(node.key, max) >= 0)) {
+            return false;
+        }
+        
+        return isBST(node.left, min, node.key) && isBST(node.right, node.key, max);
+    }
+
+    private boolean isBalanced(Node node) {
+        if (node == null) {
+            return true;
+        }
+        
+        int leftHeight = getHeight(node.left);
+        int rightHeight = getHeight(node.right);
+        
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return false;
+        }
+        
+        return isBalanced(node.left) && isBalanced(node.right);
+    }
+
+    private int getHeight(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        
+        return 1 + Math.max(getHeight(node.left), getHeight(node.right));
+    }
+
+    private boolean isRedBlackTree(Node node) {
+        if (node == null) {
+            return true;
+        }
+        
+        if (node.color == RED) {
+            if (node.left != null && node.left.color == RED) {
+                return false;
+            }
+            
+            if (node.right != null && node.right.color == RED) {
+                return false;
+            }
+        }
+        
+        return isRedBlackTree(node.left) && isRedBlackTree(node.right);
+    }
+
+
+}

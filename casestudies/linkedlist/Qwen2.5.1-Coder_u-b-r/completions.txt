@@ -1,0 +1,45 @@
+
+To write the `repOK` method for the `LinkedList` class, we need to ensure that the representation invariant holds true. The `repOK` method should check the following conditions:
+
+1. The `header` node should be correctly linked to itself.
+2. The `size` of the list should be consistent with the number of elements in the list.
+3. Each node in the list should have its `next` and `previous` pointers correctly set.
+
+Here is the `repOK` method for the `LinkedList` class:
+
+```java
+public boolean repOK() {
+    // Check if the header is correctly linked to itself
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check if the size is consistent with the number of elements
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        count++;
+    }
+    if (count != size) {
+        return false;
+    }
+
+    // Check if each node has its next and previous pointers correctly set
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.previous.next != e || e.next.previous != e) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```
+
+### Explanation:
+
+1. **Header Check**: The `header` node should be correctly linked to itself. This means `header.next` and `header.previous` should both point to `header`.
+
+2. **Size Check**: We iterate through the list starting from `header.next` and count the number of nodes until we reach `header` again. This count should match the `size` attribute of the list.
+
+3. **Node Linking Check**: For each node in the list, we check that its `next` and `previous` pointers correctly point to the next and previous nodes, respectively. This ensures that the list is properly linked.
+
+By implementing the `repOK` method in this way, we can verify that the representation invariant holds true for the `LinkedList` class.

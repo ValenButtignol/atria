@@ -1,0 +1,359 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. The repOK method should check if the object's state is valid. Let me think about what properties an AVL tree must satisfy.
+
+First, an AVL tree is a self-balancing binary search tree. Each node must have a height, and the difference in heights between the left and right subtrees can't exceed 1. So, for every node, the height of the left and right children must differ by at most 1.
+
+Also, the tree must follow the binary search tree property. For every node, all nodes in the left subtree have elements less than the current node, and all nodes in the right subtree have elements greater than the current node.
+
+I should check these two conditions in the repOK method. Let me outline the steps:
+
+1. **Check if the tree is empty**: If root is null, it's valid. So, if size is 0, root should be null.
+
+2. **Check the BST property**: Traverse the tree and ensure that for each node, its value is greater than all left descendants and less than all right descendants.
+
+3. **Check the AVL balance condition**: For each node, the difference in heights between left and right subtrees must be <= 1.
+
+How do I implement these checks?
+
+For the BST property, I can perform an inorder traversal and ensure the elements are in order. Alternatively, I can check each node's left and right children during a traversal.
+
+For the AVL condition, during the same traversal, I can compute the height of each subtree and check the balance.
+
+I'll need a helper method to compute the height of a node. The height is the maximum height of its children plus one. If a node is null, its height is -1.
+
+Wait, in the given code, the AvlNode class has a height field. But I should verify that this height is correctly maintained. So, in repOK, I should calculate the height on the fly to ensure it's accurate, rather than relying on the stored value. Because if the tree is modified incorrectly, the height might not be updated properly.
+
+Hmm, that's a good point. So, perhaps I should compute the height dynamically for each node to ensure it's correct.
+
+Alternatively, I can check both the stored height and the actual height. But that might complicate things. Maybe it's better to compute the height from the children each time.
+
+So, I'll write a helper method to compute the height of a node, which recursively calculates the height of the left and right subtrees and returns the maximum plus one.
+
+Now, for the BST property: For each node, all left descendants must be less than it, and all right descendants must be greater. So, during traversal, I can keep track of the minimum and maximum allowed values for each subtree.
+
+Wait, that's a standard approach. For example, when visiting a node, the node's value must be greater than the lower bound and less than the upper bound. Then, for the left subtree, the upper bound becomes the node's value, and for the right subtree, the lower bound becomes the node's value.
+
+So, I'll implement a helper method that checks the BST property with these bounds.
+
+Putting it all together, the repOK method will:
+
+- Check if the tree is empty correctly (root is null and size is 0).
+- Traverse each node to check BST property with appropriate min and max.
+- For each node, compute the height of left and right subtrees, check their difference is <= 1.
+- Ensure that the computed height matches the node's stored height (if necessary).
+
+Wait, but in the given code, the AvlNode has a height field. Should I check that the stored height is correct? Because if the tree is modified without proper balancing, the height might be incorrect. So, perhaps in repOK, I should compute the height and compare it with the stored value.
+
+But that might be redundant if the tree is correctly maintained. Alternatively, since repOK is supposed to validate the object's state, it's better to compute the height and ensure that the stored height is accurate.
+
+So, in the helper method, I'll compute the height and compare it with the node's height. If they don't match, return false.
+
+Let me outline the steps in code:
+
+1. If the tree is empty (root is null), check that size is 0.
+
+2. Else, perform a traversal of the tree, checking each node for BST property and AVL balance.
+
+3. For each node:
+   a. Check that its value is within the allowed min and max.
+   b. Compute the height of left and right subtrees.
+   c. Check that the difference is <= 1.
+   d. Check that the node's stored height matches the computed height.
+
+Wait, but computing the height each time might be inefficient, but for the purposes of repOK, it's acceptable since it's a correctness check, not performance.
+
+Alternatively, I can write a helper method to compute the height correctly.
+
+Let me think about the helper methods:
+
+- computeHeight(AvlNode node): returns the height of the subtree rooted at node. If node is null, returns -1.
+
+- checkBST(AvlNode node, int min, int max): returns true if the subtree is a BST with node.value between min and max.
+
+In the repOK method:
+
+- If root is null, check size is 0.
+- Else, check that the root's value is within Integer.MIN_VALUE and Integer.MAX_VALUE (or some appropriate bounds).
+- Then, call checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE).
+- Also, perform a traversal to check AVL balance for each node.
+
+Wait, but how to combine these checks. Maybe during the same traversal, I can perform both BST and AVL checks.
+
+Alternatively, perform two separate traversals: one for BST and one for AVL. But that might be less efficient, but for correctness, it's acceptable.
+
+Alternatively, perform a single traversal that does both checks.
+
+Let me think about the code structure.
+
+In the repOK method:
+
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check BST property
+    if (!checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+        return false;
+    }
+
+    // Check AVL balance
+    if (!checkAVL(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+Then, implement checkBST and checkAVL as helper methods.
+
+Wait, but in the given code, the AvlTree class has a root field, and each AvlNode has left and right pointers. So, the traversal can be done recursively.
+
+Now, implementing checkBST:
+
+private boolean checkBST(AvlNode node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.element <= min || node.element >= max) {
+        return false;
+    }
+
+    return checkBST(node.left, min, node.element) &&
+           checkBST(node.right, node.element, max);
+}
+
+Wait, but in Java, integers can be as low as Integer.MIN_VALUE, which is -2^31. So, for the leftmost node, min is Integer.MIN_VALUE, and max is the root's value. Similarly, for the right, min is root's value, and max is Integer.MAX_VALUE.
+
+But wait, in the initial call, min is Integer.MIN_VALUE and max is Integer.MAX_VALUE.
+
+Wait, no. The initial call should be checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE).
+
+But in the helper method, for each node, the left subtree must be less than the node's value, and the right subtree must be greater.
+
+So, the condition should be:
+
+if (node.element <= min || node.element >= max) {
+    return false;
+}
+
+Because node.element must be greater than min and less than max.
+
+Wait, no. Because for the left subtree, the max is node.element, and for the right, the min is node.element.
+
+So, the condition is correct.
+
+Now, for the AVL check:
+
+private boolean checkAVL(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = computeHeight(node.left);
+    int rightHeight = computeHeight(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+    }
+
+    return checkAVL(node.left) && checkAVL(node.right);
+}
+
+private int computeHeight(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+    return Math.max(computeHeight(node.left), computeHeight(node.right)) + 1;
+}
+
+Wait, but in the given code, each node has a height field. Should I check that the computed height matches the stored height?
+
+Yes, because if the height is not correctly maintained, the tree might not be balanced as expected.
+
+So, in checkAVL, after computing the height, I should also check that it matches the node's height.
+
+So, modifying checkAVL:
+
+private boolean checkAVL(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int computedHeight = computeHeight(node);
+    if (computedHeight != node.height) {
+        return false;
+    }
+
+    int leftHeight = computeHeight(node.left);
+    int rightHeight = computeHeight(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+    }
+
+    return checkAVL(node.left) && checkAVL(node.right);
+}
+
+Wait, but computeHeight is called twice for each child. Maybe it's better to compute it once.
+
+Alternatively, compute the height once and then check.
+
+Wait, perhaps it's better to compute the height correctly and then check the balance.
+
+But in any case, the helper methods should ensure that the tree is a valid AVL tree.
+
+Putting it all together, the repOK method will perform these checks.
+
+Wait, but what about the size? The size field in AvlTree should match the actual number of nodes in the tree. So, another check is needed: the size should be equal to the number of nodes in the tree.
+
+So, in repOK, after checking BST and AVL properties, I should also verify that the size is correct.
+
+How to compute the number of nodes:
+
+private int countNodes(AvlNode node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+Then, in repOK:
+
+if (root != null) {
+    int actualSize = countNodes(root);
+    if (actualSize != size) {
+        return false;
+    }
+}
+
+So, adding this check.
+
+Now, the complete repOK method would:
+
+- Check if root is null, then size must be 0.
+- Else, check BST property.
+- Check AVL balance and height correctness.
+- Check that the size matches the actual number of nodes.
+
+This should cover all necessary invariants.
+
+But wait, in the given code, the AvlTree class has a root field, and each node has left and right pointers. So, the traversal is manageable.
+
+Now, putting all this into code.
+
+But wait, in the given code, the AvlTree class is in a package, and the repOK method is to be added. So, the helper methods can be private.
+
+So, the repOK method will have these steps:
+
+1. If root is null, check size is 0.
+
+2. Else, check BST property.
+
+3. Check AVL balance and height for each node.
+
+4. Check that the size matches the actual node count.
+
+Now, implementing this.
+
+But wait, the helper methods for countNodes and computeHeight will be called recursively, which could be a problem for very large trees, but for the purposes of repOK, it's acceptable.
+
+Alternatively, to optimize, but correctness is the priority.
+
+So, the final repOK method will include all these checks.
+</think>
+
+To write a representation invariant for the `AvlTree` class, we need to ensure that the object's state adheres to the properties of a valid AVL tree. An AVL tree is a self-balancing binary search tree where each node maintains a balance factor, and the height difference between the left and right subtrees is at most 1. Additionally, it must satisfy the binary search tree (BST) property.
+
+### Representation Invariant for `AvlTree`:
+
+The `repOK` method will verify the following properties:
+1. **BST Property**: Every node's value is greater than all values in its left subtree and less than all values in its right subtree.
+2. **AVL Balance**: For every node, the difference in heights between its left and right subtrees is at most 1.
+3. **Height Consistency**: The stored height of each node matches the dynamically computed height based on its children.
+4. **Size Consistency**: The size field matches the actual number of nodes in the tree.
+
+Here is the implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check BST property
+    if (!checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+        return false;
+    }
+
+    // Check AVL balance and height consistency
+    if (!checkAVL(root)) {
+        return false;
+    }
+
+    // Check size consistency
+    int actualSize = countNodes(root);
+    if (actualSize != size) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean checkBST(AvlNode node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.element <= min || node.element >= max) {
+        return false;
+    }
+
+    return checkBST(node.left, min, node.element) && checkBST(node.right, node.element, max);
+}
+
+private boolean checkAVL(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = computeHeight(node.left);
+    int rightHeight = computeHeight(node.right);
+
+    // Check balance condition
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+    }
+
+    // Check height consistency
+    int computedHeight = leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
+    if (computedHeight != node.height) {
+        return false;
+    }
+
+    return checkAVL(node.left) && checkAVL(node.right);
+}
+
+private int computeHeight(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+    return Math.max(computeHeight(node.left), computeHeight(node.right)) + 1;
+}
+
+private int countNodes(AvlNode node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+```
+
+### Explanation:
+- **BST Check**: The `checkBST` method recursively verifies that each node's value lies within the allowed range, ensuring the tree adheres to the BST property.
+- **AVL Balance Check**: The `checkAVL` method ensures that each node's left and right subtrees do not differ in height by more than 1 and that the stored height matches the computed height.
+- **Size Check**: The `countNodes` method calculates the actual number of nodes in the tree and compares it with the `size` field to ensure consistency.
+
+This invariant ensures that the `AvlTree` object maintains its properties correctly, providing a robust validation mechanism.

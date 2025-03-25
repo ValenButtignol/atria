@@ -1,0 +1,79 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:148: error: cannot find symbol
+        if (root == null && size != 0) {
+                            ^
+  symbol:   variable size
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:151: error: cannot find symbol
+        if (root == null && size == 0) {
+                            ^
+  symbol:   variable size
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:155: error: cannot find symbol
+        Set<Node> visited = new HashSet<>();
+            ^
+  symbol:   class Node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:156: error: cannot find symbol
+        Node current = root;
+        ^
+  symbol:   class Node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:174: error: cannot find symbol
+        Node current = root;
+        ^
+  symbol:   class Node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:185: error: cannot find symbol
+        return nodeCount == size;
+                            ^
+  symbol:   variable size
+  location: class AvlTree
+6 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:148: error: cannot find symbol
+          if (root == null && size != 0) {
+                              ^
+    symbol:   variable size
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:151: error: cannot find symbol
+          if (root == null && size == 0) {
+                              ^
+    symbol:   variable size
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:155: error: cannot find symbol
+          Set<Node> visited = new HashSet<>();
+              ^
+    symbol:   class Node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:156: error: cannot find symbol
+          Node current = root;
+          ^
+    symbol:   class Node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:174: error: cannot find symbol
+          Node current = root;
+          ^
+    symbol:   class Node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:185: error: cannot find symbol
+          return nodeCount == size;
+                              ^
+    symbol:   variable size
+    location: class AvlTree
+  6 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 370ms
+1 actionable task: 1 executed

@@ -1,0 +1,419 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. The invariant should be a method called repOK that checks the internal consistency of the tree structure. Let me think about what properties a correct red-black tree must satisfy.
+
+First, I remember that a red-black tree has several invariants. Each node is either red or black. The root must be black. Every left child of a red node must be black. The tree must be balanced in terms of the number of black nodes on any path from root to leaf.
+
+So, for the repOK method, I should check these conditions.
+
+Let me list the checks I need to perform:
+
+1. The root must be black. If the root is null, that's okay because the tree is empty. Otherwise, root.color should be BLACK.
+
+2. Every node must have a parent, except the root. So, for every node except root, parent should not be null.
+
+3. For every red node, its left and right children must be black. Wait, no, the rule is that a red node cannot have a red child. So, if a node is red, both its left and right children must be black. But wait, actually, the rule is that every left child of a red node must be black. Or is it that any child of a red node must be black? I think it's the latter. So, if a node is red, both left and right children must be black.
+
+4. The tree must be balanced in terms of black nodes. Every path from root to a leaf must have the same number of black nodes. So, I need to check that all root-to-leaf paths have the same count of black nodes.
+
+5. The size variable must match the actual number of nodes in the tree. So, I can traverse the tree and count the nodes, then compare with size.
+
+6. All nodes must be part of the tree, meaning they should be reachable from the root. So, no nodes should be detached.
+
+Let me think about how to implement each check.
+
+For the root check: if root is not null, then root.color must be BLACK.
+
+For parent check: for every node except root, parent != null.
+
+For red nodes: for any node, if its color is RED, then both left and right children must be BLACK. Also, if a node is null, we don't need to check anything.
+
+For the balance check: I need to compute the number of black nodes on each path from root to leaf and ensure they are all equal. How can I do this? Maybe perform a traversal and track the count of black nodes. If any path has a different count, return false.
+
+For size check: traverse the tree and count the nodes, then compare with size.
+
+Now, how to implement these in code.
+
+First, the root check:
+
+if (root != null && root.color != BLACK) return false;
+
+Then, for each node, check parent:
+
+private boolean checkParents(Node node) {
+    if (node == root) return true;
+    return node.parent != null;
+}
+
+But I need to traverse all nodes to check this.
+
+Wait, but in the repOK method, I can't traverse all nodes because it's a performance issue. But for the sake of the invariant, it's acceptable.
+
+Alternatively, I can write helper methods.
+
+Let me outline the steps:
+
+1. Check root is black or null.
+
+2. Check all nodes except root have non-null parents.
+
+3. For every red node, check that its children are black.
+
+4. Check that all root-to-leaf paths have the same number of black nodes.
+
+5. Check that the size is correct.
+
+6. Ensure that all nodes are reachable from the root.
+
+Wait, point 6 is redundant because if the tree is built correctly, all nodes should be reachable. But perhaps it's better to include it.
+
+Let me think about how to implement each step.
+
+Implementing step 1:
+
+if (root != null && root.color != BLACK) {
+    return false;
+}
+
+Step 2: For every node, except root, parent is not null.
+
+We can traverse the tree and for each node, check if it's not root and parent is null.
+
+But how to traverse? Maybe perform a BFS or DFS.
+
+Step 3: For every node, if it's red, check that left and right children are black.
+
+So, for each node, if color is RED, then left != null implies left.color is BLACK, and right != null implies right.color is BLACK.
+
+Wait, but a red node can have null children, which is allowed because the tree is a BST and the structure is maintained.
+
+So, for any node with color RED, if left exists, it must be BLACK. Same for right.
+
+Step 4: All paths from root to leaf have the same number of black nodes.
+
+This is a bit tricky. How to compute this?
+
+We can perform a traversal and for each path, track the count of black nodes. If any path has a different count, return false.
+
+One way is to compute the minimum and maximum number of black nodes along any path. If they are equal, then all paths have the same count.
+
+Alternatively, perform a traversal and keep track of the count, ensuring it's consistent.
+
+Step 5: Size must be correct.
+
+We can write a helper method to count the number of nodes in the tree and compare it with the size variable.
+
+Step 6: All nodes are reachable from root. This is essentially ensuring that the tree is a single connected component, which should be true if the tree is built correctly. But perhaps it's better to include it.
+
+Now, putting this together.
+
+Let me outline the repOK method:
+
+public boolean repOK() {
+    // Check root is black or null
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    // Check all nodes except root have non-null parents
+    if (!checkParents(root)) {
+        return false;
+    }
+
+    // Check for every red node, children are black
+    if (!checkRedNodes(root)) {
+        return false;
+    }
+
+    // Check balance: all paths have same number of black nodes
+    if (!checkBalance(root, 0)) {
+        return false;
+    }
+
+    // Check size is correct
+    if (size != countNodes(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+Now, implement helper methods.
+
+First, checkParents:
+
+private boolean checkParents(Node node) {
+    if (node == null) return true;
+    if (node == root) return true;
+    if (node.parent == null) return false;
+    return checkParents(node.left) && checkParents(node.right);
+}
+
+Wait, but this is a recursive approach. It might cause stack overflow for large trees, but for the purpose of an invariant, it's acceptable.
+
+Alternatively, an iterative approach could be used, but recursion is easier to write.
+
+Next, checkRedNodes:
+
+private boolean checkRedNodes(Node node) {
+    if (node == null) return true;
+    if (node.color == RED) {
+        if (node.left != null && node.left.color != BLACK) {
+            return false;
+        }
+        if (node.right != null && node.right.color != BLACK) {
+            return false;
+        }
+    }
+    return checkRedNodes(node.left) && checkRedNodes(node.right);
+}
+
+Then, checkBalance:
+
+We need to compute the number of black nodes on each path and ensure they are all equal.
+
+One approach is to compute the count for each path and track the minimum and maximum. If min == max, then all are same.
+
+Alternatively, perform a traversal and for each node, track the current count, and ensure it's consistent.
+
+Let me think of a helper method that returns the number of black nodes on the path from root to this node.
+
+Wait, but for the balance condition, all leaves must have the same count.
+
+So, perhaps during traversal, for each leaf, compute the count and check if it's the same as the initial count.
+
+Wait, but the root's count is 1 if it's black, 0 if it's red. Wait, no, the root is always black, so the count starts at 1.
+
+Wait, no. The root is black, so the count is 1. Each step down the tree, if a node is black, the count increases by 1. If it's red, the count doesn't change.
+
+Wait, no. The balance condition is about the number of black nodes along any path. So, for each path from root to leaf, the number of black nodes must be the same.
+
+So, the helper function can compute the count for a given node, and for leaves, we check if all counts are equal.
+
+So, in the checkBalance method, we can compute the expected count for the root path, then for each leaf, check if its count matches.
+
+Wait, but the root's count is 1 (since it's black). Then, for each leaf, the count should be the same.
+
+So, the approach is:
+
+- Compute the count for the root path (which is 1).
+- Traverse the tree, for each leaf, compute its count.
+- If any leaf's count is different from the root's count, return false.
+
+But how to compute the count for a node.
+
+We can write a helper method that, given a node, returns the number of black nodes on the path from root to this node.
+
+private int countBlackNodes(Node node) {
+    if (node == null) return 0;
+    int count = countBlackNodes(node.parent);
+    if (node.color == BLACK) {
+        count++;
+    }
+    return count;
+}
+
+Wait, but for the root, node.parent is null. So, countBlackNodes(root) would return 0 + (root.color == BLACK ? 1 : 0). Which is correct.
+
+So, for the root, it's 1.
+
+Then, for each leaf, countBlackNodes(leaf) should be equal to the root's count.
+
+So, in checkBalance:
+
+private boolean checkBalance(Node node) {
+    if (node == null) return true;
+    if (node.left == null && node.right == null) { // leaf node
+        int expected = countBlackNodes(root);
+        int actual = countBlackNodes(node);
+        if (actual != expected) {
+            return false;
+        }
+    } else {
+        return checkBalance(node.left) && checkBalance(node.right);
+    }
+    return true;
+}
+
+Wait, but this approach might not work because the helper function is called recursively, and for each leaf, it's checked. But I'm not sure if this correctly captures all leaves.
+
+Alternatively, perhaps a better approach is to collect all the counts for leaves and ensure they are all equal.
+
+But that might be more efficient.
+
+Alternatively, during traversal, keep track of the expected count and compare each leaf's count.
+
+But perhaps the initial approach is sufficient.
+
+Now, the size check:
+
+We can write a helper method to count the number of nodes.
+
+private int countNodes(Node node) {
+    if (node == null) return 0;
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+Then, in repOK, compare size with countNodes(root).
+
+Putting it all together.
+
+Wait, but what about the case when the tree is empty? Then, root is null, and all checks should pass.
+
+Now, let me think about possible issues.
+
+For example, in the checkParents method, if the tree is empty, root is null, and the method returns true, which is correct.
+
+In checkRedNodes, if the tree is empty, it returns true.
+
+In checkBalance, if the tree is empty, it returns true.
+
+In size check, if the tree is empty, size is 0 and countNodes returns 0, so it's correct.
+
+Another test case: a single node. Root is black, parent check passes, red nodes check passes (since root is black), balance check passes (only one path, count is 1), size is 1.
+
+Another test case: a tree where a red node has a red child. The repOK should catch this.
+
+Another case: a tree where the root is red. repOK should catch this.
+
+Another case: a tree where a path has a different number of black nodes. For example, one path has 2 blacks, another has 3. repOK should catch this.
+
+Now, let me think about the helper methods.
+
+Wait, in the checkBalance method, I'm using countBlackNodes, which for a leaf node, returns the number of black nodes along the path from root to that leaf. So, for all leaves, this count must be equal.
+
+Thus, in checkBalance, for each leaf, we compare its count with the root's count.
+
+Wait, but the root's count is 1, and for each leaf, the count should be the same.
+
+Yes.
+
+Now, putting all together.
+
+So, the repOK method will perform all these checks.
+
+But wait, in the helper methods, I need to make sure they are private and static if necessary.
+
+Wait, in the TreeMap class, the Node is an inner class, so the helper methods can access it.
+
+Now, let me write the code.
+
+First, the repOK method:
+
+public boolean repOK() {
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    if (!checkParents(root)) {
+        return false;
+    }
+
+    if (!checkRedNodes(root)) {
+        return false;
+    }
+
+    if (!checkBalance(root)) {
+        return false;
+    }
+
+    if (size != countNodes(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+Then, the helper methods:
+
+private boolean checkParents(Node node) {
+    if (node == null) return true;
+    if (node == root) return true;
+    if (node.parent == null) return false;
+    return checkParents(node.left) && checkParents(node.right);
+}
+
+private boolean checkRedNodes(Node node) {
+    if (node == null) return true;
+    if (node.color == RED) {
+        if (node.left != null && node.left.color != BLACK) {
+            return false;
+        }
+        if (node.right != null && node.right.color != BLACK) {
+            return false;
+        }
+    }
+    return checkRedNodes(node.left) && checkRedNodes(node.right);
+}
+
+private boolean checkBalance(Node node) {
+    if (node == null) return true;
+    if (node.left == null && node.right == null) { // leaf node
+        int expected = countBlackNodes(root);
+        int actual = countBlackNodes(node);
+        if (actual != expected) {
+            return false;
+        }
+    } else {
+        return checkBalance(node.left) && checkBalance(node.right);
+    }
+    return true;
+}
+
+private int countBlackNodes(Node node) {
+    if (node == null) return 0;
+    int count = countBlackNodes(node.parent);
+    if (node.color == BLACK) {
+        count++;
+    }
+    return count;
+}
+
+private int countNodes(Node node) {
+    if (node == null) return 0;
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+Wait, but in the checkBalance method, when node is a leaf, it checks if the count is equal to the root's count. But what if the tree has multiple leaves with different counts? The current approach only checks each leaf against the root's count, but if the root's count is correct, and each leaf's count matches, then all paths have the same count.
+
+Yes, because the root's count is the same for all paths, and each leaf's count is checked against it.
+
+Wait, no. The root's count is 1 (since it's black). Each path from root to leaf must have the same number of black nodes. So, for each leaf, its count must be equal to the root's count.
+
+Wait, no. The root's count is 1, but the count for each leaf is the number of black nodes along its path. So, all leaves must have the same count as each other, which is the same as the root's count.
+
+Wait, no. The root's count is 1, but the count for a leaf is the number of black nodes along its path, which could be more than 1.
+
+Wait, no. The root is black, so the count starts at 1. Each step down, if a node is black, the count increases by 1. So, the count for a leaf is the number of black nodes along the path from root to that leaf.
+
+The balance condition requires that all such counts are equal.
+
+So, in the checkBalance method, for each leaf, the count must be equal to the root's count. Wait, no. The root's count is 1, but the leaves' counts could be higher.
+
+Wait, no. The root's count is 1. Each path from root to leaf must have the same number of black nodes. So, all leaves must have the same count, which is the same as the root's count plus the number of black nodes along the path.
+
+Wait, no. The root's count is 1. Each path from root to leaf must have the same number of black nodes. So, for example, if the tree has two levels, the root is black, and each child is black, then each leaf's count is 2. So, the root's count is 1, but the leaves' counts are 2.
+
+Wait, but in that case, the checkBalance method as written would compare each leaf's count to the root's count (1), which would fail.
+
+So, my approach is incorrect.
+
+Ah, I see the mistake. The checkBalance method is comparing each leaf's count to the root's count, which is not correct. Instead, all leaves must have the same count among themselves, which may be higher than the root's count.
+
+So, the correct approach is to compute the count for the first leaf, and then ensure all other leaves have the same count.
+
+Alternatively, compute the count for the root's path, which is 1, and then for each leaf, compute its count and ensure it's equal to the root's count plus the number of black nodes along the path.
+
+Wait, no. The root's count is 1. Each path from root to leaf must have the same number of black nodes. So, all leaves must have the same count, which is the same as the root's count plus the number of black nodes along the path.
+
+Wait, no. The root's count is 1. Each path from root to leaf must have the same number of black nodes. So, for example, if the tree is a chain of black nodes, each leaf's count would be equal to the depth plus 1.
+
+Wait, no. Let me think differently.
+
+The balance condition is that all root-to-leaf paths have the same number of black nodes. So, for any two leaves, their counts must be equal.
+
+Thus, in the checkBalance method, I need to ensure that all leaves have the same count.
+
+So, how to implement this.
+
+One approach is to collect all the counts of the leaves

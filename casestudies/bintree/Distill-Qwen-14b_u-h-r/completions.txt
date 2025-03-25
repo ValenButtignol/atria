@@ -1,0 +1,50 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinTree class. The method should be called repOK and return a boolean. Let me think about what properties the class must maintain.
+
+First, the BinTree has a root node and a size variable. The size represents the number of nodes in the tree. So, one invariant is that the size must be equal to the actual number of nodes in the tree. How can I check that? Maybe by traversing the tree and counting the nodes, then comparing it to the size variable.
+
+Next, each node in the tree should follow the binary search tree (BST) property. That means for every node, all the left descendants are less than the node's value, and all the right descendants are greater. I need to ensure that each node's left and right children satisfy this condition.
+
+Also, the root should be null if the size is zero, and non-null otherwise. That's a simple check.
+
+So, the repOK method should perform these checks:
+
+1. Check if root is null when size is zero, and non-null when size is positive.
+2. Verify that the size variable matches the actual node count.
+3. Ensure that each node adheres to the BST property.
+
+I'll need helper methods. One to count the nodes, another to check the BST property. The countNodes method can recursively count all nodes starting from the root. The checkBST method will recursively verify that each node's left child is smaller and right child is larger.
+
+Putting it all together, the repOK method will return true only if all these conditions are met. Otherwise, it returns false.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+    int actualSize = countNodes(root);
+    if (actualSize != size) {
+        return false;
+    }
+    return checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean checkBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info <= min || node.info > max) {
+        return false;
+    }
+    return checkBST(node.left, min, node.info) && checkBST(node.right, node.info, max);
+}
+```

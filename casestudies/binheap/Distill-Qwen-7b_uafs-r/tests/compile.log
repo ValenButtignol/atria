@@ -1,0 +1,88 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:270: error: for-each not applicable to expression type
+        for (BinomialHeapNode node : Nodes) {
+                                     ^
+  required: array or java.lang.Iterable
+  found:    BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:271: error: cannot find symbol
+            if (!node.isMinHeap()) {
+                     ^
+  symbol:   method isMinHeap()
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:277: error: for-each not applicable to expression type
+        for (BinomialHeapNode node : Nodes) {
+                                     ^
+  required: array or java.lang.Iterable
+  found:    BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+        if (!Nodes.isEmpty() && size == 0) {
+                  ^
+  symbol:   method isEmpty()
+  location: variable Nodes of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:293: error: cannot find symbol
+        if (!Nodes.isEmpty()) {
+                  ^
+  symbol:   method isEmpty()
+  location: variable Nodes of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:294: error: cannot find symbol
+            BinomialHeapNode root = Nodes.first();
+                                         ^
+  symbol:   method first()
+  location: variable Nodes of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:295: error: for-each not applicable to expression type
+            for (BinomialHeapNode node : Nodes) {
+                                         ^
+  required: array or java.lang.Iterable
+  found:    BinomialHeapNode
+7 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:270: error: for-each not applicable to expression type
+          for (BinomialHeapNode node : Nodes) {
+                                       ^
+    required: array or java.lang.Iterable
+    found:    BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:277: error: for-each not applicable to expression type
+          for (BinomialHeapNode node : Nodes) {
+                                       ^
+    required: array or java.lang.Iterable
+    found:    BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:295: error: for-each not applicable to expression type
+              for (BinomialHeapNode node : Nodes) {
+                                           ^
+    required: array or java.lang.Iterable
+    found:    BinomialHeapNode/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:271: error: cannot find symbol
+              if (!node.isMinHeap()) {
+                       ^
+    symbol:   method isMinHeap()
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+          if (!Nodes.isEmpty() && size == 0) {
+                    ^
+    symbol:   method isEmpty()
+    location: variable Nodes of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:293: error: cannot find symbol
+          if (!Nodes.isEmpty()) {
+                    ^
+    symbol:   method isEmpty()
+    location: variable Nodes of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:294: error: cannot find symbol
+              BinomialHeapNode root = Nodes.first();
+                                           ^
+    symbol:   method first()
+    location: variable Nodes of type BinomialHeapNode
+  7 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 406ms
+1 actionable task: 1 executed

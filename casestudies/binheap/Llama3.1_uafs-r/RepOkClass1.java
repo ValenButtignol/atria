@@ -1,0 +1,58 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (Nodes == null) {
+            return size == 0;
+        }
+    
+        if (!isAcyclic()) {
+            return false;
+        }
+    
+        if (!isHeapProperty()) {
+            return false;
+        }
+    
+        if (!isSizeCorrect()) {
+            return false;
+        }
+    
+        return true;
+    }
+
+    private boolean isAcyclic() {
+        Set<BinomialHeapNode> visited = new HashSet<BinomialHeapNode>();
+        return isAcyclicHelper(Nodes, visited);
+    }
+
+    private boolean isAcyclicHelper(BinomialHeapNode node, Set<BinomialHeapNode> visited) {
+        if (node == null) {
+            return true;
+        }
+    
+        if (visited.contains(node)) {
+            return false;
+        }
+    
+        visited.add(node);
+    
+        return isAcyclicHelper(node.sibling, visited) && isAcyclicHelper(node.child, visited);
+    }
+
+    private boolean isHeapProperty() {
+        BinomialHeapNode temp = Nodes;
+        while (temp != null) {
+            if (temp.degree > temp.sibling.degree) {
+                return false;
+            }
+            temp = temp.sibling;
+        }
+    
+        return true;
+    }
+
+    private boolean isSizeCorrect() {
+        return size == Nodes.size();
+    }
+
+
+}

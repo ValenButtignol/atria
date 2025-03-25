@@ -1,0 +1,65 @@
+
+Here's a representation invariant for the `TreeMap` class in Java:
+
+```java
+private boolean repOK() {
+    // Check if the root is null
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check if the root is black
+    if (root.color == RED) {
+        return false;
+    }
+
+    // Check if all nodes are properly linked
+    checkLinks(root);
+
+    // Check if all nodes have a valid color
+    checkColors(root);
+
+    // Check if the size is correct
+    return size == countNodes(root);
+
+}
+
+private void checkLinks(Node node) {
+    if (node == null) return;
+    checkLinks(node.left);
+    checkLinks(node.right);
+    if (node.left != null && node.left.parent != node) {
+        throw new AssertionError("Invalid link");
+    }
+    if (node.right != null && node.right.parent != node) {
+        throw new AssertionError("Invalid link");
+    }
+    if (node.parent != null && (node.parent.left != node || node.parent.right != node)) {
+        throw new AssertionError("Invalid link");
+    }
+}
+
+private void checkColors(Node node) {
+    if (node == null) return;
+    checkColors(node.left);
+    checkColors(node.right);
+    if (node.color == RED && (node.left != null && node.left.color == RED || node.right != null && node.right.color == RED)) {
+        throw new AssertionError("Invalid color");
+    }
+}
+
+private int countNodes(Node node) {
+    if (node == null) return 0;
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+```
+
+This `repOK` method checks the following properties:
+
+1.  If the root is `null`, the size should be 0.
+2.  The root node should be black.
+3.  All nodes are properly linked (i.e., each node's left and right children are its actual children, and each node's parent is its actual parent).
+4.  All nodes have a valid color (i.e., a node is red if and only if it has at least one red child).
+5.  The size is correct (i.e., it matches the number of nodes in the tree).
+
+These properties ensure that the `TreeMap` class maintains a valid red-black tree structure, which is essential for its correctness and efficiency.

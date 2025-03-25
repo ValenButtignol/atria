@@ -1,0 +1,79 @@
+
+```java
+public boolean repOK() {
+    if (size < 0)
+        return false;
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.hash == Integer.MIN_VALUE)
+                return false;
+            e = e.next;
+        }
+    }
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            Entry next = e.next;
+            if (e.hash == hash(e.key) && !eq(e.key, next == null ? null : next.key))
+                return false;
+            e = next;
+        }
+    }
+
+    return true;
+}
+```
+Note: The above representation invariant checks for the following properties:
+
+1. The size of the map is non-negative.
+2. There are no collisions with the hash value of Integer.MIN_VALUE.
+3. Each entry in the map has a unique key.
+
+However, this is not an exhaustive list of properties that a HashMap should satisfy. A more comprehensive representation invariant would also check for properties such as:
+
+* The load factor is within the valid range.
+* The threshold is correctly calculated based on the load factor and table size.
+* The table size is a power of 2.
+* The modCount is correctly incremented when entries are added or removed.
+
+A more complete representation invariant would be:
+
+```java
+public boolean repOK() {
+    if (size < 0)
+        return false;
+
+    if (loadFactor <= 0 || Float.isNaN(loadFactor))
+        return false;
+
+    if (threshold < 0 || threshold > Integer.MAX_VALUE)
+        return false;
+
+    if (table.length != 1 << (31 - Integer.numberOfLeadingZeros(table.length)))
+        return false;
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.hash == Integer.MIN_VALUE)
+                return false;
+            e = e.next;
+        }
+    }
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            Entry next = e.next;
+            if (e.hash == hash(e.key) && !eq(e.key, next == null ? null : next.key))
+                return false;
+            e = next;
+        }
+    }
+
+    return true;
+}
+```

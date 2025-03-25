@@ -1,0 +1,241 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class in Java. Representation invariants are crucial because they define the conditions that must hold true for the object to be in a valid state. This helps ensure that the object behaves correctly and predictably, especially when modified by methods like put, get, remove, etc.
+
+First, I'll look at the structure of the HashMap class provided. It has a table array of Entry objects, a size variable, a modCount volatile integer, a loadFactor, and a threshold. The constructor initializes these variables, and there are methods like put, get, remove, clear, resize, and transfer that manipulate the state of the HashMap.
+
+I'll start by identifying the key components that should be invariant. The table should only contain Entry objects, and all entries should have valid keys and values. The size should accurately reflect the number of entries, and modCount should be a consistent counter that increments on modifications.
+
+Looking at the Entry class, it has a key, value, hash, and next. The key and value can be null, but the hash is computed based on the key. So, in the table, each Entry must have a valid key and value, or be null.
+
+Next, I'll consider the size and modCount. The size should be the number of non-null entries in the table. modCount should be at least as large as the size, as each entry is modified at least once. Also, modCount should be consistent across threads since it's volatile.
+
+The loadFactor and threshold are related to the resizing of the table. The threshold is the maximum number of entries allowed before resizing. The table's capacity is determined by the loadFactor, which is a fraction indicating how full the table should be before resizing.
+
+I'll also think about the invariant that the table's entries are correctly linked. Each Entry's next pointer should point to the next Entry in the same bucket, and the previous Entry's next should update correctly during operations like remove.
+
+Putting it all together, the representation invariant should ensure that:
+
+1. The table contains only valid Entry objects or nulls.
+2. The size accurately reflects the number of non-null entries.
+3. modCount is consistent and at least as large as the size.
+4. The loadFactor and threshold are correctly calculated based on the current capacity.
+5. The entries are correctly linked in the table.
+
+I'll structure the repOK method to check these conditions. It should return false if any of these invariants are violated, ensuring the object remains in a valid state.
+</think>
+
+```java
+public class HashMap {
+
+    static final int DEFAULT_INITIAL_CAPACITY = 16;
+    static final int MAXIMUM_CAPACITY = 1 << 30;
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+
+    public Entry[] table;
+    int size;
+    int threshold;
+    final float loadFactor;
+    public volatile int modCount;
+
+    public HashMap(int initialCapacity, float loadFactor) {
+        // ... constructor code ...
+    }
+
+    public HashMap(int initialCapacity) {
+        this(initialCapacity, DEFAULT_LOAD_FACTOR);
+    }
+
+    public HashMap() {
+        this.loadFactor = DEFAULT_LOAD_FACTOR;
+        threshold = (int) (DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);
+        table = new Entry[DEFAULT_INITIAL_CAPACITY];
+        init();
+    }
+
+    void init() {
+    }
+
+    static final Object NULL_KEY = new Object();
+
+    static Object maskNull(Object key) {
+        return (key == null ? NULL_KEY : key);
+    }
+
+    static Object unmaskNull(Object key) {
+        return (key == NULL_KEY ? null : key);
+    }
+
+    static int hash(Object x) {
+        int h = x.hashCode();
+
+        h += ~(h << 9);
+        h ^= (h >>> 14);
+        h += (h << 4);
+        h ^= (h >>> 10);
+        return h;
+    }
+
+    static boolean eq(Object x, Object y) {
+        return x == y || x.equals(y);
+    }
+
+    static int indexFor(int h, int length) {
+        return h & (length - 1);
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public Object get(Object key) {
+        // ... get method ...
+    }
+
+    public Object put(Object key, Object value) {
+        // ... put method ...
+    }
+
+    void resize(int newCapacity) {
+        Entry[] oldTable = table;
+        int oldCapacity = oldTable.length;
+        if (oldCapacity == MAXIMUM_CAPACITY) {
+            threshold = Integer.MAX_VALUE;
+            return;
+        }
+
+        Entry[] newTable = new Entry[newCapacity];
+        transfer(newTable);
+        table = newTable;
+        threshold = (int) (newCapacity * loadFactor);
+    }
+
+    void transfer(Entry[] newTable) {
+        Entry[] src = table;
+        int newCapacity = newTable.length;
+        for (int j = 0; j < src.length; j++) {
+            Entry e = src[j];
+            if (e != null) {
+                src[j] = null;
+                do {
+                    Entry next = e.next;
+                    int i = indexFor(e.hash, newCapacity);
+                    e.next = newTable[i];
+                    newTable[i] = e;
+                    e = next;
+                } while (e != null);
+            }
+        }
+    }
+
+    public Object remove(Object key) {
+        // ... remove method ...
+    }
+
+    Entry removeEntryForKey(Object key) {
+        // ... removeEntryForKey method ...
+    }
+
+    public void clear() {
+        modCount++;
+        Entry[] tab = table;
+        for (int i = 0; i < tab.length; i++)
+            tab[i] = null;
+        size = 0;
+    }
+
+    void addEntry(int hash, Object key, Object value, int bucketIndex) {
+        table[bucketIndex] = new Entry(hash, key, value, table[bucketIndex]);
+        if (size++ >= threshold)
+            resize(2 * table.length);
+    }
+
+    public static class Entry {
+        public final Object key;
+        public Object value;
+        public int hash;
+        Entry next;
+
+        Entry(int h, Object k, Object v, Entry n) {
+            value = v;
+            next = n;
+            key = k;
+            hash = h;
+        }
+
+        public Object getKey() {
+            return unmaskNull(key);
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public Object setValue(Object newValue) {
+            Object oldValue = value;
+            value = newValue;
+            return oldValue;
+        }
+
+        public boolean equals(Object o) {
+            if (!(o instanceof Entry))
+                return false;
+            Entry e = (Entry) o;
+            Object k1 = getKey();
+            Object k2 = e.getKey();
+            if (k1 == k2 || (k1 != null && k1.equals(k2))) {
+                Object v1 = getValue();
+                Object v2 = e.getValue();
+                if (v1 == v2 || (v1 != null && v1.equals(v2)))
+                    return true;
+            }
+            return false;
+        }
+        
+        public int hashCode() {
+            return (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
+        }
+    }
+}
+
+    public class HashMapRepOK {
+        public static boolean repOK() {
+            // Check that the table contains only valid entries or nulls
+            for (Entry e : table) {
+                if (e != null && !(e.key == null ? e.hash == 0 : e.hash != 0)) {
+                    return false;
+                }
+            }
+
+            // Check that size is accurate
+            if (size != table.length || modCount < size) {
+                return false;
+            }
+
+            // Check that modCount is consistent
+            if (modCount < size || modCount != modCount) {
+                return false;
+            }
+
+            // Check that loadFactor and threshold are correctly calculated
+            if (threshold != (int) (table.length * loadFactor) || loadFactor < DEFAULT_LOAD_FACTOR) {
+                return false;
+            }
+
+            // Check that entries are correctly linked
+            for (Entry e : table) {
+                if (e != null) {
+                    if (e.next == null || e.next != table[indexFor(e.hash, table.length)]) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+```

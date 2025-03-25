@@ -1,0 +1,72 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (Nodes == null) {
+            return size == 0;
+        }
+    
+        if (!isAcyclic()) {
+            return false;
+        }
+    
+        if (!isMinHeap()) {
+            return false;
+        }
+    
+        if (!isNoDuplicates()) {
+            return false;
+        }
+    
+        return true;
+    }
+
+    private boolean isAcyclic() {
+        Set<BinomialHeapNode> visited = new HashSet<>();
+        visited.add(Nodes);
+        LinkedList<BinomialHeapNode> workList = new LinkedList<>();
+        workList.add(Nodes);
+        while (!workList.isEmpty()) {
+            BinomialHeapNode current = workList.removeFirst();
+            if (current.getChild() != null) {
+                if (!visited.add(current.getChild())) {
+                    return false;
+                }
+                workList.add(current.getChild());
+            }
+            if (current.getSibling() != null) {
+                if (!visited.add(current.getSibling())) {
+                    return false;
+                }
+                workList.add(current.getSibling());
+            }
+        }
+        return true;
+    }
+
+    private boolean isMinHeap() {
+        BinomialHeapNode current = Nodes;
+        while (current != null) {
+            if (current.getChild() != null) {
+                if (current.getChild().getKey() < current.getKey()) {
+                    return false;
+                }
+            }
+            current = current.getSibling();
+        }
+        return true;
+    }
+
+    private boolean isNoDuplicates() {
+        Set<Integer> seen = new HashSet<>();
+        return isNoDuplicatesHelper(Nodes, seen);
+    }
+
+    private boolean isNoDuplicatesHelper(BinomialHeapNode node, Set<Integer> seen) {
+        if (node == null) return true;
+    
+        if (!seen.add(node.getKey())) return false;
+    
+        return isNoDuplicatesHelper(node.getChild(), seen) && isNoDuplicatesHelper(node.getSibling(), seen);
+    }
+
+
+}

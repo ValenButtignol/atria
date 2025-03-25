@@ -1,0 +1,77 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. The user mentioned that the method should be called repOK, so I'll name it repOK. 
+
+First, I should understand what a representation invariant is. From what I remember, it's a method that returns true if the structure of the data satisfies certain properties, which are crucial for the class's behavior. This helps in maintaining invariants during operations.
+
+Looking at the AvlTree class, it's a balanced binary search tree using the Avl algorithm. The key properties here are balance and structure preservation. So, the invariant should check if the tree is balanced according to the allowed imbalance, and also ensure that the structure is correct after each operation.
+
+The class has methods for insertion and deletion, which balance the tree. The balance method (private) seems to handle rotations and doublings to maintain the balance. The allowed imbalance is set to 1, meaning the height difference between left and right subtrees can't exceed 1.
+
+So, for repOK, I need to verify two things:
+1. The tree is balanced, meaning the height difference between left and right subtrees doesn't exceed ALLOWED_IMBALANCE.
+2. The structure is correct, meaning each node's left and right children are either null or AvlNodes, and the heights are correctly set.
+
+I'll start by checking if the root is null, which would mean the tree is empty. Then, for each node, I'll check if the left and right children are either null or AvlNodes. 
+
+Next, I'll compute the heights of the left and right subtrees. For the root, I'll get the heights of left and right. For other nodes, I'll recursively check their left and right children.
+
+If any node has a left child that's not an AvlNode or has a null where an AvlNode should be, the invariant fails. Similarly for the right child.
+
+Then, I'll check the balance condition. For each node, the absolute difference between the heights of left and right should be <= ALLOWED_IMBALANCE. If any node violates this, repOK returns false.
+
+I'll structure the method recursively. The base case is when a node is null, which is allowed. For each non-null node, I'll perform the checks.
+
+I should also consider the root's existence. If the root is null, the tree is empty, which is a valid state.
+
+Putting it all together, the repOK method will traverse each node, check the structure, and ensure the balance condition is met. This ensures that after any operation, the tree's structure and balance are preserved.
+</think>
+
+To define a representation invariant for the `AvlTree` class, we need to ensure that the tree remains balanced according to the allowed imbalance and that the structure of the tree is preserved. The invariant will be implemented as a method called `repOK`.
+
+### Approach
+The `repOK` method will verify two key properties of the `AvlTree`:
+1. **Balance Property**: The height difference between the left and right subtrees of any node does not exceed the allowed imbalance (`ALLOWED_IMBALANCE`).
+2. **Structure Property**: Each node correctly references either `null` or another `AvlNode` as its left and right children, and the height of each node is correctly maintained.
+
+The method will recursively check each node in the tree to ensure these properties are satisfied. If any violation is found, the method returns `false`, indicating that the tree's representation is not valid.
+
+### Solution Code
+```java
+public boolean repOK() {
+    return repOK(root);
+}
+
+private boolean repOK(AvlNode t) {
+    if (t == null) {
+        return true;
+    }
+
+    // Check if left and right children are either null or AvlNodes
+    if (t.left != null && !(t.left instanceof AvlNode)) {
+        return false;
+    }
+    if (t.right != null && !(t.right instanceof AvlNode)) {
+        return false;
+    }
+
+    // Check if the tree is balanced
+    int leftHeight = height(t.left);
+    int rightHeight = height(t.right);
+    int imbalance = Math.abs(leftHeight - rightHeight);
+    if (imbalance > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    // Recursively check the balance and structure of left and right subtrees
+    return repOK(t.left) && repOK(t.right);
+}
+```
+
+### Explanation
+1. **Base Case**: If a node is `null`, the method returns `true` since an empty subtree is valid.
+2. **Structure Check**: For each non-null node, the method checks if the left and right children are either `null` or instances of `AvlNode`. If either child is not an `AvlNode`, the method returns `false`.
+3. **Balance Check**: The method calculates the heights of the left and right subtrees. If the absolute difference between these heights exceeds `ALLOWED_IMBALANCE`, the method returns `false`.
+4. **Recursive Check**: The method recursively checks the left and right subtrees to ensure they also satisfy the balance and structure properties.
+
+This approach ensures that the `AvlTree` maintains its structural and balance invariants after each operation, such as insertion or deletion.

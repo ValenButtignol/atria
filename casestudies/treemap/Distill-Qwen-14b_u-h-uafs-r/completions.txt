@@ -1,0 +1,154 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. The repOK method should check the invariants that ensure the object is valid. Let me think about what properties a TreeMap must satisfy.
+
+First, the tree should be a valid binary search tree (BST). That means for every node, all the keys in the left subtree are less than the node's key, and all the keys in the right subtree are greater. Also, the tree should follow the red-black tree properties because TreeMap is typically implemented using a red-black tree.
+
+So, the invariants I need to check are:
+
+1. **BST Property**: For every node, the left subtree contains only keys less than the node's key, and the right subtree contains keys greater than the node's key.
+
+2. **Red-Black Tree Properties**:
+   - Every node is either red or black.
+   - The root is black.
+   - If a node is red, its parent is black.
+   - All paths from the root to a leaf have the same number of black nodes.
+
+3. **Consistency Between Size and Structure**: The size variable should match the actual number of nodes in the tree.
+
+4. **Null Pointers**: Ensure that all nodes' left and right children are either null or valid nodes.
+
+Let me break down each of these.
+
+**BST Property Check**:
+I'll need a helper method to traverse the tree and verify that each node's left and right children satisfy the BST property. Maybe a recursive approach where for each node, I check that all left descendants are smaller and all right descendants are larger.
+
+**Red-Black Tree Check**:
+I need to ensure that every node has the correct color. The root must be black. For any red node, its parent must be black. Also, all paths from root to leaves must have the same number of black nodes.
+
+To check the black height, I can write a helper method that counts the number of black nodes along each path and ensures they are equal.
+
+**Size Consistency**:
+The size variable should equal the actual number of nodes. I can traverse the tree and count the nodes, then compare with the size.
+
+**Null Pointers**:
+Each node's left and right should be either null or point to valid nodes. I'll need to ensure that during traversal, there are no invalid references.
+
+Putting it all together, the repOK method will perform these checks and return true only if all invariants are satisfied.
+
+I should also consider edge cases, like an empty tree (root is null, size is 0), or a single-node tree (root is black, no children).
+
+I think I'll start by checking if the size is non-negative and that the root's color is black if it exists. Then, perform a traversal to check BST and red-black properties.
+
+Wait, but how do I efficiently check the BST property without causing performance issues? Maybe a helper method that recursively checks each node's left and right.
+
+Also, for the red-black tree, I need to ensure that no two red nodes are consecutive in a path from the root. So, for each node, if it's red, its parent must be black.
+
+I should also check that all nodes have the correct parent pointers, but that might be more complex. Maybe it's sufficient to check the color properties and the black height.
+
+Hmm, perhaps the helper methods can be written to check each condition step by step. For example, a method to check if the tree is a BST, another to check the color properties, and another to check the black height.
+
+I need to make sure that all these checks are done without throwing any exceptions, so I'll have to handle null cases properly.
+
+Overall, the repOK method will involve several helper methods to check each invariant, ensuring that the TreeMap is in a consistent state.
+</think>
+
+```java
+public boolean repOK() {
+    // Check that size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check that root is either null or black
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    // Check that all nodes satisfy the BST property
+    if (!isBST(root)) {
+        return false;
+    }
+
+    // Check that all nodes satisfy the red-black tree properties
+    if (!checkRedBlackProperties(root)) {
+        return false;
+    }
+
+    // Check that the size matches the actual number of nodes
+    if (size != countNodes(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper method to check the BST property
+private boolean isBST(Node node) {
+    if (node == null) {
+        return true;
+    }
+    int key = node.key;
+    // Check left subtree
+    if (node.left != null && compare(node.left.key, key) >= 0) {
+        return false;
+    }
+    // Check right subtree
+    if (node.right != null && compare(node.right.key, key) <= 0) {
+        return false;
+    }
+    // Recursively check subtrees
+    return isBST(node.left) && isBST(node.right);
+}
+
+// Helper method to check red-black tree properties
+private boolean checkRedBlackProperties(Node node) {
+    if (node == null) {
+        return true;
+    }
+    // Check if node is either red or black
+    if (node.color != RED && node.color != BLACK) {
+        return false;
+    }
+    // Check parent of red nodes
+    if (node.color == RED) {
+        if (node.parent == null) { // Red node cannot be root
+            return false;
+        }
+        if (node.parent.color != BLACK) { // Parent of red must be black
+            return false;
+        }
+    }
+    // Check black height consistency
+    int leftBlackHeight = getBlackHeight(node.left);
+    int rightBlackHeight = getBlackHeight(node.right);
+    if (leftBlackHeight != rightBlackHeight) {
+        return false;
+    }
+    return checkRedBlackProperties(node.left) && checkRedBlackProperties(node.right);
+}
+
+// Helper method to get the number of black nodes along a path from root to this node
+private int getBlackHeight(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    int count = 0;
+    Node current = node;
+    while (current != null) {
+        if (current.color == BLACK) {
+            count++;
+        }
+        current = current.parent;
+    }
+    return count;
+}
+
+// Helper method to count the number of nodes
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+```

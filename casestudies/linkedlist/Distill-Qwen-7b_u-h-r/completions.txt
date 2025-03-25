@@ -1,0 +1,54 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class in Java. The representation invariant is a boolean method called repOK that returns true if the object is valid and false otherwise. I should only verify properties I'm completely sure are valid.
+
+First, I'll look at the LinkedList class structure. It has a header Entry that's always present, a size variable, and methods like add, remove, clear, etc. The Entry class has element, next, and previous fields.
+
+What properties should I check? Let's think:
+
+1. The size should match the number of entries in the linked list. So, size() should equal the number of non-null elements in the linked list.
+
+2. The linked list should be a cycle. Since the header's next and previous point to itself, adding an element before the header should link it into the cycle.
+
+3. Each Entry's next and previous pointers should form a valid cycle. If next is not null, then previous should also be not null, except for the header which is a special case.
+
+4. The header's next should point to the actual list's first Entry, and the previous should point to the last Entry.
+
+5. The size should be non-negative because it's initialized to 0 and only incremented or decremented by 1.
+
+6. The header should never be null because it's always initialized and never removed.
+
+Let me structure these thoughts into the repOK method.
+
+First, check if size is non-negative. If size is less than 0, return false.
+
+Then, check if the header's next is null. If it is, return false because the linked list should be a cycle.
+
+Next, traverse the linked list starting from header.next. For each Entry, check that both next and previous are not null. If any Entry has a null next or previous, the list is invalid.
+
+Also, ensure that the last Entry's next points back to the header, maintaining the cycle.
+
+Finally, verify that the size matches the number of entries in the linked list. Traverse each Entry and count how many have a non-null element. This count should equal the size.
+
+Putting it all together, the repOK method will perform these checks step by step.
+</think>
+
+```java
+public boolean repOK() {
+    if (size < 0) return false;
+    if (header.next == header) return false;
+    Entry e = header.next;
+    while (e != header) {
+        if (e.next == null || e.previous == null) return false;
+        e = e.next;
+    }
+    e.next = header;
+    int count = 0;
+    Entry current = header.next;
+    while (current != header) {
+        if (current.element != null) count++;
+        current = current.next;
+    }
+    return count == size;
+}
+```

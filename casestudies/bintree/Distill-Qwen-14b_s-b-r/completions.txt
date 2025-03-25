@@ -1,0 +1,173 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinTree class. The invariant should be a method called repOK that checks the internal consistency of the object. Let me think about what the class does and what invariants it must maintain.
+
+First, looking at the BinTree class, it has a root node and a size variable. The add method adds nodes recursively, and each addition increments the size. So the size should always equal the number of nodes in the tree.
+
+The Node class has left and right children and an info field. Each node is responsible for its own children.
+
+So the repOK method should check a few things:
+
+1. The size of the tree must be equal to the number of nodes. If size is not equal to the count of nodes, that's a problem.
+
+2. Each node's left and right children must form a valid binary search tree (BST). That means for every node, all left descendants are less than the node's info, and all right descendants are greater.
+
+3. The root should be consistent. If the root is null, the size should be zero. If the size is zero, the root must be null.
+
+Let me break this down.
+
+First, check if the root is null. If it is, then the size must be zero. Otherwise, if the size is zero but root isn't null, that's a problem.
+
+Next, the size should be equal to the number of nodes. So I'll need a helper method to count the nodes. Maybe a recursive method that traverses the tree and counts each node.
+
+Then, for each node, I need to ensure that the left subtree contains only nodes with info less than the current node's info, and the right subtree contains only nodes with info greater. So another helper method to check the BST property.
+
+Wait, but in the add method, it's supposed to maintain the BST property. So the invariant should enforce that.
+
+Putting it all together, the repOK method will:
+
+- Check if root is null implies size is zero, and vice versa.
+- Check that the size equals the node count.
+- Check that the tree is a valid BST.
+
+So I'll write a helper method countNodes(Node node) that returns the number of nodes in the subtree rooted at node. Then, compare that to the size.
+
+Another helper method isBST(Node node, int min, int max) that checks if the subtree rooted at node satisfies the BST property, with node.info between min and max.
+
+In the repOK method, I'll first check the root and size condition. Then, if the tree isn't empty, I'll call isBST on the root with initial min as negative infinity and max as positive infinity. Also, I'll count the nodes and compare to size.
+
+Wait, but in Java, I can't pass negative infinity as integers. Hmm, maybe use long for min and max, or set initial values to something like Integer.MIN_VALUE and Integer.MAX_VALUE.
+
+Wait, no, because the info is an int, so for the initial call, min can be Integer.MIN_VALUE and max can be Integer.MAX_VALUE.
+
+So the steps in repOK:
+
+1. If root is null, then size must be 0. Else, size must be equal to countNodes(root).
+
+2. If the tree is not empty, then the entire tree must satisfy the BST property.
+
+So the repOK method will perform these checks and return true if all are satisfied, else false.
+
+Now, writing the helper methods.
+
+countNodes is straightforward: if the node is null, return 0. Else, return 1 + countNodes(left) + countNodes(right).
+
+isBST: for a given node, if it's null, it's a valid BST. Else, node.info must be > min and < max. Then recursively check left subtree with max = node.info, and right subtree with min = node.info.
+
+Wait, but in the given code, the add method allows adding the same value as an existing node, but in the addRecursive method, if x equals current.info, it returns without adding. So the tree allows duplicate values, but they are not added as children. So the BST property may not hold if duplicates are allowed in the same node, but not in the children.
+
+Wait, looking at the add method: if x equals current.info, it returns. So duplicates are not added as children. So each node's info is unique, and the BST property holds for the entire tree.
+
+Wait, no. Because if you try to add the same value again, it just returns, so the tree doesn't change. So the tree can have multiple nodes with the same info only if they are added before any existing node with that info. But in the add method, once a node exists with that info, adding it again does nothing. So the tree can have at most one node with a given info.
+
+Wait, no. Because the add method only adds if the current node's info is not equal to x. So if you have a tree where a node has info 5, and you try to add 5 again, it won't add it anywhere. So the tree will have exactly one node for each value.
+
+So the BST property must hold, with all left nodes less than the parent, and right nodes greater.
+
+So the helper method isBST should enforce that.
+
+Putting it all together, the repOK method will:
+
+- Check if root is null iff size is 0.
+
+- If not null, check that size equals countNodes(root).
+
+- Then, check that the tree is a BST.
+
+If all these are true, return true; else, false.
+
+Now, writing the code.
+
+In the BinTree class, add a method:
+
+public boolean repOK() {
+    // Check root and size
+    if (root == null) {
+        return size == 0;
+    } else {
+        int nodeCount = countNodes(root);
+        if (size != nodeCount) {
+            return false;
+        }
+        // Check BST property
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+}
+
+Then, implement countNodes:
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+And isBST:
+
+private boolean isBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info <= min || node.info > max) {
+        return false;
+    }
+    return isBST(node.left, min, node.info) && isBST(node.right, node.info, max);
+}
+
+Wait, but in the BST, the left subtree must be less than node.info, and the right must be greater. So the left's max is node.info, and the right's min is node.info.
+
+Yes, that's correct.
+
+So putting it all together, the repOK method will perform these checks.
+
+I think that's the correct representation invariant.
+</think>
+
+To ensure the `BinTree` class maintains its invariants, we need to verify three key properties in the `repOK` method:
+
+1. **Consistency between root and size**: The tree's root being `null` implies the size is zero, and vice versa.
+2. **Size accuracy**: The size must match the actual number of nodes in the tree.
+3. **Binary Search Tree (BST) property**: The tree must adhere to the BST structure, where each node's left subtree contains only smaller values and the right subtree contains only larger values.
+
+Here's the implementation of the `repOK` method along with the necessary helper methods:
+
+```java
+public boolean repOK() {
+    // Check if root is null, size must be zero and vice versa
+    if (root == null) {
+        return size == 0;
+    } else {
+        // Check that size is equal to the number of nodes
+        int nodeCount = countNodes(root);
+        if (size != nodeCount) {
+            return false;
+        }
+        // Check that the tree is a valid BST
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+}
+
+// Helper method to count the number of nodes in the tree
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+// Helper method to check if the tree is a valid BST
+private boolean isBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    // Check if current node's value is within the allowed range
+    if (node.info <= min || node.info > max) {
+        return false;
+    }
+    // Recursively check left and right subtrees
+    return isBST(node.left, min, node.info) && isBST(node.right, node.info, max);
+}
+```
+
+This implementation ensures that the `BinTree` object maintains its structural integrity by verifying the three key properties.

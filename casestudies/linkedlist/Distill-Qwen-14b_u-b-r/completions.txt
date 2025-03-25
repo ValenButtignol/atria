@@ -1,0 +1,135 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class in Java. The invariant should be a method called repOK that checks the internal consistency of the data structure. 
+
+First, I'll look at the LinkedList class. It has a header Entry which acts as a sentinel node. The size is kept track of, and there are methods like add, remove, and clear. 
+
+The Entry class has element, next, and previous pointers. The header's next and previous point to itself, making it a circular structure. 
+
+So, the repOK method needs to verify that the data structure is in a consistent state. Let me think about what invariants must hold.
+
+1. The header's next and previous should always point to itself. That's how the circular linked list is maintained. So, I'll check if header.next == header and header.previous == header. If not, something's wrong.
+
+2. For every Entry except the header, their next and previous should not be null. Because each node should be properly linked. So, if any Entry's next or previous is null, that's an error.
+
+3. The size should be consistent with the number of nodes. The size is incremented and decremented in add and remove methods. So, I need to traverse the list and count the nodes to ensure the size matches.
+
+Wait, how do I traverse? I can start from header.next and go until I come back to header, counting each node. But I have to be careful not to count the header itself.
+
+Also, I should check that all elements except the header have non-null next and previous. Because if any node's next or previous is null, the links are broken.
+
+Another thing: the header's next and previous should always point to the same node, which is itself. So that's the first check.
+
+So, the steps for repOK would be:
+
+- Check that header.next == header and header.previous == header. If not, return false.
+
+- For each Entry starting from header.next, traverse until we loop back to header. For each Entry (excluding header), check that next != null and previous != null. Also, check that each Entry's next and previous correctly link to the next and previous nodes.
+
+Wait, maybe that's too detailed. Alternatively, just check that all nodes except header have non-null next and previous.
+
+Additionally, the size should equal the number of nodes. So, I'll traverse the list, count the nodes, and compare with size.
+
+But wait, the header is part of the structure, but it's not considered a node in the list. So, when counting, I should start at header.next and count each node until I loop back to header.
+
+So, the plan is:
+
+1. Check that header.next == header and header.previous == header. If not, return false.
+
+2. Traverse the list starting from header.next, moving to next each time, until we come back to header. Count the number of nodes. If the count is not equal to size, return false.
+
+3. For each node in the list (excluding header), check that next != null and previous != null. Also, ensure that each node's next.previous is the current node and each node's previous.next is the current node. This ensures that the links are consistent.
+
+Wait, that might be too thorough, but it's necessary for a correct invariant.
+
+So, in code:
+
+public boolean repOK() {
+    // Check header's next and previous point to itself
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check that the number of nodes equals size
+    int count = 0;
+    Entry current = header.next;
+    while (current != header) {
+        count++;
+        // Check next and previous are not null
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        // Check that next's previous is current and previous's next is current
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    if (count != size) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but what about the case where the list is empty? When size is 0, the header.next should be header, and the loop won't run, so count remains 0, which equals size. That's correct.
+
+Also, in the addBefore method, when a new Entry is added, the links are updated correctly. Similarly, in remove, the links are adjusted. So, the invariant should catch any inconsistencies that might arise from incorrect modifications.
+
+I think this covers all the necessary checks. So, the repOK method will perform these validations and return true only if all invariants hold.
+</think>
+
+To ensure the LinkedList class maintains a consistent state, we'll implement the `repOK` method to check several invariants:
+
+1. **Header Consistency**: The header's next and previous must point to itself.
+2. **Size Validity**: The size must be non-negative.
+3. **Node Integrity**: Each node (except the header) must have non-null next and previous pointers.
+4. **Link Consistency**: Each node's next and previous pointers must form a valid bidirectional link.
+5. **Size Accuracy**: The number of nodes must match the size variable.
+
+Here's the implementation:
+
+```java
+public boolean repOK() {
+    // Check that header's next and previous point to itself
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check that size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check that the number of nodes equals size
+    int count = 0;
+    Entry current = header.next;
+    while (current != header) {
+        count++;
+        // Check that next and previous are not null
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        // Check that next's previous is current and previous's next is current
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    // Ensure the count matches the size
+    if (count != size) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+This method ensures that the LinkedList's internal state remains consistent, validating all critical aspects of the data structure.

@@ -1,0 +1,89 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class in Java. Representation invariants are crucial because they define the conditions that must hold true for the object to be in a valid state. This helps ensure that the object behaves correctly and predictably, especially when modified by methods like put, get, remove, etc.
+
+First, I'll look at the structure of the HashMap class. It has a table of Entry objects, a size variable, a modCount variable, a loadFactor, and a threshold. The table is an array of Entry objects, which can be null. The size represents the number of entries in the map, modCount is used for hashing to avoid collisions, loadFactor determines how full the table can get before resizing, and threshold is the point at which the table resizes.
+
+I'll start by considering the initial state of the HashMap. When a HashMap is created, it initializes with a default capacity and load factor. The table is filled with null entries, and the modCount and size are set accordingly. So, the first invariant should ensure that the table is not null and has the correct initial capacity.
+
+Next, I'll think about the capacity and load factor. The capacity should never be less than the initial capacity, and the load factor should always be between 0 and 1. This ensures that the table doesn't become too full, which would trigger resizing. Also, the threshold, which is based on the load factor and capacity, should be a positive integer.
+
+Then, I'll consider the state after modifications. When entries are added or removed, the size should accurately reflect the number of non-null entries in the table. The modCount should be incremented each time an entry is modified or accessed, and the threshold should adjust based on the current load factor and capacity to ensure proper resizing.
+
+I also need to ensure that the table doesn't exceed its maximum capacity, which is set to 2^30. This prevents the table from becoming too large, which could cause memory issues.
+
+Finally, I'll think about the Entry objects themselves. Each Entry should have a valid key, value, hash, and next pointer. The hashCode and equals methods in the Entry class should correctly implement the Java contract for hash-based collections.
+
+Putting it all together, the representation invariant should cover all these aspects: the table's state, capacity and load factor, size and modCount, threshold, and the integrity of the Entry objects. This will ensure that the HashMap remains in a valid state after any operation.
+</think>
+
+```java
+package casestudies.hashmap;
+
+public interface RepresentationInvariant {
+    void repOK() {
+        // Table is not null and has correct initial capacity
+        if (table == null || table.length != DEFAULT_INITIAL_CAPACITY) {
+            throw new IllegalStateException("Table is null or incorrect initial capacity");
+        }
+
+        // Load factor is between 0 and 1
+        if (loadFactor < 0 || loadFactor > 1) {
+            throw new IllegalStateException("Load factor is not between 0 and 1");
+        }
+
+        // Threshold is positive and correctly calculated
+        if (threshold <= 0 || threshold != (int) (capacity * loadFactor)) {
+            throw new IllegalStateException("Threshold is not correctly calculated");
+        }
+
+        // Capacity is at least the initial capacity
+        if (capacity < initialCapacity) {
+            throw new IllegalStateException("Capacity is less than initial capacity");
+        }
+
+        // ModCount is non-negative
+        if (modCount < 0) {
+            throw new IllegalStateException("ModCount is negative");
+        }
+
+        // Size is non-negative and correctly reflects current entries
+        if (size < 0) {
+            throw new IllegalStateException("Size is negative");
+        }
+
+        // Table entries are valid and correctly structured
+        for (Entry e : table) {
+            if (e == null) {
+                continue;
+            }
+
+            // Entry has valid key, value, hash, and next
+            if (e.getKey() == null && e.getValue() == null && e.hashCode() == 0 && e.getValue() == null) {
+                continue;
+            }
+
+            if (e.getValue() == null && e.getKey() != null) {
+                throw new IllegalStateException("Entry has null value but non-null key");
+            }
+
+            if (e.getValue() != null && !e.getValue().equals(e.getValue())) {
+                throw new IllegalStateException("Entry has inconsistent value");
+            }
+
+            if (e.getKey() != null && !e.getKey().equals(e.getKey())) {
+                throw new IllegalStateException("Entry has inconsistent key");
+            }
+
+            // Entry's hashCode and equals methods follow Java's contract
+            if (!e.hashCode().equals(e.getValue() == null ? 0 : e.getValue().hashCode() ^ (e.getKey() == null ? 0 : e.getKey().hashCode()))) {
+                throw new IllegalStateException("Entry's hashCode is incorrect");
+            }
+
+            if (!e.equals(e)) {
+                throw new IllegalStateException("Entry's equals method is broken");
+            }
+        }
+    }
+}
+```

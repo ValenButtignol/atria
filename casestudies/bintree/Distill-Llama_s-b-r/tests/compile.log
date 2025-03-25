@@ -1,0 +1,40 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:96: error: non-static variable root cannot be referenced from a static context
+        return node == root;
+                       ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:107: error: cannot find symbol
+            parent = parent.parent;
+                           ^
+  symbol:   variable parent
+  location: variable parent of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:113: error: non-static variable root cannot be referenced from a static context
+        return countNodesRecursive(root);
+                                   ^
+3 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:107: error: cannot find symbol
+              parent = parent.parent;
+                             ^
+    symbol:   variable parent
+    location: variable parent of type Node/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:96: error: non-static variable root cannot be referenced from a static context
+          return node == root;
+                         ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:113: error: non-static variable root cannot be referenced from a static context
+          return countNodesRecursive(root);
+                                     ^
+  3 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 375ms
+1 actionable task: 1 executed

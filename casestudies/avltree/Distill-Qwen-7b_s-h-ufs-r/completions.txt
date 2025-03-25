@@ -1,0 +1,66 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. Let me think about what this means. A representation invariant is a condition that must always hold true for the object to be considered valid. So, I need to figure out what properties of the AvlTree are always true after any operation.
+
+First, I'll look at the AvlTree class. It has a root node, and methods like insert and remove which maintain the balance of the tree. The balance is controlled by the ALLOWED_IMBALANCE constant, which is set to 1. That means each node can have a balance of -1, 0, or 1.
+
+So, the main thing I need to ensure is that the tree remains balanced after every insertion or deletion. That means for every node, the heights of its left and right subtrees shouldn't differ by more than 1.
+
+Let me think about how to express this. The balance of a node is calculated as the height of the left subtree minus the height of the right subtree. If this difference is more than 1 or less than -1, the tree is unbalanced, and rotations or double rotations are needed to rebalance it.
+
+I should check each node in the tree to ensure that their balance doesn't exceed the allowed limit. So, the repOK method should iterate through all nodes and verify that each node's balance is within the allowed range.
+
+Wait, but how do I get the height of each subtree? The tree keeps track of the height in each node. So, for each node, I can get its left and right children's heights and compute the balance.
+
+Also, I need to make sure that the root is not null if the tree is not empty. Because if the tree is empty, the root should be null, and if it's not empty, the root must have a valid structure.
+
+So, putting this together, the repOK method should:
+
+1. Check if the tree is empty. If it's not empty, ensure the root is not null.
+2. For each node in the tree, check that the balance (left height - right height) is within the allowed range of -1 to 1.
+3. Ensure that all nodes follow this balance rule, which maintains the AVL property.
+
+I should also consider if there are any other invariants, like all elements being unique or the tree being a proper binary search tree. Looking at the code, the insert method seems to maintain the BST property by comparing elements and placing them in the correct subtree. So, the BST property is already handled by the insert and remove methods, and the repOK method only needs to check the balance.
+
+Another thing to consider: when the tree is empty, the root is null, and size is 0. So, the repOK method should handle that case correctly.
+
+Let me draft the method. It should first check if the tree is empty (size is 0) and return true if so. Then, for each node, calculate the balance and ensure it's within the allowed range.
+
+Wait, but how do I traverse the tree? I can't just loop through the elements because the tree structure might not be a straight array. So, I'll need to traverse each node recursively or iteratively, checking each one.
+
+Alternatively, since the tree is a balanced BST, maybe I can leverage the fact that all nodes are properly balanced, but I think the repOK method needs to verify this, not rely on the operations.
+
+So, the repOK method will:
+
+- Check if the tree is empty (size is 0). If so, return true.
+- If not empty, check that the root is not null.
+- Then, for each node, check that the balance is within -1, 0, or 1.
+
+I think that's the core of the representation invariant for the AvlTree class.
+</think>
+
+The representation invariant for the AvlTree class ensures that the tree remains balanced, adhering to the AVL tree properties. It verifies that each node's balance factor (left height minus right height) does not exceed the allowed limit of ±1.
+
+```java
+public boolean repOK() {
+    if (size == 0) {
+        return root == null;
+    }
+
+    Node current = root;
+    while (current != null) {
+        int balance = current.height;
+        int leftHeight = (current.left != null) ? current.left.height : -1;
+        int rightHeight = (current.right != null) ? current.right.height : -1;
+        int leftBalance = leftHeight - rightHeight;
+
+        if (leftBalance > 1 || leftBalance < -1) {
+            return false;
+        }
+
+        current = current.left;
+    }
+
+    return true;
+}
+```

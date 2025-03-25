@@ -1,0 +1,59 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinomialHeap class in Java. The representation invariant is a boolean method that returns true if the object is valid and false otherwise. I should only verify properties I'm completely sure about.
+
+First, I'll look at the BinomialHeap class structure. It has a private field Nodes, which is a BinomialHeapNode, and a size variable. The class has methods like insert, delete, extractMin, etc.
+
+I remember that in a Binomial Heap, each node has a degree, which represents the number of children it has. The structure should maintain certain properties, like the heap property where the key of a node is less than or equal to its children, and the heap is built from a collection of trees where each tree is a k-ary heap.
+
+So, the first thing I should check is whether Nodes is null. If it's null, the size should be zero. That makes sense because an empty heap has no nodes.
+
+Next, I should verify that the size of the heap matches the number of nodes. The size variable should be equal to the number of nodes stored in Nodes. So, I'll call the numNodes method on Nodes and compare it to the size.
+
+Another important property is that the minimum key in the heap is correctly stored. The findMinNode() method should return the node with the smallest key, and its key should be equal to the result of findMinimum(). So, I'll check if the key of the min node equals the minimum key.
+
+I also need to ensure that the structure of the heap is correct. Each node's degree should match the number of children it has. So, for each node, I'll check if its degree is equal to the number of children it has. This ensures that the heap maintains the correct structure.
+
+Additionally, I should verify that the parent of a node has a degree one higher than the node itself. This maintains the heap's structure where each parent has a higher degree than its children.
+
+Finally, I'll make sure that all nodes have non-negative degrees, as a degree can't be negative in a heap.
+
+Putting it all together, I'll write a method repOK that checks all these conditions. If any condition fails, it returns false; otherwise, it returns true.
+</think>
+
+```java
+public boolean repOK() {
+    if (Nodes == null) {
+        return size == 0;
+    }
+
+    int numNodes = Nodes.numNodes();
+    if (numNodes != size) {
+        return false;
+    }
+
+    BinomialHeapNode minNode = Nodes.findMinNode();
+    if (minNode != null && minNode.key != findMinimum()) {
+        return false;
+    }
+
+    BinomialHeapNode temp = Nodes;
+    while (temp != null) {
+        if (temp.degree != temp.child != null ? temp.child.size() : 0) {
+            return false;
+        }
+        if (temp != Nodes && temp.parent != null && temp.parent.degree != temp.degree + 1) {
+            return false;
+        }
+        temp = temp.child;
+    }
+
+    for (BinomialHeapNode node : Nodes) {
+        if (node != null && node.key < 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```

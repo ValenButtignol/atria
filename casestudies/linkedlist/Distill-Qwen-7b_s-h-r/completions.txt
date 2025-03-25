@@ -1,0 +1,67 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class in Java. The representation invariant is a boolean method that checks if the object is valid. So, I should think about what properties of the LinkedList are essential and must hold true for the object to be valid.
+
+First, I'll look at the structure of the LinkedList. It has a header Entry, which is a private transient field. The header's next and previous are set to itself, making it a sentinel node. The size is an int that keeps track of the number of elements.
+
+The add method adds elements before the header, and the remove method removes entries either by value or by null. The clear method resets everything to the header. The size() method returns the current size.
+
+Now, what properties must hold for the LinkedList to be valid?
+
+1. The size should be equal to the number of non-null elements in the entries. Because each Entry's element can be null, except for the ones that have been added. So, I need to count how many entries have a non-null element.
+
+2. The linked list must be properly linked. Each Entry's next should point to the correct Entry, and the previous should point correctly. Also, the header's next should be the first real Entry, and the last Entry's next should be the header.
+
+3. The header's previous should always be the header itself because it's a sentinel node. So, if someone tries to go before the header, they should get the header again.
+
+4. The size should match the count of non-null elements. So, if I iterate through all the non-null elements and count them, it should equal the size.
+
+5. The entries should form a valid linked list without any cycles. Each Entry should have exactly one next and one previous, except for the header and the last Entry.
+
+6. The header's next should point to the first real Entry, and the last Entry's next should point back to the header, forming a loop. Wait, no, in a linked list, the last Entry's next is usually null, but in this case, since it's a sentinel, the last Entry's next is the header. So, the linked list is circular.
+
+7. The size should not be negative. Since it's an int, it can't be negative, but I should ensure that it's correctly updated when adding or removing elements.
+
+8. The entries should not have null pointers in a way that breaks the structure. For example, if an Entry's next is null but its previous is not, that's invalid.
+
+Putting this together, the representation invariant should check:
+
+- The size is correct by comparing it to the count of non-null elements.
+- The header's previous is the header itself.
+- The header's next is the first non-header Entry.
+- The last Entry's next is the header, forming a loop.
+- The size is non-negative.
+- All entries are properly linked with correct next and previous pointers.
+
+I think that covers the main points. Now, I'll translate these into code for the repOK method.
+</think>
+
+```java
+public boolean repOK() {
+    Entry e = header.next;
+    int count = 0;
+    while (e != header) {
+        if (e.element != null) {
+            count++;
+        }
+        e = e.next;
+    }
+    if (count != size || count < 0) {
+        return false;
+    }
+    if (header.previous != header) {
+        return false;
+    }
+    if (header.next != header) {
+        return false;
+    }
+    Entry last = header.next;
+    while (last.next != header) {
+        last = last.next;
+    }
+    if (last.next != header) {
+        return false;
+    }
+    return true;
+}
+```

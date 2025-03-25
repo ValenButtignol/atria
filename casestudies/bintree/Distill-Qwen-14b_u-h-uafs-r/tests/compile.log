@@ -1,0 +1,39 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:88: error: cannot find symbol
+        if (node.left != null && node.left.parent != node) {
+                                          ^
+  symbol:   variable parent
+  location: variable left of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:91: error: cannot find symbol
+        if (node.right != null && node.right.parent != node) {
+                                            ^
+  symbol:   variable parent
+  location: variable right of type Node
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:88: error: cannot find symbol
+          if (node.left != null && node.left.parent != node) {
+                                            ^
+    symbol:   variable parent
+    location: variable left of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:91: error: cannot find symbol
+          if (node.right != null && node.right.parent != node) {
+                                              ^
+    symbol:   variable parent
+    location: variable right of type Node
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 370ms
+1 actionable task: 1 executed

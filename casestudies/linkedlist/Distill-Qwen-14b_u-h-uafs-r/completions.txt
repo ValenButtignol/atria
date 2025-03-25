@@ -1,0 +1,41 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class. The repOK method should check all the invariants that ensure the object is valid. Let me think about what properties the LinkedList must maintain.
+
+First, the LinkedList uses a header Entry that acts as a sentinel. The header's next and previous should always point to itself because it's a circular linked list. So, I should check that header.next == header and header.previous == header. If not, something's wrong.
+
+Next, each Entry has a next and previous pointer. For any Entry e (except the header), e.next.previous should be e, and e.previous.next should be e. This ensures that the links are consistent. So, I'll loop through all entries and check this.
+
+The size variable keeps track of the number of elements. The size should be equal to the number of entries minus one because the header isn't counted. So, I'll count the number of entries starting from header.next until I loop back to header and compare that count with size.
+
+Also, I need to ensure that there are no null elements in the list. The add method allows adding null, but the Entry's element can be null. However, the remove method handles nulls differently. I'm not sure if this is an invariant, but perhaps it's better to check that all elements are non-null or handle nulls correctly. Maybe the invariant should ensure that if an element is null, it's treated as a special case, but I'm not certain. For now, I'll skip checking for null elements unless I find it necessary.
+
+Putting it all together, the repOK method will check the header's links, the consistency of next and previous pointers for each Entry, and the size consistency. I'll write a method that performs these checks and returns true if all pass, false otherwise.
+</think>
+
+```java
+public boolean repOK() {
+    // Check header's next and previous point to itself
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check that for every entry, next.previous == current and previous.next == current
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.next.previous != e || e.previous.next != e) {
+            return false;
+        }
+    }
+
+    // Check that size is correct
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        count++;
+    }
+    if (count != size) {
+        return false;
+    }
+
+    return true;
+}
+```

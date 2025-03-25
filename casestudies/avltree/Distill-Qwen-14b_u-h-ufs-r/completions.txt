@@ -1,0 +1,150 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. The repOK method should check if the object's state is valid. Let me think about what properties an AVL tree must satisfy.
+
+First, an AVL tree is a self-balancing binary search tree. Each node must have a height, and the heights must satisfy the AVL tree's balance condition. The balance condition is that the difference in heights between the left and right subtrees of any node can be at most 1. So, for every node, the height of the left subtree minus the height of the right subtree should be between -1 and 1.
+
+Also, each node must be a binary search tree (BST), meaning that for every node, all nodes in the left subtree have values less than the current node's value, and all nodes in the right subtree have values greater than the current node's value.
+
+So, the repOK method needs to verify two main things: the BST property and the AVL balance property.
+
+Let me outline the steps:
+
+1. Check if the BST property holds. For each node, ensure that all left descendants are less than the node's value and all right descendants are greater.
+
+2. Check the AVL balance condition for each node. The difference in heights between left and right subtrees must be <= 1 in absolute value.
+
+Additionally, I should ensure that the tree is properly structured. For example, each node should have a left and right child that are either null or AvlNodes.
+
+Wait, but how do I traverse the tree to check these properties? I'll need to perform a traversal, perhaps a recursive check for each node.
+
+Let me think about the structure of the repOK method. It should be a public boolean method. It will return true if all nodes satisfy the BST and AVL properties, else false.
+
+So, the method will:
+
+- If the tree is empty (root is null), return true since an empty tree is trivially valid.
+
+- Otherwise, for each node, check the BST and AVL conditions.
+
+But how to implement this? I can write a helper method that recursively checks each node.
+
+Let me outline the helper method:
+
+private boolean checkRepOK(AvlNode node) {
+    if (node == null) return true;
+
+    // Check BST property
+    if (node.left != null && node.left.element >= node.element) return false;
+    if (node.right != null && node.right.element <= node.element) return false;
+
+    // Check AVL balance
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+    if (Math.abs(leftHeight - rightHeight) > 1) return false;
+
+    // Recursively check children
+    return checkRepOK(node.left) && checkRepOK(node.right);
+}
+
+Wait, but the height is stored in each node. However, I should ensure that the height is correctly maintained. Because sometimes, after rotations, the height might not be updated properly. So, the helper method should also verify that each node's height is correct based on its children.
+
+Wait, but that's more complex. The height of a node is the maximum height of its children plus one. So, for each node, height should be 1 + max(leftHeight, rightHeight). If a node's height doesn't match this, it's invalid.
+
+So, the helper method should also check that each node's height is correctly calculated.
+
+So, adding that to the helper:
+
+int leftHeight = node.left == null ? -1 : node.left.height;
+int rightHeight = node.right == null ? -1 : node.right.height;
+int maxHeight = Math.max(leftHeight, rightHeight);
+if (node.height != maxHeight + 1) {
+    return false;
+}
+
+This ensures that the height is correctly maintained.
+
+Putting it all together, the helper method will:
+
+1. For each node, check that left child's element is less than current, and right child's element is greater.
+
+2. Check that the difference in left and right heights is at most 1.
+
+3. Check that the node's height is correctly computed as 1 + max of children's heights.
+
+4. Recursively check all nodes.
+
+So, the repOK method will call this helper on the root.
+
+Wait, but what about the root being null? The repOK method should handle that case.
+
+So, the repOK method:
+
+public boolean repOK() {
+    if (root == null) {
+        return true; // empty tree is valid
+    }
+    return checkRepOK(root);
+}
+
+And the helper method as described.
+
+But wait, in the given AvlTree class, the root is a field, and the helper method would need to be a private method.
+
+Now, considering edge cases:
+
+- A single node: should have height 0, left and right null. So, the helper should return true.
+
+- A root with two children: check that the heights are balanced.
+
+What about null children? The helper should handle that by treating their height as -1.
+
+Another thing: the helper method should also check that the left and right children are either null or AvlNodes. But since the tree is constructed with AvlNodes, perhaps this is not necessary unless there's a possibility of other objects being assigned, which there isn't in this case.
+
+So, putting it all together, the repOK method will perform these checks.
+
+Wait, but in the given code, the AvlNode's height is updated in the balance method. So, if any insert or remove operation doesn't correctly update the height, the repOK will catch it.
+
+So, the final repOK method will involve a helper that checks each node's BST property, AVL balance, and correct height.
+
+I think that's the correct approach. Now, I'll write the code accordingly.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    return checkRepOK(root);
+}
+
+private boolean checkRepOK(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check BST property
+    if (node.left != null && node.left.element >= node.element) {
+        return false;
+    }
+    if (node.right != null && node.right.element <= node.element) {
+        return false;
+    }
+
+    // Check AVL balance condition
+    int leftHeight = node.left == null ? -1 : node.left.height;
+    int rightHeight = node.right == null ? -1 : node.right.height;
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+    }
+
+    // Check if the node's height is correctly calculated
+    int maxHeight = Math.max(leftHeight, rightHeight);
+    if (node.height != maxHeight + 1) {
+        return false;
+    }
+
+    // Recursively check left and right subtrees
+    return checkRepOK(node.left) && checkRepOK(node.right);
+}
+```

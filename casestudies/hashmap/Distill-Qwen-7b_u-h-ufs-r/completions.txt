@@ -1,0 +1,78 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class. Representation invariants are crucial because they ensure that the internal state of the object remains consistent and correct. So, I should think about all the key properties that the HashMap must maintain to function correctly.
+
+First, I'll look at the structure of the HashMap. It has a table of Entry objects, each containing a key, value, hash, and a next pointer. The table is an array where each entry can be null or an Entry. The size of the table can change when the HashMap resizes.
+
+One of the primary properties is that the table should not have any null entries. Wait, no, that's not right. The table can have nulls because that's how collisions are handled. So, the invariant should ensure that any non-null entries in the table are valid and properly linked.
+
+Another important aspect is the load factor, which determines when the table resizes. The load factor is a measure of how full the table is. If the load factor exceeds a certain threshold, the table resizes to accommodate more entries. So, the invariant should check that the current load factor hasn't exceeded the threshold.
+
+The size of the HashMap should accurately reflect the number of non-null entries in the table. So, the invariant must verify that the size variable correctly counts the number of entries.
+
+The threshold is calculated based on the current capacity and the load factor. It's used to determine when resizing is necessary. The invariant should ensure that the threshold hasn't been exceeded, which would trigger a resize.
+
+The modCount is a volatile variable used for synchronization. It's incremented each time an entry is added or removed. The invariant should ensure that modCount is consistent across all accesses, but since it's volatile, that's handled elsewhere.
+
+The entry count (size) should match the number of non-null entries in the table. So, iterating through the table and counting non-null entries should equal the size variable.
+
+Additionally, the table should not have any entries that are inconsistent with their hash buckets. Each non-null entry should be in the correct bucket determined by its hash.
+
+I should also consider the case where the table is empty. If the table is empty, the size should be zero, and the threshold should be zero as well.
+
+Putting this all together, the repOK method should check several conditions:
+1. The table is not null.
+2. The size equals the number of non-null entries in the table.
+3. The threshold is calculated correctly based on the current capacity and load factor.
+4. The modCount is consistent.
+5. The table entries are correctly linked and in their respective buckets.
+6. If the table is empty, size and threshold are zero.
+
+I need to make sure all these conditions are checked in the repOK method to ensure the HashMap's internal state is valid.
+</think>
+
+public boolean repOK() {
+    if (table == null) {
+        return false;
+    }
+
+    int actualSize = 0;
+    for (Entry e : table) {
+        if (e != null) {
+            actualSize++;
+        }
+    }
+    if (size != actualSize) {
+        return false;
+    }
+
+    if (threshold == Integer.MAX_VALUE) {
+        if (capacity != MAXIMUM_CAPACITY) {
+            return false;
+        }
+    } else if (threshold != (int) (capacity * loadFactor)) {
+        return false;
+    }
+
+    if (modCount != this.modCount) {
+        return false;
+    }
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        if (e != null) {
+            if (e.hash != i) {
+                return false;
+            }
+            Entry next = e.next;
+            if (next != null && next.hash != (i + 1)) {
+                return false;
+            }
+        }
+    }
+
+    if (size == 0) {
+        return threshold == 0;
+    }
+    return true;
+}

@@ -1,0 +1,151 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinomialHeap class. I remember that a representation invariant is a method that checks the internal consistency of the data structure. It should return true if the object is valid and false otherwise. 
+
+First, I'll look at the BinomialHeap class. It has a private field Nodes of type BinomialHeapNode, which is an inner class. The size field keeps track of the number of nodes. The class has methods like insert, delete, extractMin, etc.
+
+I know that a binomial heap is a collection of binomial trees where each tree is a heap-ordered tree. Each node has a key, degree (number of children), parent, sibling, and child pointers. The root of the heap is stored in the Nodes field.
+
+So, the repOK method should check several things:
+
+1. **Consistency between size and the actual number of nodes**: The size field should match the total number of nodes in the heap. I can write a helper method to count the nodes recursively.
+
+2. **Heap order property**: Each node's key should be less than or equal to its parent's key. I'll need a method to traverse the tree and check this.
+
+3. **Binomial tree properties**: Each node's degree should match the number of its children. Also, for any two nodes in the same level (same degree), their subtrees should be ordered such that the root with the smaller key comes before the one with the larger key.
+
+4. **Acyclic structure**: The heap should be a forest of trees, so there should be no cycles. I can use a visited set to check this.
+
+5. **No duplicate keys**: Since the insert method doesn't allow duplicates, I need to ensure that each key is unique.
+
+I'll start by writing a helper method to count the nodes. Then, I'll check if the size matches this count. Next, I'll check the heap order by traversing each node and its parent. For the binomial tree properties, I'll ensure that each node's degree equals its children count and that siblings are ordered correctly. I'll also check for cycles using a set to track visited nodes. Lastly, I'll ensure there are no duplicate keys by collecting all keys and checking for duplicates.
+
+I need to make sure that each condition is checked, and if any fail, the repOK method returns false. If all conditions are met, it returns true.
+
+I should also consider edge cases, like when the heap is empty. In that case, Nodes should be null, and size should be zero.
+
+Putting it all together, the repOK method will call these helper methods and return the logical AND of all the checks.
+</think>
+
+```java
+public boolean repOK() {
+    // Check if the size matches the actual number of nodes
+    if (size != countNodes(Nodes)) {
+        return false;
+    }
+
+    // Check if the heap is acyclic
+    if (!isAcyclic()) {
+        return false;
+    }
+
+    // Check if the heap order property holds
+    if (!isHeapOrdered()) {
+        return false;
+    }
+
+    // Check if the binomial tree properties hold
+    if (!isBinomialTree()) {
+        return false;
+    }
+
+    // Check if there are no duplicate keys
+    if (!hasUniqueKeys()) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper methods for repOK checks
+
+// 1. Count the number of nodes in the heap
+private int countNodes(BinomialHeapNode node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.child) + countNodes(node.sibling);
+}
+
+// 2. Check if the heap is acyclic
+private boolean isAcyclic() {
+    Set<BinomialHeapNode> visited = new HashSet<>();
+    return isAcyclicHelper(Nodes, visited);
+}
+
+private boolean isAcyclicHelper(BinomialHeapNode node, Set<BinomialHeapNode> visited) {
+    if (node == null) {
+        return true;
+    }
+    if (visited.contains(node)) {
+        return false;
+    }
+    visited.add(node);
+    return isAcyclicHelper(node.child, visited) && isAcyclicHelper(node.sibling, visited);
+}
+
+// 3. Check if the heap order property holds (parent keys are <= child keys)
+private boolean isHeapOrdered() {
+    return isHeapOrderedHelper(Nodes);
+}
+
+private boolean isHeapOrderedHelper(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.child != null && node.child.key < node.key) {
+        return false;
+    }
+    return isHeapOrderedHelper(node.child) && isHeapOrderedHelper(node.sibling);
+}
+
+// 4. Check if the binomial tree properties hold
+private boolean isBinomialTree() {
+    return isBinomialTreeHelper(Nodes);
+}
+
+private boolean isBinomialTreeHelper(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    // Check if the degree matches the number of children
+    if (node.degree != countChildren(node)) {
+        return false;
+    }
+    // Check if siblings are ordered correctly
+    if (node.sibling != null && node.key > node.sibling.key) {
+        return false;
+    }
+    return isBinomialTreeHelper(node.child) && isBinomialTreeHelper(node.sibling);
+}
+
+// Helper method to count the number of children
+private int countChildren(BinomialHeapNode node) {
+    if (node == null || node.child == null) {
+        return 0;
+    }
+    int count = 1;
+    BinomialHeapNode current = node.child;
+    while (current.sibling != null) {
+        count++;
+        current = current.sibling;
+    }
+    return count;
+}
+
+// 5. Check if all keys are unique
+private boolean hasUniqueKeys() {
+    Set<Integer> keys = new HashSet<>();
+    return hasUniqueKeysHelper(Nodes, keys);
+}
+
+private boolean hasUniqueKeysHelper(BinomialHeapNode node, Set<Integer> keys) {
+    if (node == null) {
+        return true;
+    }
+    if (!keys.add(node.key)) {
+        return false;
+    }
+    return hasUniqueKeysHelper(node.child, keys) && hasUniqueKeysHelper(node.sibling, keys);
+}
+```

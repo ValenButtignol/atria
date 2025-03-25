@@ -1,0 +1,242 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class in Java. The representation invariant is a boolean method that returns true if the object is valid and false otherwise. I should only verify properties that I'm completely sure are valid.
+
+First, I'll look at the LinkedList class structure. It has a header entry which is a dummy node, and a size variable. The class uses a linked list to store elements, with each Entry containing the element, a next pointer, and a previous pointer.
+
+I should think about the key properties that must hold for the linked list to be valid.
+
+1. **Size Consistency**: The size should always reflect the number of entries in the list. So, if I traverse from the header, the number of non-header entries should equal the size.
+
+2. **Non-null Header**: The header should always be present and not null. This ensures that the list isn't empty unless the size is zero.
+
+3. **Next and Previous Pointers**: Each non-header Entry should have a non-null next and previous pointer. Except for the header and the last node, which should have null pointers appropriately.
+
+4. **No dangling entries**: There should be no entries that are not properly linked. So, if an entry has a non-null previous, its previous's next should point back to it, and similarly for next.
+
+5. **No null pointers in size or capacity**: The size should never be negative, and the capacity (if any) should be handled correctly, but in this class, I don't see a capacity variable, so maybe that's not applicable.
+
+Wait, looking at the LinkedList code, I see that the header is always present, and size is an int that starts at 0. The add and remove methods modify the size correctly.
+
+So, the key points are:
+
+- The header is always present.
+- The size is correct.
+- Each entry (except header) has a non-null next and previous.
+- The last entry's next is null.
+- The first entry's previous is null.
+
+Let me think about how to translate these into code.
+
+First, the header is always present, so checking if header is null should return false unless size is 0.
+
+Then, the size should be equal to the number of entries after the header. So, if I traverse from header.next, the number of entries should be equal to size.
+
+Each entry (except header) should have non-null next and previous.
+
+The header's previous should be null, and its next should be the first entry.
+
+The last entry's next should be null, and its previous should point to the second last entry.
+
+Putting this together, the repOK method should:
+
+1. Check if header is null and size is not zero. If header is null and size is zero, it's okay. If header is null and size >0, it's invalid.
+
+2. Check that the number of entries (from header.next) equals size.
+
+3. Check that each entry (except header) has non-null next and previous.
+
+4. Check that the header's previous is null.
+
+5. Check that the header's next is not null if size >0.
+
+6. Check that the last entry's next is null.
+
+7. Check that the last entry's previous is not null if size >0.
+
+Wait, but how do I find the last entry? I can traverse from header.next until the next is null. The last entry would be the one before that.
+
+Alternatively, I can traverse from header.next, and for each entry, check that next is not null, until I reach the end.
+
+But in the repOK method, I can't have loops because it's supposed to be a method, not a loop-based check. Wait, no, the repOK method can have loops as long as it's a boolean return.
+
+Wait, no, the repOK method is supposed to be a method that returns a boolean, so it can have loops as part of its logic.
+
+So, I can write loops to check each of these conditions.
+
+Let me outline the steps in code:
+
+public boolean repOK() {
+    // Check if header is null and size is not zero
+    if (header == null && size != 0) {
+        return false;
+    }
+    // Check if size is consistent with the number of entries
+    int actualSize = 0;
+    Entry current = header.next;
+    do {
+        actualSize++;
+        current = current.next;
+    } while (current != header); // Wait, no, this loop would run forever because current starts at header.next, and the condition is current != header, which is always true unless current is null.
+
+    Wait, no, the do-while loop should be:
+
+    Entry current = header.next;
+    do {
+        actualSize++;
+        current = current.next;
+    } while (current != null);
+
+    Because if current is null, the loop stops.
+
+    Then, compare actualSize with size. If they don't match, return false.
+
+    Then, check that each entry (except header) has non-null next and previous.
+
+    Entry current = header.next;
+    while (current != null) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    Then, check that header's previous is null.
+
+    if (header.previous != null) {
+        return false;
+    }
+
+    Then, check that header's next is not null if size >0.
+
+    if (size > 0 && header.next == null) {
+        return false;
+    }
+
+    Then, find the last entry and check that its next is null and its previous is not null if size >0.
+
+    Entry last = null;
+    Entry current = header.next;
+    while (current != null) {
+        last = current;
+        current = current.next;
+    }
+    if (last != null) {
+        if (last.next != null) {
+            return false;
+        }
+        if (size > 0 && last.previous == null) {
+            return false;
+        }
+    }
+
+    Wait, but if size is zero, last would be null, so the checks inside the if (last != null) block are skipped.
+
+    So, putting it all together:
+
+    public boolean repOK() {
+        // Check if header is null and size is not zero
+        if (header == null && size != 0) {
+            return false;
+        }
+
+        // Check if size matches the number of entries
+        int actualSize = 0;
+        Entry current = header.next;
+        do {
+            actualSize++;
+            current = current.next;
+        } while (current != null);
+
+        if (actualSize != size) {
+            return false;
+        }
+
+        // Check each entry (except header) has non-null next and previous
+        current = header.next;
+        while (current != null) {
+            if (current.next == null || current.previous == null) {
+                return false;
+            }
+            current = current.next;
+        }
+
+        // Check header's previous is null
+        if (header.previous != null) {
+            return false;
+        }
+
+        // Check header's next is not null if size >0
+        if (size > 0 && header.next == null) {
+            return false;
+        }
+
+        // Check last entry's next is null and previous is not null if size >0
+        Entry last = null;
+        current = header.next;
+        while (current != null) {
+            last = current;
+            current = current.next;
+        }
+        if (last != null) {
+            if (last.next != null) {
+                return false;
+            }
+            if (size > 0 && last.previous == null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+</think>
+
+public boolean repOK() {
+    if (header == null && size != 0) {
+        return false;
+    }
+
+    int actualSize = 0;
+    Entry current = header.next;
+    do {
+        actualSize++;
+        current = current.next;
+    } while (current != null);
+
+    if (actualSize != size) {
+        return false;
+    }
+
+    Entry current = header.next;
+    while (current != null) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    if (header.previous != null) {
+        return false;
+    }
+
+    if (size > 0 && header.next == null) {
+        return false;
+    }
+
+    Entry last = null;
+    current = header.next;
+    while (current != null) {
+        last = current;
+        current = current.next;
+    }
+    if (last != null) {
+        if (last.next != null) {
+            return false;
+        }
+        if (size > 0 && last.previous == null) {
+            return false;
+        }
+    }
+
+    return true;
+}

@@ -1,0 +1,86 @@
+
+To write the `repOK` method for the `TreeMap` class, we need to ensure that the representation invariant holds true. The `TreeMap` is a self-balancing binary search tree (specifically, a Red-Black Tree) with the following properties:
+
+1. Each node is either red or black.
+2. The root is black.
+3. All leaves (NIL nodes) are black.
+4. If a node is red, then both its children are black.
+5. Every path from a node to its descendant NIL nodes has the same number of black nodes.
+
+Here is the `repOK` method for the `TreeMap` class:
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true; // An empty tree satisfies all properties
+    }
+
+    // Check if the root is black
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Check if all leaves are black
+    if (!isLeafBlack(root)) {
+        return false;
+    }
+
+    // Check the Red-Black properties
+    if (!isRedBlackPropertySatisfied(root)) {
+        return false;
+    }
+
+    // Check the BST property
+    if (!isBSTPropertySatisfied(root, null, null)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isLeafBlack(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left == null && node.right == null) {
+        return node.color == BLACK;
+    }
+    return isLeafBlack(node.left) && isLeafBlack(node.right);
+}
+
+private boolean isRedBlackPropertySatisfied(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    return isRedBlackPropertySatisfied(node.left) && isRedBlackPropertySatisfied(node.right);
+}
+
+private boolean isBSTPropertySatisfied(Node node, K min, K max) {
+    if (node == null) {
+        return true;
+    }
+    if (min != null && compare(node.key, min) <= 0) {
+        return false;
+    }
+    if (max != null && compare(node.key, max) >= 0) {
+        return false;
+    }
+    return isBSTPropertySatisfied(node.left, min, node.key) && isBSTPropertySatisfied(node.right, node.key, max);
+}
+```
+
+### Explanation:
+1. **Root Check**: The root node should be black.
+2. **Leaf Check**: All leaf nodes (NIL nodes) should be black.
+3. **Red-Black Property Check**: If a node is red, both its children should be black.
+4. **BST Property Check**: The tree should satisfy the binary search tree property, meaning for any node, all keys in its left subtree should be less than its key, and all keys in its right subtree should be greater than its key.
+
+This `repOK` method ensures that the `TreeMap` class maintains its representation invariant.

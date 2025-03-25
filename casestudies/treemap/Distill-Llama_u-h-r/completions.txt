@@ -1,0 +1,120 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. The representation invariant is a boolean method called repOK that returns true if the object is valid and false otherwise. I should only verify properties that I'm completely sure are valid.
+
+First, I'll look at the TreeMap class and its structure. TreeMap is a balanced binary search tree that maintains sorted order based on the comparator. It has nodes with keys, values, colors (for balancing), left and right children, and a parent.
+
+The key properties I need to check are:
+
+1. **Null Check for Comparator**: The comparator should not be null because TreeMap relies on it for comparisons. If it's null, the tree can't function properly.
+
+2. **Root Node Check**: The root should not be null. If it's null, the tree is empty, but that's only valid if the size is zero.
+
+3. **Size Check**: The size should be consistent with the structure of the tree. If the size is not equal to the number of nodes, something is wrong.
+
+4. **Parent-Child Links**: Each node (except the root) must have a parent, and the parent must correctly link to its children. Also, the root's parent should be null.
+
+5. **Color Constraints**: The root should always be black. Nodes can be red or black, but certain conditions must be met during rotations to maintain the invariants.
+
+6. **Balancing After Insertions**: After inserting a node, the fixInsertion method should have been called, ensuring the tree remains balanced.
+
+Now, I'll structure the repOK method to check these points.
+
+- Check if the comparator is null. If so, return false.
+- Check if the root is null. If so, check if size is zero. If not, return false.
+- Check if the size is equal to the number of nodes. If not, return false.
+- Ensure each node (except root) has a parent and that the parent's left and right children are correctly set.
+- Verify the root's color is black.
+- Ensure that after any insertion, the fixInsertion method has been called, which would have balanced the tree.
+
+I need to make sure each of these checks is accurate and covers all possible invalid states. If any check fails, repOK returns false, indicating the tree is invalid.
+
+I should also consider edge cases, like an empty tree, a single node, and larger trees with multiple rotations. Each case should be validated to ensure the invariant holds.
+
+Finally, I'll write the repOK method, making sure it efficiently checks all these conditions without unnecessary computations.
+</think>
+
+To determine if a `TreeMap` object is valid, we need to ensure that the tree adheres to the expected structure and properties. Here's the `repOK` method:
+
+```java
+public boolean repOK() {
+    // Check if comparator is null
+    if (comparator == null) {
+        return false;
+    }
+
+    // Check if root is null
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check if size is consistent with the number of nodes
+    if (size != (root == null ? 0 : (leftmostNode() != null ? leftmostNode().size() : 0))) {
+        return false;
+    }
+
+    // Check parent-child links
+    if (!checkParentChildLinks()) {
+        return false;
+    }
+
+    // Check root color
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Check if fixInsertion has been called after insertion
+    if (size > 0 && !hasFixInsertionBeenCalled()) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper method to check parent-child links
+private boolean checkParentChildLinks() {
+    if (root == null) {
+        return true;
+    }
+
+    // Check root's parent
+    if (root.parent != null) {
+        return false;
+    }
+
+    // Check all other nodes
+    for (Node node : allNodes()) {
+        if (node.parent == null) {
+            return false;
+        }
+        if (node.parent.left == node || node.parent.right == node) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Helper method to check if fixInsertion has been called after insertion
+private boolean hasFixInsertionBeenCalled() {
+    // Check if any node has been rotated
+    if (root != null && root.color == RED) {
+        return false;
+    }
+
+    // Check if any rotation occurred during insertion
+    if (hasRotationOccurred()) {
+        return true;
+    }
+
+    return false;
+}
+
+// Helper method to check if rotation occurred
+private boolean hasRotationOccurred() {
+    return (root != null && root.color == RED) || (root.left != null && root.left.color == RED) || 
+           (root.right != null && root.right.color == RED);
+}
+```
+
+This method ensures that the `TreeMap` is in a valid state by checking the comparator, root node, size consistency, parent-child links, root color, and whether balancing operations have been performed after insertions.

@@ -1,0 +1,41 @@
+
+Here's the representation invariant for the NodeCachingLinkedList class:
+
+```java
+public boolean repOK() {
+    if (header.next == header) {
+        return size == 0;
+    }
+
+    LinkedListNode current = header.next;
+    while (current != header) {
+        if (current.next == null || current.next != current.previous) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    if (firstCachedNode != null) {
+        LinkedListNode currentCached = firstCachedNode;
+        while (currentCached != null) {
+            if (currentCached.next == null || currentCached.next != currentCached.previous) {
+                return false;
+            }
+            currentCached = currentCached.next;
+        }
+    }
+
+    if (cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+This representation invariant checks the following properties:
+
+1.  The header node is the only node that points to itself, and the size of the list is 0.
+2.  The linked list is doubly linked, meaning that each node has a reference to its previous and next node.
+3.  The cache is a linked list that is separate from the main linked list, and each node in the cache has a reference to its previous and next node.
+4.  The cache size does not exceed the maximum cache size.

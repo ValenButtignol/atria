@@ -1,0 +1,126 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. Let me first understand what the TreeMap class does. It's a balanced binary search tree that maintains keys in sorted order. Each node has a key, a value, a color (red or black), and pointers to left and right children. The class also has methods for inserting nodes, finding the correct position, and balancing the tree.
+
+The representation invariant should be a boolean method called repOK that returns true if the tree is in a valid state and false otherwise. I need to ensure that the method only checks properties that I'm completely sure are valid.
+
+Let me think about the key properties that must hold for the tree to be valid:
+
+1. **Null Check for Comparator**: The comparator used to order the keys shouldn't be null. If it's null, the TreeMap might not function correctly because it relies on comparison to maintain order.
+
+2. **Root Node Check**: The root node should exist and be in a valid state. If the root is null, the tree is empty, but if it's not null, it should have proper children.
+
+3. **Size Check**: The size of the tree should be consistent with the number of nodes. If the size is incorrect, the tree's structure is invalid.
+
+4. **Balanced Tree Check**: The tree should be balanced. If it's not, operations like insertion could disrupt the structure, leading to inefficiencies or incorrect behavior.
+
+5. **Color Constraints**: Each node must have the correct color based on its position in the tree. For example, the root should be black, and its children should be red. This ensures that the tree remains balanced after rotations.
+
+6. **Parent and Child Relationships**: Each node's parent and children must be correctly linked. If a node's parent isn't set correctly or if the children are misaligned, the tree's structure is broken.
+
+Now, how can I translate these thoughts into a method?
+
+First, I'll check if the comparator is null. If it is, the tree can't compare keys, so it's invalid.
+
+Next, I'll check if the root is null. If the root is null, the tree is empty, which is valid only if the size is zero. If the root exists, I need to ensure it's a black node.
+
+Then, I'll verify the size. The size should match the number of nodes in the tree. If the size is incorrect, the tree is invalid.
+
+For the balanced check, I can perform a traversal of the tree to ensure that for every node, its left and right children are either both present and balanced or appropriately null. This might involve checking the height or structure recursively.
+
+I'll also check the color of each node. The root must be black. For each node, its left child should be red, and the right child should also be red if the node is black. If a node's color doesn't match its position, the tree is unbalanced.
+
+Additionally, I'll ensure that each node's parent is correctly set. If any node's parent is null when it shouldn't be, or if the parent-child links are incorrect, the tree is invalid.
+
+Putting it all together, the repOK method will perform these checks step by step, returning false if any condition fails and true only if all are satisfied.
+</think>
+
+To ensure the TreeMap class maintains a valid structure, the `repOK` method verifies several critical properties:
+
+1. **Comparator Non-Null**: The comparator used for ordering keys must not be null.
+2. **Root Node Validity**: The root node exists and is black.
+3. **Size Consistency**: The size of the tree matches the number of nodes.
+4. **Balanced Structure**: The tree remains balanced, ensuring efficient operations.
+5. **Color Constraints**: Each node adheres to the expected color (root is black, children are red).
+6. **Correct Parent-Child Links**: Each node's parent and children are properly linked.
+
+Here is the `repOK` method:
+
+```java
+public boolean repOK() {
+    // Check if the comparator is null
+    if (comparator == null) {
+        return false;
+    }
+
+    // Check if the root is null (tree is empty)
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check if the root is black
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Check if the size is correct
+    if (size < 0) {
+        return false;
+    }
+
+    // Check if the tree is balanced
+    if (!isBalanced(root)) {
+        return false;
+    }
+
+    // Check if all nodes have correct parent and child relationships
+    if (!hasCorrectParentChildLinks(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+// Checks if the tree is balanced
+private boolean isBalanced(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check left and right subtrees
+    boolean leftBalanced = isBalanced(node.left);
+    boolean rightBalanced = isBalanced(node.right);
+
+    // Check if left and right subtrees are balanced and correctly placed
+    if (leftBalanced && rightBalanced) {
+        return true;
+    }
+
+    return false;
+}
+
+// Checks if all nodes have correct parent and child relationships
+private boolean hasCorrectParentChildLinks(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check if node's parent is correctly set
+    if (node.parent == null) {
+        // Root node's parent should be null
+        if (!node.equals(root)) {
+            return false;
+        }
+    } else {
+        // Check if node's parent is correctly linked
+        if (!node.parent.left.equals(node) && !node.parent.right.equals(node)) {
+            return false;
+        }
+    }
+
+    // Recursively check children
+    return hasCorrectParentChildLinks(node.left) && hasCorrectParentChildLinks(node.right);
+}
+```
+
+This method ensures that the TreeMap maintains its structural integrity, validating the comparator, root node, size, balance, node colors, and parent-child relationships.

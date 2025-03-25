@@ -1,0 +1,146 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. The representation invariant is a boolean method that returns true if the object is valid and false otherwise. I should only verify properties that I'm completely sure are valid.
+
+First, I'll look at the structure of the TreeMap class. It's a balanced binary search tree (BST) with each node having a color (red or black), a key, a value, pointers to left and right children, and a parent. The tree maintains the BST property based on the comparator, and it's a red-black tree because of the color attributes.
+
+So, the key properties I need to verify are:
+
+1. **BST Property**: For every node, all keys in the left subtree are less than the node's key, and all keys in the right subtree are greater than the node's key. This ensures the tree is a BST.
+
+2. **Red-Black Tree Properties**:
+   - Every node is either red or black.
+   - The root is black.
+   - All leaves (null nodes) are considered black.
+   - No two red nodes are adjacent (parent and child are both red).
+
+3. **Size Consistency**: The size of the tree (number of nodes) should match the count of non-null nodes.
+
+Let me break down each of these properties.
+
+**BST Property**:
+- For each node, check that all keys in the left subtree are less than the node's key.
+- Similarly, all keys in the right subtree are greater than the node's key.
+- This can be done recursively, but since I'm writing a method, I'll need to ensure that for every node, its left and right children (if any) satisfy the BST property relative to it.
+
+**Red-Black Tree Properties**:
+- Each node has a color (red or black). So, I should check that all nodes are either red or black.
+- The root must be black. If the tree is empty, the root is null, which is considered black.
+- No two red nodes are adjacent. This means that if a node is red, its parent and children must be black.
+
+**Size Consistency**:
+- The size variable should accurately reflect the number of nodes in the tree. This means that every time a node is added or removed, the size should be updated correctly.
+- Additionally, the size should always be equal to the number of non-null nodes in the tree.
+
+Now, considering the methods in the TreeMap class, I can see that the size is maintained correctly. The put method increments size when a new node is added, and the remove method decrements it when a node is removed.
+
+Putting this all together, the repOK method should check:
+- All nodes are either red or black.
+- The root is black.
+- The BST property holds for all nodes.
+- No two red nodes are adjacent.
+- The size matches the number of nodes.
+
+I'll structure the repOK method to check each of these properties in sequence. If any property fails, the method returns false; otherwise, it returns true.
+
+I should also handle edge cases, such as an empty tree (root is null), and ensure that all nodes are properly colored and that the BST property is maintained throughout the tree.
+
+So, the repOK method will:
+1. Check if the root is null (tree is empty) and ensure that all nodes are correctly colored.
+2. Verify that the BST property holds for each node.
+3. Ensure that no two red nodes are adjacent.
+4. Confirm that the size is consistent with the number of nodes.
+
+I think that covers all the necessary checks. Now, I'll write the repOK method accordingly.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    // Check all nodes are either red or black
+    if (!isNodeRedOrBlack(root)) {
+        return false;
+    }
+
+    // Check root is black
+    if (!root.isBlack()) {
+        return false;
+    }
+
+    // Check BST property for all nodes
+    if (!isBSTPropertySatisfied(root)) {
+        return false;
+    }
+
+    // Check no two red nodes are adjacent
+    if (!isRedNodeNotAdjacent(root)) {
+        return false;
+    }
+
+    // Check size consistency
+    if (size != countNodes(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isNodeRedOrBlack(Node node) {
+    return node != null ? (node.isRed() || node.isBlack()) : true;
+}
+
+private boolean isBSTPropertySatisfied(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    int key = node.getKey();
+    int leftKey = (node.left != null) ? node.left.getKey() : Integer.MIN_VALUE;
+    int rightKey = (node.right != null) ? node.right.getKey() : Integer.MAX_VALUE;
+
+    if (leftKey != Integer.MIN_VALUE && leftKey >= key) {
+        return false;
+    }
+
+    if (rightKey != Integer.MAX_VALUE && rightKey <= key) {
+        return false;
+    }
+
+    return isBSTPropertySatisfied(node.left) && isBSTPropertySatisfied(node.right);
+}
+
+private boolean isRedNodeNotAdjacent(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.isRed()) {
+        if (node.parent != null && node.parent.isRed()) {
+            return false;
+        }
+    }
+
+    return isRedNodeNotAdjacent(node.left) && isRedNodeNotAdjacent(node.right);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    int count = 1;
+
+    if (node.left != null) {
+        count += countNodes(node.left);
+    }
+
+    if (node.right != null) {
+        count += countNodes(node.right);
+    }
+
+    return count;
+}
+```

@@ -1,0 +1,108 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class. The invariant should be a boolean method called repOK that returns true if the object is valid and false otherwise. 
+
+First, I should understand what the LinkedList class does. It has a header and a size. The header is a dummy node that acts as the starting point. The size variable keeps track of the number of elements in the list.
+
+Looking at the methods, add adds an element before a given entry, remove deletes an element, and clear resets the list. The Entry class has element, next, and previous fields.
+
+For the representation invariant, I need to check properties that are definitely valid. So, I should verify that the list's structure is consistent.
+
+I think about the header. It should always point to itself as the next and previous. So, header.next should be header and header.previous should be header. If not, the list is invalid.
+
+Next, the size should be equal to the number of entries in the list. So, the size should be equal to the count of non-null elements in the list.
+
+I should also check that each entry's next and previous pointers form a consistent chain. For each entry, if it's not the header, its previous should not be null and its next should not be null. Also, the next of an entry should not point back to a previous entry, ensuring no cycles except at the header.
+
+Wait, but in the addBefore method, newEntry is inserted between e and e.previous. So, each entry (except header) should have a non-null previous and next. The header's next and previous are itself.
+
+So, in repOK, I'll check:
+
+1. header.next == header and header.previous == header.
+2. size equals the number of entries where element is not null.
+3. For each entry, if it's not header, previous and next are not null.
+4. For each entry, next's previous is the entry itself, and previous's next is the entry itself.
+
+Wait, but checking all entries might be too much for a representation invariant. Maybe I can find a way to verify without iterating all entries, but perhaps it's necessary.
+
+Alternatively, I can count the number of entries and ensure it matches the size. Also, check that the header's next and previous are correct.
+
+So, the steps for repOK:
+
+- Check if header.next is header and header.previous is header.
+- Iterate through the list starting from header.next and count the entries.
+- Ensure the count equals size.
+- For each entry, check that previous and next are not null, except for the header.
+
+Wait, but the header's next and previous are itself, so for other entries, their previous and next should not be null.
+
+So, in code:
+
+public boolean repOK() {
+    // Check header's next and previous
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Count the number of entries
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element != null) {
+            count++;
+        }
+    }
+
+    // Check size matches count
+    if (size != count) {
+        return false;
+    }
+
+    // Check each entry's next and previous
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.previous == null || e.next == null) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+Wait, but in the addBefore method, when adding before the header, the newEntry's previous would be header's previous, which is header. So, the header's next is header, and each entry (except header) has non-null previous and next.
+
+So, the checks should ensure that all entries (except header) have non-null previous and next, and the header's next and previous are itself.
+
+I think that's sufficient. So, the repOK method will perform these checks.
+</think>
+
+To determine if the `LinkedList` object is in a valid state, the `repOK` method verifies the consistency of the header's links and the correspondence between the size and the number of valid entries. It also ensures that each entry (except the header) has non-null previous and next pointers.
+
+```java
+public boolean repOK() {
+    // Check if the header's next and previous are itself
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Count the number of valid entries
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element != null) {
+            count++;
+        }
+    }
+
+    // Check if the size matches the count of valid entries
+    if (size != count) {
+        return false;
+    }
+
+    // Check each entry's next and previous pointers
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.previous == null || e.next == null) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```

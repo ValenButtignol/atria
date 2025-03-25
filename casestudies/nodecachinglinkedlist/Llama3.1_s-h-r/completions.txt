@@ -1,0 +1,41 @@
+
+```java
+public boolean repOK() {
+    // The header node should be the first node in the list
+    if (header.next != header) {
+        return false;
+    }
+
+    // The size of the list should be equal to the number of nodes
+    if (size != countNodes(header)) {
+        return false;
+    }
+
+    // The cache size should not exceed the maximum cache size
+    if (cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    // The first cached node should be the first node in the cache
+    if (firstCachedNode != null && firstCachedNode.next != null) {
+        return false;
+    }
+
+    // All nodes in the list should have a valid previous and next node
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        if (node.previous == null || node.next == null) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+private int countNodes(LinkedListNode node) {
+    int count = 0;
+    for (LinkedListNode n = node; n != node; n = n.next) {
+        count++;
+    }
+    return count;
+}
+```

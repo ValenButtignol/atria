@@ -1,0 +1,90 @@
+
+<think>
+Okay, I need to write a representation invariant for the BinTree class. Let me think about what a representation invariant is. It's a method that checks if the object is in a valid state. So, for BinTree, which is a binary search tree, I need to ensure that it maintains the BST properties.
+
+First, I should recall what a BST is. Each node's left subtree contains only nodes with keys less than the node's key, and the right subtree contains nodes with keys greater than the node's key. Also, both subtrees are also BSTs.
+
+Looking at the BinTree class, it has a root node and a size. The add method adds nodes correctly according to BST rules. But I need to check if the current structure of the tree is a valid BST.
+
+So, the repOK method should verify that for every node, all nodes in its left subtree are less than it, and all nodes in the right subtree are greater than it.
+
+How can I traverse the tree to check this? Maybe using a helper method that recursively checks each node. For each node, it should ensure that all left descendants are less than the node's value and all right descendants are greater.
+
+Wait, but how do I get the node's value? The current Node class in BinTree has an 'info' field, which is the key. So, I can compare the info of each node.
+
+I should also make sure that the tree isn't null when size is zero. Because if size is zero, the root should be null.
+
+Let me outline the steps:
+1. Check if size is zero. If so, root must be null.
+2. For each node, check that all left children are less than the node's info.
+3. Check that all right children are greater than the node's info.
+
+But how do I traverse the tree? Maybe a helper function that takes a node and the allowed min and max values. For the root, min is negative infinity and max is positive infinity. Then, for each left child, the max becomes the current node's info, and for each right child, the min becomes the current node's info.
+
+Wait, that makes sense. So, for each node, when moving left, the node's value must be greater than all left descendants, so the max for the left child is the current node's info. Similarly, when moving right, the node's value must be less than all right descendants, so the min for the right child is the current node's info.
+
+So, the helper function could be something like:
+
+private boolean checkBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info < min || node.info > max) {
+        return false;
+    }
+    return checkBST(node.left, min, node.info) && checkBST(node.right, node.info, max);
+}
+
+Then, in repOK, I can call this helper starting from the root with min as Integer.MIN_VALUE and max as Integer.MAX_VALUE.
+
+But wait, what about the case when the tree is empty? If size is zero, root is null, so the helper function would return true, which is correct.
+
+Also, I need to handle the case where the tree has only one node. The helper function should correctly validate that.
+
+Another thing to consider: the helper function should correctly handle all nodes, including leaves. For a leaf node, both left and right are null, so the helper returns true.
+
+So, putting it all together, the repOK method would:
+
+- If size is zero, check that root is null.
+- Otherwise, call the helper function starting from root with min as Integer.MIN_VALUE and max as Integer.MAX_VALUE.
+
+Wait, but in the helper function, for the root, min is -infinity and max is +infinity. So, the root's info can be anything, which is correct.
+
+Let me think about some test cases.
+
+Test case 1: A single node. The helper function should return true.
+
+Test case 2: A tree where a left child is greater than the root. The helper function should catch that.
+
+Test case 3: A tree where a right child is less than the root. The helper function should catch that.
+
+Test case 4: A tree where a left child is greater than its parent, but less than the root. That's allowed in a BST.
+
+Wait, no. In a BST, each node's left child must be less than it, but greater than its left descendants. So, if a node's left child is greater than the node but less than the root, that's fine.
+
+So, the helper function correctly enforces that each node's value is within the min and max constraints, ensuring the BST property.
+
+I think this approach covers all necessary checks. Now, I'll write the repOK method accordingly.
+</think>
+
+To ensure the BinTree class maintains the properties of a binary search tree, the representation invariant method `repOK` checks each node to confirm that all left descendants are less than the node's value and all right descendants are greater.
+
+```java
+public boolean repOK() {
+    if (size == 0) {
+        return root == null;
+    }
+    
+    return checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+}
+
+private boolean checkBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info < min || node.info > max) {
+        return false;
+    }
+    return checkBST(node.left, min, node.info) && checkBST(node.right, node.info, max);
+}
+```

@@ -1,0 +1,250 @@
+
+<think>
+Okay, so I need to write a representation invariant for the AvlTree class. I'm a bit new to this, but I'll try to think it through step by step.
+
+First, I remember that a representation invariant is a boolean method that checks if the object's invariants hold. For the AvlTree, the main invariant is that it remains balanced according to the allowed imbalance. So, the method should verify that the tree isn't too unbalanced.
+
+Looking at the AvlTree code, I see that when inserting or removing a node, the tree is balanced using methods like rotateWithLeftChild and doubleWithLeftChild. These methods adjust the tree's structure to keep it balanced within the allowed imbalance.
+
+So, the repOK method should check if the tree is balanced. How do I do that? Well, I think I need to calculate the heights of the left and right subtrees for each node and ensure that the difference doesn't exceed the allowed imbalance.
+
+Wait, but how do I traverse the tree to check all nodes? Maybe a recursive approach would work. For each node, check its left and right children's heights. If any node violates the balance condition, return false.
+
+Also, I should make sure that the root isn't null. If the root is null, the tree is empty, which is fine, but if it's not null, we need to check its balance.
+
+Another thing to consider is that the allowed imbalance is set to 1. So, the difference in heights between the left and right subtrees should be at most 1.
+
+Let me outline the steps:
+1. Check if the root is null. If it is, return true because an empty tree is balanced.
+2. For each node, recursively check its left and right children.
+3. For each node, calculate the heights of the left and right subtrees.
+4. If the difference in heights exceeds the allowed imbalance, return false.
+5. If all nodes satisfy the balance condition, return true.
+
+Wait, but how do I calculate the height of a subtree? There's a height method in the AvlNode class. So, I can call node.height to get the height of the current node's subtree.
+
+Putting it all together, the repOK method will traverse the tree, check each node's balance, and return false if any imbalance is found. Otherwise, it returns true.
+
+I should also handle the case where the tree is empty. If the root is null, the tree is empty, so it's balanced. But if the root exists, we need to check the balance.
+
+Let me think about the code structure. The method will be called repOK and return a boolean. It will start by checking if the root is null. If not, it will recursively check each node.
+
+Wait, but in the AvlTree class, the root is a public field. So, in the repOK method, I can directly access it.
+
+So, the code might look something like this:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    return checkBalance(root) != -1;
+}
+
+But wait, I need to implement checkBalance as a helper method that returns true if the tree is balanced, false otherwise.
+
+Alternatively, I can have the repOK method itself perform the check without a helper.
+
+Hmm, perhaps it's better to have a helper method for clarity. But since the user didn't specify any particular structure, I'll write it directly in repOK.
+
+Wait, no, the user provided an example for the LinkedList where repOK is a boolean method. So, I should follow that structure.
+
+So, the repOK method will directly check the balance.
+
+Let me try writing it:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    return isBalanced(root);
+}
+
+But then I need to define isBalanced as a helper method.
+
+Alternatively, I can write it all within repOK using a helper function.
+
+Wait, but in the example for LinkedList, the repOK method is written as a single method. So, perhaps I should write it recursively within repOK.
+
+Let me try:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return repOK(root.left) && repOK(root.right);
+}
+
+Wait, but this only checks the immediate children's heights. What about deeper imbalances? For example, if the left subtree is balanced, but the right subtree has a deeper imbalance.
+
+No, because if the root's left and right are balanced, and each of their subtrees are also balanced, then the entire tree is balanced. So, the recursive approach should work.
+
+But I need to make sure that the helper method correctly calculates the height. The height method is already provided in the AvlNode class.
+
+Wait, in the AvlNode class, the height is stored as a field. So, I can call node.height to get the height.
+
+So, the helper method would be:
+
+private int height(AvlNode node) {
+    return node.height;
+}
+
+But since repOK is a public method, I can't have a private helper. So, I need to calculate the height within repOK.
+
+Alternatively, I can calculate the height within the repOK method itself.
+
+Wait, but that might complicate things. Maybe it's better to have a helper method.
+
+Alternatively, I can write the height calculation directly in repOK.
+
+Wait, but the height method is already part of the AvlNode class. So, I can call it.
+
+Wait, no, because the repOK method is in the AvlTree class, and the height method is in AvlNode. So, I can't directly call it unless it's static or I have a reference.
+
+Wait, in the AvlTree class, the AvlNode is a static inner class. So, the height method is a static method? No, looking back, the AvlNode class has a height field, not a method. So, I can't call height on a node unless I have a method that does so.
+
+Wait, in the AvlNode class, the height is a public field. So, I can access it as node.height.
+
+So, in the repOK method, I can do:
+
+int leftHeight = (root.left != null ? root.left.height : -1);
+int rightHeight = (root.right != null ? root.right.height : -1);
+
+But wait, the height is defined as the height of the subtree. So, if a node is null, its height is -1.
+
+Wait, in the height method, it returns -1 for null nodes. So, I can use that.
+
+But since the height method is in the AvlNode class, I can't call it directly from the AvlTree class unless it's static.
+
+Wait, looking at the code, the height method is private and in the AvlNode class. So, I can't access it from AvlTree.
+
+So, I need to implement the height calculation within the repOK method.
+
+Alternatively, I can write a helper method in the AvlTree class to calculate the height of a node.
+
+But since the user didn't specify any particular structure, I'll proceed.
+
+So, in the repOK method, for each node, I'll calculate the height of its left and right children.
+
+Wait, but calculating the height recursively would be more efficient, but perhaps it's easier to do it iteratively.
+
+Alternatively, I can write a helper method to calculate the height of a node.
+
+But perhaps it's better to proceed as follows:
+
+In the repOK method, for the root, check if it's null. If not, check its left and right children's heights.
+
+If the difference in heights exceeds the allowed imbalance, return false.
+
+Then, recursively check the left and right subtrees.
+
+So, the code would look something like:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return repOK(root.left) && repOK(root.right);
+}
+
+But I need to implement the height calculation.
+
+Wait, perhaps I can write a helper method in the AvlTree class to calculate the height of a node.
+
+Let me add a helper method:
+
+private int getHeight(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+    return node.height;
+}
+
+Then, in repOK:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    int leftHeight = getHeight(root.left);
+    int rightHeight = getHeight(root.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return repOK(root.left) && repOK(root.right);
+}
+
+This seems reasonable.
+
+Wait, but what about deeper imbalances? For example, if the left subtree is balanced, but the right subtree has a deeper imbalance.
+
+No, because if the root's left and right are balanced, and each of their subtrees are also balanced, then the entire tree is balanced.
+
+So, the recursive approach should work.
+
+Another thing to consider: if the root is not null, but one of its children is null. For example, if the root has a left child but no right child. In that case, the height of the right child is -1, and the difference would be leftHeight - (-1), which could be larger than the allowed imbalance.
+
+So, the code should handle that.
+
+Wait, but in the AvlTree's balance method, it's allowed to have a single imbalance of 1. So, if the left height is 2 and the right is 1, the difference is 1, which is allowed.
+
+But if the left is 3 and the right is 1, the difference is 2, which is more than allowed, so it should return false.
+
+So, the code correctly checks that.
+
+I think this should work. So, the repOK method will check each node's balance, ensuring that the tree remains within the allowed imbalance.
+
+Another thing to consider: the allowed imbalance is 1. So, the difference in heights between left and right subtrees should not exceed 1.
+
+Yes, the code checks for Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE, which is 1.
+
+So, if the difference is more than 1, it returns false.
+
+Therefore, the repOK method should correctly enforce the balance invariant for the AvlTree.
+</think>
+
+To ensure the AvlTree remains balanced according to the allowed imbalance, the `repOK` method checks each node's left and right subtree heights. If any node's imbalance exceeds the allowed limit, the method returns `false`, indicating the tree is unbalanced. If all nodes satisfy the balance condition, it returns `true`.
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    int leftHeight = getHeight(root.left);
+    int rightHeight = getHeight(root.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return repOK(root.left) && repOK(root.right);
+}
+
+private int getHeight(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+    return node.height;
+}
+```

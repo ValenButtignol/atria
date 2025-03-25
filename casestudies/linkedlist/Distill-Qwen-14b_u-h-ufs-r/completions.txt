@@ -1,0 +1,229 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class. The repOK method should check all the invariants that ensure the object is valid. Let me think about what properties the LinkedList must satisfy.
+
+First, the LinkedList uses Entry objects to store elements. Each Entry has a next and previous pointer. The header is a special Entry that acts as a sentinel. So, the size should be equal to the number of Entry objects between header.next and header, excluding the header itself.
+
+Wait, the size is maintained as an instance variable. So, one invariant is that the size should match the actual count of entries in the list. I can traverse the list from header.next and count the nodes until I loop back to header. If the count doesn't match size, something's wrong.
+
+Another thing to check is the integrity of the Entry links. Each Entry's next and previous should form a consistent cycle. For example, the next of any Entry except the last should not point to null, and the previous of any Entry except the first should not point to null. Also, every Entry's next's previous should point back to it, and every Entry's previous's next should point back to it. This ensures that the doubly linked list is correctly formed.
+
+I should also check that the header's next and previous point to the same Entry, which is the first element. If the list is empty, header.next should be header, and size should be zero.
+
+Let me outline the steps the repOK method should perform:
+
+1. Check if the size is zero. If so, ensure that header.next and header.previous are both header, and that header.next == header.previous == header.
+
+2. If the size is not zero, traverse the list starting from header.next. Keep track of the number of nodes. If the count doesn't match size, return false.
+
+3. During traversal, for each Entry, check that next and previous are not null (except possibly for the last Entry's next, but wait, in a correctly formed list, all next and previous should point to valid Entries except when the list is empty).
+
+Wait, no. In a non-empty list, each Entry's next should point to another Entry, and the last Entry's next should point back to header. Similarly, each Entry's previous should point to another Entry, and the first Entry's previous should point to header.
+
+Wait, no. Let me think again. The header is a sentinel. So, for a list with elements A -> B -> C -> ... -> Z, the header's next is A, and A's previous is header. Z's next is header, and header's previous is Z.
+
+So, for each Entry e in the list (excluding header), e.next should not be null, and e.previous should not be null. Also, e.next.previous should be e, and e.previous.next should be e.
+
+So, in the repOK method, I can do the following:
+
+- If size is zero, check that header.next == header and header.previous == header.
+
+- Else, traverse the list starting from header.next. For each Entry e:
+
+   a. Check that e.next != null and e.previous != null.
+
+   b. Check that e.next.previous == e and e.previous.next == e.
+
+   c. Also, ensure that the traversal doesn't loop indefinitely, which would indicate a cycle not involving the header.
+
+- Additionally, check that the number of nodes traversed equals the size.
+
+Another thing to consider: the header's next and previous should always point to the same Entry if the list is non-empty. So, if size > 0, header.next should not be header, and header.next's previous should be header. Similarly, header.previous should be the last Entry, whose next is header.
+
+Wait, no. The header's next is the first Entry, and the header's previous is the last Entry. So, in a non-empty list, header.next != header and header.previous != header.
+
+So, in the repOK method, I can add checks for that.
+
+Putting it all together, the repOK method will:
+
+- Check if size is zero: header.next == header and header.previous == header.
+
+- Else, traverse the list from header.next, counting nodes. If the count doesn't match size, return false.
+
+- For each node, check that next and previous are not null.
+
+- For each node, check that next.previous == current node and previous.next == current node.
+
+- Also, ensure that the traversal eventually comes back to header, and that the last node's next is header, and its previous is the node before it.
+
+Wait, but in the traversal, how do I know when to stop? Because in a correct list, starting from header.next, each next should lead to the next node, and the last node's next is header. So, the traversal should end when I reach header again.
+
+So, in code:
+
+int count = 0;
+Entry current = header.next;
+while (current != header) {
+    count++;
+    // check current.next and current.previous
+    if (current.next == null || current.previous == null) {
+        return false;
+    }
+    if (current.next.previous != current || current.previous.next != current) {
+        return false;
+    }
+    current = current.next;
+}
+if (count != size) {
+    return false;
+}
+
+Also, check that header.next != null when size > 0, and that header.next's previous is header.
+
+Wait, but in the code above, when size > 0, current starts as header.next, which is the first node. So, the loop runs count times, and if count != size, return false.
+
+Additionally, after the loop, check that current is header, which it should be.
+
+Another thing: the header's next and previous should point to the same node if the list has only one element. So, for size 1, header.next should equal header.previous, which is the single node.
+
+Wait, no. For size 1, header.next is the node, and header.previous is also the node. So, node's next is header, and node's previous is header.
+
+So, in the repOK method, after the loop, current should be header.
+
+So, putting it all together, the repOK method would look something like this:
+
+public boolean repOK() {
+    if (size == 0) {
+        return (header.next == header) && (header.previous == header);
+    }
+
+    Entry current = header.next;
+    int count = 0;
+    while (current != header) {
+        count++;
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    if (count != size) {
+        return false;
+    }
+
+    // Check that the header's next and previous are correct
+    if (header.next != header) {
+        if (header.next.previous != header) {
+            return false;
+        }
+    }
+    if (header.previous != header) {
+        if (header.previous.next != header) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+Wait, but in the case where size is 1, the loop runs once, count is 1, which equals size. Then, the header's next is the node, and the node's previous is header. Similarly, header's previous is the node, and the node's next is header.
+
+So, the additional checks after the loop are redundant because the loop already ensures that the last node's next is header, and the first node's previous is header.
+
+Hmm, perhaps the additional checks are not necessary because the loop already covers that.
+
+Wait, in the loop, current starts as header.next, and each step moves to current.next. The loop ends when current is header. So, the last step is when current is the last node, and current.next is header. So, the loop correctly counts all nodes.
+
+Therefore, the additional checks after the loop are not needed because the loop ensures that the links are correct.
+
+So, the repOK method can be written as:
+
+public boolean repOK() {
+    if (size == 0) {
+        return (header.next == header) && (header.previous == header);
+    }
+
+    Entry current = header.next;
+    int count = 0;
+    while (current != header) {
+        count++;
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    return count == size;
+}
+
+Wait, but what about the case where the list is not properly linked, leading to a cycle that doesn't include the header? For example, if two nodes point to each other in a way that forms a loop, the while loop would never terminate, causing an infinite loop. So, to prevent that, I should add a guard against infinite loops.
+
+How can I detect that? Well, I can limit the number of steps to size + 1. Because in a correct list, the loop should terminate after size steps. If it takes more steps, there's a cycle.
+
+So, modify the loop to have a maximum iteration count:
+
+public boolean repOK() {
+    if (size == 0) {
+        return (header.next == header) && (header.previous == header);
+    }
+
+    Entry current = header.next;
+    int count = 0;
+    while (current != header && count < size) {
+        count++;
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    return (current == header) && (count == size);
+}
+
+This way, if the loop doesn't reach header within size steps, it returns false, preventing an infinite loop.
+
+Another thing to consider: the header's next and previous should point to the same node if the list has only one element. But in the code above, when size is 1, the loop runs once, count becomes 1, and current becomes header. So, the condition (current == header) is true, and count == size is also true, so it returns true.
+
+What about when the list is empty but size is not zero? The first condition checks if size is zero, but if size is not zero and the header's next is header, that's invalid. So, the first condition correctly handles that.
+
+I think this covers all the necessary checks. So, the repOK method should perform these validations.
+</think>
+
+To ensure the LinkedList object is valid, the `repOK` method checks the following:
+
+1. **Size Consistency**: The size of the list must match the number of nodes traversed from the header.
+2. **Node Integrity**: Each node must have valid next and previous pointers, ensuring the doubly linked structure is maintained.
+3. **Cycle Prevention**: The traversal must terminate correctly, preventing infinite loops due to invalid links.
+
+Here is the `repOK` method:
+
+```java
+public boolean repOK() {
+    if (size == 0) {
+        return (header.next == header) && (header.previous == header);
+    }
+
+    Entry current = header.next;
+    int count = 0;
+    while (current != header && count < size) {
+        count++;
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    return (current == header) && (count == size);
+}
+```

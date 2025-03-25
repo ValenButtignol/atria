@@ -1,0 +1,53 @@
+
+Here's a representation invariant for the `BinTree` class, expressed as a method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the root is null, and if so, the size is 0
+    if (root == null && size != 0) {
+        return false;
+    }
+    
+    // Check if the root is not null, and if so, the size is greater than 0
+    if (root != null && size == 0) {
+        return false;
+    }
+    
+    // Check if the size is correct based on the number of nodes in the tree
+    if (size != countNodes(root)) {
+        return false;
+    }
+    
+    // Check if the tree is a valid binary tree (i.e., each node has at most two children)
+    return isValidBinaryTree(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+}
+
+private boolean isValidBinaryTree(Node node) {
+    if (node == null) {
+        return true;
+    }
+    
+    if (node.left != null && node.right != null) {
+        return false;
+    }
+    
+    return isValidBinaryTree(node.left) && isValidBinaryTree(node.right);
+}
+```
+
+In this representation invariant, we check the following conditions:
+
+1. If the root is null, then the size is 0.
+2. If the root is not null, then the size is greater than 0.
+3. The size is correct based on the number of nodes in the tree (i.e., the size is equal to the number of nodes in the tree).
+4. The tree is a valid binary tree (i.e., each node has at most two children).
+
+If all these conditions are met, then the representation invariant `repOK` returns true, indicating that the object is in a valid state. Otherwise, it returns false, indicating that the object is in an invalid state.

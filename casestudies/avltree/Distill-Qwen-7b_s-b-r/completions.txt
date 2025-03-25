@@ -1,0 +1,80 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. Representation invariants are crucial because they define the conditions that must hold for the data structure to maintain its integrity. Without them, the tree could become unbalanced or malformed, leading to incorrect operations.
+
+First, I'll look at the structure of the AvlTree class. It has a root node of type AvlNode, which itself contains elements, left and right children, and a height. The class has methods for inserting, removing elements, finding the minimum, checking if the tree is empty, balancing the tree, and rotating nodes to maintain balance.
+
+I know that in an AVL tree, the key property is that the heights of the two child subtrees of any node differ by at most one. This is what allows the tree to maintain balance and ensure logarithmic time complexity for operations.
+
+So, the primary representation invariant here is that for every node in the tree, the difference between the heights of its left and right children is no more than one. This ensures that the tree remains balanced.
+
+Additionally, the tree must be a valid binary search tree (BST). This means that for any node, all elements in the left subtree are less than the node's element, and all elements in the right subtree are greater. This property is essential for the findMin method to work correctly, as it relies on the BST property to find the minimum element by traversing to the leftmost node.
+
+I should also consider the root node. The root must not be null unless the tree is empty. This is handled by the isEmpty method, which returns true if the root is null.
+
+Another point is that when inserting or removing nodes, the tree is rebalanced to maintain the AVL property. The balance method ensures that after any modification, the heights are adjusted to satisfy the balance condition.
+
+So, putting it all together, the representation invariant for the AvlTree class is twofold:
+
+1. The tree is a valid BST, meaning all left subtree elements are less than the root, and all right subtree elements are greater.
+2. For every node, the heights of the left and right subtrees differ by at most one.
+
+These two conditions ensure that the tree remains balanced and functions correctly for all operations.
+</think>
+
+The representation invariant for the `AvlTree` class ensures that the tree maintains its AVL properties and is a valid binary search tree. Here's the invariant:
+
+```java
+public static void repOK() {
+    // The tree is a valid binary search tree (BST)
+    if (!isBST()) {
+        throw new RuntimeException("Tree is not a valid binary search tree.");
+    }
+
+    // For every node, the heights of the left and right subtrees differ by at most one
+    if (!isBalanced()) {
+        throw new RuntimeException("Tree is not balanced.");
+    }
+}
+
+private static boolean isBST() {
+    if (root == null) {
+        return true;
+    }
+
+    return isBSTHelper(root);
+}
+
+private static boolean isBSTHelper(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check BST property for current node
+    if ((node.left != null && node.left.element >= node.element) ||
+        (node.right != null && node.right.element <= node.element)) {
+        return false;
+    }
+
+    // Recursively check left and right subtrees
+    boolean leftBST = isBSTHelper(node.left);
+    boolean rightBST = isBSTHelper(node.right);
+
+    // Check balance condition for current node
+    int leftHeight = (node.left == null) ? -1 : node.left.height;
+    int rightHeight = (node.right == null) ? -1 : node.right.height;
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+    }
+
+    return leftBST && rightBST;
+}
+```
+
+This invariant does two main checks:
+
+1. **Binary Search Tree (BST) Property**: Ensures that for every node, all elements in the left subtree are less than the node's element, and all elements in the right subtree are greater. This is verified recursively in the `isBSTHelper` method.
+
+2. **Balance Condition**: Ensures that for every node, the heights of the left and right subtrees differ by at most one. This is checked in both `isBSTHelper` and `repOK`.
+
+If either condition fails, the `repOK` method throws a `RuntimeException`, indicating that the tree's structure is invalid.

@@ -1,0 +1,52 @@
+
+To write the `repOK` method for the `AvlTree` class, we need to ensure that the representation invariant holds true. The representation invariant for an AVL tree is that for every node, the height of the left and right subtrees differ by at most 1. Additionally, the tree should maintain the binary search tree property.
+
+Here is the `repOK` method for the `AvlTree` class:
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true; // An empty tree satisfies the AVL property
+    }
+    return isAvl(root) && isBst(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+}
+
+private boolean isAvl(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+    return isAvl(node.left) && isAvl(node.right);
+}
+
+private boolean isBst(AvlNode node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.element <= min || node.element >= max) {
+        return false;
+    }
+    return isBst(node.left, min, node.element) && isBst(node.right, node.element, max);
+}
+```
+
+### Explanation:
+1. **`repOK` Method**:
+   - Checks if the tree is empty. An empty tree trivially satisfies the AVL property.
+   - Calls `isAvl` to check if the tree is balanced.
+   - Calls `isBst` to check if the tree satisfies the binary search tree property.
+
+2. **`isAvl` Method**:
+   - Recursively checks if the height difference between the left and right subtrees of each node is at most `ALLOWED_IMBALANCE`.
+   - Returns `true` if the tree is balanced, otherwise `false`.
+
+3. **`isBst` Method**:
+   - Recursively checks if each node's value is within the valid range defined by its ancestors.
+   - Ensures that the left subtree contains only values less than the node's value and the right subtree contains only values greater than the node's value.
+   - Returns `true` if the tree satisfies the BST property, otherwise `false`.
+
+This `repOK` method ensures that the `AvlTree` class maintains its representation invariant, which is crucial for the correctness of the AVL tree operations.

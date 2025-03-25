@@ -1,0 +1,83 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class in Java. Representation invariants are crucial because they define the conditions that must hold true for the data structure to function correctly. They help ensure that operations like insertion, deletion, and lookup maintain the integrity of the data structure.
+
+Looking at the HashMap class provided, I see it's a custom implementation with several methods like put, get, resize, and others. The class uses an array of Entry objects to store key-value pairs. Each Entry has a key, value, hash, and a next pointer for chaining.
+
+First, I should think about the key properties that a HashMap should maintain. The main ones are:
+
+1. **No Duplicate Keys**: Each key should appear only once in the HashMap. This is because HashMap uses the key to determine where to store the value, and having duplicate keys would lead to overwriting.
+
+2. **Correct Indexing**: The hash function should distribute the keys evenly across the table to minimize collisions. The indexFor method uses the hash to determine the bucket index.
+
+3. **Consistent Load Factor and Threshold**: The load factor determines how full the HashMap can get before it needs to resize. The threshold is the number of entries allowed before resizing occurs.
+
+4. **Correct Table Structure**: The table should be an array where each entry is either null or an Entry object. There should be no invalid entries or null pointers that cause issues during operations.
+
+5. **ModCount Synchronization**: The modCount variable is used to handle concurrent modifications. It should be incremented on insertion and resizing to maintain consistency.
+
+Now, considering these points, I'll outline the representation invariant. It should check that:
+
+- All keys are unique.
+- The table is correctly structured with entries either null or valid Entry objects.
+- The load factor and threshold are maintained correctly.
+- The modCount is properly updated.
+
+I'll structure the repOK method to perform these checks. It should return false if any of these conditions are violated.
+
+First, I'll check if the table is properly filled. Each bucket in the table should either be null or contain a valid Entry. I'll loop through each bucket and ensure this.
+
+Next, I'll verify that all keys are unique. I'll iterate through each bucket and each entry to check for duplicates. If any two entries have the same key, it's a violation.
+
+Then, I'll check the load factor and threshold. The current load factor should not exceed the specified load factor, and the threshold should be at least half the table size to ensure proper distribution.
+
+Finally, I'll ensure that modCount is correctly incremented during put and resize operations. If modCount doesn't match the expected value, it indicates a possible inconsistency due to concurrent modifications.
+
+Putting it all together, the repOK method will perform these checks in sequence. If any check fails, it returns false, indicating that the HashMap's state is invalid.
+</think>
+
+```java
+public boolean repOK() {
+    // Check that the table is properly filled with valid entries or nulls
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        if (e != null && (e.key == null || e.next == null)) {
+            return false;
+        }
+    }
+
+    // Check that all keys are unique
+    Set<Object> seenKeys = new HashSet<>();
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        if (e != null) {
+            Object key = e.getKey();
+            if (key == null) {
+                return false;
+            }
+            if (seenKeys.contains(key)) {
+                return false;
+            }
+            seenKeys.add(key);
+        }
+    }
+
+    // Check that the load factor and threshold are maintained
+    if (loadFactor > DEFAULT_LOAD_FACTOR || threshold < (int) (table.length * DEFAULT_LOAD_FACTOR / 2)) {
+        return false;
+    }
+
+    // Check that modCount is consistent with operations
+    int expectedModCount = 0;
+    for (Entry e : table) {
+        if (e != null) {
+            expectedModCount++;
+        }
+    }
+    if (modCount != expectedModCount) {
+        return false;
+    }
+
+    return true;
+}
+```

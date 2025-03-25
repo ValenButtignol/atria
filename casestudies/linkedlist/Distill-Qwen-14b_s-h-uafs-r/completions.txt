@@ -1,0 +1,70 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class. The repOK method should check all the invariants that ensure the object is valid. Let me think about what properties the LinkedList must maintain.
+
+First, the LinkedList uses a header Entry which acts as a sentinel. The header's next and previous should always point to itself because it's a circular linked list. So, I should check that header.next == header and header.previous == header. If not, something's wrong.
+
+Next, each Entry has a next and previous pointer. For any Entry e (except the header), e.next.previous should be e, and e.previous.next should be e. This ensures that the links are consistent. So, I'll loop through all entries and check this.
+
+The size variable keeps track of the number of elements. The size should be equal to the number of entries minus one because the header isn't counted as an element. So, I'll count the number of entries by traversing from the header's next until I loop back to the header and compare that count with size.
+
+Also, I need to ensure that there are no null elements in the list. The add method allows adding null, but the Entry's element can be null. However, the remove method handles nulls differently. Wait, no, the add method adds a null as an Entry, so maybe it's allowed. Hmm, but the repOK should check that all elements are valid. Maybe I should check that each Entry's element is not null? Or perhaps it's allowed to have null elements. Looking at the code, the Entry constructor allows null for element, next, and previous. So, perhaps the LinkedList allows null elements. So, maybe I shouldn't check for null elements.
+
+Wait, but in the remove method, if o is null, it looks for entries where e.element is null. So, the LinkedList can have null elements. Therefore, in repOK, I shouldn't enforce that elements are non-null.
+
+Another thing: the size should be non-negative. So, I'll check that size >= 0.
+
+Putting it all together, the repOK method will:
+
+1. Check that header.next and header.previous point to header.
+2. For each Entry, check that next.previous == current and previous.next == current.
+3. Ensure that the size is correct by counting the entries.
+4. Check that size is non-negative.
+
+I'll write a loop that iterates through all entries starting from header.next, counting them until it loops back to header. Then, compare the count with size. Also, for each entry, verify the links.
+
+I should also handle the case where the list is empty. If size is 0, then header.next should be header, and there should be no other entries.
+
+Let me structure the code:
+
+- Check header.next == header and header.previous == header.
+- If size is 0, ensure that header.next == header.
+- Else, iterate through each Entry, checking the links and counting.
+- Compare count with size.
+- Ensure size is not negative.
+
+I think that covers all the necessary checks.
+</think>
+
+```java
+public boolean repOK() {
+    // Check that the header's next and previous point to itself
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check that the size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check the integrity of all entries
+    Entry current = header.next;
+    int count = 0;
+    while (current != header) {
+        // Check that next and previous pointers are consistent
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        count++;
+        current = current.next;
+    }
+
+    // Check that the size matches the count of entries
+    if (count != size) {
+        return false;
+    }
+
+    return true;
+}
+```

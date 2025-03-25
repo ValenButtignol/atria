@@ -1,0 +1,70 @@
+
+Here's the representation invariant for the `BinomialHeap` class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the heap is empty
+    if (Nodes == null) {
+        return size == 0;
+    }
+
+    // Check if the heap is not empty
+    if (size > 0) {
+        // Check if all nodes have a valid key
+        BinomialHeapNode temp = Nodes;
+        while (temp != null) {
+            if (temp.key < 0) {
+                return false;
+            }
+            temp = temp.sibling;
+        }
+
+        // Check if all nodes have a valid degree
+        temp = Nodes;
+        while (temp != null) {
+            if (temp.degree < 0) {
+                return false;
+            }
+            temp = temp.sibling;
+        }
+
+        // Check if all nodes are properly linked
+        temp = Nodes;
+        while (temp != null) {
+            BinomialHeapNode child = temp.child;
+            while (child != null) {
+                if (child.parent != temp) {
+                    return false;
+                }
+                child = child.sibling;
+            }
+            temp = temp.sibling;
+        }
+
+        // Check if all nodes are properly ordered
+        temp = Nodes;
+        while (temp != null) {
+            BinomialHeapNode sibling = temp.sibling;
+            while (sibling != null) {
+                if (temp.degree < sibling.degree || (temp.degree == sibling.degree && temp.key <= sibling.key)) {
+                    return false;
+                }
+                sibling = sibling.sibling;
+            }
+            temp = temp.sibling;
+        }
+    }
+
+    return true;
+}
+```
+
+This `repOK` method checks the following properties of the `BinomialHeap` class:
+
+1.  If the heap is empty, the `size` field should be 0.
+2.  If the heap is not empty, all nodes should have a valid key (non-negative).
+3.  If the heap is not empty, all nodes should have a valid degree (non-negative).
+4.  All nodes should be properly linked, i.e., each child node should have the correct parent node.
+5.  All nodes should be properly ordered, i.e., nodes with the same degree should be ordered by their keys.
+
+These properties ensure that the `BinomialHeap` class maintains a valid representation of a binomial heap.

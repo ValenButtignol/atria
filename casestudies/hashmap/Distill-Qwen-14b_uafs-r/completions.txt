@@ -1,0 +1,442 @@
+
+<think>
+Okay, so I need to write a representation invariant for the HashMap class. Hmm, I remember that a representation invariant is a condition that must always hold true for the data structure to be correct. It's like a set of rules that the class follows to maintain its integrity.
+
+Looking at the HashMap code, it's a bit complex. Let me try to break it down. The HashMap uses an array of Entry objects to store key-value pairs. Each Entry can have a next pointer, forming a linked list within each bucket of the array. The main idea is that each key maps to a unique bucket based on its hash code.
+
+First, I should think about what properties the HashMap must maintain. Well, for a correct HashMap, each key should be present in exactly one bucket, and when you look up a key, you should find the corresponding value. Also, the size should reflect the number of entries correctly.
+
+Let me list out the possible checks:
+
+1. **No Null Buckets Allowed**: Each bucket in the table array should not be null. Wait, no, actually, in the constructor, they initialize the table with null entries. So maybe that's okay. But each bucket should either be null or contain the head of a linked list of entries.
+
+2. **Consistency Between size and Buckets**: The size variable should equal the total number of entries in all buckets. So I can write a method to count all entries and check if it matches the size.
+
+3. **No Duplicate Keys**: Each key should appear only once in the HashMap. So for each bucket, if there are multiple entries, their keys should not be equal.
+
+4. **Proper Hashing**: Each entry's hash should be computed correctly, and the index in the table should be based on that hash. So for each entry, the indexFor method should correctly compute the bucket index.
+
+5. **Consistency in Entry Links**: Each Entry's next pointer should point to another Entry or be null. There shouldn't be any cycles or invalid pointers.
+
+6. **Load Factor Check**: The load factor is the ratio of the number of entries to the capacity. The HashMap should resize when the load factor exceeds a certain threshold. So I need to ensure that the current size doesn't exceed the threshold.
+
+7. **No Null Entries**: Except for the key, which can be null (represented by NULL_KEY), the entries themselves shouldn't be null. Wait, no, the Entry objects are created when you put a key-value pair, so each entry should be non-null.
+
+8. **Consistency in modCount**: The modCount should be consistent with the number of structural modifications. But I'm not sure how to check that without tracking all modifications, so maybe it's better to skip this for now.
+
+Let me think about how to implement these checks.
+
+For the size check, I can iterate through each bucket and count all the entries. If the sum doesn't match the size variable, something's wrong.
+
+For the no duplicate keys, in each bucket, I need to ensure that all entries have unique keys. Since the HashMap uses equals() to compare keys, I can check that for each entry in a bucket, none of the subsequent entries in the same bucket have the same key.
+
+The hash computation seems correct because the hash() method is part of the standard, but I can't really check that without knowing the exact hash values, which might vary. So maybe I can skip this check unless there's a specific issue.
+
+For the Entry links, I can traverse each linked list starting from each bucket and ensure that each next pointer is either null or points to another Entry. Also, there should be no cycles in the linked lists.
+
+The load factor check is important. The threshold is calculated as capacity multiplied by loadFactor. So I can check that the size is less than or equal to the threshold. If not, the HashMap should have resized, but perhaps that's beyond the current scope.
+
+Also, I should check that the table array is not null and that its length is a power of two, as per the initial capacity setup. Wait, in the constructor, the initial capacity is rounded up to the nearest power of two. So the table length should be a power of two.
+
+Another thing: the Entry's next pointers should form valid linked lists without any dangling pointers or cycles.
+
+Let me outline the steps for the repOK method:
+
+1. **Check if the table is initialized**: If the size is zero, the table should be initialized, but all entries are null. Wait, no, the table is initialized in the constructor, so it's always non-null.
+
+2. **Check that the table length is a power of two**: Because in the constructor, the initial capacity is rounded up to the nearest power of two.
+
+3. **Check that the size is consistent**: Sum all entries across all buckets and ensure it equals the size variable.
+
+4. **Check for duplicate keys**: For each bucket, ensure that all entries have unique keys.
+
+5. **Check that each Entry's hash is correctly mapped**: For each Entry, compute the indexFor(hash, table.length) and ensure it matches the bucket index.
+
+6. **Check for cycles in linked lists**: Traverse each linked list starting from each bucket and ensure there are no cycles.
+
+7. **Check that the threshold is correctly set**: Ensure that threshold equals capacity multiplied by loadFactor.
+
+8. **Check that modCount is non-negative**: Since it's a volatile int, it should never be negative.
+
+Wait, but some of these checks might be too time-consuming or complex. For example, checking for cycles in linked lists could be done, but it's a bit involved. Maybe it's better to include the essential checks first.
+
+Let me prioritize the checks:
+
+- **Size consistency**: This is crucial. If the size doesn't match the actual number of entries, the HashMap is corrupted.
+
+- **No duplicate keys**: Ensures that each key is unique, which is a fundamental property of a HashMap.
+
+- **Correct bucket indexing**: Ensures that entries are placed in the correct buckets based on their hash.
+
+- **No null entries**: Except for the initial state, each Entry should be non-null.
+
+- **Threshold check**: Ensures that the HashMap resizes correctly when needed.
+
+So, putting this together, the repOK method would perform these checks:
+
+1. If the size is zero, ensure that all buckets are null.
+
+2. Otherwise, for each bucket, check that it's either null or the head of a linked list.
+
+3. Traverse all entries and count them to ensure the count matches the size.
+
+4. For each entry, check that its hash correctly maps to its bucket index.
+
+5. For each bucket, ensure that all entries have unique keys.
+
+6. Ensure that the threshold is correctly calculated as capacity multiplied by loadFactor.
+
+7. Ensure that the modCount is non-negative.
+
+Now, how to implement each of these in Java.
+
+For the size check:
+
+- Iterate through each bucket, and for each non-null entry, traverse the linked list, counting each entry. Sum all counts and compare to size.
+
+For the no duplicate keys:
+
+- For each bucket, collect all keys and ensure they are unique within the bucket.
+
+For the correct bucket indexing:
+
+- For each entry, compute indexFor(hash, table.length) and ensure it equals the bucket index.
+
+For the no null entries:
+
+- Ensure that each Entry object is non-null.
+
+For the threshold check:
+
+- Compute capacity as table.length, then check if threshold equals (int)(capacity * loadFactor).
+
+For modCount:
+
+- Ensure modCount is >= 0.
+
+Wait, but modCount can be modified by multiple threads, but since repOK is a method called within the class, perhaps it's only called in single-threaded contexts, so it's okay.
+
+Now, let's think about potential issues. For example, if an Entry's next pointer points to a previous Entry in the list, causing a cycle, that would be a problem. So, to detect cycles, we can keep track of visited entries while traversing each linked list.
+
+But that might be overkill for the repOK method, which is supposed to be a quick check. Maybe it's better to include it for thoroughness.
+
+Alternatively, perhaps the repOK method can include these checks:
+
+- Check that the size is correct.
+
+- Check that each Entry's hash maps to the correct bucket.
+
+- Check that each bucket's linked list has no duplicates.
+
+- Check that the threshold is correct.
+
+- Check that modCount is non-negative.
+
+I think that's a solid set of checks.
+
+Now, let's think about how to implement each part.
+
+First, the size check:
+
+public int size() {
+    return size;
+}
+
+But in repOK, I need to count all entries.
+
+int actualSize = 0;
+for (Entry e : table) {
+    while (e != null) {
+        actualSize++;
+        e = e.next;
+    }
+}
+if (actualSize != size) {
+    return false;
+}
+
+But wait, the table is an array of Entry, so I can loop through each bucket.
+
+Next, for each Entry, check that its hash maps to the correct bucket.
+
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    while (e != null) {
+        int hash = e.hash;
+        int index = indexFor(hash, table.length);
+        if (index != i) {
+            return false;
+        }
+        e = e.next;
+    }
+}
+
+Wait, no. The indexFor function uses the hash and the table length to compute the bucket index. So for each Entry, its hash should correspond to the bucket it's in.
+
+So, for each Entry e in the table, compute indexFor(e.hash, table.length) and ensure it equals the bucket index.
+
+Yes.
+
+Next, check for duplicate keys in each bucket.
+
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    Set<Object> keysInBucket = new HashSet<>();
+    while (e != null) {
+        Object key = e.key;
+        if (key == NULL_KEY) {
+            key = null;
+        }
+        if (keysInBucket.contains(key)) {
+            return false;
+        }
+        keysInBucket.add(key);
+        e = e.next;
+    }
+}
+
+This ensures that each bucket has unique keys.
+
+Then, check the threshold:
+
+int capacity = table.length;
+int expectedThreshold = (int) (capacity * loadFactor);
+if (threshold != expectedThreshold) {
+    return false;
+}
+
+But wait, in the constructor, threshold is set to (int)(capacity * loadFactor). So this should hold.
+
+Also, check that modCount is non-negative:
+
+if (modCount < 0) {
+    return false;
+}
+
+Putting it all together, the repOK method would look like this:
+
+public boolean repOK() {
+    // Check size consistency
+    int actualSize = 0;
+    for (Entry e : table) {
+        while (e != null) {
+            actualSize++;
+            e = e.next;
+        }
+    }
+    if (actualSize != size) {
+        return false;
+    }
+
+    // Check each Entry's hash maps to correct bucket
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            int hash = e.hash;
+            int index = indexFor(hash, table.length);
+            if (index != i) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+
+    // Check no duplicate keys in each bucket
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        Set<Object> keysInBucket = new HashSet<>();
+        while (e != null) {
+            Object key = e.key;
+            if (key == NULL_KEY) {
+                key = null;
+            }
+            if (keysInBucket.contains(key)) {
+                return false;
+            }
+            keysInBucket.add(key);
+            e = e.next;
+        }
+    }
+
+    // Check threshold is correct
+    int capacity = table.length;
+    int expectedThreshold = (int) (capacity * loadFactor);
+    if (threshold != expectedThreshold) {
+        return false;
+    }
+
+    // Check modCount is non-negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but what about the case when the table is empty? For example, if size is zero, then all entries in the table should be null. So perhaps adding a check:
+
+if (size == 0) {
+    for (Entry e : table) {
+        if (e != null) {
+            return false;
+        }
+    }
+}
+
+But in the size check above, if size is zero, actualSize would be zero, so that's already covered.
+
+Hmm, but in the size check, if size is zero, actualSize would be zero, which is correct. So maybe that's sufficient.
+
+Another thing: the Entry's next pointers should not form cycles. So, for each linked list, we should ensure that there are no cycles. How to do that? For each bucket, traverse the linked list and keep track of visited nodes. If we encounter a node we've already seen, it's a cycle.
+
+But this could be time-consuming, especially for large HashMaps. However, for the sake of thoroughness, maybe it's worth including.
+
+So, adding a check for cycles:
+
+// Check for cycles in linked lists
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    Set<Entry> visited = new HashSet<>();
+    while (e != null) {
+        if (visited.contains(e)) {
+            return false;
+        }
+        visited.add(e);
+        e = e.next;
+    }
+}
+
+This would ensure that each Entry is visited only once per linked list.
+
+But wait, in Java, adding objects to a Set requires that they implement equals() and hashCode(). The Entry class has an equals() method that checks key and value, so it should be okay.
+
+But this might not be necessary if the HashMap is correctly implemented, but it's a good check to include.
+
+So, including this, the repOK method becomes more comprehensive.
+
+Another thing: the Entry's hash should be computed correctly. Since the hash() method is part of the standard, perhaps it's not necessary to check unless there's a known issue. But to be thorough, perhaps we can compute the hash for each key and ensure it matches the Entry's hash.
+
+Wait, the Entry's hash is computed as (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode()). So, for each Entry, we can recompute the hash and ensure it matches e.hash.
+
+But recomputing the hash might be redundant, but it's a good check.
+
+So, adding:
+
+// Check that each Entry's hash is correctly computed
+for (int i = 0; i < table.length; i++) {
+    Entry e = table[i];
+    while (e != null) {
+        Object key = e.key == NULL_KEY ? null : e.key;
+        Object value = e.value;
+        int computedHash = (key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
+        if (computedHash != e.hash) {
+            return false;
+        }
+        e = e.next;
+    }
+}
+
+This ensures that the hash stored in the Entry is correct.
+
+Putting all these together, the repOK method would be quite comprehensive.
+
+But perhaps some of these checks are redundant or too time-consuming. For example, checking for cycles might not be necessary if the HashMap is correctly implemented, but it's a good safeguard.
+
+In conclusion, the repOK method should include checks for:
+
+- Size consistency.
+
+- Correct bucket indexing for each Entry.
+
+- No duplicate keys in each bucket.
+
+- Correct hash computation in Entries.
+
+- No cycles in linked lists.
+
+- Correct threshold calculation.
+
+- Non-negative modCount.
+
+This should cover the essential properties of the HashMap to ensure its correctness.
+</think>
+
+To write a representation invariant for the `HashMap` class, we need to ensure that the data structure maintains its integrity and adheres to its fundamental properties. The invariant will perform several checks to validate the internal state of the `HashMap`.
+
+### Representation Invariant for HashMap
+
+The `repOK` method will include the following checks:
+
+1. **Size Consistency**: The actual number of entries in the table must match the `size` variable.
+2. **Correct Bucket Indexing**: Each entry's hash must correctly map to its respective bucket.
+3. **No Duplicate Keys**: Each bucket must not contain duplicate keys.
+4. **No Cycles in Linked Lists**: Ensure that the linked lists within each bucket do not form cycles.
+5. **Correct Hash Computation**: Verify that each entry's hash is correctly computed.
+6. **Threshold Check**: The threshold must be correctly calculated based on the current capacity and load factor.
+7. **Non-negative `modCount`**: The `modCount` variable must be non-negative.
+
+Here is the implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    // Check size consistency
+    int actualSize = 0;
+    for (Entry[] tab : new Entry[]{table}) { // To avoid issues with table being modified during iteration
+        for (int i = 0; i < tab.length; i++) {
+            Entry e = tab[i];
+            while (e != null) {
+                actualSize++;
+                e = e.next;
+            }
+        }
+    }
+    if (actualSize != size) {
+        return false;
+    }
+
+    // Check each Entry's hash maps to correct bucket
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            int hash = e.hash;
+            int index = indexFor(hash, table.length);
+            if (index != i) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+
+    // Check no duplicate keys in each bucket
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        Set<Object> keysInBucket = new HashSet<>();
+        while (e != null) {
+            Object key = e.key == NULL_KEY ? null : e.key;
+            if (keysInBucket.contains(key)) {
+                return false;
+            }
+            keysInBucket.add(key);
+            e = e.next;
+        }
+    }
+
+    // Check for cycles in linked lists
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        Set<Entry> visited = new HashSet<>();
+        while (e != null) {
+            if (visited.contains(e)) {
+                return false;
+            }
+            visited.add(e);
+            e = e.next;
+        }
+    }
+
+    // Check that each Entry's hash is correctly computed
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            Object key = e.key == NULL_KEY ? null : e.key;
+            Object value = e

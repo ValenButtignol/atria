@@ -1,0 +1,77 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class in Java. Representation invariants are crucial because they ensure that the internal state of the object remains consistent and correct. Let me go through the HashMap code step by step to identify what needs to be checked.
+
+First, looking at the constructors. The HashMap has a default initial capacity and maximum capacity. The initial capacity is set to 16, and the maximum is 2^30. The load factor is 0.75 by default. These values should remain within certain bounds throughout the object's lifecycle.
+
+The size of the HashMap is tracked by the 'size' variable. It should never exceed the current capacity, especially after resizing. Also, the size should never be negative because it represents the number of elements.
+
+The threshold is calculated based on the current capacity and load factor. It determines how many entries are allowed before resizing occurs. The threshold should always be less than or equal to the capacity.
+
+The load factor itself should never exceed 1.0 because it's a ratio of size to capacity. If the load factor reaches 1, the next insertion should trigger a resize.
+
+Looking at the methods, the 'put' method adds entries and checks if the size exceeds the threshold, which triggers a resize. The 'resize' method doubles the capacity, and 'addEntry' handles adding new entries, ensuring that the capacity is sufficient.
+
+The 'clear' method resets the table to nulls and sets size to zero. This should be valid at any point.
+
+Now, considering the invariant:
+
+1. The size must be non-negative because it's a count of elements.
+2. The load factor must be between 0 and 1, inclusive. It can't be negative or exceed 1.
+3. The threshold, which is based on load factor and capacity, must not exceed the capacity. Otherwise, the hash table is too full.
+4. The current capacity must be a power of two because the resizing strategy doubles the capacity each time.
+5. The table array should have a length equal to the current capacity.
+6. The modCount should be a non-negative integer, though it's volatile and used for internal consistency.
+7. The table entries should not have null pointers in a way that affects the hash computation. Each entry's key and value should be correctly set.
+
+Putting it all together, the representation invariant checks these conditions to ensure the HashMap's internal state is valid.
+</think>
+
+```java
+    public boolean repOK() {
+        // Check that the size is non-negative
+        if (size < 0) {
+            return false;
+        }
+
+        // Check that the load factor is between 0 and 1 (inclusive)
+        if (loadFactor < 0 || loadFactor > 1.0) {
+            return false;
+        }
+
+        // Check that the threshold is less than or equal to the capacity
+        if (threshold > capacity) {
+            return false;
+        }
+
+        // Check that the current capacity is a power of two
+        if ((capacity & (capacity - 1)) != 0) {
+            return false;
+        }
+
+        // Check that the table length equals the current capacity
+        if (table.length != capacity) {
+            return false;
+        }
+
+        // Check that modCount is non-negative
+        if (modCount < 0) {
+            return false;
+        }
+
+        // Check that all entries in the table are valid
+        for (Entry e : table) {
+            if (e == null) {
+                continue;
+            }
+            if (e.key == null) {
+                return false;
+            }
+            if (e.value == null && e.key != null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+```

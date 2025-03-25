@@ -1,0 +1,41 @@
+
+```java
+public boolean repOK() {
+    if (header.next == header) {
+        return size == 0;
+    }
+
+    LinkedListNode current = header.next;
+    while (current != header) {
+        if (current.next == null || current.next != current.previous) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    if (firstCachedNode != null) {
+        LinkedListNode currentCached = firstCachedNode;
+        while (currentCached != null) {
+            if (currentCached.next == null || currentCached.next != currentCached.previous) {
+                return false;
+            }
+            currentCached = currentCached.next;
+        }
+    }
+
+    if (cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+This representation invariant checks the following properties:
+
+1.  The list is either empty (i.e., `header.next == header`) or it has at least one node (i.e., `header.next != header`).
+2.  The list is doubly linked, meaning that each node's `next` and `previous` pointers are correctly linked.
+3.  The cache is not empty and is a valid doubly linked list.
+4.  The cache size does not exceed the maximum cache size.
+
+If all these properties hold, the representation invariant `repOK` returns `true`, indicating that the object is in a valid state. Otherwise, it returns `false`.

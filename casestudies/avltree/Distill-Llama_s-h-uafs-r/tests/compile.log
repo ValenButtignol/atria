@@ -1,0 +1,49 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:153: error: cannot find symbol
+        Set<Node> visitedNodes = new HashSet<>();
+            ^
+  symbol:   class Node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:154: error: cannot find symbol
+        Queue<Node> queue = new LinkedList<>();
+              ^
+  symbol:   class Node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:157: error: cannot find symbol
+            Node current = queue.poll();
+            ^
+  symbol:   class Node
+  location: class AvlTree
+3 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:153: error: cannot find symbol
+          Set<Node> visitedNodes = new HashSet<>();
+              ^
+    symbol:   class Node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:154: error: cannot find symbol
+          Queue<Node> queue = new LinkedList<>();
+                ^
+    symbol:   class Node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/AvlTree.java:157: error: cannot find symbol
+              Node current = queue.poll();
+              ^
+    symbol:   class Node
+    location: class AvlTree
+  3 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 368ms
+1 actionable task: 1 executed

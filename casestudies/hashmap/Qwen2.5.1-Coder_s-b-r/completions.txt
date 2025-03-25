@@ -1,0 +1,71 @@
+
+To write a representation invariant for the `HashMap` class, we need to ensure that the internal state of the `HashMap` is consistent and valid according to its design. Here are the key points to consider:
+
+1. **Table Initialization**: The `table` array should not be null and should have a length that is a power of 2.
+2. **Size Consistency**: The `size` field should accurately reflect the number of entries in the `HashMap`.
+3. **Threshold Calculation**: The `threshold` should be calculated correctly based on the `loadFactor` and the current `table` size.
+4. **Entry Consistency**: Each entry in the `table` should be consistent with the `size` and `threshold`.
+5. **Null Key Handling**: The `NULL_KEY` should be used to handle null keys correctly.
+
+Here is the `repOK` method that checks these invariants:
+
+```java
+public boolean repOK() {
+    // Check if table is not null and its length is a power of 2
+    if (table == null || (table.length & (table.length - 1)) != 0) {
+        return false;
+    }
+
+    // Check if size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check if threshold is calculated correctly
+    if (threshold <= 0 || threshold > table.length * loadFactor) {
+        return false;
+    }
+
+    // Check each entry in the table
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        int count = 0;
+        while (e != null) {
+            count++;
+            e = e.next;
+        }
+        if (count != 0 && count != 1) {
+            return false; // Each bucket should have either 0 or 1 entry
+        }
+    }
+
+    // Check if size matches the number of entries in the table
+    int actualSize = 0;
+    for (Entry e : table) {
+        while (e != null) {
+            actualSize++;
+            e = e.next;
+        }
+    }
+    if (size != actualSize) {
+        return false;
+    }
+
+    // Check if NULL_KEY is used correctly
+    if (NULL_KEY == null) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+This `repOK` method checks the following:
+- The `table` array is not null and its length is a power of 2.
+- The `size` is non-negative.
+- The `threshold` is calculated correctly based on the `loadFactor` and the current `table` size.
+- Each bucket in the `table` contains either 0 or 1 entry.
+- The `size` matches the actual number of entries in the `table`.
+- The `NULL_KEY` is not null.
+
+This ensures that the `HashMap` is in a valid state according to its design.

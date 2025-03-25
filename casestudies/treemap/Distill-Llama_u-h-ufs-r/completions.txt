@@ -1,0 +1,460 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. Let me first understand what the TreeMap class does. It's a balanced binary search tree that maintains keys in sorted order. Each node has a key, value, color (red or black), and pointers to left and right children. The class uses a fixInsertion method to maintain the tree's structure, ensuring that it remains balanced.
+
+So, the representation invariant should check if the tree is correctly structured. That means each node should satisfy certain properties. Let me think about what those properties are.
+
+First, the tree should be a valid binary search tree. For any node, all the nodes in its left subtree should have keys less than the current node's key, and all nodes in the right subtree should have keys greater than the current node's key. But since this is a balanced tree, there's an additional structure to maintain to keep it balanced, which involves the colors and rotations.
+
+Wait, but the representation invariant should verify that the tree is correctly formed according to its invariants. So, I need to check if the tree is a valid binary search tree and that it's properly balanced.
+
+Hmm, but the fixInsertion method ensures that the tree remains balanced by rotating nodes as needed. So, the invariant should check that each node's color and structure are correct after any insertion or deletion.
+
+Let me break down what needs to be checked:
+
+1. **Null Checks**: Ensure that the root is not null when the size is greater than zero. Also, check that all nodes have non-null keys.
+
+2. **Binary Search Tree Property**: For each node, all left descendants must have keys less than the current node's key, and all right descendants must have keys greater than the current node's key.
+
+3. **Color Constraints**: The root should be black. For any node, if it's red, its parent must be black. Also, a node cannot have a red parent if it's the right child of a red node.
+
+Wait, I'm not entirely sure about the color constraints. Let me recall the properties of a balanced BST using the splay tree algorithm, which this code seems to implement.
+
+In this implementation, the root is always black. For any node, if it's red, its parent must be black. Also, a node cannot have a red parent if it's the right child of a red node. So, the color constraints are crucial for maintaining balance.
+
+So, the invariant should check:
+
+- The root is not null and is black.
+- For each node, if it's red, its parent is black.
+- For each node, if it's the right child of a red node, it's not possible (so, if a node is red and has a right child, that right child must not exist or must be handled correctly).
+
+Wait, maybe I should think in terms of the fixInsertion method. It ensures that after insertion, the tree remains balanced. So, the invariant should verify that the tree is in a state where it can be balanced correctly.
+
+Another approach is to check that the tree is a valid binary search tree and that it's a balanced BST according to the rules used in the fixInsertion method.
+
+So, the steps for the repOK method would be:
+
+1. Check that the size is consistent with the structure. For example, if the size is zero, the root should be null.
+
+2. Traverse the tree to ensure that each node's value is correctly placed according to the BST property.
+
+3. Check the color constraints: root is black, and any red node has a black parent, and a red node cannot have a red parent in a way that would violate the balance.
+
+Wait, but how do I check the color constraints programmatically? I need to ensure that for each node, if it's red, its parent is black. Also, if a node is red, its parent's parent (grandparent) should be black, and so on up the chain.
+
+Alternatively, during the traversal, I can check each node's color and its parent's color.
+
+Let me outline the steps:
+
+- If the size is zero, the root must be null.
+- If the size is greater than zero, the root must not be null and must be black.
+- For each node, if it's red, its parent must be black.
+- For each node, if it's the right child of a red node, it's invalid because that would require a rotation that's not allowed.
+
+Wait, perhaps the third point covers the fourth. Because if a node is red, its parent is black, so it can't be the right child of a red node.
+
+So, the invariant can be structured as:
+
+1. Check size consistency.
+2. Check BST property.
+3. Check color constraints.
+
+Now, how to implement this in code.
+
+First, check if the size is invalid. For example, if size is negative, return false. Also, if size is zero, ensure root is null.
+
+Then, perform a traversal (like a depth-first search) to check the BST property and color constraints.
+
+During traversal:
+
+- For each node, check if it's red. If it is, its parent must be black.
+- Ensure that each node's value is greater than all nodes in the left subtree and less than all nodes in the right subtree.
+
+Wait, but for a large tree, this could be inefficient. However, since this is a representation invariant, it's necessary to ensure correctness.
+
+Let me think about the code structure.
+
+In the repOK method:
+
+- If size < 0, return false.
+- If size == 0, check if root is null. If not, return false.
+- If size > 0, check if root is null. If so, return false.
+- Then, perform a traversal starting from the root.
+- For each node, check if it's red. If so, its parent must be black.
+- For each node, check that all left descendants have keys less than the current node's key and all right descendants have keys greater than the current node's key.
+
+Wait, but how to efficiently check the BST property? One way is to perform a recursive check where each node verifies that its left child has a key less than its own and the right child has a key greater than its own.
+
+But in the TreeMap, each node's left and right children are determined by the compare method, so during insertion, the tree is maintained as a BST.
+
+So, the repOK method can perform a check similar to that of a BST.
+
+Putting it all together, the repOK method will:
+
+1. Check size consistency.
+2. Check that the root is black.
+3. For each node, ensure that if it's red, its parent is black.
+4. Ensure that the tree is a valid BST.
+
+So, the code will involve:
+
+- A helper method to check the BST property.
+- A helper method to check the color constraints.
+
+Alternatively, during the traversal, perform these checks.
+
+Let me draft the code.
+
+First, handle size checks:
+
+if (size < 0) return false;
+
+if (size == 0) {
+    return (root == null);
+}
+
+if (root == null) {
+    return false;
+}
+
+Then, check root's color:
+
+if (root.color != BLACK) return false;
+
+Then, perform a traversal:
+
+Set<Node> visited = new HashSet<>();
+
+checkBSTAndColors(root, visited);
+
+return true;
+
+Now, the helper function checkBSTAndColors:
+
+private boolean checkBSTAndColors(Node node, Set<Node> visited) {
+    if (node == null) return true;
+
+    if (visited.contains(node)) {
+        return false; // cycle detected, invalid tree
+    }
+    visited.add(node);
+
+    // Check color constraints
+    if (node.color == RED) {
+        if (node.parent == null || node.parent.color != BLACK) {
+            return false;
+        }
+    }
+
+    // Check BST property
+    if (node.left != null) {
+        if (compare(node.key, node.left.key) >= 0) {
+            return false;
+        }
+    }
+
+    if (node.right != null) {
+        if (compare(node.key, node.right.key) <= 0) {
+            return false;
+        }
+    }
+
+    return checkBSTAndColors(node.left, visited) && checkBSTAndColors(node.right, visited);
+}
+
+Wait, but in the code, the compare method is used to compare keys. So, in the helper function, I can call compare to check the order.
+
+But wait, in the TreeMap class, the compare method is private and takes two K arguments. So, in the helper function, I can call compare(node.key, left.key) to see if the left key is less than the current node's key.
+
+Wait, but in the helper function, I'm inside the repOK method of TreeMap, so I can access the compare method directly.
+
+So, in the helper function, for each node, I check:
+
+- If the left child exists, its key must be less than the current node's key.
+- If the right child exists, its key must be greater than the current node's key.
+
+So, the helper function will recursively check each node.
+
+But wait, in the code, the compare method is used to compare keys, so in the helper function, I can call compare(left.key, node.key) to ensure left is less than node.
+
+Wait, no. The compare method returns an integer. So, for the left child, I need to ensure that node.key > left.key. So, compare(left.key, node.key) should be less than 0.
+
+Similarly, for the right child, compare(node.key, right.key) should be greater than 0.
+
+So, in the helper function:
+
+if (node.left != null) {
+    if (compare(node.left.key, node.key) >= 0) {
+        return false;
+    }
+}
+
+if (node.right != null) {
+    if (compare(node.key, node.right.key) <= 0) {
+        return false;
+    }
+}
+
+Wait, but in the code, the compare method is called as compare(k1, k2). So, for the left child, we need to ensure that k1 (left.key) < k2 (node.key). So, compare(k1, k2) should be less than 0.
+
+So, in the helper function:
+
+if (node.left != null) {
+    if (compare(node.left.key, node.key) >= 0) {
+        return false;
+    }
+}
+
+Similarly, for the right child:
+
+if (node.right != null) {
+    if (compare(node.key, node.right.key) <= 0) {
+        return false;
+    }
+}
+
+Wait, but in the code, the compare method is in the TreeMap class. So, in the helper function, I can call it directly.
+
+Putting it all together, the repOK method would look like this:
+
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return (root == null);
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    Set<Node> visited = new HashSet<>();
+    return checkBSTAndColors(root, visited);
+}
+
+private boolean checkBSTAndColors(Node node, Set<Node> visited) {
+    if (node == null) {
+        return true;
+    }
+
+    if (visited.contains(node)) {
+        return false;
+    }
+
+    visited.add(node);
+
+    // Check color constraints
+    if (node.color == RED) {
+        if (node.parent == null || node.parent.color != BLACK) {
+            return false;
+        }
+    }
+
+    // Check BST property
+    if (node.left != null) {
+        if (compare(node.left.key, node.key) >= 0) {
+            return false;
+        }
+    }
+
+    if (node.right != null) {
+        if (compare(node.key, node.right.key) <= 0) {
+            return false;
+        }
+    }
+
+    return checkBSTAndColors(node.left, visited) && checkBSTAndColors(node.right, visited);
+}
+
+Wait, but in the code, the compare method is private and takes two K arguments. So, in the helper function, I can call it as compare(node.left.key, node.key).
+
+But wait, in the helper function, I'm inside the repOK method of TreeMap, so I can access the compare method directly.
+
+But in the code, the compare method is private, so it's accessible within the same class.
+
+So, this should work.
+
+But I need to make sure that the helper function is called recursively and that all nodes are visited without cycles.
+
+Also, the visited set is passed along to prevent infinite loops in case of cycles, which shouldn't happen in a properly constructed tree, but it's a safe check.
+
+Another thing to consider: the size is correctly maintained. For example, if the size is 3, the tree should have exactly 3 nodes. But the size is managed by the put and remove methods, so the repOK method doesn't need to check that, as it's assumed to be correct.
+
+Wait, but the size is part of the state, so if the size is incorrect, the tree is invalid. So, the repOK method should check that the size is correct based on the structure.
+
+Wait, but in the code, the size is incremented and decremented correctly during put and remove. So, perhaps the size is always consistent with the tree structure. However, in the repOK method, it's better to ensure that the size matches the number of nodes.
+
+So, perhaps after the traversal, we should count the number of nodes and compare it with the size.
+
+So, in the repOK method:
+
+int nodeCount = countNodes(root);
+return nodeCount == size;
+
+Where countNodes is a helper function that traverses the tree and counts the nodes.
+
+So, adding this step:
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+Then, in repOK:
+
+int nodeCount = countNodes(root);
+return nodeCount == size;
+
+This ensures that the number of nodes in the tree matches the size.
+
+So, updating the repOK method:
+
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return (root == null);
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    int nodeCount = countNodes(root);
+    return nodeCount == size;
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean checkBSTAndColors(Node node, Set<Node> visited) {
+    if (node == null) {
+        return true;
+    }
+
+    if (visited.contains(node)) {
+        return false;
+    }
+
+    visited.add(node);
+
+    // Check color constraints
+    if (node.color == RED) {
+        if (node.parent == null || node.parent.color != BLACK) {
+            return false;
+        }
+    }
+
+    // Check BST property
+    if (node.left != null) {
+        if (compare(node.left.key, node.key) >= 0) {
+            return false;
+        }
+    }
+
+    if (node.right != null) {
+        if (compare(node.key, node.right.key) <= 0) {
+            return false;
+        }
+    }
+
+    return checkBSTAndColors(node.left, visited) && checkBSTAndColors(node.right, visited);
+}
+
+Wait, but in the helper function, I'm adding nodes to the visited set. So, during the traversal, each node is visited once, and cycles are detected if any node is revisited, which shouldn't happen in a valid tree.
+
+Putting it all together, the repOK method now includes checks for size consistency, root color, BST property, color constraints, and node count.
+
+I think this covers all necessary aspects to ensure the TreeMap is correctly structured.
+</think>
+
+To write the representation invariant for the `TreeMap` class, we need to ensure that the tree is both a valid binary search tree (BST) and properly balanced according to the splay tree algorithm used in the code. The invariant should verify the following properties:
+
+1. **Size Consistency**: The size of the tree matches the number of nodes.
+2. **Root Color**: The root node must be black.
+3. **Color Constraints**: Any red node must have a black parent.
+4. **BST Property**: Each node's left subtree contains only nodes with keys less than the current node's key, and the right subtree contains only nodes with keys greater than the current node's key.
+
+Here is the implementation of the representation invariant:
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return (root == null);
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    int nodeCount = countNodes(root);
+    return nodeCount == size;
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean checkBSTAndColors(Node node, Set<Node> visited) {
+    if (node == null) {
+        return true;
+    }
+
+    if (visited.contains(node)) {
+        return false;
+    }
+
+    visited.add(node);
+
+    // Check color constraints
+    if (node.color == RED) {
+        if (node.parent == null || node.parent.color != BLACK) {
+            return false;
+        }
+    }
+
+    // Check BST property
+    if (node.left != null) {
+        if (compare(node.left.key, node.key) >= 0) {
+            return false;
+        }
+    }
+
+    if (node.right != null) {
+        if (compare(node.key, node.right.key) <= 0) {
+            return false;
+        }
+    }
+
+    return checkBSTAndColors(node.left, visited) && checkBSTAndColors(node.right, visited);
+}
+```

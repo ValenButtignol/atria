@@ -1,0 +1,94 @@
+
+<think>
+Okay, so I need to write a representation invariant for the TreeMap class in Java. I'm not super familiar with TreeMaps, but I know they're balanced binary search trees that maintain sorted order based on a comparator. So, the representation invariant should ensure that the tree is properly structured and maintains its properties.
+
+First, I should think about what properties are essential for a TreeMap. The main properties include:
+
+1. **Sorted Order**: All keys in the left subtree are less than the root, and all keys in the right subtree are greater than the root. This should hold recursively for all nodes.
+2. **Color Balance**: In some implementations, like Java's TreeMap, nodes are colored red or black to maintain balance. The root and any null child nodes should be black.
+3. **No Red Children**: A red node cannot have a red child. This helps maintain the balance of the tree.
+4. **Null Pointers**: Any null pointers should be handled correctly, especially in the tree structure.
+
+Looking at the provided TreeMap code, it seems to use a Node inner class with color, left, right, and parent pointers. The root is a Node, and the comparator is used to determine the order of insertion and rotations.
+
+So, the representation invariant should check these properties:
+
+- The root's color should be black.
+- Every node's left child's color should be red only if the node itself is black.
+- Every node's right child's color should be red only if the node itself is black.
+- All keys in the left subtree are less than the root, and all keys in the right subtree are greater than the root. This should be true for every node as well.
+
+I also need to consider edge cases, like when the tree is empty or has only one node.
+
+Putting this together, the repOK method should:
+
+1. Check if the root is null and handle that appropriately.
+2. Traverse the tree to check each node's color and its children's colors.
+3. Ensure that all keys maintain the sorted order based on the comparator.
+
+I might need to use a helper method to traverse the tree and verify these properties recursively. Also, since the comparator can be null (in the case of a natural ordering), I should handle that scenario as well.
+
+Finally, the repOK method should return false if any of these properties are violated, ensuring the tree remains balanced and correctly ordered.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    // Check root color
+    if (!isRootBlack()) {
+        return false;
+    }
+
+    // Check all nodes
+    Node current = root;
+    while (current != null) {
+        if (!isNodeValid(current)) {
+            return false;
+        }
+        current = current.right;
+    }
+
+    return true;
+}
+
+private boolean isRootBlack() {
+    return root.color == BLACK;
+}
+
+private boolean isNodeValid(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check left and right children colors
+    if (node.left != null) {
+        if (node.left.color == RED && node.color != BLACK) {
+            return false;
+        }
+    }
+
+    if (node.right != null) {
+        if (node.right.color == RED && node.color != BLACK) {
+            return false;
+        }
+    }
+
+    // Check key order
+    if (node.left != null) {
+        if (!compare(node.left.key, node.key)) {
+            return false;
+        }
+    }
+
+    if (node.right != null) {
+        if (!compare(node.right.key, node.key)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```

@@ -1,0 +1,140 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. The representation invariant is a boolean method called repOK that returns true if the object is valid and false otherwise. I should only verify properties that I'm completely sure are valid.
+
+First, I'll look at the TreeMap class and its structure. TreeMap is a balanced binary search tree that maintains sorted order based on the comparator. It has nodes with keys, values, colors (for balancing), left and right children, and a parent.
+
+The key properties I need to check are:
+
+1. **Null Check for Comparator**: The comparator should not be null because TreeMap relies on it to compare keys. If it's null, the tree can't function properly.
+
+2. **Root Node Check**: The root should not be null. If it's null, the tree is empty, but that's only valid if the size is zero.
+
+3. **Size Check**: The size variable should correctly reflect the number of nodes in the tree. If the size is inconsistent with the actual structure, the tree is invalid.
+
+4. **Color Constraints**: All nodes should have a color (either RED or BLACK). If any node's color is null or invalid, the tree is broken.
+
+5. **Parent and Child Links**: Each node (except the root) must have a parent, and the parent must correctly link to its children. If a node's parent is null when it shouldn't be, or if the parent's left or right pointers don't correctly point to the node, the tree is invalid.
+
+6. **Balance Check**: The tree should be balanced according to the rules used in TreeMap. This involves checking that the root is BLACK and that all paths from the root to a leaf are balanced.
+
+Wait, but how do I check for balance without actually traversing the tree? Maybe I can check that the root is BLACK, and that each node's parent has the correct color, ensuring that the tree doesn't have any RED nodes except those that are part of the balancing process.
+
+Hmm, but the fixInsertion method handles the balancing, so perhaps the invariant can check that the root is BLACK and that all nodes have either RED or BLACK colors. Also, ensuring that each node's parent is correctly set.
+
+So, putting it all together, the repOK method will check these points:
+
+- Comparator is not null.
+- Root is not null (unless size is zero).
+- Size matches the actual number of nodes.
+- All nodes have valid colors (RED or BLACK).
+- Each node (except root) has a parent, and the parent's left and right pointers are correctly set.
+- The root's color is BLACK.
+
+I think that covers the main points. Now, I'll translate these into Java code within the repOK method.
+</think>
+
+To determine if a `TreeMap` object is valid, the `repOK` method verifies several key properties:
+
+1. **Comparator is not null**: The comparator is essential for key comparisons.
+2. **Root is not null unless the tree is empty**: A non-empty tree must have a root.
+3. **Size matches the actual node count**: The size variable should accurately reflect the number of nodes.
+4. **All nodes have valid colors**: Each node must be either `RED` or `BLACK`.
+5. **Parent-child links are correctly set**: Each node (except the root) must have a parent, and the parent must correctly reference its children.
+6. **Root is `BLACK`**: Ensures the tree is balanced.
+
+Here is the implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    // Check if the comparator is null
+    if (comparator == null) {
+        return false;
+    }
+
+    // Check if the root is null
+    if (root == null && size != 0) {
+        return false;
+    }
+
+    // Check if the size is correct
+    if (size != (root == null ? 0 : (leftSize + rightSize + 1))) {
+        return false;
+    }
+
+    // Check if all nodes have valid colors
+    if (!allNodesHaveValidColors()) {
+        return false;
+    }
+
+    // Check if each node has a parent
+    if (!allNodesHaveParent()) {
+        return false;
+    }
+
+    // Check if the root's color is BLACK
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper method to check if all nodes have valid colors
+private boolean allNodesHaveValidColors() {
+    if (root == null) {
+        return true;
+    }
+    return recursivelyCheckColors(root);
+}
+
+// Helper method to recursively check node colors
+private boolean recursivelyCheckColors(Node node) {
+    if (node.color != RED && node.color != BLACK) {
+        return false;
+    }
+    if (node.left != null) {
+        if (!recursivelyCheckColors(node.left)) {
+            return false;
+        }
+    }
+    if (node.right != null) {
+        if (!recursivelyCheckColors(node.right)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Helper method to check if each node has a parent
+private boolean allNodesHaveParent() {
+    if (root == null) {
+        return true;
+    }
+    if (root.parent != null) {
+        return true;
+    }
+    if (root.left != null || root.right != null) {
+        return false;
+    }
+    return recursivelyCheckParent(node);
+}
+
+// Helper method to recursively check parent links
+private boolean recursivelyCheckParent(Node node) {
+    if (node.parent == null) {
+        return false;
+    }
+    if (node.left != null) {
+        if (node.left.parent != node) {
+            return false;
+        }
+    }
+    if (node.right != null) {
+        if (node.right.parent != node) {
+            return false;
+        }
+    }
+    return recursivelyCheckParent(node.parent);
+}
+```

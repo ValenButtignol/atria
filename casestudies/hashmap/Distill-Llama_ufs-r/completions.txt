@@ -1,0 +1,392 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class. The user provided the code for the HashMap, and I need to create a method called repOK that checks if the HashMap's state is consistent with its invariants.
+
+First, I should understand what invariants are for a HashMap. Invariants are properties that must always hold true for the class to function correctly. For a HashMap, common invariants include:
+
+1. **No duplicates**: Each key is unique in the map.
+2. **Order preservation**: The order of insertion is preserved, but in Java, the HashMap does not guarantee order. Wait, no, actually, since Java 1.8, HashMap uses a linked list to maintain insertion order. But the repOK method should check if the current state aligns with the expected behavior.
+
+Wait, but the user's example for BinTree includes checking for no duplicates, acyclic, ordered, etc. So for HashMap, I need to ensure that each key is unique, the size is correct, and the structure is consistent.
+
+Let me think about the structure of the HashMap. It has a table array of Entries. Each Entry has a hash code, key, value, and a next pointer. The table is an array where each bucket is a linked list of Entries.
+
+So, the invariants I need to check are:
+
+- **No duplicates**: Each key is unique.
+- **Consistent hashing**: Each key's hash correctly maps to its position in the table.
+- **No null keys or values except for the special NULL_KEY used internally.
+- **Correct size**: The size variable accurately reflects the number of entries.
+- **Consistent modCount**: The modCount should match the number of structural modifications, but I'm not sure if that's necessary here.
+
+Wait, the modCount is used for fail-fast behavior, but for the representation invariant, maybe it's not necessary unless the class enforces it. Since modCount is volatile, it's used for concurrency, but in the repOK method, perhaps it's not part of the structural invariant.
+
+So, focusing on the data structure:
+
+1. **No duplicates**: Each key must be unique.
+2. **Correct size**: The size variable matches the actual number of entries.
+3. **Consistent hash distribution**: Each key's hash correctly maps to the appropriate bucket.
+4. **No null keys or values**: Except for the special NULL_KEY used internally, all keys and values should not be null.
+5. **Each entry's next pointer correctly links to the next entry in the bucket**.
+
+Additionally, I should check that the table's length is a power of two, as per the HashMap's resizing logic, which doubles the size when it exceeds the threshold.
+
+So, the repOK method should perform the following checks:
+
+- Check that the size is correct.
+- Check that each key is unique.
+- Check that each key's hash correctly maps to its bucket.
+- Check that the table's length is a power of two.
+- Check that all keys and values are not null, except for the special NULL_KEY.
+- Check that the linked list in each bucket is consistent.
+
+Wait, but the user's example for BinTree includes checking for acyclic, ordered, etc. For HashMap, perhaps the key points are:
+
+- Each key is unique.
+- The size is correct.
+- The table's length is a power of two.
+- The hash function correctly maps keys to their respective buckets.
+- The linked list in each bucket is correctly formed.
+
+So, how to implement this in the repOK method.
+
+First, check if the size is correct. That's easy: compare size with the actual count of entries in the table.
+
+Next, check for duplicates. Iterate through all entries and ensure that each key is unique. To do this, I can use a Set and add each key as I traverse the map. If any key is added twice, return false.
+
+Then, check that the table's length is a power of two. Because the HashMap's table is always a power of two, this is a structural invariant.
+
+Next, check that each key's hash correctly maps to its bucket. For each entry, compute its hash and see if the index in the table matches the expected index.
+
+Also, ensure that all keys and values are not null, except for the special NULL_KEY used internally. So, for each entry, if the key is not the special NULL_KEY, it should not be null. Similarly for the value.
+
+Additionally, check that the linked list in each bucket is correctly formed. For each entry, its next pointer should point to the next entry in the bucket, and the last entry's next should be null.
+
+Wait, but in the current code, the next pointer is part of the Entry class. So, for each entry, I need to ensure that the next pointer correctly points to the next entry in the bucket.
+
+But that might be complex. Alternatively, perhaps it's sufficient to check that each entry's hash and key correctly map to the bucket, and that the size is correct, and that there are no duplicates.
+
+Wait, but the user's example for BinTree includes checking for acyclic, which is a structural invariant. For HashMap, perhaps the key is that the linked list in each bucket is correctly formed, i.e., each entry's next pointer points to the next entry in the bucket, and the last entry's next is null.
+
+So, in the repOK method, I need to traverse each bucket and ensure that the linked list is correctly formed.
+
+Putting it all together, the steps for repOK are:
+
+1. Check that the size is correct.
+2. Check that the table's length is a power of two.
+3. Check that each key is unique.
+4. Check that each key's hash correctly maps to its bucket.
+5. Check that all keys and values are not null, except for the special NULL_KEY.
+6. Check that the linked list in each bucket is correctly formed.
+
+Now, how to implement each step.
+
+First, check the size:
+
+int expectedSize = size;
+int actualSize = 0;
+for (Entry e : table) {
+    if (e != null) {
+        actualSize++;
+    }
+}
+if (expectedSize != actualSize) {
+    return false;
+}
+
+But wait, the size variable is maintained separately, so perhaps just compare size with the sum of non-null entries in the table.
+
+Alternatively, since the size is a variable, perhaps it's sufficient to compare size with the sum of non-null entries in the table.
+
+But in the code, the size is incremented and decremented correctly, so perhaps it's sufficient to just check size.
+
+But to be safe, perhaps it's better to count the actual number of entries.
+
+Next, check that the table's length is a power of two.
+
+int tableLength = table.length;
+if ((tableLength & (tableLength - 1)) != 0) {
+    return false;
+}
+
+Because a power of two has exactly one bit set, so when you AND it with (length -1), the result is zero.
+
+Then, check for duplicates. Use a Set:
+
+Set<Object> keys = new HashSet<>();
+for (Entry e : table) {
+    Object key = e.getKey();
+    if (key == null) {
+        if (key != NULL_KEY) {
+            return false; // null key except for special case
+        }
+    } else if (keys.contains(key)) {
+        return false; // duplicate key
+    }
+    keys.add(key);
+}
+
+Wait, but the special NULL_KEY is used internally, so any other null key is invalid.
+
+So, in the code, the key can be null only if it's the special NULL_KEY. So, in the repOK method, I need to check that any key that is not the special NULL_KEY is not null.
+
+So, during the duplicate check, if a key is null and it's not the special NULL_KEY, it's invalid.
+
+So, in the code:
+
+if (key == null) {
+    if (key != NULL_KEY) {
+        return false;
+    }
+} else if (keys.contains(key)) {
+    return false;
+}
+
+Then, proceed.
+
+Next, check that each key's hash correctly maps to its bucket.
+
+For each entry, compute its hash and check if the index in the table matches.
+
+int tableLength = table.length;
+for (Entry e : table) {
+    if (e == null) {
+        continue;
+    }
+    int hash = e.hash;
+    int index = indexFor(hash, tableLength);
+    if (index != e.tableIndex) {
+        // Wait, in the code, the index is computed as indexFor(hash, tableLength), but in the Entry class, there's no tableIndex field. Hmm.
+
+Wait, in the provided code, the Entry class has a hash, key, value, and next. It doesn't have a tableIndex. So, perhaps the index is computed as indexFor(hash, table.length), and each entry's position in the table is determined by that.
+
+So, for each entry, the index in the table should be indexFor(e.hash, table.length).
+
+But in the code, the table is an array of Entries, and each entry is placed at a specific index based on its hash.
+
+So, for each entry, the index should be indexFor(e.hash, table.length).
+
+So, in the repOK method:
+
+for (Entry e : table) {
+    if (e == null) continue;
+    int hash = e.hash;
+    int expectedIndex = indexFor(hash, table.length);
+    if (e.tableIndex != expectedIndex) {
+        return false;
+    }
+}
+
+Wait, but in the code, the Entry class doesn't have a tableIndex field. So, perhaps I need to compute the index based on the hash and the table's length.
+
+So, for each entry, compute the index as indexFor(e.hash, table.length), and ensure that the entry is in that position.
+
+But in the current code, the table is an array, and each entry is added to the correct index. So, perhaps the index is correctly set.
+
+But to verify, in the addEntry method, the index is computed as indexFor(hash, table.length), and the entry is placed at that index.
+
+So, in the repOK method, for each entry, compute the expected index and check that the entry is at that index.
+
+But since the table is an array, and each entry is added to the correct index, perhaps this check is redundant. However, for the repOK method, it's necessary to ensure that the current state aligns with the expected structure.
+
+So, perhaps it's better to check that each entry's hash correctly maps to its index.
+
+But in the code, the index is computed as indexFor(hash, table.length), which is (hash & (length -1)).
+
+So, for each entry, compute the index and ensure that the entry is at that position.
+
+But since the table is an array, and the entries are added correctly, perhaps this is not necessary. However, for the repOK method, it's better to include it to ensure that the current state matches the expected structure.
+
+Alternatively, perhaps it's sufficient to check that the table's length is a power of two and that the size is correct, as the rest is managed by the code.
+
+But to be thorough, perhaps it's better to include this check.
+
+Next, check that all keys and values are not null, except for the special NULL_KEY.
+
+So, for each entry, if the key is not the special NULL_KEY, it should not be null. Similarly for the value.
+
+So, in the code:
+
+for (Entry e : table) {
+    if (e == null) continue;
+    Object key = e.getKey();
+    Object value = e.getValue();
+    if (key == null) {
+        if (key != NULL_KEY) {
+            return false;
+        }
+    } else if (value == null) {
+        // Allow null values?
+        // In Java, HashMap allows null values, but not null keys.
+        // So, null values are allowed, but keys cannot be null except for the special case.
+        // So, only check that keys are not null unless it's the special NULL_KEY.
+        // So, no need to check value here.
+    }
+}
+
+Wait, in the code, the key can be null only if it's the special NULL_KEY. So, any other null key is invalid.
+
+But for values, they can be null. So, in the repOK method, we need to check that keys are not null unless they are the special NULL_KEY.
+
+So, in the code:
+
+for (Entry e : table) {
+    if (e == null) continue;
+    Object key = e.getKey();
+    if (key == null) {
+        if (key != NULL_KEY) {
+            return false;
+        }
+    }
+}
+
+That's sufficient.
+
+Finally, check that the linked list in each bucket is correctly formed. That is, each entry's next pointer points to the next entry in the bucket, and the last entry's next is null.
+
+So, for each entry, traverse the linked list and ensure that the next pointers are correctly set.
+
+But this could be time-consuming, but necessary for the invariant.
+
+So, in the code:
+
+for (Entry e : table) {
+    if (e == null) continue;
+    Entry nextEntry = e.next;
+    if (nextEntry != null) {
+        // Check if nextEntry's hash is correct for its position
+        // But perhaps it's sufficient to check that the nextEntry is in the same bucket.
+        // Or, more accurately, that the nextEntry's hash and key correctly map to its position.
+        // However, this might be too involved.
+        // Alternatively, just check that the nextEntry is not null and that the linked list is formed.
+        // But perhaps it's better to ensure that the nextEntry is in the same bucket.
+        // So, compute the index for nextEntry's hash and ensure it's the same as e's index +1, but that's not necessarily true because the hash could cause collisions.
+        // So, perhaps it's better to not check the nextEntry's position, but just that the next pointer is correctly set.
+        // So, for each entry, check that the next pointer points to the next entry in the bucket.
+        // But how?
+        // Maybe it's sufficient to check that the nextEntry's hash is in the same bucket as e's hash.
+        // Because the index is computed as hash & (length-1), so if two entries are in the same bucket, their next pointers should point to each other.
+
+        // Alternatively, perhaps it's sufficient to check that the nextEntry's hash is in the same bucket as e's hash.
+        // So, for e, compute its index, then compute the index for nextEntry's hash, and ensure it's the same as e's index +1, but that's not necessarily true because of possible collisions.
+
+        // This seems complicated, so perhaps it's better to not include this check in the repOK method, as it's not a structural invariant but more of a correctness invariant during insertion and extraction.
+
+        // Alternatively, perhaps it's sufficient to check that the nextEntry's hash is in the same bucket as e's hash, ensuring that the linked list is within the same bucket.
+
+        // So, for e, compute its index, then compute the index for nextEntry's hash, and ensure it's the same as e's index +1, but that's not necessarily true because of possible collisions.
+
+        // This seems too involved, so perhaps it's better to not include this check in the repOK method, as it's more about the internal consistency during operations rather than the structural invariant.
+
+So, perhaps the repOK method can exclude this check, focusing on the key properties: no duplicates, correct size, table length is power of two, and no null keys except for the special case.
+
+Putting it all together, the repOK method will:
+
+- Check that the table's length is a power of two.
+- Check that the size is correct.
+- Check that each key is unique and not null unless it's the special NULL_KEY.
+- Check that the table is correctly sized and that the size matches the actual entries.
+
+So, the code for repOK would be:
+
+public boolean repOK() {
+    // Check table length is a power of two
+    int tableLength = table.length;
+    if ((tableLength & (tableLength - 1)) != 0) {
+        return false;
+    }
+
+    // Check size is correct
+    int expectedSize = size;
+    int actualSize = 0;
+    for (Entry e : table) {
+        if (e != null) {
+            actualSize++;
+        }
+    }
+    if (expectedSize != actualSize) {
+        return false;
+    }
+
+    // Check for duplicate keys
+    Set<Object> keys = new HashSet<>();
+    for (Entry e : table) {
+        Object key = e.getKey();
+        if (key == null) {
+            if (key != NULL_KEY) {
+                return false;
+            }
+        } else if (keys.contains(key)) {
+            return false;
+        }
+        keys.add(key);
+    }
+
+    return true;
+}
+
+Wait, but in the code, the size variable is maintained, so perhaps comparing size with the actual count is sufficient. However, due to possible null entries, it's better to count the actual entries.
+
+But in the code, the size is incremented and decremented correctly, so perhaps it's sufficient to just compare size with the count.
+
+Alternatively, to be safe, count the actual entries.
+
+But in the code, the size is correctly maintained, so perhaps it's sufficient to just check size.
+
+So, the code can be:
+
+public boolean repOK() {
+    // Check table length is a power of two
+    int tableLength = table.length;
+    if ((tableLength & (tableLength - 1)) != 0) {
+        return false;
+    }
+
+    // Check size is correct
+    if (size != Arrays.stream(table).filter(e -> e != null).count()) {
+        return false;
+    }
+
+    // Check for duplicate keys
+    Set<Object> keys = new HashSet<>();
+    for (Entry e : table) {
+        Object key = e.getKey();
+        if (key == null) {
+            if (key != NULL_KEY) {
+                return false;
+            }
+        } else if (keys.contains(key)) {
+            return false;
+        }
+        keys.add(key);
+    }
+
+    return true;
+}
+
+But in Java, using streams might not be efficient, but for the purposes of the repOK method, it's acceptable.
+
+Alternatively, count manually:
+
+int actualSize = 0;
+for (Entry e : table) {
+    if (e != null) {
+        actualSize++;
+    }
+}
+if (size != actualSize) {
+    return false;
+}
+
+That's more efficient.
+
+So, the final code would include:
+
+- Check table length is power of two.
+- Check size matches the actual count.
+- Check for duplicate keys, including null keys.
+
+So, the repOK method would look like this.
+</think>
+
+To ensure the HashMap class adheres to its structural invariants, the `repOK` method must verify several key properties. These include ensuring the table length is a power of two,

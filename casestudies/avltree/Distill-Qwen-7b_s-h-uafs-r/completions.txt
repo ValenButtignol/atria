@@ -1,0 +1,100 @@
+
+<think>
+Alright, so I'm trying to write a representation invariant for the AvlTree class. I'm not super familiar with Avl trees, but I know they're self-balancing binary search trees. The representation invariant is a method that checks if the object is valid according to the class's rules.
+
+First, I need to understand what the AvlTree class does. It has a root node, and methods to insert and remove elements while maintaining balance. The balance is controlled by the ALLOWED_IMBALANCE constant, which is set to 1. That means each node can only be one level taller than its children.
+
+Looking at the insert and remove methods, they call a balance method after inserting or removing a node. The balance method adjusts the tree by rotating nodes to maintain the balance. There are different types of rotations: rotateWithLeftChild, rotateWithRightChild, doubleWithLeftChild, and doubleWithRightChild.
+
+Now, to write the repOK method. It needs to verify several properties:
+
+1. **Balance Condition**: Each node's height difference from its children should not exceed the allowed imbalance, which is 1. So, for any node, the height of the left child minus the height of the right child should be either -1, 0, or 1, and vice versa.
+
+2. **Non-negative Heights**: Heights should never be negative. The root's height is determined by the maximum height of its children plus one. If a node has no children, its height is 0.
+
+3. **Structure Integrity**: The tree should be properly structured with left and right children correctly assigned.
+
+4. **Element Order**: Since it's a binary search tree, for every node, all elements in the left subtree should be less than the node's element, and all elements in the right subtree should be greater than the node's element.
+
+I'll start by checking if the root is null, which would mean the tree is empty. Then, I'll traverse the tree to check each node's balance condition and ensure heights are non-negative.
+
+I'll also need to verify that the tree maintains the binary search property. This means that for each node, all elements in the left subtree are less than the node's value, and all elements in the right subtree are greater.
+
+I'll write a helper method to traverse the tree and check these conditions recursively. For each node, I'll check its balance, its children's heights, and the order of elements.
+
+Finally, I'll return false if any condition is violated, ensuring the tree is valid.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    // Check binary search property
+    boolean isValid = checkBST(root);
+    if (!isValid) {
+        return false;
+    }
+
+    // Check balance condition
+    checkBalance(root);
+
+    // Check non-negative heights
+    checkHeights(root);
+
+    return true;
+}
+
+private boolean checkBST(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.left != null && node.left.element >= node.element) {
+        return false;
+    }
+
+    if (node.right != null && node.right.element <= node.element) {
+        return false;
+    }
+
+    boolean leftValid = checkBST(node.left);
+    boolean rightValid = checkBST(node.right);
+
+    return leftValid && rightValid;
+}
+
+private boolean checkBalance(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = node.left == null ? -1 : node.left.height;
+    int rightHeight = node.right == null ? -1 : node.right.height;
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    boolean leftBalanced = checkBalance(node.left);
+    boolean rightBalanced = checkBalance(node.right);
+
+    return leftBalanced && rightBalanced;
+}
+
+private boolean checkHeights(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = node.left == null ? -1 : node.left.height;
+    int rightHeight = node.right == null ? -1 : node.right.height;
+
+    if (leftHeight < 0 || rightHeight < 0) {
+        return false;
+    }
+
+    return checkHeights(node.left) && checkHeights(node.right);
+}
+```

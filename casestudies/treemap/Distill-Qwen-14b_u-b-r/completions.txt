@@ -1,0 +1,354 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. The invariant should be a method called repOK that checks the internal consistency of the tree structure. Let me think about what properties a correct red-black tree must satisfy.
+
+First, I remember that a red-black tree has several invariants. Each node is either red or black. The root must be black. Every leaf (null node) is considered black. For every red node, both its children must be black. Also, all paths from the root to a leaf must have the same number of black nodes. These are the key properties I need to check.
+
+Looking at the TreeMap implementation, each Node has a color, key, value, parent, left, and right. So, the repOK method should verify all these properties.
+
+Let me list the checks I need to perform:
+
+1. The root must be black. If the root is null, that's okay because the tree is empty, but if it's not null, its color must be black.
+
+2. Every node must have a valid parent. Except for the root, which has a null parent. So, for any node, if it's not the root, its parent should not be null.
+
+3. For every red node, both left and right children must be black. So, if a node is red, check that its left and right children are either null (which is considered black) or have a color of black.
+
+4. All paths from the root to the leaves must have the same number of black nodes. This is a bit tricky because it requires traversing the tree and counting black nodes along each path, then ensuring all counts are equal.
+
+5. The size variable must match the actual number of nodes in the tree. So, I can traverse the tree and count the nodes, then compare with the size.
+
+6. The comparator used must be consistent with equals, but I'm not sure how to check that here. Maybe it's beyond the scope of the repOK method, which focuses on structural invariants rather than behavioral ones.
+
+Wait, but the repOK method is supposed to check the representation, so perhaps the comparator's consistency with equals isn't part of the structural invariant. So I'll focus on the tree structure.
+
+Now, how to implement these checks.
+
+First, check if the root is null. If it's null, the tree is empty, so all other checks are trivially true. If not, root's color must be black.
+
+Then, for each node, check that the parent is correctly set. For example, if a node's parent is not null, then the parent's left or right child should point back to this node.
+
+Wait, that's another invariant: for any node, its parent must have it as either left or right child. So, for each node, if the parent is not null, then the node must be either parent.left or parent.right.
+
+That's an important check. So, for every node, if parent is not null, then node must be either parent.left or parent.right.
+
+So, adding that to the list.
+
+Now, let's outline the steps for repOK:
+
+1. If root is not null, check that root.color is BLACK.
+
+2. Check that all nodes have correct parent pointers. For each node, if parent is not null, then the node must be either parent.left or parent.right.
+
+3. For every red node, check that both left and right children are black or null.
+
+4. Check that all paths from root to leaves have the same number of black nodes.
+
+5. Verify that the size variable equals the actual number of nodes in the tree.
+
+Let me think about how to implement each of these.
+
+For step 1: root != null implies root.color == BLACK.
+
+For step 2: For every node, if parent != null, then node must be parent.left or parent.right. So, for each node, check that (parent.left == this || parent.right == this).
+
+For step 3: For every node, if color is RED, then left and right children must be either null or have color BLACK.
+
+For step 4: This is more complex. I need to traverse the tree and count the number of black nodes along each path from root to leaf. All these counts must be equal.
+
+How to do this? Maybe perform a BFS or DFS, keeping track of the current count of black nodes. For each node, if it's black, increment the count. When reaching a leaf, record the count. All such counts must be the same.
+
+Alternatively, since it's a tree, I can write a helper method that returns the count of black nodes along the path from the root to this node. Then, for every leaf node, this count must be equal to the same value.
+
+Wait, but in a red-black tree, all leaves are considered to have the same number of black nodes along their path. So, perhaps I can compute the expected number of black nodes on the root path, and then for each node, ensure that the count is correct.
+
+Alternatively, for each node, the count of black nodes from root to this node must be consistent with the tree's structure.
+
+Hmm, perhaps the easiest way is to compute the expected number of black nodes on all paths. For example, the root's color is black, so the count starts at 1. Then, for each node, depending on its color, the count increases or not. But wait, no: the count is the number of black nodes along the path, regardless of the node's color. So, for each node, the count is the count of its parent plus 1 if the node is black, else the same as the parent.
+
+Wait, no. The count is the number of black nodes along the path from root to this node. So, for the root, it's 1 if black, 0 if red (but root can't be red). Then, for each child, if the child is black, add 1, else same as parent.
+
+But in a red-black tree, the root is black, so the count starts at 1. For any node, the count is the parent's count plus (1 if node is black, else 0).
+
+So, for each node, the count should be equal to the parent's count plus (node.color == BLACK ? 1 : 0).
+
+Wait, but that's not exactly right. Because the count is the total number of black nodes along the path, including the current node. So, for a node, its count is parent.count + (node is black ? 1 : 0).
+
+So, for the root, count is 1 (since it's black). For a child of root, if it's black, count is 2; if red, count is 1.
+
+But in a red-black tree, all leaves must have the same count. So, perhaps the invariant is that all leaves have the same count of black nodes along their path.
+
+So, in the repOK method, I can compute the expected count for each node and ensure that all leaves have the same count.
+
+Alternatively, I can compute the count for each node and ensure that for every node, its count is equal to its parent's count plus (1 if it's black, else 0). But that's more of a structural check rather than the path count invariant.
+
+Wait, perhaps the correct approach is to compute the expected number of black nodes on all paths. For example, the root is black, so the count is 1. Then, for each node, the count is parent.count + (node is black ? 1 : 0). Then, for all leaves, this count must be the same.
+
+So, in the repOK method, I can traverse the tree, compute the count for each node, and ensure that all leaves have the same count.
+
+But how to implement this? Maybe perform a BFS or DFS, keeping track of the count for each node, and collect the counts for all leaves. Then, check that all these counts are equal.
+
+Alternatively, since the tree is a binary search tree, perhaps the count can be determined during traversal.
+
+Another approach is to compute the expected count for each node based on its parent's count and its own color. Then, for each node, this must hold: node.count = parent.count + (node.color == BLACK ? 1 : 0).
+
+Wait, but in the current implementation, the Node class doesn't have a count field. So, I can't directly access it. So, perhaps during the traversal, I can compute the count as I go.
+
+So, for each node, the count is the count from the root to that node. So, for the root, it's 1. For each child, it's parent's count plus 1 if the child is black, else same as parent.
+
+So, during traversal, I can keep track of the current count and pass it down.
+
+Now, putting this together, the steps for the repOK method are:
+
+1. If the tree is empty (root is null), then all invariants are satisfied.
+
+2. Check that root is black.
+
+3. For every node, check that parent pointers are correct: if parent is not null, then the node is either parent.left or parent.right.
+
+4. For every red node, check that both children are black or null.
+
+5. For every node, the count of black nodes along the path from root to this node must be consistent with the parent's count plus 1 if the node is black.
+
+6. All leaves must have the same count of black nodes along their paths.
+
+7. The size variable must equal the actual number of nodes in the tree.
+
+Wait, but step 5 and 6 might be redundant because step 6 is a consequence of step 5. Because if all nodes have their count correctly computed, then all leaves will have the same count.
+
+Alternatively, perhaps it's sufficient to ensure that for every node, the count is correctly derived from the parent, and that the root's count is 1.
+
+But I'm not sure. Maybe it's better to perform both checks.
+
+Now, how to implement this in code.
+
+First, the repOK method will be a private method that returns a boolean.
+
+Let me outline the code structure:
+
+private boolean repOK() {
+    if (root == null) {
+        // Tree is empty, so all invariants are satisfied.
+        return true;
+    }
+
+    // Check root is black
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Check parent pointers
+    // Need to traverse all nodes and ensure that for each node, if parent is not null, then node is parent.left or parent.right.
+    // Also, for each node, if it's a child, its parent's child pointer points back to it.
+    // So, for each node, if parent != null, then parent.left == node || parent.right == node.
+
+    // Check red nodes have black children
+    // For each node, if color is RED, then left and right must be null or color BLACK.
+
+    // Check black node count consistency
+    // For each node, count must be parent.count + (node is black ? 1 : 0)
+    // Also, all leaves must have the same count.
+
+    // Check size consistency
+    // Recompute the size by traversing the tree and count nodes, compare with size variable.
+
+    // Now, implement each check.
+
+    // First, check parent pointers.
+    // Traverse all nodes and for each, check parent.
+    // But how to traverse all nodes? Maybe perform a BFS or DFS.
+
+    // Let's perform a BFS.
+
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+        Node node = queue.poll();
+        // Check parent pointer
+        if (node.parent != null) {
+            if (node.parent.left != node && node.parent.right != node) {
+                return false;
+            }
+        }
+        // Add children to queue
+        if (node.left != null) {
+            queue.add(node.left);
+        }
+        if (node.right != null) {
+            queue.add(node.right);
+        }
+    }
+
+    // Next, check red nodes have black children.
+    queue.clear();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+        Node node = queue.poll();
+        if (node.color == RED) {
+            if (node.left != null && node.left.color != BLACK) {
+                return false;
+            }
+            if (node.right != null && node.right.color != BLACK) {
+                return false;
+            }
+        }
+        if (node.left != null) {
+            queue.add(node.left);
+        }
+        if (node.right != null) {
+            queue.add(node.right);
+        }
+    }
+
+    // Next, check count consistency.
+    // For each node, count is parent.count + (node is black ? 1 : 0)
+    // Also, all leaves must have the same count.
+
+    // Compute the count for each node.
+    // We can perform a BFS and track the count for each node.
+
+    Queue<Node> countQueue = new LinkedList<>();
+    countQueue.add(root);
+    int expectedCount = 1; // root is black
+    Map<Node, Integer> countMap = new HashMap<>();
+    countMap.put(root, expectedCount);
+
+    while (!countQueue.isEmpty()) {
+        Node node = countQueue.poll();
+        int currentCount = countMap.get(node);
+
+        // Check left child
+        if (node.left != null) {
+            int leftCount = currentCount + (node.left.color == BLACK ? 1 : 0);
+            countMap.put(node.left, leftCount);
+            countQueue.add(node.left);
+        }
+
+        // Check right child
+        if (node.right != null) {
+            int rightCount = currentCount + (node.right.color == BLACK ? 1 : 0);
+            countMap.put(node.right, rightCount);
+            countQueue.add(node.right);
+        }
+    }
+
+    // Now, collect all leaf counts and ensure they are equal.
+    Set<Integer> leafCounts = new HashSet<>();
+    queue.clear();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+        Node node = queue.poll();
+        if (node.left == null && node.right == null) {
+            leafCounts.add(countMap.get(node));
+        } else {
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+        }
+    }
+
+    if (leafCounts.size() > 1) {
+        return false;
+    }
+
+    // Finally, check size consistency.
+    int actualSize = 0;
+    queue.clear();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+        Node node = queue.poll();
+        actualSize++;
+        if (node.left != null) {
+            queue.add(node.left);
+        }
+        if (node.right != null) {
+            queue.add(node.right);
+        }
+    }
+
+    if (actualSize != size) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but in the code above, I'm using a Queue and a Map to track counts. However, in Java, the TreeMap's Node is an inner class, so I can use it. But I need to make sure that the code doesn't have any errors.
+
+Wait, but in the code, the countMap is a HashMap<Node, Integer>, which should be okay since each Node is unique.
+
+But wait, in the code, when adding to the countQueue, I'm adding the left and right children, but I'm not checking if they are already in the queue. So, perhaps using a queue that allows duplicates could cause issues, but in a tree, each node has only one parent, so each node is processed once.
+
+Wait, no. Each node is added to the queue once because when processing a node, we add its children, which haven't been processed yet. So, the BFS should process each node exactly once.
+
+Another thing: in the countQueue, for each node, we compute the count based on the parent's count. So, the root's count is 1. For each child, it's parent's count plus 1 if the child is black.
+
+But wait, the count is the number of black nodes along the path from root to this node. So, for a node, its count is parent's count plus (node is black ? 1 : 0).
+
+Yes, that's correct.
+
+Now, after computing the count for each node, we collect the counts of all leaves and ensure they are the same.
+
+If any of these checks fail, repOK returns false.
+
+Additionally, the size must match the actual number of nodes.
+
+Putting it all together, the repOK method will perform all these checks.
+
+Wait, but in the code I wrote, the countQueue is used to compute the count for each node, and then the leafCounts are collected based on the countMap.
+
+But perhaps there's a more efficient way, but for the purposes of the repOK method, which is correctness, not performance, it's acceptable.
+
+Now, let me think about possible edge cases.
+
+Case 1: Empty tree. repOK returns true.
+
+Case 2: Single node (root). It's black, so all checks pass.
+
+Case 3: Tree with root and two red children. Wait, no, because in a red-black tree, a red node's children must be black. So, if root is black, and has a red child, that child's children must be black.
+
+Another case: a tree where a red node has a red child. This should fail the repOK check.
+
+Another case: a tree where the parent's left is not the current node. For example, if a node's parent has it as left, but the node thinks it's right. This would fail the parent pointer check.
+
+Another case: size variable is incorrect. For example, after adding nodes, size is not updated correctly. The repOK method would catch this by comparing the actual size computed via traversal.
+
+So, the repOK method as outlined should cover all necessary checks.
+
+Now, I need to implement this in Java code.
+
+But wait, in the code, I used a Queue, but in Java, I need to import java.util.Queue and java.util.LinkedList. Also, the code is inside the TreeMap class, which is in the package casestudies.treemap.
+
+So, the repOK method will be a private method in the TreeMap class.
+
+But wait, in the code provided, the TreeMap class is already written, and I need to add the repOK method.
+
+So, the code for repOK would be:
+
+private boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    // Check root is black
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Check parent pointers
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+        Node node = queue.poll();
+        if (node.parent != null) {
+            if (node.parent.left != node && node.parent.right != node) {
+                return false;
+            }
+        }
+        if (node.left != null) {
+            queue.add(node.left);
+        }
+        if (node.right != null

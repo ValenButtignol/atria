@@ -1,0 +1,80 @@
+
+Here's a representation invariant for the `HashMap` class in Java:
+
+```java
+public boolean repOK() {
+    // Check if the table is not null
+    if (table == null) {
+        return false;
+    }
+
+    // Check if the size is not negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check if the threshold is not negative
+    if (threshold < 0) {
+        return false;
+    }
+
+    // Check if the load factor is not negative or NaN
+    if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
+        return false;
+    }
+
+    // Check if the modCount is not negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    // Check if the table is not empty and all entries are valid
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            // Check if the key and value are not null
+            if (e.key == null || e.value == null) {
+                return false;
+            }
+            // Check if the hash code is valid
+            if (e.hash < 0) {
+                return false;
+            }
+            // Move to the next entry
+            e = e.next;
+        }
+    }
+
+    // Check if the size is equal to the number of non-null entries in the table
+    if (size != countNonNullEntries(table)) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper method to count the number of non-null entries in the table
+private int countNonNullEntries(Entry[] table) {
+    int count = 0;
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            count++;
+            e = e.next;
+        }
+    }
+    return count;
+}
+```
+
+This representation invariant checks the following conditions:
+
+1.  The table is not null.
+2.  The size is not negative.
+3.  The threshold is not negative.
+4.  The load factor is not negative or NaN.
+5.  The modCount is not negative.
+6.  The table is not empty and all entries are valid (i.e., their keys and values are not null, and their hash codes are valid).
+7.  The size is equal to the number of non-null entries in the table.
+
+If any of these conditions are not met, the `repOK` method returns `false`, indicating that the representation invariant is not satisfied.

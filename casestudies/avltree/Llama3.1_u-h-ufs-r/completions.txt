@@ -1,0 +1,36 @@
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    int heightDiff = Math.abs(height(root.left) - height(root.right));
+    if (heightDiff > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return repOK(root.left) && repOK(root.right);
+}
+
+private int height(AvlNode t) {
+    return t == null ? -1 : t.height;
+}
+
+private boolean repOK(AvlNode t) {
+    if (t == null) {
+        return true;
+    }
+
+    if (t.left != null && t.left.element >= t.element) {
+        return false;
+    }
+
+    if (t.right != null && t.right.element <= t.element) {
+        return false;
+    }
+
+    return repOK(t.left) && repOK(t.right);
+}
+```
+Note: The `repOK` method is a recursive method that checks the invariants of the AVL tree. It first checks if the root is null, in which case the tree is empty and the invariant holds. Then it checks if the height difference between the left and right subtrees is within the allowed imbalance. If it is not, the invariant does not hold. Finally, it recursively checks the invariants of the left and right subtrees.

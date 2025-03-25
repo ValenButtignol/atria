@@ -1,0 +1,181 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class. The repOK method should check all the invariants that ensure the object is valid. Let me think about what properties the HashMap must satisfy.
+
+First, the HashMap uses an array of Entry objects called table. Each Entry can have a next pointer, forming a linked list within each bucket. So, for each bucket, the linked list should be properly formed without any cycles. Also, each Entry's hash and key should be consistent.
+
+I remember that in the HashMap, the size variable keeps track of the number of key-value pairs. So, I should check that the size is correct. Also, the threshold is calculated based on the load factor and capacity, so I need to ensure that threshold is within valid bounds.
+
+Looking at the Entry class, each Entry has a hash, key, value, and next pointer. The key can't be null unless it's the special NULL_KEY object. Also, each Entry's hash should match the hash of its key. Wait, but the Entry's hash is computed when the Entry is created, so I should verify that for each Entry, hash equals the hash of its key.
+
+Another thing is that the Entry's next pointer should only point to another Entry or null. So, I need to check that all next pointers are valid.
+
+Also, the modCount should be non-negative since it's used for tracking concurrent modifications.
+
+Let me outline the steps:
+
+1. Check that the table array is not null and that its length is a power of two. Because in the constructor, the initial capacity is rounded up to the nearest power of two.
+
+2. Verify that the size is non-negative and does not exceed the maximum capacity.
+
+3. Ensure that the threshold is within the valid range, not exceeding the table's length.
+
+4. For each Entry in the table, check that:
+   a. The key is either non-null or it's the special NULL_KEY.
+   b. The hash of the Entry matches the hash of the key (after unmasking if necessary).
+   c. The next pointer is either null or points to another Entry.
+
+5. Check that the modCount is non-negative.
+
+6. Ensure that there are no duplicate keys. Since the HashMap doesn't allow duplicate keys, each key should appear exactly once.
+
+Wait, but checking for duplicates might be tricky because the same key could be in different buckets if the hash function isn't perfect. But in reality, the HashMap uses the hash to index the bucket, so each key should only be in one bucket. So, I can check that each key is unique across all Entries.
+
+Hmm, but that might be computationally expensive. Alternatively, since the HashMap's put method replaces existing entries, the structure should ensure that each key is only present once in the table.
+
+Another point: the Entry's equals method checks both key and value, but for the repOK, I think we just need to ensure that the structure is correct, not that the data is consistent beyond that.
+
+So, putting it all together, the repOK method should:
+
+- Check that table is not null and its length is a power of two.
+- Check that size is between 0 and the current capacity.
+- Check that threshold is within valid bounds.
+- For each Entry in the table, verify that the Entry's hash matches the key's hash.
+- Ensure that the next pointers form valid linked lists without cycles.
+- Check that modCount is non-negative.
+- Ensure that there are no duplicate keys.
+
+Wait, but checking for duplicate keys might be overkill. Maybe the structure ensures that each key is unique because of the way put is implemented. So perhaps it's sufficient to check that each Entry's key is unique.
+
+Alternatively, perhaps the repOK doesn't need to check for duplicates because that's handled by the class's methods. But for the invariant, it's better to be thorough.
+
+So, in the repOK method, I'll loop through each bucket and each Entry in the bucket, checking the above conditions.
+
+Let me think about how to implement each check.
+
+First, check if table is null or has a length that's not a power of two. Wait, in the constructor, the initial capacity is rounded up to the nearest power of two. So, the table's length should always be a power of two. So, I can check that table.length is a power of two.
+
+How to check if a number is a power of two? Well, a number is a power of two if it's greater than zero and (n & (n-1)) == 0.
+
+Next, check that size is >=0 and <= table.length.
+
+Then, check that threshold is >=0 and <= table.length.
+
+For each Entry in the table:
+
+- If the Entry is null, continue.
+- Else, check that the key is either non-null or it's the special NULL_KEY.
+- Compute the hash of the key (unmasking if necessary) and compare it with the Entry's hash.
+- Check that the next pointer is either null or points to another Entry.
+
+Also, check that modCount is >=0.
+
+Additionally, ensure that the number of entries (size) is equal to the sum of all non-null Entries in the table, counting each Entry once.
+
+Wait, that's a good point. The size variable should equal the number of Entries in the table. So, I can traverse all the Entries and count them to ensure that the count equals size.
+
+So, in the repOK method:
+
+- Traverse each bucket in the table.
+- For each Entry in the bucket, follow the next pointers and count each Entry.
+- The total count should equal the size variable.
+
+This would catch cases where size is incorrect.
+
+Also, check that each Entry's key is unique. So, as I traverse, I can keep a set of keys and ensure that no duplicates are found.
+
+Wait, but the key can be the special NULL_KEY, which represents a null key. So, I need to handle that case.
+
+Putting it all together, the repOK method would:
+
+1. Check that table is not null and its length is a power of two.
+2. Check that size is between 0 and table.length.
+3. Check that threshold is between 0 and table.length.
+4. Check that modCount is non-negative.
+5. Traverse all Entries to count them and ensure they equal size.
+6. Check that each Entry's hash matches the key's hash.
+7. Check that next pointers are valid (point to another Entry or null).
+8. Ensure that all keys are unique.
+
+This seems comprehensive. Now, how to implement each part.
+
+For step 1: Check if table is null. If it is, return false. Then, check if table.length is a power of two. So, (table.length & (table.length -1)) == 0.
+
+For step 2: if size <0 or size > table.length, return false.
+
+For step 3: threshold should be >=0 and <= table.length.
+
+For step 4: modCount >=0.
+
+For step 5: Iterate through each bucket, then each Entry in the bucket, and count them. If the count doesn't match size, return false.
+
+For step 6: For each Entry, compute the key's hash and compare with Entry's hash. Remember to unmask the key if it's the special NULL_KEY.
+
+For step 7: For each Entry, check that next is either null or an Entry.
+
+For step 8: Keep a set of keys. For each Entry, add the key (unmasking if necessary) to the set. If any key is already in the set, return false.
+
+Wait, but the Entry's key could be null, represented as NULL_KEY. So, when adding to the set, I need to handle that.
+
+So, in code:
+
+- Create a Set<Object> seenKeys = new HashSet<>();
+- For each Entry:
+   - Object key = e.getKey(); // which unmask null
+   - if (seenKeys.contains(key)) return false;
+   - seenKeys.add(key);
+
+This would catch duplicate keys.
+
+Now, putting all these checks into the repOK method.
+
+I think that covers all the necessary invariants. Now, I'll write the code accordingly.
+</think>
+
+```java
+public boolean repOK() {
+    if (table == null) {
+        return false;
+    }
+    int tableLength = table.length;
+    if ((tableLength & (tableLength - 1)) != 0) {
+        return false;
+    }
+    if (size < 0 || size > tableLength) {
+        return false;
+    }
+    if (threshold < 0 || threshold > tableLength) {
+        return false;
+    }
+    if (modCount < 0) {
+        return false;
+    }
+    int entryCount = 0;
+    Set<Object> seenKeys = new HashSet<>();
+    for (Entry e : table) {
+        Entry current = e;
+        while (current != null) {
+            entryCount++;
+            Object key = current.getKey();
+            if (seenKeys.contains(key)) {
+                return false;
+            }
+            seenKeys.add(key);
+            if (current.hash != ((key == null) ? 0 : key.hashCode())) {
+                return false;
+            }
+            if (current.next == null) {
+                current = null;
+            } else if (!(current.next instanceof Entry)) {
+                return false;
+            } else {
+                current = current.next;
+            }
+        }
+    }
+    if (entryCount != size) {
+        return false;
+    }
+    return true;
+}
+```

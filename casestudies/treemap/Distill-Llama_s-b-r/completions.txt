@@ -1,0 +1,243 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. Hmm, what's a representation invariant? From what I remember, it's a method that checks if the current state of an object is consistent with its invariants. So, for TreeMap, I should ensure that the tree structure adheres to the properties of a balanced binary search tree, specifically a red-black tree.
+
+Looking at the TreeMap code, I see that it's using a red-black tree structure with nodes having left, right, parent, and color attributes. The color is either RED or BLACK. The put method inserts nodes and maintains the balance through rotations and color changes.
+
+So, the repOK method should verify that the tree is correctly structured. That means checking the color of the root and all other nodes, ensuring that red nodes don't have two red children, and that the structure is balanced.
+
+Wait, but in a red-black tree, the root should always be black. So, the first check is whether root.color is BLACK. If not, the tree is invalid.
+
+Next, for each node, I need to ensure that a red node doesn't have a red child. So, for every node, if its color is RED, then both left and right children should not be RED. If any child is RED, that's a problem.
+
+Also, the tree should be properly balanced. But checking balance is tricky. Maybe I can check that the depth of the tree is within a certain limit, but that might not be sufficient. Alternatively, I can check that each node's left and right subtrees aren't too imbalanced. But that could be complex.
+
+Wait, perhaps for the purposes of a representation invariant, I can focus on the structural properties like color and parent/child relationships, not the actual balance. Because ensuring the tree is balanced is more about the insertion and rotation logic, which is already handled by the put method.
+
+So, the steps for repOK would be:
+
+1. Check if the root is null. If it is, the tree is empty, which is fine.
+2. Check if the root's color is BLACK. If not, return false.
+3. For each node, check that if the node's color is RED, its left and right children are not RED.
+4. Ensure that each node's parent is correctly set, and the tree structure is intact.
+
+Wait, but how do I traverse all nodes? Since the tree is a private structure, I can't have an external method to do this. So, the repOK method would need to traverse the tree starting from the root, checking each node's color and children.
+
+So, the method would look something like this:
+
+- If the root is null, return true (empty tree is okay).
+- If the root's color is not BLACK, return false.
+- Then, recursively check each node:
+   - For a node, if it's RED, check that both left and right are not RED.
+   - Also, ensure that each node's parent is correctly set and that the tree structure is consistent.
+
+But wait, how do I ensure that each node's parent is correctly set? Because in the put method, when a new node is inserted, its parent is set correctly. So, perhaps I don't need to check the parent pointers, as they should already be correct.
+
+Alternatively, maybe I should check that each node's parent is not null, except for the root. So, during traversal, if a node's parent is null and it's not the root, that's a problem.
+
+Putting it all together, the repOK method would:
+
+1. Check if the root is null. If so, return true.
+2. Check if the root's color is BLACK. If not, return false.
+3. Traverse each node starting from the root.
+4. For each node:
+   a. If the node is RED, check that both left and right children are not RED.
+   b. Ensure that the node's parent is not null, unless it's the root.
+5. If all checks pass, return true; otherwise, return false.
+
+Wait, but how do I traverse all nodes? Since the tree is a private structure, I can write a helper method that recursively traverses each node.
+
+So, the helper method would take a node and check its color and children. If any node violates the color condition, return false. Also, check that the node's parent is not null unless it's the root.
+
+Wait, but the root's parent is null, so that's okay. For other nodes, their parent should not be null.
+
+So, in code:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+    return checkNode(root) != null;
+}
+
+private boolean checkNode(Node node) {
+    if (node.parent != null && node.parent != root) {
+        // Node's parent is not null and not the root, which is okay.
+        // Wait, no. The root's parent is null. For other nodes, their parent should not be null.
+        // So, if node is not root, its parent should not be null.
+        if (node.parent == null) {
+            return false;
+        }
+    }
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    if (node.left != null) {
+        if (!checkNode(node.left)) {
+            return false;
+        }
+    }
+    if (node.right != null) {
+        if (!checkNode(node.right)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+Wait, but in the code, the root's parent is null, which is correct. For other nodes, their parent should not be null. So, in the checkNode method, if the node is not the root, its parent should not be null.
+
+So, in the helper method:
+
+if (node.parent == null && node != root) {
+    return false;
+}
+
+That's an important check. Because if a node's parent is null but it's not the root, that means the tree is broken.
+
+So, updating the helper:
+
+private boolean checkNode(Node node) {
+    // Check if node is not root but has no parent
+    if (node.parent == null && node != root) {
+        return false;
+    }
+    // Check if red node has red children
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    // Recurse on children
+    if (node.left != null) {
+        if (!checkNode(node.left)) {
+            return false;
+        }
+    }
+    if (node.right != null) {
+        if (!checkNode(node.right)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+So, putting it all together, the repOK method would call this helper starting from the root.
+
+Wait, but what about the root's parent? It's null, which is correct. So, the helper method correctly allows that.
+
+Another thing to consider: in the TreeMap, the comparator is used for comparisons. But in the repOK method, we don't need to check the comparator because it's about the structure, not the keys.
+
+So, the final repOK method would be:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+    return checkNode(root);
+}
+
+private boolean checkNode(Node node) {
+    // Check if node is not root but has no parent
+    if (node.parent == null && node != root) {
+        return false;
+    }
+    // Check if red node has red children
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    // Recurse on children
+    if (node.left != null) {
+        if (!checkNode(node.left)) {
+            return false;
+        }
+    }
+    if (node.right != null) {
+        if (!checkNode(node.right)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+Wait, but in the code, the root is a Node, and the helper method is private. So, the repOK method would call checkNode(root), which recursively checks all nodes.
+
+I think this covers the structural invariants: root is black, no node has a null parent unless it's the root, and no red node has red children.
+
+Yes, that should work.
+</think>
+
+To ensure the TreeMap class adheres to the properties of a balanced binary search tree (specifically a red-black tree), we need to verify several structural invariants. These invariants ensure that the tree remains balanced and correctly structured, which is crucial for the efficient operations provided by the TreeMap class.
+
+### Representation Invariant (repOK)
+
+The `repOK` method checks that the tree is structured correctly according to the red-black tree properties. Here's the implementation:
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+    return checkNode(root);
+}
+
+private boolean checkNode(Node node) {
+    // Check if the node is not the root but has no parent
+    if (node.parent == null && node != root) {
+        return false;
+    }
+    // Check if a red node has red children
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    // Recurse on the left and right children
+    if (node.left != null) {
+        if (!checkNode(node.left)) {
+            return false;
+        }
+    }
+    if (node.right != null) {
+        if (!checkNode(node.right)) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+### Explanation of the Invariants
+
+1. **Root Color Check**: The root of the tree must always be black (`BLACK`). If the root is red, the tree structure is invalid.
+
+2. **Parent Existence Check**: Every node, except the root, must have a non-null parent. If a node exists without a parent (except for the root), the tree structure is invalid.
+
+3. **Red Node Children Check**: A node that is red (`RED`) cannot have any red children. If a red node has a red child, the tree structure is invalid.
+
+By recursively checking each node in the tree, the `checkNode` method ensures that all these structural properties are maintained. If any of these conditions are violated, the `repOK` method returns `false`, indicating that the tree's structure is inconsistent with the expected red-black tree properties.

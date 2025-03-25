@@ -1,0 +1,85 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. Representation invariants are crucial because they define the conditions that must hold true for the data structure to function correctly. They ensure that the structure remains balanced and maintains its properties after each operation.
+
+Looking at the TreeMap class, it's a balanced binary search tree (BST), specifically an AVL tree since it maintains the balance factor (the difference in heights between the left and right subtrees) for each node. The key aspects to consider are the structure's balance, the order of elements, and the size.
+
+First, the structure. Each node's left subtree should be shorter than or equal to its right subtree by at most one level. This is the core of an AVL tree. So, the invariant should check that for every node, the height of the left child is not more than one greater than the right, and vice versa.
+
+Next, the order of elements. As a BST, the in-order traversal should yield elements in ascending order according to the comparator. This ensures that the tree maintains the correct key-value pairs in sorted order.
+
+Then, the size. The size of the tree should accurately reflect the number of nodes, which is maintained by the 'size' variable. The invariant should verify that this count is correct.
+
+I also need to consider the root node. If the tree is empty, the root should be null. Additionally, the root's color should be black to maintain the balance, as per the Node class's structure.
+
+Putting it all together, the representation invariant should include checks for the root's state, the balance of each subtree, the order of elements, and the size's accuracy. These checks will ensure that the TreeMap remains a valid and balanced BST, allowing for efficient operations.
+</think>
+
+To write a representation invariant for the `TreeMap` class, we need to ensure that the tree maintains its balance, order, and size. Here's a step-by-step explanation:
+
+### 1. **Tree Structure Invariant**
+   - The tree must be a valid AVL tree, meaning:
+     - The left subtree height is either equal to or one less than the right subtree height.
+     - The right subtree height is either equal to or one less than the left subtree height.
+   - This ensures the tree remains balanced and operations remain efficient.
+
+### 2. **Order Invariant**
+   - The tree must be a valid binary search tree (BST):
+     - For every node, all elements in the left subtree are less than or equal to the node's key.
+     - All elements in the right subtree are greater than or equal to the node's key.
+   - This ensures the tree maintains the correct key ordering.
+
+### 3. **Size Invariant**
+   - The `size` variable must always equal the number of nodes in the tree.
+   - This ensures accurate tracking of the tree's size.
+
+### 4. **Root Invariant**
+   - If the tree is empty, the root must be `null`.
+   - The root's color must be `BLACK` to maintain the balance.
+
+### Representation Invariant Code
+
+```java
+private void repOK() {
+    if (root == null) {
+        // Tree is empty
+        if (size != 0) {
+            throw new IllegalStateException("Tree is empty but size is not zero.");
+        }
+        if (root != null) {
+            throw new IllegalStateException("Root is not null when tree is empty.");
+        }
+        return;
+    }
+
+    // Check root color
+    if (!isNodeBlack(root)) {
+        throw new IllegalStateException("Root node is not black.");
+    }
+
+    // Check subtree balance for all nodes
+    if (!isBalanced(root)) {
+        throw new IllegalStateException("Tree is not balanced.");
+    }
+
+    // Check size consistency
+    if (size != root.size()) {
+        throw new IllegalStateException("Size of tree does not match node count.");
+    }
+
+    // Check order (in-order traversal should yield sorted keys)
+    // This is a simplified check; full in-order traversal would be needed for full validation
+    if (!isOrderCorrect()) {
+        throw new IllegalStateException("Tree order is incorrect.");
+    }
+}
+```
+
+### Explanation
+
+- **Tree Structure Invariant**: The `isBalanced` method checks that no node's left subtree is more than one level deeper than its right subtree and vice versa.
+- **Order Invariant**: The `isOrderCorrect` method would perform an in-order traversal and verify that the keys are in sorted order according to the comparator.
+- **Size Invariant**: The `size` variable is maintained correctly throughout the methods (like `put`, `rotateLeft`, `rotateRight`).
+- **Root Invariant**: Ensures the tree's root maintains the balance property (color is `BLACK`).
+
+This invariant ensures that the `TreeMap` remains a valid, balanced BST with correct size and order, allowing for efficient operations.

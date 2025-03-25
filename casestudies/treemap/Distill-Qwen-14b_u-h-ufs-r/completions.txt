@@ -1,0 +1,376 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. The repOK method should check the internal state of the tree to ensure it's valid according to the properties of a red-black tree.
+
+First, I remember that a red-black tree has several invariants. Each node is either red or black. The root must be black. Every leaf (null node) is considered black. For every red node, both its children must be black. Also, all paths from the root to a leaf must have the same number of black nodes.
+
+So, the repOK method should check all these conditions.
+
+Let me think about how to structure this. I'll need to traverse the tree and check each node's properties.
+
+Starting with the root: if it's null, that's okay only if the size is zero. Otherwise, the root must be black.
+
+Then, for each node, I need to ensure that if it's red, both its left and right children are either null (black) or black nodes. Also, I need to check that the black height is consistent throughout the tree.
+
+Wait, checking the black height might be tricky. Maybe I can implement a helper method that checks the number of black nodes on each path from the root to the leaves and ensures they are equal.
+
+Alternatively, perhaps I can perform a traversal and for each node, verify the color constraints and the structure.
+
+Let me outline the steps:
+
+1. Check if the root is null. If size is not zero, this is invalid.
+2. Check if the root's color is black.
+3. For every node, if it's red, both children must be black or null.
+4. Ensure that all paths from root to leaves have the same number of black nodes.
+
+Hmm, the last point is a bit complex. Maybe I can write a helper function that returns the number of black nodes along the path from a given node to a leaf. Then, for every node, this count should be the same.
+
+Wait, but that might be computationally intensive. Alternatively, during traversal, I can keep track of the current count of black nodes and ensure consistency.
+
+Alternatively, perhaps I can perform a BFS or DFS and for each node, check its color and children's colors, and also track the path's black count.
+
+Let me think about how to implement this.
+
+I can write a helper method that recursively checks each node and returns two things: whether the subtree is valid and the number of black nodes in the path from this node to its leaves.
+
+So, for each node:
+
+- If the node is null, return true and 0 (since null is considered black, but contributes 0 to the count? Or maybe 1? Wait, no. Null nodes are leaves and considered black, so the path ends here, contributing 1 black node.
+
+Wait, no. The black height is the number of black nodes along the path, including the root. So for a null node, the path length is zero, but since it's a leaf, it's considered as having zero black nodes beyond that point. Or perhaps I should think differently.
+
+Wait, the black height is the number of black nodes along any root-to-leaf path. So for a null node, the path ends, and the count is the number up to that point.
+
+Wait, maybe the helper function should return the count of black nodes from the current node down to the leaves. For a null node, it's zero. For a node, it's 1 (if black) plus the minimum of the left and right subtree counts, but I'm not sure.
+
+Alternatively, perhaps the helper function can return the count of black nodes along the path from the current node to the farthest descendant. But I'm getting a bit stuck here.
+
+Maybe I should break it down into smaller checks.
+
+First, check the root:
+
+- If root is null, size must be zero.
+- Else, root must be black.
+
+Then, for each node:
+
+- If it's red, both children must be black or null.
+- If it's black, children can be red or black, but their properties must hold.
+
+Additionally, all root-to-leaf paths must have the same number of black nodes.
+
+So, perhaps I can write a helper method that, for a given node, returns the number of black nodes along the path from that node to the leaves. Then, for every node, this number must be the same as the root's path count.
+
+Wait, but how to compute that. Alternatively, during traversal, I can keep track of the current count and ensure that it's consistent across all paths.
+
+Alternatively, perhaps I can perform a BFS and for each node, track the current count of black nodes, and ensure that all leaves have the same count.
+
+This might be complicated, but let's try to outline the steps.
+
+In the repOK method:
+
+- If root is null, check that size is zero. If not, return false.
+- Check that root is black.
+- For each node in the tree:
+   - If the node is red, check that both left and right children are black or null.
+   - If the node is black, no constraints on children's colors beyond their own invariants.
+- Then, perform a traversal (like BFS or DFS) and for each path from root to leaf, count the number of black nodes. All these counts must be equal.
+
+So, how to implement the last part.
+
+I can write a helper method that, given a node, returns the number of black nodes along the path from that node to the leaves. For a null node, it's zero. For a node, it's 1 (if black) plus the minimum of the left and right subtree counts? Or perhaps it's the sum along the path.
+
+Wait, no. The path from a node to a leaf is a single path, not considering both left and right. So for a node, the path count is 1 (if black) plus the path count of whichever child is taken. But since the tree is a binary tree, each node has two children, but the path to a leaf is through one of them.
+
+Wait, no. Each node has a left and right child, but the path to a leaf is through one of them. So for a given node, the path count is 1 (if black) plus the path count of the child that is part of the path to the leaf.
+
+Wait, this is getting confusing. Maybe a better approach is to perform a BFS and track the current count of black nodes, ensuring that all leaves have the same count.
+
+Alternatively, perhaps I can compute the expected black height (the number of black nodes along any root-to-leaf path) and then verify that every path has this count.
+
+So, first, compute the black height starting from the root. Then, for every other node, check that their path to the leaves also has this black height.
+
+How to compute the black height:
+
+- Start at the root. If it's black, add 1. Then, for each child, if it's black, add 1, and continue until a leaf is reached.
+
+Wait, but the black height is the number of black nodes along the path, regardless of their positions. So for the root, if it's black, the count is 1. Then, for each child, if it's black, add 1, and so on until a leaf is found.
+
+But in a red-black tree, the root is black, so the minimum black height is 1.
+
+Wait, perhaps the helper function can return the number of black nodes along the path from a node to a leaf. For a null node, it's 0. For a node, it's 1 (if black) plus the helper function of the child that is part of the path.
+
+Wait, no. Because each node has two children, but the path can go through either. So perhaps the helper function should return the minimum or maximum of the left and right paths, but I'm not sure.
+
+Alternatively, perhaps the helper function should return the number of black nodes along the path from the current node to the leaves, considering both left and right subtrees. But that might not be accurate.
+
+Alternatively, perhaps the helper function should return the count of black nodes along the path from the current node to the leaves, but since each node has two children, the path can branch, so the count must be consistent across all branches.
+
+Wait, maybe I'm overcomplicating this. Let's think about the properties again.
+
+In a red-black tree:
+
+1. Every node is either red or black.
+2. The root is black.
+3. Every leaf (null) is black.
+4. If a node is red, then both its children are black.
+5. All paths from the root to any leaf have the same number of black nodes.
+
+So, for the repOK method, I need to verify all these properties.
+
+So, step by step:
+
+- Check that root is not null if size > 0, and root is black.
+- For every node, if it's red, both children must be black or null.
+- For every node, if it's black, children can be red or black, but their properties must hold.
+- All paths from root to leaves have the same number of black nodes.
+
+So, how to implement the last check.
+
+I can perform a BFS or DFS and for each node, track the current count of black nodes along the path from the root. Then, when I reach a leaf, I record this count. All leaves must have the same count.
+
+So, in code:
+
+- If the tree is empty, return true.
+- Else, perform a traversal, keeping track of the current count of black nodes.
+- For each leaf node encountered, check if its count matches the initial count (from the root).
+- If any leaf has a different count, return false.
+
+So, in the repOK method:
+
+1. Check root is not null if size > 0, else return false if size !=0.
+2. Check root's color is black.
+3. For each node, if it's red, check left and right children are black or null.
+4. Perform a traversal to check that all root-to-leaf paths have the same number of black nodes.
+
+Now, implementing this in Java.
+
+First, the initial checks:
+
+if (root == null) {
+    return size == 0;
+}
+if (root.color != BLACK) {
+    return false;
+}
+
+Then, for each node, check if it's red and children are black.
+
+But how to traverse all nodes. Maybe perform a BFS or DFS.
+
+I can write a helper method that traverses the tree and for each node, checks the red condition.
+
+Then, for the path counts:
+
+I can perform a BFS, keeping track of the current count of black nodes. For each node, if it's black, increment the count. When a leaf is reached, record the count. All leaves must have the same count.
+
+So, in code:
+
+int expectedBlackHeight = -1;
+Queue<Node> queue = new LinkedList<>();
+queue.add(root);
+int currentCount = 0;
+
+while (!queue.isEmpty()) {
+    Node current = queue.poll();
+    if (current == null) {
+        // This shouldn't happen because null nodes are leaves and their parent should have handled them.
+        continue;
+    }
+    if (current.color == BLACK) {
+        currentCount++;
+    }
+    if (current.left == null && current.right == null) {
+        // It's a leaf
+        if (expectedBlackHeight == -1) {
+            expectedBlackHeight = currentCount;
+        } else if (expectedBlackHeight != currentCount) {
+            return false;
+        }
+    } else {
+        if (current.left != null) {
+            queue.add(current.left);
+        }
+        if (current.right != null) {
+            queue.add(current.right);
+        }
+    }
+}
+
+Wait, but this approach might not work because the currentCount is incremented for each node, but when moving to children, the count should reset? Or perhaps not. Because each path is independent.
+
+Wait, no. Because in BFS, each node is processed level by level, but the currentCount is the count up to that node. So when processing a node, the currentCount includes all black nodes from the root to this node.
+
+But when moving to children, the currentCount should be passed down. So perhaps the BFS should carry the current count as part of the queue elements.
+
+So, each element in the queue should be a pair: the node and the current count of black nodes up to that node.
+
+So, the queue would hold objects with node and count.
+
+Let me adjust the code:
+
+int expectedBlackHeight = -1;
+Queue<NodeWithCount> queue = new LinkedList<>();
+queue.add(new NodeWithCount(root, 1)); // root is black, count starts at 1
+
+while (!queue.isEmpty()) {
+    NodeWithCount current = queue.poll();
+    Node node = current.node;
+    int count = current.count;
+
+    if (node == null) {
+        // This shouldn't happen because root is non-null and we only add non-null nodes
+        continue;
+    }
+
+    if (node.left != null) {
+        int newCount = count + (node.left.color == BLACK ? 1 : 0);
+        queue.add(new NodeWithCount(node.left, newCount));
+    }
+
+    if (node.right != null) {
+        int newCount = count + (node.right.color == BLACK ? 1 : 0);
+        queue.add(new NodeWithCount(node.right, newCount));
+    }
+
+    // Check if it's a leaf
+    if (node.left == null && node.right == null) {
+        if (expectedBlackHeight == -1) {
+            expectedBlackHeight = count;
+        } else if (expectedBlackHeight != count) {
+            return false;
+        }
+    }
+}
+
+Wait, but this approach might not correctly track the count because each path from root to leaf has its own count. So, for each node, when adding its children, the count is updated based on the child's color.
+
+But this way, when a leaf is reached, the count represents the total number of black nodes along the path from root to that leaf.
+
+So, all leaves must have the same count.
+
+This seems correct.
+
+Putting it all together, the repOK method would:
+
+- Check root is not null if size >0, else return false.
+- Check root is black.
+- For each node, if it's red, check left and right children are black or null.
+- Perform BFS to check all root-to-leaf paths have the same number of black nodes.
+
+Wait, but how to check that for every node, if it's red, its children are black.
+
+I can write another helper method that traverses the tree and for each node, if it's red, checks its children.
+
+So, in code:
+
+private boolean checkNodeColors(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED) {
+        if (node.left != null && node.left.color != BLACK) {
+            return false;
+        }
+        if (node.right != null && node.right.color != BLACK) {
+            return false;
+        }
+    }
+    return checkNodeColors(node.left) && checkNodeColors(node.right);
+}
+
+Then, in repOK:
+
+if (!checkNodeColors(root)) {
+    return false;
+}
+
+Wait, but this would recursively check all nodes. So, in the helper method, for each node, if it's red, check left and right are black.
+
+Yes, that should cover that invariant.
+
+So, putting it all together, the repOK method would:
+
+1. Check if root is null: return size == 0.
+2. Check root's color is black.
+3. Check that all nodes satisfy the red node condition (if red, children are black).
+4. Check that all root-to-leaf paths have the same number of black nodes.
+
+Now, implementing this in Java.
+
+But wait, in the helper method for the path counts, I have to make sure that all leaves have the same count.
+
+So, in code:
+
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+    if (!checkNodeColors(root)) {
+        return false;
+    }
+    int expectedBlackHeight = -1;
+    Queue<NodeWithCount> queue = new LinkedList<>();
+    queue.add(new NodeWithCount(root, 1));
+    while (!queue.isEmpty()) {
+        NodeWithCount current = queue.poll();
+        Node node = current.node;
+        int count = current.count;
+
+        if (node.left != null) {
+            int newCount = count + (node.left.color == BLACK ? 1 : 0);
+            queue.add(new NodeWithCount(node.left, newCount));
+        }
+        if (node.right != null) {
+            int newCount = count + (node.right.color == BLACK ? 1 : 0);
+            queue.add(new NodeWithCount(node.right, newCount));
+        }
+
+        if (node.left == null && node.right == null) {
+            if (expectedBlackHeight == -1) {
+                expectedBlackHeight = count;
+            } else if (expectedBlackHeight != count) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+But wait, the initial count is 1 because the root is black. Then, for each child, if it's black, add 1.
+
+But in the case where the root is black, and a child is red, the count remains the same.
+
+Wait, no. Because the count is the number of black nodes along the path. So, if the root is black (count 1), and the next node is red, the count remains 1. If the next node is black, count becomes 2.
+
+So, the helper function correctly tracks the count.
+
+But what about the leaves? For example, if the tree has a root (black), a left child (red), and the left child's left child (black). Then, the path root -> left -> left is black, so the count would be 1 (root) + 0 (left is red) + 1 (left's left is black) = 2. But the root's right child might be null, so the count is 1. This would cause the expectedBlackHeight to be 2 for one leaf and 1 for another, which is invalid.
+
+So, the code correctly returns false in such a case.
+
+Now, the checkNodeColors method:
+
+private boolean checkNodeColors(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED) {
+        if (node.left != null && node.left.color != BLACK) {
+            return false;
+        }
+        if (node.right != null && node.right.color != BLACK) {
+            return false;
+        }
+    }
+    return checkNodeColors(node.left) && checkNodeColors(node.right);
+}
+
+This ensures that every red node has black children.
+
+Putting it all together, the repOK method should cover all the necessary invariants.
+
+Wait, but what about the case where a node's parent is null but it's not the root? That can't happen because the tree is built correctly,

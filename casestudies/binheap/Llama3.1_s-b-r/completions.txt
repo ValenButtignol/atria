@@ -1,0 +1,72 @@
+
+Here's the representation invariant for the `BinomialHeap` class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the heap is empty
+    if (Nodes == null) {
+        return size == 0;
+    }
+
+    // Check if all nodes in the heap are valid
+    BinomialHeapNode temp = Nodes;
+    while (temp != null) {
+        if (temp.key < 0) {
+            return false;
+        }
+        if (temp.degree < 0) {
+            return false;
+        }
+        if (temp.parent != null && temp.parent.degree < temp.degree) {
+            return false;
+        }
+        if (temp.sibling != null && temp.sibling.degree == temp.degree) {
+            return false;
+        }
+        if (temp.child != null && temp.child.parent != temp) {
+            return false;
+        }
+        temp = temp.sibling;
+    }
+
+    // Check if the heap satisfies the binomial heap property
+    temp = Nodes;
+    while (temp != null) {
+        BinomialHeapNode nextTemp = temp.sibling;
+        while (nextTemp != null) {
+            if (temp.degree == nextTemp.degree || (nextTemp.sibling != null && nextTemp.sibling.degree == temp.degree)) {
+                if (temp.key <= nextTemp.key) {
+                    if (nextTemp.parent != null && nextTemp.parent != temp) {
+                        return false;
+                    }
+                    if (nextTemp.sibling != null && nextTemp.sibling != temp.child) {
+                        return false;
+                    }
+                } else {
+                    if (temp.parent != null && temp.parent != nextTemp) {
+                        return false;
+                    }
+                    if (temp.sibling != null && temp.sibling != nextTemp.child) {
+                        return false;
+                    }
+                }
+            }
+            nextTemp = nextTemp.sibling;
+        }
+        temp = temp.sibling;
+    }
+
+    // Check if the size of the heap is correct
+    return size == Nodes.size();
+}
+```
+
+This method checks the following properties of the `BinomialHeap` class:
+
+1.  If the heap is empty, its size is 0.
+2.  All nodes in the heap have non-negative keys and degrees.
+3.  The degree of a node is greater than or equal to the degree of its parent.
+4.  If two nodes have the same degree, the one with the smaller key comes first.
+5.  The size of the heap is correct.
+
+If all these properties hold, the `repOK` method returns `true`, indicating that the representation invariant is satisfied. Otherwise, it returns `false`.

@@ -1,0 +1,56 @@
+
+<think>
+Alright, I'm trying to write a representation invariant for the LinkedList class. I'm not entirely sure what a representation invariant is, but I think it's a condition that must always hold true for the object to be considered valid. So, I need to figure out what conditions are always true for a LinkedList instance.
+
+First, I'll look at the LinkedList class structure. It has a header Entry that points to the next and previous entries. There's also a size variable that keeps track of the number of elements. The class has methods like add, remove, clear, and size, which manipulate the list.
+
+I notice that the header's next and previous are both set to header initially in the constructor. That makes sense because it's a circular linked list. So, the first thing I should check is whether the header's next and previous point to itself. That would ensure the list is properly initialized.
+
+Next, the size variable should always match the number of entries in the list. So, I need to verify that the size is consistent with the actual number of entries. Maybe I can traverse the list from the header and count the number of non-null entries to compare with the size.
+
+Another thing is that each Entry should have valid next and previous pointers. If any Entry's next or previous is null when it shouldn't be, that could indicate a problem. So, I should check that each Entry has a valid next and previous, except for the header and the last Entry.
+
+Also, the list should be singly linked, meaning each Entry only has a next pointer, not a previous one, except for the header. Wait, no, the header has a previous, but the other Entries have both next and previous pointers. So, I need to make sure that the header's previous is itself, and the last Entry's next is itself.
+
+I should also consider edge cases, like when the list is empty. In that case, the header's next and previous should both be header, and the size should be zero.
+
+Putting this all together, I'll write a method repOK that checks these conditions. It will first check if the header's next and previous are both header. Then, it will traverse the list to count the number of entries and ensure it matches the size. It will also check that each Entry has valid next and previous pointers, except for the header and the last Entry.
+
+I need to make sure that the traversal doesn't go into an infinite loop. So, I'll keep track of the current Entry and stop when I reach the header again. Also, I'll ensure that the traversal starts from the header's next to avoid counting the header itself as an entry.
+
+Finally, I'll return false if any of these conditions are violated, ensuring that the LinkedList is always in a valid state when repOK is called.
+</think>
+
+```java
+public boolean repOK() {
+    // Check if the header points to itself (indicating a circular list)
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check if the size matches the number of entries in the list
+    int actualSize = 0;
+    Entry current = header.next;
+    do {
+        if (current != header) {
+            actualSize++;
+        }
+        current = current.next;
+    } while (current != header);
+
+    if (actualSize != size) {
+        return false;
+    }
+
+    // Check if each entry has valid next and previous pointers
+    Entry current = header.next;
+    while (current != header) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    return true;
+}
+```

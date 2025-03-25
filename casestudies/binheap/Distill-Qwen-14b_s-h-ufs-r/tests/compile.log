@@ -1,0 +1,32 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:322: error: incompatible types: Map<Integer,BinomialHeapNode> cannot be converted to Map<Integer,List<BinomialHeapNode>>
+        collectRootsByDegree(Nodes, rootsByDegree);
+                                    ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:324: error: incompatible types: Entry<Integer,BinomialHeapNode> cannot be converted to Entry<Integer,List<BinomialHeapNode>>
+        for (Map.Entry<Integer, List<BinomialHeapNode>> entry : rootsByDegree.entrySet()) {
+                                                                                      ^
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:322: error: incompatible types: Map<Integer,BinomialHeapNode> cannot be converted to Map<Integer,List<BinomialHeapNode>>
+          collectRootsByDegree(Nodes, rootsByDegree);
+                                      ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:324: error: incompatible types: Entry<Integer,BinomialHeapNode> cannot be converted to Entry<Integer,List<BinomialHeapNode>>
+          for (Map.Entry<Integer, List<BinomialHeapNode>> entry : rootsByDegree.entrySet()) {
+                                                                                        ^
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 414ms
+1 actionable task: 1 executed

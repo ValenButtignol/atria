@@ -1,0 +1,250 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class. Hmm, what's a representation invariant? From what I remember, it's a method that checks if the current state of the object is consistent with its invariants. So, for HashMap, I should ensure that the internal state is correct based on the methods that have been called.
+
+Looking at the HashMap code, I see several fields: table, size, threshold, loadFactor, and modCount. The modCount is volatile, which suggests it's used for concurrency control, maybe for detecting concurrent modifications.
+
+So, the repOK method should verify that all these fields are consistent. Let me think about what could go wrong. For example, if the size is incorrect relative to the threshold, or if the modCount hasn't been incremented properly.
+
+Wait, when you add an entry, modCount is incremented. So, if the modCount doesn't match the number of adds, that's a problem. Also, the threshold is calculated based on the current capacity and loadFactor. So, if the capacity changes, the threshold should change accordingly.
+
+Another thing: the table's length is the capacity. So, if the capacity is increased, the threshold should be set to the new capacity multiplied by the loadFactor. If the capacity is decreased, the threshold is set to Integer.MAX_VALUE, which means it can't shrink further.
+
+So, in the repOK method, I should check:
+
+1. The modCount is consistent with the number of times addEntry or put or remove or clear has been called. But since modCount is incremented in those methods, the repOK can just check that modCount is equal to the number of modifications. But since we can't track that externally, maybe just ensure that modCount is not negative and that it's at least as much as the number of times it's been incremented.
+
+Wait, but in the code, modCount is only incremented in certain methods. So, perhaps the repOK should check that modCount is equal to the number of times it's been incremented. But since we can't track that from outside, maybe just ensure that modCount is not negative and that it's correctly updated.
+
+Alternatively, perhaps the repOK should check that the size is less than or equal to the threshold, but not equal, because when the size reaches the threshold, it should resize. Wait, no, because the threshold is (capacity * loadFactor), and when size exceeds threshold, it resizes. So, the size should be less than or equal to threshold, but if it's exactly equal, that's okay because the next addition will trigger a resize.
+
+Wait, no. Let me think: the addEntry method checks if size++ >= threshold. So, if size is equal to threshold, the next addition will cause a resize. So, the size can be equal to threshold, but not exceed it.
+
+So, in the repOK method, I should check that size is less than or equal to threshold. Also, check that the table's length is a power of two, as per the initial setup where capacity is set to the next power of two.
+
+Wait, looking at the constructor, the capacity is set to the smallest power of two greater than or equal to initialCapacity. So, the table's length should always be a power of two. So, the repOK should verify that table.length is a power of two.
+
+Also, the threshold is calculated as (int)(capacity * loadFactor). So, it should be less than or equal to the maximum capacity, which is 1 << 30.
+
+Another thing: when the capacity is MAXIMUM_CAPACITY, the threshold is set to Integer.MAX_VALUE, meaning it can't grow anymore.
+
+So, putting it all together, the repOK method should:
+
+- Ensure that the table's length is a power of two.
+- Ensure that the threshold is correctly calculated based on the current capacity and loadFactor.
+- Ensure that the size is less than or equal to the threshold.
+- Ensure that modCount is correctly incremented for each modification operation.
+
+Wait, but how do I check that modCount is correct? Because modCount is incremented in put, remove, and clear. So, the repOK can't know how many times these methods have been called, but it can check that modCount is not negative and that it's at least as much as the number of times it's been incremented. But since we can't track that, perhaps the repOK can just check that modCount is not negative and that it's consistent with the current state.
+
+Alternatively, perhaps the repOK can just check that modCount is equal to the number of times it's been incremented, but since we can't track that, maybe it's sufficient to check that modCount is non-negative and that it's correctly updated.
+
+Wait, but in the code, modCount is a volatile int, so it's used for thread safety. So, the repOK should ensure that modCount is consistent across all threads, but that's more about visibility than the value itself.
+
+Hmm, maybe the repOK doesn't need to check modCount, because it's managed by the methods. But perhaps it's better to include a check that modCount is not negative, as that would indicate some kind of corruption.
+
+So, putting it all together, the repOK method would:
+
+1. Check that table.length is a power of two.
+2. Check that the threshold is correctly calculated as (int)(capacity * loadFactor), where capacity is table.length.
+3. Check that size is less than or equal to threshold.
+4. Check that modCount is non-negative.
+
+Wait, but in the code, modCount is initialized to 0, and each modification increments it. So, modCount should always be equal to the number of modifications. But since we can't track that from outside, perhaps the repOK can just check that modCount is non-negative and that it's not less than the number of times it's been incremented, but that's not possible. So, perhaps the repOK can just check that modCount is non-negative.
+
+Alternatively, perhaps the repOK doesn't need to check modCount because it's managed internally. But for the purposes of the representation invariant, it's better to include a check that modCount is consistent.
+
+Wait, but how? Because modCount is just a counter, and the repOK can't know how many times it's been incremented. So, perhaps the repOK can just check that modCount is non-negative, as a safeguard against negative values.
+
+So, the steps for repOK would be:
+
+- Check that table.length is a power of two.
+- Check that threshold is correctly calculated as (int)(table.length * loadFactor).
+- Check that size is less than or equal to threshold.
+- Check that modCount is non-negative.
+
+Wait, but in the code, when the capacity is set to MAXIMUM_CAPACITY, the threshold is set to Integer.MAX_VALUE. So, in that case, the threshold would be (int)(MAXIMUM_CAPACITY * loadFactor). But since MAXIMUM_CAPACITY is 1 << 30, which is 1073741824, and loadFactor is 0.75, so 0.75 * 1073741824 is 800000000 something, which is less than Integer.MAX_VALUE (2^31 -1). Wait, but in the code, when the capacity is MAXIMUM_CAPACITY, the threshold is set to Integer.MAX_VALUE. So, perhaps the repOK should check that when the capacity is MAXIMUM_CAPACITY, the threshold is Integer.MAX_VALUE.
+
+Wait, looking at the resize method:
+
+if (oldCapacity == MAXIMUM_CAPACITY) {
+    threshold = Integer.MAX_VALUE;
+    return;
+}
+
+So, when the capacity is MAXIMUM, the threshold is set to Integer.MAX_VALUE. So, in the repOK, I should check that if table.length is MAXIMUM_CAPACITY, then threshold is Integer.MAX_VALUE.
+
+So, adding that to the list:
+
+5. Check that if table.length is MAXIMUM_CAPACITY, then threshold is Integer.MAX_VALUE.
+
+Also, the capacity can't exceed MAXIMUM_CAPACITY, so the repOK should ensure that table.length is <= MAXIMUM_CAPACITY.
+
+Wait, but in the constructor, if initialCapacity is greater than MAXIMUM, it's set to MAXIMUM. So, table.length is always <= MAXIMUM.
+
+So, perhaps the repOK doesn't need to check that, but it's good to include.
+
+Putting it all together, the repOK method would:
+
+- Check that table.length is a power of two.
+- Check that table.length <= MAXIMUM_CAPACITY.
+- Check that if table.length == MAXIMUM_CAPACITY, then threshold == Integer.MAX_VALUE.
+- Check that threshold is <= (table.length * loadFactor), but wait, no, because threshold is calculated as (int)(capacity * loadFactor). So, perhaps it's better to check that threshold is correctly calculated.
+
+Wait, but in the constructor, threshold is set to (int)(capacity * loadFactor). So, perhaps the repOK can check that threshold is correctly set based on the current capacity and loadFactor.
+
+But since the loadFactor is a final float, and the capacity is table.length, perhaps the repOK can compute the expected threshold and compare it to the actual threshold.
+
+So, in code:
+
+int expectedThreshold = (int) (table.length * loadFactor);
+if (expectedThreshold != threshold) {
+    // error
+}
+
+But wait, in the code, the loadFactor is a final float, and the threshold is an int. So, perhaps due to floating-point precision, the computed threshold might not match exactly. So, perhaps the repOK should check that threshold is within a certain range around (capacity * loadFactor).
+
+Alternatively, perhaps it's better to just check that threshold is <= (capacity * loadFactor), but I'm not sure.
+
+Wait, in the code, the threshold is calculated as (int)(capacity * loadFactor). So, perhaps the repOK can check that threshold is equal to that value.
+
+But considering that (capacity * loadFactor) could be a non-integer, and threshold is an int, perhaps the repOK should check that threshold is less than or equal to (capacity * loadFactor), but that might not be precise.
+
+Alternatively, perhaps the repOK can just check that threshold is correctly set as (int)(capacity * loadFactor), but I'm not sure if that's feasible due to floating-point precision.
+
+Hmm, maybe it's better to skip that check for now and focus on the other aspects.
+
+So, to summarize, the repOK method should:
+
+1. Ensure that table.length is a power of two.
+2. Ensure that table.length is <= MAXIMUM_CAPACITY.
+3. Ensure that if table.length is MAXIMUM_CAPACITY, then threshold is Integer.MAX_VALUE.
+4. Ensure that size is <= threshold.
+5. Ensure that modCount is non-negative.
+
+Wait, but in the code, when the capacity is MAXIMUM, the threshold is set to Integer.MAX_VALUE, so size can be up to Integer.MAX_VALUE, which is a problem because the size can't exceed the number of entries possible. But in practice, the size is limited by the available memory, so perhaps that's acceptable.
+
+But for the repOK, perhaps it's sufficient to check that size is <= threshold.
+
+So, putting it all together, the repOK method would:
+
+- Check that table.length is a power of two.
+- Check that table.length <= MAXIMUM_CAPACITY.
+- Check that if table.length == MAXIMUM_CAPACITY, then threshold == Integer.MAX_VALUE.
+- Check that size <= threshold.
+- Check that modCount >= 0.
+
+Wait, but how do I check if table.length is a power of two? Because in Java, a power of two is a number greater than zero that has exactly one bit set in its binary representation.
+
+So, to check if a number is a power of two, we can use the expression (n & (n - 1)) == 0, but only when n != 0.
+
+So, in code:
+
+if ((table.length & (table.length - 1)) != 0) {
+    // not a power of two
+}
+
+But wait, for n=0, this would be 0 & (-1), which is 0, but table.length can't be zero because in the constructor, if initialCapacity is zero, it's set to DEFAULT_INITIAL_CAPACITY, which is 16.
+
+Wait, no, looking at the code, the default constructor initializes the table with DEFAULT_INITIAL_CAPACITY, which is 16. So, table.length is always at least 16, and can be up to MAXIMUM_CAPACITY.
+
+So, the repOK can safely check that table.length is a power of two.
+
+So, the steps in code would be:
+
+public static boolean repOK() {
+    // Check if table length is a power of two
+    if ((table.length & (table.length - 1)) != 0) {
+        return false;
+    }
+
+    // Check if table length is within maximum capacity
+    if (table.length > MAXIMUM_CAPACITY) {
+        return false;
+    }
+
+    // Check if threshold is Integer.MAX_VALUE when table length is MAXIMUM
+    if (table.length == MAXIMUM_CAPACITY) {
+        if (threshold != Integer.MAX_VALUE) {
+            return false;
+        }
+    }
+
+    // Check if size is within threshold
+    if (size > threshold) {
+        return false;
+    }
+
+    // Check if modCount is non-negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but in the code, the threshold is calculated as (int)(capacity * loadFactor). So, perhaps the repOK should also check that threshold is correctly set based on the current capacity and loadFactor.
+
+So, adding that:
+
+float expectedLoad = loadFactor;
+int expectedThreshold = (int) (table.length * expectedLoad);
+if (expectedThreshold != threshold) {
+    return false;
+}
+
+But wait, due to floating-point precision, this might not be accurate. For example, if table.length is 16 and loadFactor is 0.75, 16 * 0.75 is 12, so threshold should be 12. But if there's any precision loss, it might not match exactly.
+
+So, perhaps the repOK should check that threshold is within a certain range around (capacity * loadFactor), but that's not precise.
+
+Alternatively, perhaps it's better to skip that check for now, as it's more complex, and focus on the other aspects.
+
+So, the final repOK method would include the checks for table length, maximum capacity, threshold when at max capacity, size vs threshold, and modCount non-negative.
+
+I think that's a reasonable approach.
+</think>
+
+To ensure the internal state of the `HashMap` is consistent and correct, the `repOK` method verifies several key invariants:
+
+1. **Table Length Check**: The table's length must be a power of two, as this is how the HashMap is structured for efficient hashing.
+2. **Maximum Capacity Check**: The table's length should not exceed the maximum allowed capacity.
+3. **Threshold Check at Maximum Capacity**: When the table is at its maximum capacity, the threshold should be set to `Integer.MAX_VALUE`.
+4. **Size vs Threshold Check**: The number of entries (size) should not exceed the threshold, ensuring the HashMap doesn't operate beyond its designed limits.
+5. **ModCount Check**: The modification count (`modCount`) should be non-negative, indicating no negative modifications have been made.
+
+Here is the implementation of the `repOK` method:
+
+```java
+public static boolean repOK() {
+    // Check if table length is a power of two
+    if ((table.length & (table.length - 1)) != 0) {
+        return false;
+    }
+
+    // Check if table length exceeds maximum capacity
+    if (table.length > MAXIMUM_CAPACITY) {
+        return false;
+    }
+
+    // Check if threshold is Integer.MAX_VALUE when table length is MAXIMUM
+    if (table.length == MAXIMUM_CAPACITY) {
+        if (threshold != Integer.MAX_VALUE) {
+            return false;
+        }
+    }
+
+    // Check if size exceeds threshold
+    if (size > threshold) {
+        return false;
+    }
+
+    // Check if modCount is non-negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+This method ensures that the `HashMap` is in a valid state, detecting any inconsistencies that could lead to bugs or incorrect behavior.

@@ -1,0 +1,39 @@
+
+### Representation Invariant for the AvlTree class
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    int heightDiff = Math.abs(height(root.left) - height(root.right));
+    if (heightDiff > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    if (heightDiff == ALLOWED_IMBALANCE) {
+        if (height(root.left.left) >= height(root.left.right) && height(root.left.left) >= height(root.right)) {
+            return false;
+        }
+        if (height(root.right.right) >= height(root.right.left) && height(root.right.right) >= height(root.left)) {
+            return false;
+        }
+    }
+
+    return repOK(root.left) && repOK(root.right);
+}
+
+private int height(AvlNode t) {
+    return t == null ? -1 : t.height;
+}
+```
+
+This representation invariant checks the following properties:
+
+1.  If the tree is empty, the invariant holds.
+2.  The height difference between the left and right subtrees of the root node is within the allowed imbalance.
+3.  If the height difference is at the maximum allowed imbalance, the tree is either left-heavy or right-heavy, but not both. This is checked by verifying that the height of the left child of the left child of the root (or the right child of the right child of the root) is greater than or equal to the height of the left child of the right child of the root (or the right child of the left child of the root).
+4.  The invariant recursively holds for the left and right subtrees of the root node.
+
+This representation invariant ensures that the AvlTree class maintains the properties of an AVL tree, including balance and ordering.

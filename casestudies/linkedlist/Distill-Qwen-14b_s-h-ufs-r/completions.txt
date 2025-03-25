@@ -1,0 +1,153 @@
+
+<think>
+Okay, I need to write a representation invariant for the LinkedList class. The repOK method should check all the invariants that ensure the object is valid. Let me think about what properties the LinkedList must maintain.
+
+First, the LinkedList uses Entry objects to store elements. Each Entry has a next and previous pointer. The header is a special Entry that acts as a sentinel. So, the size should be equal to the number of entries between header.next and header, excluding the header itself.
+
+I should check that the size is correct. So, I'll traverse the list starting from header.next and count the nodes until I loop back to header. The count should match the size variable.
+
+Next, I need to ensure that the links between the Entry objects are consistent. For each Entry, the next and previous pointers should form a cycle. That means the next of the last Entry should point back to the header, and the previous of the header's previous should point to the last Entry.
+
+Also, each Entry except the header should have a non-null next and previous. The header's next and previous should point to itself only when the list is empty. Wait, no, in the constructor, header.next and header.previous are set to header, but when the list is empty, that's correct. But when there are elements, the header's next and previous should point to the first and last Entry, respectively.
+
+Wait, maybe I should check that the header's next and previous are correctly set. For example, if the list is empty, header.next should be header. If not empty, header.next should be the first Entry, and header.previous should be the last Entry.
+
+Another thing to check is that all Entries except the header have their next and previous correctly pointing to other Entries. Also, the header's next and previous should form a cycle when the list is empty.
+
+I should also ensure that there are no null pointers in the links except for the header's initial setup. For example, each Entry's next and previous should not be null unless it's the header, but even then, the header's next and previous are set to itself only when the list is empty.
+
+Let me outline the steps for repOK:
+
+1. Check that the size is correct by traversing the list and counting the nodes. The count should equal the size variable.
+
+2. Ensure that the header's next and previous form a cycle when the list is empty. If size is zero, header.next should be header and header.previous should be header.
+
+3. For non-empty lists, check that header.next is not null and that the traversal from header.next eventually loops back to header, ensuring the list is properly linked.
+
+4. Verify that each Entry's next and previous are correctly set, forming a valid doubly linked list structure without any inconsistencies.
+
+5. Ensure that the header's next and previous point to the first and last Entry, respectively, when the list is not empty.
+
+Wait, maybe I can structure the checks as follows:
+
+- If the size is zero, then header.next and header.previous should both point to header. Also, the header's next and previous should be the same as each other.
+
+- If the size is not zero, then header.next should not be header, and the same for header.previous.
+
+- The list should form a cycle when traversed from header.next, meaning that starting at header.next, each next pointer should eventually loop back to header.
+
+- Each Entry's next and previous should not be null except for the header's next and previous, which should point to other Entries or header.
+
+Hmm, perhaps I can write a helper method to count the nodes starting from header.next and see if it equals the size. Also, check that the traversal forms a cycle.
+
+Another point: the header is a transient field, so it's not serialized, but that's not relevant for the repOK method.
+
+Let me think about possible issues. For example, if an Entry's next or previous points to null, that's invalid. Or if the links are inconsistent, like a node's next's previous doesn't point back.
+
+So, in the repOK method, I can:
+
+- Check that size is non-negative.
+
+- If size is zero, check that header.next == header and header.previous == header.
+
+- Else, traverse the list from header.next, following next pointers, and count the nodes. The count should be equal to size.
+
+- Also, during traversal, each node's next and previous should not be null.
+
+- Additionally, the last node's next should point back to header, and the header's previous should point to the last node.
+
+Wait, no. In a doubly linked list implemented with a header, the structure is such that the header's next is the first node, and the header's previous is the last node. Each node's next and previous should point to other nodes in the list, except for the header.
+
+So, during traversal, starting at header.next, each node's next should eventually loop back to header. So, the traversal should have exactly size nodes before returning to header.
+
+Let me outline the steps in code:
+
+public boolean repOK() {
+    // Check size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // If size is zero, check header points to itself
+    if (size == 0) {
+        return (header.next == header) && (header.previous == header);
+    }
+
+    // Traverse the list and count nodes
+    Entry current = header.next;
+    int count = 0;
+    while (current != header) {
+        count++;
+        // Check for null pointers
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    // Check that the count equals size
+    if (count != size) {
+        return false;
+    }
+
+    // Check that the last node's next is header and header's previous is last node
+    Entry last = header.previous;
+    if (last.next != header || header.previous != last) {
+        return false;
+    }
+
+    // Check that header's next is not null and is the first node
+    if (header.next == header || header.next == null) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but in the traversal, we start at header.next and go until we hit header again. So the count should be exactly size. Also, each node's next and previous should not be null.
+
+Another thing: the header's previous should point to the last node, and the last node's next should point to header.
+
+So, in the code above, after the traversal, we check that the last node's next is header and that header's previous is the last node.
+
+Also, when size is not zero, header.next should not be header, because that would mean the list is empty.
+
+I think this covers the main invariants. Now, let me write the code accordingly.
+</think>
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return (header.next == header) && (header.previous == header);
+    }
+
+    Entry current = header.next;
+    int count = 0;
+    while (current != header) {
+        count++;
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    if (count != size) {
+        return false;
+    }
+
+    Entry last = header.previous;
+    if (last.next != header || header.previous != last) {
+        return false;
+    }
+
+    if (header.next == header || header.next == null) {
+        return false;
+    }
+
+    return true;
+}
+```

@@ -1,0 +1,38 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (header.next == header) {
+            return size == 0;
+        }
+    
+        if (size != countNodes(header.next)) {
+            return false;
+        }
+    
+        if (cacheSize > maximumCacheSize) {
+            return false;
+        }
+    
+        if (firstCachedNode != null && firstCachedNode.next != null) {
+            LinkedListNode node = firstCachedNode;
+            while (node.next != null) {
+                if (node.next.previous != node) {
+                    return false;
+                }
+                node = node.next;
+            }
+        }
+    
+        return true;
+    }
+
+    private int countNodes(LinkedListNode node) {
+        int count = 0;
+        while (node != header) {
+            count++;
+            node = node.next;
+        }
+        return count;
+    }
+
+
+}

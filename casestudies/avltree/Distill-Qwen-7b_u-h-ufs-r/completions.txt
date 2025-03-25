@@ -1,0 +1,81 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. Representation invariants are boolean methods that check if the object is in a valid state. So, I should think about all the properties that an AVL tree must satisfy.
+
+First, I remember that an AVL tree is a self-balancing binary search tree. So, each node's left subtree should be approximately as tall as its right subtree, with a difference of no more than 1. That means the balance factor (the difference in heights) for each node must be -1, 0, or 1.
+
+Looking at the AvlTree class, it has a root node, and methods like insert and remove that maintain the tree's balance. The balance method is called after insertions and deletions to ensure the tree remains balanced.
+
+So, the first thing I should check is the balance factor of each node. I'll need to traverse the tree and ensure that for every node, the height difference between its left and right children is within the allowed range.
+
+Next, I should verify that the tree maintains the binary search tree property. That means for any node, all elements in the left subtree are less than the node's value, and all elements in the right subtree are greater. This ensures that the findMin method works correctly by traversing left until it can't anymore.
+
+Another important property is that the size of the tree should be consistent with the root's size. The size variable keeps track of the number of nodes, so I should check that it matches the actual count of nodes in the tree.
+
+Also, the tree should not have any null pointers where they shouldn't be. For example, the root should not be null unless the tree is empty. Additionally, each node's left and right children should not point to null if they don't exist, but I think the tree structure ensures that.
+
+Wait, but in the AvlTree class, the root can be null, which is handled by isEmpty(). So, I should check that if the root is null, the size is zero, and all methods behave accordingly.
+
+Putting this all together, the repOK method should:
+
+1. Check if the tree is empty (root is null and size is zero).
+2. Check if each node's balance factor is within the allowed range (-1, 0, 1).
+3. Ensure the tree maintains the binary search tree property.
+4. Verify that the size is consistent with the number of nodes.
+5. Ensure there are no null pointers in invalid places.
+
+I'll write the method step by step, making sure each condition is checked. I'll traverse the tree recursively, checking each node's balance and ensuring the BST property holds. Also, I'll verify that the size matches the actual count of nodes.
+
+I think that's all the necessary checks for the representation invariant of the AvlTree class.
+</think>
+
+```java
+public boolean repOK() {
+    if (root == null && size != 0) {
+        return false;
+    }
+    if (root == null && size == 0) {
+        return true;
+    }
+    
+    int nodeCount = 0;
+    Set<Node> visited = new HashSet<>();
+    Node current = root;
+    
+    // Check BST property and count nodes
+    while (current != null) {
+        if (visited.contains(current)) {
+            return false;
+        }
+        visited.add(current);
+        nodeCount++;
+        
+        // Check BST property: left subtree has smaller elements, right has larger
+        if (current.left != null && current.left.element > current.element) {
+            return false;
+        }
+        if (current.right != null && current.right.element < current.element) {
+            return false;
+        }
+        
+        current = current.left;
+    }
+    
+    // Check balance for each node
+    Node current = root;
+    while (current != null) {
+        int leftHeight = current.left == null ? -1 : current.left.height;
+        int rightHeight = current.right == null ? -1 : current.right.height;
+        int balanceFactor = leftHeight - rightHeight;
+        
+        if (balanceFactor > 1 || balanceFactor < -1) {
+            return false;
+        }
+        
+        current = current.left != null ? current.left : current.right;
+    }
+    
+    // Check size consistency
+    return nodeCount == size;
+}
+```

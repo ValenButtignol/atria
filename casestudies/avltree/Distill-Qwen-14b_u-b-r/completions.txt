@@ -1,0 +1,317 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. The invariant should be a method called repOK that checks the internal consistency of the tree structure. 
+
+First, I'll look at the AvlTree class. It has a root node which is an instance of AvlNode. The class maintains an AVL tree, which is a balanced binary search tree. The key property of an AVL tree is that the difference in heights between the left and right subtrees of any node is at most 1.
+
+So, the repOK method should verify that every node in the tree satisfies this balance condition. Also, I should check that the height of each node is correctly calculated based on its children's heights.
+
+Let me think about the steps the method should take:
+
+1. **Check if the tree is empty**: If the root is null, then there's nothing to check, so it's trivially balanced. Return true.
+
+2. **Traverse the tree**: I'll need to visit each node to check its balance. A depth-first approach (like in-order traversal) could work, but I might need to calculate the height of each subtree as I go.
+
+3. **For each node, check balance**: For every node, the difference between the left and right subtree heights should be <= 1 in absolute value. If any node fails this, the invariant is violated.
+
+4. **Check height correctness**: Each node's height should be 1 + the maximum of the heights of its left and right children. If a node's height doesn't match this, it's a problem.
+
+So, how to implement this? I can write a helper method that recursively checks each node. The helper will return a boolean indicating whether the subtree rooted at the current node is balanced and has correct heights.
+
+Wait, but in Java, I can't have a helper method that returns a boolean without modifying the existing code much. Alternatively, I can perform the checks within the repOK method itself.
+
+Let me outline the helper function:
+
+- **Parameters**: The current node being checked.
+- **Returns**: A pair of values: whether the subtree is balanced, and the height of the subtree. But Java doesn't support tuples, so maybe I can return an object or use two methods. Alternatively, I can have the helper throw an exception if it finds a problem, but that might not be the best approach.
+
+Alternatively, the helper can return the height and check the balance condition as it goes. If any check fails, it can return a special value indicating failure.
+
+Wait, perhaps the helper can return the height, and during the calculation, it checks the balance condition. If any node is unbalanced, the helper can throw an exception, which would propagate up. But in the repOK method, I can catch this and return false.
+
+Alternatively, the helper can return a boolean indicating whether the subtree is okay, along with the height. But since Java doesn't support multiple return values, I might need to create a helper class or use a static nested class. But that might complicate things.
+
+Alternatively, I can have the helper method return the height, and if any node is found to be unbalanced, throw an exception. Then, in repOK, I can catch this exception and return false.
+
+Let me think about the structure:
+
+In repOK(), I'll call a helper method starting from the root. The helper will recursively check each node.
+
+The helper method could look like this:
+
+private boolean checkRepOK(AvlNode node) {
+    if (node == null) {
+        return true; // height is -1, but since node is null, it's okay.
+    }
+
+    // Check the balance condition for this node
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+    int diff = Math.abs(leftHeight - rightHeight);
+    if (diff > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    // Check the height of the current node
+    int currentHeight = 1 + Math.max(leftHeight, rightHeight);
+    if (currentHeight != node.height) {
+        return false;
+    }
+
+    // Recursively check left and right subtrees
+    return checkRepOK(node.left) && checkRepOK(node.right);
+}
+
+Wait, but this approach might not work because the helper function needs to return whether the subtree is okay, but also compute the height. Because the height of the current node depends on the heights of its children.
+
+Wait, no. The helper function can compute the height correctly as it goes. Because for each node, the height is the maximum of left and right heights plus one. So, the helper can compute the height correctly, and during that computation, check the balance condition.
+
+Wait, but the helper function as I wrote above doesn't compute the height correctly. Because in the current code, the node's height is already set, but we need to verify that it's correct based on its children.
+
+So, perhaps the helper function should compute the height based on the children and compare it to the stored height.
+
+Wait, but the node's height is supposed to be 1 + max(left height, right height). So, for each node, the helper function can compute the expected height and compare it to the node's height.
+
+So, the helper function can:
+
+1. If the node is null, return a height of -1 and indicate no problem.
+
+2. For a non-null node, compute the left and right subtree heights by recursively calling the helper on left and right children.
+
+3. Compute the expected height as 1 + max(leftHeight, rightHeight).
+
+4. Check if the node's height equals the expected height. If not, return false.
+
+5. Check if the difference between left and right heights is within the allowed imbalance. If not, return false.
+
+6. If all checks pass, return true.
+
+But how to structure this in Java, since the helper needs to return both a boolean and the height.
+
+Hmm, perhaps the helper can return an object that contains both the boolean and the height. Or, perhaps, the helper can throw an exception if any condition fails, and return the height otherwise.
+
+Alternatively, I can have the helper return the height, and during the calculation, if any condition fails, throw an exception. Then, in the repOK method, I can catch this exception and return false.
+
+Let me outline this approach:
+
+In repOK():
+
+public boolean repOK() {
+    try {
+        return checkRepOK(root);
+    } catch (InvariantViolatedException e) {
+        return false;
+    }
+}
+
+private boolean checkRepOK(AvlNode node) {
+    if (node == null) {
+        return true; // Or perhaps return height as -1
+    }
+
+    int leftHeight = checkRepOK(node.left) ? height(node.left) : -1;
+    int rightHeight = checkRepOK(node.right) ? height(node.right) : -1;
+
+    // Wait, no. Because if the left subtree is invalid, we shouldn't proceed.
+    // So, perhaps the helper should return both a boolean and the height.
+
+    // Alternatively, the helper can return the height, and if any condition fails, throw an exception.
+
+    // Let's try this approach.
+
+    int leftHeight = checkHeight(node.left);
+    int rightHeight = checkHeight(node.right);
+
+    int expectedHeight = 1 + Math.max(leftHeight, rightHeight);
+    if (node.height != expectedHeight) {
+        throw new InvariantViolatedException();
+    }
+
+    int diff = Math.abs(leftHeight - rightHeight);
+    if (diff > ALLOWED_IMBALANCE) {
+        throw new InvariantViolatedException();
+    }
+
+    return expectedHeight;
+}
+
+private int checkHeight(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+    int left = checkHeight(node.left);
+    int right = checkHeight(node.right);
+    int expected = 1 + Math.max(left, right);
+    if (node.height != expected) {
+        throw new InvariantViolatedException();
+    }
+    return expected;
+}
+
+Wait, but this might not work because the checkHeight function is checking the height as it goes, but the main checkRepOK function is also checking the balance condition.
+
+Alternatively, perhaps the helper function can compute the height correctly and perform the checks.
+
+Wait, perhaps the helper function can return the height of the subtree, and during the computation, if any node's height is incorrect or the balance condition is violated, it throws an exception.
+
+So, the helper function would be:
+
+private int computeHeightAndCheck(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+
+    int leftHeight = computeHeightAndCheck(node.left);
+    int rightHeight = computeHeightAndCheck(node.right);
+
+    int expectedHeight = 1 + Math.max(leftHeight, rightHeight);
+    if (node.height != expectedHeight) {
+        throw new InvariantViolatedException();
+    }
+
+    int diff = Math.abs(leftHeight - rightHeight);
+    if (diff > ALLOWED_IMBALANCE) {
+        throw new InvariantViolatedException();
+    }
+
+    return expectedHeight;
+}
+
+Then, in repOK():
+
+public boolean repOK() {
+    try {
+        if (root == null) {
+            return true;
+        }
+        computeHeightAndCheck(root);
+        return true;
+    } catch (InvariantViolatedException e) {
+        return false;
+    }
+}
+
+Wait, but this might not cover all cases. For example, if the root is null, the tree is empty, which is valid. So, the repOK should return true in that case.
+
+Also, the computeHeightAndCheck function is called only if root is not null.
+
+But wait, in the helper function, when node is null, it returns -1, which is correct.
+
+So, putting it all together, the repOK method would call computeHeightAndCheck on the root, which in turn checks each node's height and balance.
+
+But I need to make sure that all nodes are checked, including their children.
+
+Wait, the computeHeightAndCheck function is recursive. For each node, it checks its height and balance, then proceeds to check its children. So, yes, all nodes are checked.
+
+But wait, in the helper function, for each node, it first checks the left and right subtrees. So, the height is computed correctly, and the balance condition is checked.
+
+Yes, that should work.
+
+So, the repOK method would look like this:
+
+public boolean repOK() {
+    try {
+        if (root == null) {
+            return true;
+        }
+        computeHeightAndCheck(root);
+        return true;
+    } catch (InvariantViolatedException e) {
+        return false;
+    }
+}
+
+And the helper function:
+
+private int computeHeightAndCheck(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+
+    int leftHeight = computeHeightAndCheck(node.left);
+    int rightHeight = computeHeightAndCheck(node.right);
+
+    int expectedHeight = 1 + Math.max(leftHeight, rightHeight);
+    if (node.height != expectedHeight) {
+        throw new InvariantViolatedException();
+    }
+
+    int diff = Math.abs(leftHeight - rightHeight);
+    if (diff > ALLOWED_IMBALANCE) {
+        throw new InvariantViolatedException();
+    }
+
+    return expectedHeight;
+}
+
+Wait, but in the helper function, after computing left and right heights, it checks the node's height and the balance condition. That seems correct.
+
+But I need to make sure that the helper function correctly computes the height for each node based on its children.
+
+Wait, but in the helper function, for each node, it's computing the left and right heights, then setting expectedHeight as 1 + max(left, right). Then, it checks if the node's height matches expectedHeight. If not, it throws an exception.
+
+Yes, that's correct.
+
+Also, the balance condition is checked: the difference between left and right heights must be <= ALLOWED_IMBALANCE, which is 1.
+
+So, this should cover all the necessary checks.
+
+But wait, what about the case where a node's left or right child is null? For example, a leaf node. Let's see:
+
+For a leaf node, left and right are null. So, leftHeight and rightHeight are -1. So, expectedHeight is 0. The node's height should be 0. Then, the difference between left and right is 0, which is within the allowed imbalance.
+
+Yes, that's correct.
+
+Another test case: a root node with two children. Each child is a leaf. So, root's left and right heights are 0. So, expectedHeight is 1. The node's height should be 1. The difference is 0, which is okay.
+
+Another case: a node where left subtree has height 2 and right has height 1. The difference is 1, which is allowed. The expected height is 3. So, node's height should be 3.
+
+If any of these conditions fail, the helper throws an exception, which is caught in repOK, returning false.
+
+So, the repOK method correctly checks the invariants.
+
+I think this should work. Now, I'll write the code accordingly.
+</think>
+
+To ensure the AVL tree maintains its balance and correct node heights, the `repOK` method performs a thorough check of each node. It verifies that each node's height is correctly calculated and that the tree remains balanced with an allowed imbalance of 1.
+
+```java
+public boolean repOK() {
+    try {
+        if (root == null) {
+            return true;
+        }
+        computeHeightAndCheck(root);
+        return true;
+    } catch (InvariantViolatedException e) {
+        return false;
+    }
+}
+
+private int computeHeightAndCheck(AvlNode node) {
+    if (node == null) {
+        return -1;
+    }
+
+    int leftHeight = computeHeightAndCheck(node.left);
+    int rightHeight = computeHeightAndCheck(node.right);
+
+    int expectedHeight = 1 + Math.max(leftHeight, rightHeight);
+    if (node.height != expectedHeight) {
+        throw new InvariantViolatedException();
+    }
+
+    int diff = Math.abs(leftHeight - rightHeight);
+    if (diff > ALLOWED_IMBALANCE) {
+        throw new InvariantViolatedException();
+    }
+
+    return expectedHeight;
+}
+
+private static class InvariantViolatedException extends RuntimeException {
+    // Exception thrown when the representation invariant is violated.
+}
+```
+
+This implementation ensures that every node's height is correct and that the tree remains balanced, thus maintaining the AVL tree properties.

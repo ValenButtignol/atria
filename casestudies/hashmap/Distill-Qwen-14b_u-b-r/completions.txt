@@ -1,0 +1,298 @@
+
+<think>
+Okay, I need to write a representation invariant for the HashMap class in Java. The invariant should be a method called repOK that checks the internal consistency of the object. Let me think about what properties the HashMap must maintain.
+
+First, I remember that a HashMap is a collection that stores key-value pairs. It uses a hash table with buckets, where each bucket is a linked list of entries. The main idea is that each key maps to exactly one value, and the hash function distributes the keys across the table.
+
+So, what are the invariants here? Well, the HashMap has a table array of Entry objects. Each Entry has a hash, key, value, and a next pointer. The size variable keeps track of the number of key-value pairs. The threshold is used to determine when to resize the table. The load factor is a measure that determines how full the table can get before resizing.
+
+Let me list the possible checks:
+
+1. **Table Validity**: The table array should not be null and should have a length greater than zero. Also, the length should be a power of two because the indexFor method uses a bitwise AND with (length - 1), which works efficiently when the table size is a power of two.
+
+2. **Size Check**: The size should not exceed the threshold. Because when size >= threshold, the HashMap resizes. So, after any insertion, if size is equal to or exceeds threshold, the table should have been resized.
+
+3. **Entry Consistency**: Each Entry in the table should have a non-negative hash. Also, each Entry's next pointer should either be null or point to another Entry. There should be no cycles in the linked lists to prevent infinite loops during traversal.
+
+4. **Key and Value Validity**: Each Entry's key should not be null unless it's the special NULL_KEY object used internally. The value can be null, as per HashMap's design.
+
+5. **Load Factor Check**: The load factor should be a positive number, not NaN, and within the valid range.
+
+6. **Threshold Calculation**: The threshold should be equal to (capacity * loadFactor), where capacity is the table's length. Also, the threshold should not be negative.
+
+7. **ModCount Consistency**: The modCount should be non-negative, as it's used for tracking structural modifications to detect concurrent modifications during iteration.
+
+8. **Entry Equality and Hashing**: For each Entry, the key's hash should be consistent with its hash code. Also, the equals method should correctly identify equal entries.
+
+Let me think about how to implement these checks in the repOK method.
+
+Starting with the table: I can check if table is null or its length is zero. Then, check if the length is a power of two. Wait, how do I check if a number is a power of two? One way is to see if (length & (length - 1)) == 0, but only if length is not zero. Since the table is initialized with at least DEFAULT_INITIAL_CAPACITY (16), which is a power of two, this should hold.
+
+Next, the size should be less than the threshold. Because when size >= threshold, the table should have resized. So, size < threshold must hold.
+
+For each Entry in the table, I need to ensure that their next pointers form a valid linked list. So, for each Entry, if it's not null, its next should be null or another Entry. Also, the hash should be non-negative.
+
+Wait, the hash is computed as an int, which can be negative. But in the indexFor method, it's masked with (length - 1), so the sign doesn't matter for the index. But the hash itself can be negative. So maybe that's not a problem.
+
+Also, each Entry's key should not be null unless it's the special NULL_KEY. So, for each Entry, if key is not NULL_KEY, it should not be null.
+
+The load factor should be positive and not NaN. Since the constructor checks this, maybe it's redundant, but it's good to check again.
+
+The threshold should be calculated correctly: threshold == (int)(capacity * loadFactor). Also, since capacity is a power of two, and loadFactor is positive, threshold should be non-negative.
+
+ModCount should be >= 0.
+
+Now, putting this all together into the repOK method.
+
+I'll loop through each bucket in the table. For each Entry, check that it's not null or that its next is null or another Entry. Also, check the key and value.
+
+Wait, but in the get method, keys are masked with NULL_KEY if they are null. So, in the table, the key can be NULL_KEY, which represents a null key. So, in the Entry, key can be null only if it's the NULL_KEY.
+
+So, in the repOK, for each Entry, if key is not NULL_KEY, then it should not be null.
+
+Also, the Entry's hash should be computed correctly. But since the hash is computed in the put method, perhaps it's redundant to check here, but maybe it's good to ensure that the hash is consistent with the key.
+
+Wait, the Entry's hash is computed as hash(key), which is done in the put method. So, in the repOK, perhaps we can recompute the hash and ensure it matches the Entry's hash. But that might be computationally expensive, but for an invariant, it's acceptable.
+
+Alternatively, perhaps it's better to assume that the hash is correct as computed by the put method, unless there's a bug in the put method. So, maybe it's better not to recompute the hash here.
+
+So, the steps for repOK:
+
+1. Check that table is not null and its length is a power of two and greater than zero.
+
+2. Check that size is less than threshold.
+
+3. Check that threshold is equal to (int)(table.length * loadFactor).
+
+4. Check that loadFactor is positive and not NaN.
+
+5. For each Entry in the table:
+   a. If the Entry is null, continue.
+   b. Check that the Entry's hash is non-negative.
+   c. Check that the Entry's key is either NULL_KEY or not null.
+   d. Check that the Entry's next is null or another Entry.
+
+6. Check that modCount is non-negative.
+
+Wait, but the Entry's hash can be negative because the hash function returns an int, which can be negative. So, the hash being non-negative is not a requirement. So, step 5b is incorrect. Instead, the hash can be any integer.
+
+So, correct step 5b: no need to check for non-negative hash.
+
+Also, for each Entry, the key can be null only if it's the special NULL_KEY. So, if Entry.key is not NULL_KEY, then it should not be null.
+
+So, in code:
+
+for (Entry e : table) {
+    if (e != null) {
+        if (e.key != NULL_KEY && e.key == null) {
+            return false;
+        }
+        // Check next pointer
+        if (e.next != null && !(e.next instanceof Entry)) {
+            return false;
+        }
+    }
+}
+
+Wait, but in Java, instanceof Entry would be true for any Entry object, so perhaps that's not necessary. But perhaps it's better to check that e.next is either null or an Entry.
+
+But in the code, the next pointer is always an Entry or null, so perhaps that's redundant.
+
+Another point: the Entry's equals method relies on the key and value. So, perhaps in the repOK, we can ensure that for each Entry, if two entries have the same hash and key, their values are equal. But that's more of a functional check rather than a structural invariant.
+
+Alternatively, perhaps it's better to focus on structural integrity rather than functional correctness.
+
+So, putting it all together, the repOK method would perform the following checks:
+
+- Table is not null and has a length that is a power of two and greater than zero.
+- Size is less than threshold.
+- Threshold equals (int)(table.length * loadFactor).
+- Load factor is positive and not NaN.
+- For each Entry in the table:
+   - If the Entry is null, continue.
+   - If the Entry's key is not NULL_KEY, it should not be null.
+   - The Entry's next should be null or another Entry.
+- ModCount is non-negative.
+
+Wait, but the Entry's next can be null or another Entry, but in the code, the next is always an Entry or null because it's initialized as such. So, perhaps that's redundant.
+
+Another thing: the Entry's hash can be any integer, so no need to check for non-negative.
+
+So, the code for repOK would look something like this:
+
+public boolean repOK() {
+    // Check table is not null and has valid length
+    if (table == null) {
+        return false;
+    }
+    int capacity = table.length;
+    if (capacity == 0) {
+        return false;
+    }
+    // Check if capacity is a power of two
+    if ((capacity & (capacity - 1)) != 0) {
+        return false;
+    }
+
+    // Check size < threshold
+    if (size >= threshold) {
+        return false;
+    }
+
+    // Check threshold is correct
+    if (threshold != (int)(capacity * loadFactor)) {
+        return false;
+    }
+
+    // Check load factor is valid
+    if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
+        return false;
+    }
+
+    // Check each Entry
+    for (Entry e : table) {
+        if (e != null) {
+            // Check key is not null unless it's NULL_KEY
+            if (e.key != HashMap.NULL_KEY && e.key == null) {
+                return false;
+            }
+
+            // Check next is null or Entry
+            if (e.next != null && e.next.getClass() != Entry.class) {
+                return false;
+            }
+        }
+    }
+
+    // Check modCount is non-negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but in Java, e.next.getClass() == Entry.class might not be sufficient if there are subclasses. But in this case, Entry is an inner class, so perhaps it's safe.
+
+Alternatively, perhaps it's better to check that e.next is an instance of Entry:
+
+if (e.next != null && !(e.next instanceof Entry)) {
+    return false;
+}
+
+But in the code, the next is always an Entry or null, so this check might not be necessary, but it's good for robustness.
+
+Another point: the Entry's hash can be any integer, so no need to check for non-negative.
+
+Also, the Entry's value can be null, so no need to check that.
+
+Wait, but in the Entry's equals method, the value is compared using equals, so if the value is null, it's handled correctly.
+
+So, the above code should cover the main structural invariants.
+
+Wait, but what about the case where the threshold is set to Integer.MAX_VALUE? For example, when the capacity is MAXIMUM_CAPACITY, the threshold is set to Integer.MAX_VALUE. So, in that case, the check size < threshold would fail because size can't exceed Integer.MAX_VALUE. But in reality, when capacity is MAXIMUM_CAPACITY, the threshold is set to Integer.MAX_VALUE, and the size can't exceed that because the table can't be resized further.
+
+So, perhaps the condition should be:
+
+if (capacity != MAXIMUM_CAPACITY && size >= threshold) {
+    return false;
+}
+
+Because when capacity is MAXIMUM_CAPACITY, threshold is Integer.MAX_VALUE, and size can be up to that.
+
+So, adjusting the code:
+
+if (capacity != MAXIMUM_CAPACITY && size >= threshold) {
+    return false;
+}
+
+That's a better check.
+
+Another point: when the table is resized, the new capacity should be a power of two. But the resize method sets newCapacity to 2 * table.length, which may not be a power of two. Wait, no: in the resize method, when the initial capacity is less than MAXIMUM_CAPACITY, it sets newCapacity to 2 * table.length. But 2 * table.length may not be a power of two. Wait, no: because the initial capacity is a power of two, and each resize doubles it, so newCapacity remains a power of two.
+
+Wait, in the constructor, the initial capacity is set to the next power of two greater than or equal to initialCapacity. So, the table's length is always a power of two. When resizing, it's multiplied by two, so it remains a power of two.
+
+So, the check for capacity being a power of two is correct.
+
+Another thing: the Entry's hash is computed as an int, which can be negative. So, no need to check for non-negative.
+
+Putting it all together, the repOK method should include all these checks.
+</think>
+
+To ensure the HashMap class maintains its invariants, we'll implement a `repOK` method that checks the internal consistency of the object. This method will validate the structural integrity of the HashMap, ensuring all key properties are maintained.
+
+### Approach
+The `repOK` method will perform several checks to verify the HashMap's invariants:
+
+1. **Table Validity**: The table array should not be null and must have a length that is a power of two and greater than zero.
+2. **Size Check**: The size should be less than the threshold unless the capacity is at its maximum.
+3. **Threshold Calculation**: The threshold must be correctly calculated as the product of capacity and load factor.
+4. **Load Factor Validity**: The load factor must be positive and not NaN.
+5. **Entry Consistency**: Each Entry in the table should have a valid key (not null unless it's the special NULL_KEY) and a valid next pointer.
+6. **ModCount Check**: The modCount should be non-negative.
+
+### Solution Code
+```java
+public boolean repOK() {
+    // Check if the table is null or has an invalid capacity
+    if (table == null) {
+        return false;
+    }
+    int capacity = table.length;
+    if (capacity == 0) {
+        return false;
+    }
+    // Ensure capacity is a power of two
+    if ((capacity & (capacity - 1)) != 0) {
+        return false;
+    }
+
+    // Check if size is within bounds (unless at maximum capacity)
+    if (capacity != MAXIMUM_CAPACITY && size >= threshold) {
+        return false;
+    }
+
+    // Verify threshold is correctly calculated
+    if (threshold != (int) (capacity * loadFactor)) {
+        return false;
+    }
+
+    // Ensure load factor is valid
+    if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
+        return false;
+    }
+
+    // Check each entry in the table
+    for (Entry e : table) {
+        if (e != null) {
+            // Key must be non-null unless it's the special NULL_KEY
+            if (e.key != NULL_KEY && e.key == null) {
+                return false;
+            }
+
+            // Ensure next is either null or an Entry
+            if (e.next != null && !(e.next instanceof Entry)) {
+                return false;
+            }
+        }
+    }
+
+    // modCount must be non-negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+### Explanation
+The `repOK` method systematically verifies each critical aspect of the HashMap's structure:
+
+1. **Table Check**: Ensures the table is initialized correctly and its length is a power of two.
+2. **Size and Threshold**: Validates that the number of entries is within the allowed limit based on the current capacity and load factor.
+3. **Load Factor**: Confirms the load factor is set correctly and within valid bounds.
+4. **Entry Validation**: Iterates through each bucket to ensure entries have valid keys and proper linking.
+5. **ModCount**: Ensures the modification counter is non-negative, preventing invalid concurrent modification detection.
+
+This method acts as a comprehensive check to maintain the integrity of the HashMap's internal state, ensuring it behaves as expected under various operations.

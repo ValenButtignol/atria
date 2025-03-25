@@ -1,0 +1,58 @@
+public class RepOkClass1{
+    public boolean repOK() {
+        if (Nodes == null) {
+            return size == 0;
+        }
+    
+        if (!isHeapPropertySatisfied()) {
+            return false;
+        }
+    
+        if (!isTreePropertySatisfied()) {
+            return false;
+        }
+    
+        if (!isNoDuplicatesPropertySatisfied()) {
+            return false;
+        }
+    
+        return true;
+    }
+
+    private boolean isHeapPropertySatisfied() {
+        BinomialHeapNode temp = Nodes;
+        while (temp != null) {
+            if (temp.degree > temp.key) {
+                return false;
+            }
+            temp = temp.sibling;
+        }
+        return true;
+    }
+
+    private boolean isTreePropertySatisfied() {
+        BinomialHeapNode temp = Nodes;
+        while (temp != null) {
+            if (temp.degree > 0 && temp.parent == null) {
+                return false;
+            }
+            temp = temp.sibling;
+        }
+        return true;
+    }
+
+    private boolean isNoDuplicatesPropertySatisfied() {
+        Set<Integer> seen = new HashSet<>();
+        return isNoDuplicatesHelper(Nodes, seen);
+    }
+
+    private boolean isNoDuplicatesHelper(BinomialHeapNode node, Set<Integer> seen) {
+        if (node == null) return true;
+    
+        if (!seen.add(node.key)) return false;
+    
+        return isNoDuplicatesHelper(node.sibling, seen);
+    }
+
+
+}

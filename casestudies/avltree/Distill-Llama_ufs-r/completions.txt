@@ -1,0 +1,333 @@
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. Hmm, let's think about what a representation invariant is. It's a method that checks whether the current state of the object is consistent with its invariants. So, for the AvlTree, the main invariant is that the tree remains balanced according to the allowed imbalance.
+
+Looking at the AvlTree code, I see that it's a self-balancing binary search tree. The balance method is crucial here. It ensures that the height difference between the left and right subtrees doesn't exceed ALLOWED_IMBALANCE, which is set to 1 by default.
+
+So, the repOK method should verify that the tree is balanced. How do I check that? Well, for each node, I need to ensure that the left and right subtrees are balanced and that the height difference doesn't exceed the allowed imbalance.
+
+Wait, but checking every node might be computationally expensive, especially for large trees. However, since this is a representation invariant, it's more about correctness than efficiency. So, it's acceptable.
+
+I should traverse the tree, perhaps recursively, and for each node, check the balance of its left and right children. If any subtree violates the balance condition, the method should return false.
+
+Also, I should ensure that the root isn't null. If the tree is empty, that's fine, but if it's not, the root must exist.
+
+Let me outline the steps for the repOK method:
+
+1. Check if the root is null. If it is, the tree is empty, which is okay if size is zero. But wait, the AvlTree doesn't have a size variable. Oh, right, the size isn't tracked here. So, I can't rely on size. Instead, I need to check if the root is null to determine if the tree is empty.
+
+2. If the root is not null, traverse the tree. For each node, check the balance of its left and right children.
+
+3. For each node, calculate the heights of the left and right subtrees. The difference should not exceed ALLOWED_IMBALANCE.
+
+4. If any node violates this condition, return false.
+
+5. If all nodes satisfy the condition, return true.
+
+Wait, but how do I calculate the heights? The AvlNode class has a height field. So, for a given node, I can get its left and right children's heights.
+
+So, the method could look like this:
+
+- Check if root is null. If yes, return true (empty tree is balanced).
+- Else, for each node starting from root, check if the left and right subtrees are balanced.
+- For each node, compare the heights of left and right. If the difference is more than ALLOWED_IMBALANCE, return false.
+- Recurse on left and right children.
+
+Wait, but the balance method in the AvlTree already ensures that the tree is balanced. So, maybe the repOK method just needs to verify that the balance method was correctly applied.
+
+Alternatively, perhaps the repOK method should check that the tree is balanced as per the rules. So, it's a separate check.
+
+I think the repOK method should perform a similar check to the balance method but not rely on it. Because the balance method is part of the insertion and removal logic, but the repOK is a separate invariant check.
+
+So, the repOK method will manually check each node's balance.
+
+Let me structure the method:
+
+public boolean repOK() {
+    if (root == null) {
+        return true; // empty tree is balanced
+    }
+
+    return checkBalance(root) != -1;
+}
+
+Wait, but how to implement checkBalance. Maybe a helper function that returns the maximum allowed imbalance if the tree is balanced, or -1 if not.
+
+Alternatively, have a helper method that returns true if the tree is balanced, false otherwise.
+
+Let me think of a helper method:
+
+private boolean isBalanced(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return isBalanced(node.left) && isBalanced(node.right);
+}
+
+Wait, but this might not be sufficient. Because the balance method not only checks the height difference but also rotates the tree to maintain balance. So, just checking the heights might not capture all the necessary conditions.
+
+Hmm, perhaps the repOK method should ensure that for each node, the left and right subtrees are balanced and that the height difference is within the allowed limit.
+
+So, the helper function would recursively check each node's left and right children, ensuring that their heights are balanced.
+
+So, putting it all together, the repOK method would:
+
+- Check if the root is null. If yes, return true.
+- Else, for each node, check if the left and right subtrees are balanced and the height difference is within the allowed imbalance.
+- If any node fails this check, return false.
+- If all nodes pass, return true.
+
+So, the code would look something like this:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    return isBalanced(root);
+}
+
+private boolean isBalanced(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = node.left != null ? node.left.height : -1;
+    int rightHeight = node.right != null ? node.right.height : -1;
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return isBalanced(node.left) && isBalanced(node.right);
+}
+
+Wait, but what if a node has one child missing? For example, a node with only a left child. Then, the rightHeight would be -1, and the difference would be leftHeight +1, which could exceed the allowed imbalance.
+
+Yes, that's correct. So, the helper function correctly handles that.
+
+But wait, in the AvlTree's balance method, when a node has both left and right children, it's only rotated or doubled if necessary. So, the repOK method should ensure that each node's children are balanced according to the same rules.
+
+Therefore, the helper function is sufficient.
+
+So, the final repOK method would be:
+
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    return isBalanced(root);
+}
+
+private boolean isBalanced(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = (node.left != null) ? node.left.height : -1;
+    int rightHeight = (node.right != null) ? node.right.height : -1;
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return isBalanced(node.left) && isBalanced(node.right);
+}
+
+Wait, but what about the case where a node has only one child? For example, a node with only a left child. Then, the rightHeight is -1, and the difference would be leftHeight +1. If the allowed imbalance is 1, then if leftHeight is 0, the difference is 1, which is allowed. But if leftHeight is 1, the difference is 2, which is not allowed.
+
+Yes, that's correct.
+
+So, this should cover all cases.
+
+I think this should work. Now, I'll write the code accordingly.
+</think>
+
+To write a representation invariant for the AvlTree class, we need to ensure that the tree remains balanced according to the specified allowed imbalance. The invariant checks each node to ensure that the height difference between its left and right subtrees does not exceed the allowed imbalance.
+
+### Approach
+The representation invariant for the AvlTree class involves a method that verifies the balance of the tree. Here's the step-by-step approach:
+
+1. **Check for an empty tree**: If the root is null, the tree is empty, which is trivially balanced.
+2. **Recursive balance check**: For each node, recursively check the balance of its left and right subtrees.
+3. **Height difference check**: For each node, calculate the heights of its left and right subtrees. If the absolute difference between these heights exceeds the allowed imbalance, the tree is unbalanced.
+4. **Base case**: If a node is null, it is considered balanced.
+
+### Solution Code
+
+```java
+package casestudies.avltree;
+
+public class AvlTree {
+    static final int ALLOWED_IMBALANCE = 1;
+    public AvlNode root;
+
+    public AvlTree() {
+        root = null;
+    }
+
+    public void insert(int x) {
+        root = insert(x, root);
+    }
+
+    public void remove(int x) {
+        root = remove(x, root);
+    }
+
+    private AvlNode remove(int x, AvlNode t) {
+        if (t == null)
+            return t;
+
+        if (x < t.element)
+            t.left = remove(x, t.left);
+        else if (x > t.element)
+            t.right = remove(x, t.right);
+        else if (t.left != null && t.right != null)
+        {
+            t.element = findMin(t.right).element;
+            t.right = remove(t.element, t.right);
+        } else
+            t = (t.left != null) ? t.left : t.right;
+        return balance(t);
+    }
+
+    public int findMin() {
+        if (isEmpty())
+            throw new RuntimeException();
+        return findMin(root).element;
+    }
+
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    private AvlNode balance(AvlNode t) {
+        if (t == null)
+            return t;
+
+        if (height(t.left) - height(t.right) > ALLOWED_IMBALANCE)
+            if (height(t.left.left) >= height(t.left.right))
+                t = rotateWithLeftChild(t);
+            else
+                t = doubleWithLeftChild(t);
+        else if (height(t.right) - height(t.left) > ALLOWED_IMBALANCE)
+            if (height(t.right.right) >= height(t.right.left))
+                t = rotateWithRightChild(t);
+            else
+                t = doubleWithRightChild(t);
+
+        t.height = Math.max(height(t.left), height(t.right)) + 1;
+        return t;
+    }
+
+    private AvlNode insert(int x, AvlNode t) {
+        if (t == null)
+            return new AvlNode(x, null, null);
+
+        if (x < t.element)
+            t.left = insert(x, t.left);
+        else if (x > t.element)
+            t.right = insert(x, t.right);
+        else
+            ;
+        return balance(t);
+    }
+
+    private AvlNode findMin(AvlNode t) {
+        if (t == null)
+            return t;
+
+        while (t.left != null)
+            t = t.left;
+        return t;
+    }
+
+    private int height(AvlNode t) {
+        return t == null ? -1 : t.height;
+    }
+
+    private AvlNode rotateWithLeftChild(AvlNode k2) {
+        AvlNode k1 = k2.left;
+        k2.left = k1.right;
+        k1.right = k2;
+        k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
+        k1.height = Math.max(height(k1.left), k2.height) + 1;
+        return k1;
+    }
+
+    private AvlNode rotateWithRightChild(AvlNode k1) {
+        AvlNode k2 = k1.right;
+        k1.right = k2.left;
+        k2.left = k1;
+        k1.height = Math.max(height(k1.left), height(k1.right)) + 1;
+        k2.height = Math.max(height(k2.right), k1.height) + 1;
+        return k2;
+    }
+
+    private AvlNode doubleWithLeftChild(AvlNode k3) {
+        k3.left = rotateWithRightChild(k3.left);
+        return rotateWithLeftChild(k3);
+    }
+
+    private AvlNode doubleWithRightChild(AvlNode k1) {
+        k1.right = rotateWithLeftChild(k1.right);
+        return rotateWithRightChild(k1);
+    }
+
+    public static class AvlNode {
+        public int element;
+        public AvlNode left;
+        public AvlNode right;
+        public int height;
+
+        public AvlNode() {
+        }
+
+        public AvlNode(int theElement) {
+            this(theElement, null, null);
+        }
+
+        public AvlNode(int theElement, AvlNode lt, AvlNode rt) {
+            element = theElement;
+            left = lt;
+            right = rt;
+            height = 0;
+        }
+    }
+
+    public boolean repOK() {
+        if (root == null) {
+            return true;
+        }
+
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+
+        int leftHeight = (node.left != null) ? node.left.height : -1;
+        int rightHeight = (node.right != null) ? node.right.height : -1;
+
+        if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+            return false;
+        }
+
+        return isBalanced(node.left) && isBalanced(node.right);
+    }
+}
+```
+
+### Explanation
+The `repOK` method checks if the AvlTree is balanced by ensuring that for each node, the height difference between its left and right subtrees does not exceed the allowed imbalance. It uses a helper method `isBalanced` that recursively checks each node's balance. If any node violates the balance condition, the method returns false, indicating the tree is unbalanced. If all nodes satisfy the condition, it returns true, confirming the tree's balance.

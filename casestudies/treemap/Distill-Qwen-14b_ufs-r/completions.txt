@@ -1,0 +1,337 @@
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. The repOK method should check that the internal data structure of the TreeMap is consistent and correct. Let me think about what properties the TreeMap must maintain.
+
+First, I remember that a TreeMap is typically implemented as a balanced binary search tree, often using a Red-Black tree structure. So each node has a color, either RED or BLACK. The invariant for a Red-Black tree includes several conditions:
+
+1. Every node is either RED or BLACK.
+2. The root is always BLACK.
+3. If a node is RED, then its parent must be BLACK.
+4. For every node, all paths to leaves from that node have the same number of BLACK nodes. This ensures the tree is balanced.
+
+So, the repOK method should check all these conditions.
+
+Let me look at the TreeMap code provided. Each Node has a color, key, value, and pointers to left, right, and parent. The put method inserts nodes and uses fixInsertion to maintain the Red-Black properties.
+
+So, the repOK method needs to:
+
+- Ensure that every node's color is either RED or BLACK. Wait, but in the code, the colors are static variables, so that's probably already enforced. But maybe it's better to check that each node's color is either RED or BLACK, just in case.
+
+- Check that the root is BLACK. Because in the put method, after inserting, it sets root.color = BLACK. So the root should never be RED.
+
+- Ensure that no two adjacent nodes are RED. That is, if a node is RED, its parent must be BLACK. Because in a Red-Black tree, you can't have two RED nodes in a row up the tree.
+
+- Verify that all paths from any node to the leaves have the same number of BLACK nodes. This is the balance condition. This is a bit tricky because it requires checking the structure of the tree.
+
+Wait, but checking the balance condition might be complicated. How can I implement that? Maybe I can write a helper method that traverses the tree and counts the number of BLACK nodes along each path, ensuring they are equal.
+
+Alternatively, perhaps the repOK method can perform a structural check of the tree, ensuring that it adheres to the Red-Black properties.
+
+Let me outline the steps for repOK:
+
+1. Check if the root is null. If size is zero, root should be null. Otherwise, root should not be null and should be BLACK.
+
+2. For every node, if it's RED, its parent must be BLACK.
+
+3. For every node, the number of BLACK nodes along any path from that node to a leaf must be the same.
+
+Hmm, but how to implement the third condition. Maybe I can write a helper function that, for a given node, returns the number of BLACK nodes in all paths from that node to the leaves, and ensures they are all equal.
+
+Wait, but that might be computationally intensive. Alternatively, perhaps during the traversal, I can keep track of the current count of BLACK nodes and ensure that for each subtree, the count is consistent.
+
+Alternatively, perhaps the repOK method can perform a traversal of the tree, checking each node's color and parent, and also ensuring the balance condition.
+
+Let me think about how to structure this.
+
+First, I'll check if the root is null when size is zero, and not null otherwise, and that the root is BLACK.
+
+Then, for each node, I'll check that if the node is RED, its parent is BLACK.
+
+Next, I'll need to check the balance condition. For that, I can perform a traversal and for each node, calculate the height of the left and right subtrees, ensuring that they differ by at most one. Wait, but that's for an AVL tree. For a Red-Black tree, the balance is about the number of BLACK nodes, not the height.
+
+Wait, no. The Red-Black tree's balance is maintained by the number of BLACK nodes along any path from a node to a leaf. So, for any node, all paths from it to the leaves must have the same number of BLACK nodes.
+
+So, for each node, I can compute the number of BLACK nodes in the left and right paths and ensure they are equal.
+
+Wait, but how? Maybe for each node, I can compute the count of BLACK nodes from that node to the leaves in both left and right subtrees and ensure they are the same.
+
+Alternatively, perhaps I can perform a traversal and for each node, track the number of BLACK nodes from the root to that node, and ensure that for any two leaves, their counts are the same.
+
+But that might be complicated.
+
+Alternatively, perhaps the repOK method can perform a check that for every node, the left and right subtrees have the same number of levels of BLACK nodes.
+
+Wait, perhaps a better approach is to perform a pre-order traversal and keep track of the number of BLACK nodes encountered. For each node, the number of BLACK nodes in the left and right subtrees should be the same.
+
+Alternatively, perhaps I can write a helper method that, for a given node, returns the number of levels (BLACK nodes) in its left and right subtrees, and ensures they are equal.
+
+Wait, perhaps the helper function can return the number of BLACK nodes along the path from the current node to the leaves. Then, for each node, the left and right subtree's counts should be equal.
+
+Wait, no. Because the count is the number of BLACK nodes along the path, which is a property that must be the same for all paths from a node.
+
+So, for each node, the number of BLACK nodes in the left subtree's path and the right subtree's path must be equal.
+
+Wait, perhaps the helper function can return the number of BLACK nodes in the path from the current node to the leaves. Then, for each node, the left and right children's returned values must be equal.
+
+Wait, but that's not exactly correct. Because the current node's color affects the count. For example, if the current node is BLACK, then the count for the left and right subtrees should be one more than the count from their respective children.
+
+Wait, perhaps the helper function can return the number of BLACK nodes along the path from the current node to the leaves. So, for a leaf node, if it's BLACK, the count is 1; if it's RED, the count is 0.
+
+Wait, no. Because in a Red-Black tree, leaves are considered to have an implicit BLACK color. So, even if a leaf node is not present, it's treated as a BLACK node. So, perhaps the helper function should consider the leaves as having a BLACK count.
+
+Wait, in the implementation, the leaves are the nodes where left and right are null. So, for a node, if it's a leaf, then the count is 1 if it's BLACK, 0 if it's RED. But wait, in the Red-Black tree, leaves are always BLACK. So, perhaps in the helper function, any node that is a leaf (left and right are null) is considered to have a count of 1 (since they are implicitly BLACK).
+
+Wait, but in the code, the leaves can be either RED or BLACK, but according to the Red-Black tree rules, leaves are always BLACK. So, perhaps the helper function should check that any node with both children null is a leaf and is BLACK.
+
+Wait, but in the code, the leaves are not necessarily null. Because in the implementation, the tree is built with nodes, and the leaves are nodes whose left and right are null. So, perhaps the helper function can check that any node with both children null is a leaf and is BLACK.
+
+So, putting this together, the helper function could be something like:
+
+private int countBlackNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    if (node.left == null && node.right == null) {
+        // It's a leaf, must be BLACK
+        if (node.color != BLACK) {
+            return -1; // indicates error
+        }
+        return 1;
+    }
+    int leftCount = countBlackNodes(node.left);
+    int rightCount = countBlackNodes(node.right);
+    if (leftCount == -1 || rightCount == -1) {
+        return -1;
+    }
+    if (leftCount != rightCount) {
+        return -1;
+    }
+    if (node.color == BLACK) {
+        return leftCount + 1;
+    } else {
+        return leftCount;
+    }
+}
+
+Wait, but this might not be correct. Because the count should be the number of BLACK nodes along the path from the current node to the leaves. So, if the current node is BLACK, then the count is 1 plus the count from the left and right subtrees. But wait, no, because the count from the left and right subtrees already includes the current node's color.
+
+Hmm, perhaps I'm getting confused. Let me think again.
+
+The Red-Black tree invariant states that for any node, all paths from the node to a leaf have the same number of BLACK nodes. So, for a given node, the number of BLACK nodes in the path to the left leaf must equal the number in the path to the right leaf.
+
+So, the helper function can be designed to return the number of BLACK nodes in the path from the current node to its leaves. For a leaf node, it's 1 if it's BLACK, 0 if it's RED. But wait, in a correct Red-Black tree, leaves are always BLACK, so perhaps the helper function can also check that.
+
+Wait, but in the code, the leaves are nodes where left and right are null. So, for any such node, it must be BLACK. So, the helper function can first check that.
+
+So, the helper function could be:
+
+private int countBlackNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    if (node.left == null && node.right == null) {
+        // It's a leaf, must be BLACK
+        if (node.color != BLACK) {
+            return -1; // error
+        }
+        return 1;
+    }
+    int leftCount = countBlackNodes(node.left);
+    int rightCount = countBlackNodes(node.right);
+    if (leftCount == -1 || rightCount == -1) {
+        return -1;
+    }
+    if (leftCount != rightCount) {
+        return -1;
+    }
+    // Now, the current node's color affects the count
+    if (node.color == BLACK) {
+        return leftCount + 1;
+    } else {
+        return leftCount;
+    }
+}
+
+Wait, but this might not be correct. Because the count from the left and right subtrees already includes the current node's color. Or perhaps not. Let me think.
+
+Wait, no. The count from the left subtree is the number of BLACK nodes from the left child to the leaves. So, the current node's color is added to that count if it's BLACK.
+
+Wait, no. Because the current node is part of the path. So, if the current node is BLACK, then the count from the current node to the leaves is 1 plus the count from the left subtree. But wait, the left subtree's count is the number of BLACK nodes from the left child to the leaves. So, the current node's color is added to that.
+
+Wait, perhaps the helper function should return the number of BLACK nodes in the path from the current node to the leaves. So, for a node, it's 1 (if it's BLACK) plus the count from its left and right children, but only if the children are present.
+
+Wait, no. Because for a node, the path to the leaves goes through either the left or the right child. So, the count for the node is 1 (if it's BLACK) plus the count from the left or right child, whichever is the case.
+
+Wait, perhaps I'm overcomplicating this. Maybe the helper function should just check that for each node, the left and right subtrees have the same number of BLACK nodes in their paths. Because that's the invariant.
+
+So, the helper function can be:
+
+private boolean checkBalance(Node node) {
+    if (node == null) {
+        return true;
+    }
+    int leftCount = countBlackNodes(node.left);
+    int rightCount = countBlackNodes(node.right);
+    if (leftCount != rightCount) {
+        return false;
+    }
+    return checkBalance(node.left) && checkBalance(node.right);
+}
+
+But wait, this might not capture all cases. Alternatively, perhaps the helper function can return the number of levels (BLACK nodes) and ensure that for each node, the left and right counts are equal.
+
+Alternatively, perhaps the repOK method can perform a traversal and for each node, check that the left and right subtrees have the same number of BLACK nodes in their paths.
+
+But this could be computationally expensive, but for the purposes of an invariant check, it's acceptable.
+
+So, putting it all together, the repOK method would:
+
+1. Check that the root is BLACK if size > 0, and null if size == 0.
+
+2. For every node, if it's RED, its parent must be BLACK.
+
+3. For every node, the number of BLACK nodes in the path from the node to any leaf must be the same.
+
+So, the repOK method would:
+
+- If size is 0, check that root is null.
+
+- Else, check that root is BLACK.
+
+- For each node, check that if it's RED, its parent is not null and is BLACK.
+
+- For each node, check that the left and right subtrees have the same number of BLACK nodes in their paths.
+
+Wait, but how to implement this.
+
+Alternatively, perhaps the helper function can return the number of BLACK nodes in the path from the current node to the leaves. Then, for each node, the left and right subtrees must have the same count, and the current node's color is added to that count.
+
+Wait, perhaps the helper function can be written as:
+
+private int countBlackNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    int left = countBlackNodes(node.left);
+    int right = countBlackNodes(node.right);
+    if (left != right) {
+        throw new IllegalStateException("Tree is unbalanced");
+    }
+    if (node.color == BLACK) {
+        return left + 1;
+    } else {
+        return left;
+    }
+}
+
+But wait, this might not be correct. Because for a node, the left and right counts must be equal, and then the current node's color is added.
+
+Wait, but in this function, if the left and right counts are equal, then the function proceeds. Otherwise, it throws an exception.
+
+But this function is called recursively, so for each node, it checks that the left and right subtrees have the same count, and then returns the count based on its own color.
+
+But this function would throw an exception if any node's left and right counts are unequal, which is what we want.
+
+But wait, in the case where a node is a leaf, its left and right are null, so the function would return 0 for both, then check if they are equal (they are), and then return 1 if the node is BLACK, else 0.
+
+But in a correct Red-Black tree, leaves are always BLACK, so the function would return 1 for leaves.
+
+So, the helper function would throw an exception if any node's left and right counts are unequal, which would indicate a violation of the balance condition.
+
+So, the repOK method can call this helper function on the root, and if it doesn't throw, then the balance condition is satisfied.
+
+Additionally, the repOK method needs to check:
+
+- The root is BLACK if size > 0.
+
+- For every node, if it's RED, its parent is BLACK.
+
+So, putting it all together, the repOK method would:
+
+1. If size is 0, check that root is null.
+
+2. Else, check that root is BLACK.
+
+3. For each node, check that if it's RED, its parent is not null and is BLACK.
+
+4. Call the helper function to check the balance condition.
+
+Wait, but how to iterate through all nodes to check condition 3.
+
+Alternatively, perhaps during the traversal for the helper function, we can also check condition 3.
+
+So, perhaps the helper function can be modified to include these checks.
+
+Alternatively, perhaps the repOK method can perform these checks in separate steps.
+
+So, the repOK method could look like this:
+
+public boolean repOK() {
+    // Check root conditions
+    if (size == 0) {
+        return (root == null);
+    }
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    // Check that every red node has a black parent
+    // We can do this by traversing all nodes
+    // Using a helper method to traverse and check
+    if (!checkRedNodesHaveBlackParents(root)) {
+        return false;
+    }
+
+    // Check the balance condition using the helper function
+    try {
+        countBlackNodes(root);
+    } catch (IllegalStateException e) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean checkRedNodesHaveBlackParents(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED) {
+        if (node.parent == null) {
+            // A red node cannot be the root
+            return false;
+        }
+        if (node.parent.color != BLACK) {
+            return false;
+        }
+    }
+    return checkRedNodesHaveBlackParents(node.left) && checkRedNodesHaveBlackParents(node.right);
+}
+
+private int countBlackNodes(Node node) throws IllegalStateException {
+    if (node == null) {
+        return 0;
+    }
+    int left = countBlackNodes(node.left);
+    int right = countBlackNodes(node.right);
+    if (left != right) {
+        throw new IllegalStateException("Tree is unbalanced");
+    }
+    if (node.color == BLACK) {
+        return left + 1;
+    } else {
+        return left;
+    }
+}
+
+Wait, but in the countBlackNodes function, if the node is a leaf, then left and right are null, so left and right are 0. Then, if the node is BLACK, it returns 1, else 0. But in a correct tree, leaves are BLACK, so this would be correct.
+
+But wait, in the code, the leaves are nodes where left and right are null. So, the function correctly checks that the leaves are BLACK.
+
+Additionally, the checkRedNodesHaveBlackParents function ensures that any RED node has a BLACK parent.
+
+So, putting it all together, the repOK method would perform these checks.
+
+But wait, what about the case where the root is RED? The first check in repOK ensures that the root is BLACK if size > 0, so that's covered.
+
+Another thing to check: the size variable must be correct. For example, if the tree is modified incorrectly, the size

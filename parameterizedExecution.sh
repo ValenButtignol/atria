@@ -27,9 +27,11 @@ models=(
 )
 
 prompts=(
-  "u-b-r" "s-b-r" "u-h-r" "s-h-r"
-  "ufs-r" "uafs-r" "u-h-ufs-r" "u-h-uafs-r"
-  "s-h-ufs-r" "s-h-uafs-r" "s-h-p" "s-h-uafs-p"
+
+#  "u-b-r" "s-b-r" "u-h-r" "s-h-r"
+#  "ufs-r" "uafs-r" "u-h-ufs-r" "u-h-uafs-r"
+#  "s-h-ufs-r" "s-h-uafs-r" 
+"s-h-p" "s-h-uafs-p" "spec" "spec-only" "spec-fs" "spec-only-fs"
 #  "u-h-p" "ufs-p" "uafs-p" "s-b-p"
 #  "u-h-ufs-p" "u-h-uafs-p" "s-h-u-p" "u-b-p" 
 )

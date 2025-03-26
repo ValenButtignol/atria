@@ -1,0 +1,45 @@
+
+- The header node is not null: The representation invariant checks if the header node is not null.
+- The size is non-negative: The representation invariant checks if the size is non-negative.
+- The cache size is less than or equal to the maximum cache size: The representation invariant checks if the cache size is less than or equal to the maximum cache size.
+- The first cached node is either null or a valid node: The representation invariant checks if the first cached node is either null or a valid node.
+- The linked list nodes are properly linked: The representation invariant checks if the linked list nodes are properly linked.
+
+```java
+public boolean isHeaderNotNull() {
+    return header != null;
+}
+```
+
+```java
+public boolean property() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean property() {
+    return cacheSize <= maximumCacheSize;
+}
+```
+
+```java
+public boolean property() {
+    return firstCachedNode == null || (firstCachedNode != null && firstCachedNode.previous == null && firstCachedNode.next != null && firstCachedNode.getValue() != null);
+}
+```
+
+This property checks if the first cached node is either null or a valid node. A valid node is one that has a null previous node, a non-null next node, and a non-null value.
+
+```java
+public boolean isProperlyLinked() {
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        if (node.getPreviousNode() != node.previous || node.getNextNode() != node.next) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+This property checks if the linked list nodes are properly linked by iterating over all nodes in the list and verifying that the `previous` and `next` pointers of each node match the actual previous and next nodes in the list.

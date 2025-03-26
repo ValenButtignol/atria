@@ -1,0 +1,149 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:261: error: cannot find symbol
+    private boolean isAcyclic(Node node) {
+                              ^
+  symbol:   class Node
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:274: error: cannot find symbol
+    private int countNodes(Node node) {
+                           ^
+  symbol:   class Node
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:281: error: cannot find symbol
+    private boolean isBST(Node node) {
+                          ^
+  symbol:   class Node
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:294: error: cannot find symbol
+    private boolean hasNoDuplicates(Node node) {
+                                    ^
+  symbol:   class Node
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:252: error: cannot find symbol
+        return isAcyclic(root);
+                         ^
+  symbol:   variable root
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:254: error: cannot find symbol
+        return size == countNodes(root);
+                                  ^
+  symbol:   variable root
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:256: error: cannot find symbol
+        return isBST(root);
+                     ^
+  symbol:   variable root
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:258: error: cannot find symbol
+        return hasNoDuplicates(root);
+                               ^
+  symbol:   variable root
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:310: error: cannot find symbol
+        return isCompleteTree(heap);
+                              ^
+  symbol:   variable heap
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:312: error: cannot find symbol
+        return isHeapProperty(heap);
+                              ^
+  symbol:   variable heap
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:314: error: cannot find symbol
+        return size == countElements(heap);
+                                     ^
+  symbol:   variable heap
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:316: error: cannot find symbol
+        return capacity == heap.length;
+               ^
+  symbol:   variable capacity
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:316: error: cannot find symbol
+        return capacity == heap.length;
+                           ^
+  symbol:   variable heap
+  location: class HashMap
+13 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:261: error: cannot find symbol
+      private boolean isAcyclic(Node node) {
+                                ^
+    symbol:   class Node
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:274: error: cannot find symbol
+      private int countNodes(Node node) {
+                             ^
+    symbol:   class Node
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:281: error: cannot find symbol
+      private boolean isBST(Node node) {
+                            ^
+    symbol:   class Node
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:294: error: cannot find symbol
+      private boolean hasNoDuplicates(Node node) {
+                                      ^
+    symbol:   class Node
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:252: error: cannot find symbol
+          return isAcyclic(root);
+                           ^
+    symbol:   variable root
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:254: error: cannot find symbol
+          return size == countNodes(root);
+                                    ^
+    symbol:   variable root
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:256: error: cannot find symbol
+          return isBST(root);
+                       ^
+    symbol:   variable root
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:258: error: cannot find symbol
+          return hasNoDuplicates(root);
+                                 ^
+    symbol:   variable root
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:310: error: cannot find symbol
+          return isCompleteTree(heap);
+                                ^
+    symbol:   variable heap
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:312: error: cannot find symbol
+          return isHeapProperty(heap);
+                                ^
+    symbol:   variable heap
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:314: error: cannot find symbol
+          return size == countElements(heap);
+                                       ^
+    symbol:   variable heap
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:316: error: cannot find symbol
+          return capacity == heap.length;
+                 ^
+    symbol:   variable capacity
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:316: error: cannot find symbol
+          return capacity == heap.length;
+                             ^
+    symbol:   variable heap
+    location: class HashMap
+  13 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 412ms
+1 actionable task: 1 executed

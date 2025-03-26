@@ -1,0 +1,113 @@
+
+### Specification:
+
+**Class: HashMap**
+
+**Attributes:**
+- `table`: An array of Entry objects representing the hash table.
+- `size`: The number of key-value mappings in the map.
+- `threshold`: The threshold for resizing the hash table.
+- `loadFactor`: The load factor for the hash table.
+- `modCount`: A volatile integer to track modifications.
+
+**Methods:**
+- `HashMap(int initialCapacity, float loadFactor)`: Constructor to initialize the hash map with a specified initial capacity and load factor.
+- `HashMap(int initialCapacity)`: Constructor to initialize the hash map with a specified initial capacity and the default load factor.
+- `HashMap()`: Constructor to initialize the hash map with the default initial capacity and load factor.
+- `int size()`: Returns the number of key-value mappings in the map.
+- `boolean isEmpty()`: Returns true if the map contains no key-value mappings.
+- `Object get(Object key)`: Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
+- `Object put(Object key, Object value)`: Associates the specified value with the specified key in the map and returns the previous value associated with the key, or null if there was no mapping for the key.
+- `Object remove(Object key)`: Removes the mapping of the specified key from this map if present and returns the previous value associated with the key, or null if there was no mapping for the key.
+- `void clear()`: Removes all of the mappings from this map.
+
+**Constraints:**
+- The initial capacity must be non-negative.
+- The load factor must be positive.
+- The hash table is resized when the number of entries exceeds the threshold, which is calculated as the product of the current capacity and the load factor.
+- The hash table uses chaining to handle collisions.
+- The `Entry` class represents a key-value pair in the hash table.
+
+Here is a representation invariant method for the `HashMap` class in Java:
+
+```java
+public boolean repOK() {
+    // Check initial capacity and load factor constraints
+    if (initialCapacity < 0) {
+        return false;
+    }
+    if (loadFactor <= 0) {
+        return false;
+    }
+
+    // Check size constraints
+    if (size < 0) {
+        return false;
+    }
+    if (size > table.length) {
+        return false;
+    }
+
+    // Check threshold constraints
+    if (threshold <= 0) {
+        return false;
+    }
+    if (threshold != (int) (table.length * loadFactor)) {
+        return false;
+    }
+
+    // Check modCount constraints
+    if (modCount < 0) {
+        return false;
+    }
+
+    // Check the integrity of the hash table
+    for (int i = 0; i < table.length; i++) {
+        Entry<K, V> current = table[i];
+        while (current != null) {
+            // Check that each key is non-null
+            if (current.key == null) {
+                return false;
+            }
+            // Check that each value is non-null
+            if (current.value == null) {
+                return false;
+            }
+            // Check that the hash code of the key is consistent
+            if (current.hash != current.key.hashCode()) {
+                return false;
+            }
+            // Check that the key is consistent with the hash code
+            if (current.hash < 0 || current.hash >= table.length) {
+                return false;
+            }
+            current = current.next;
+        }
+    }
+
+    // Check that the size is consistent with the entries in the hash table
+    int actualSize = 0;
+    for (int i = 0; i < table.length; i++) {
+        Entry<K, V> current = table[i];
+        while (current != null) {
+            actualSize++;
+            current = current.next;
+        }
+    }
+    if (actualSize != size) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+### Explanation:
+1. **Initial Capacity and Load Factor**: The initial capacity must be non-negative, and the load factor must be positive.
+2. **Size Constraints**: The size must be non-negative and cannot exceed the length of the table.
+3. **Threshold Constraints**: The threshold must be positive and equal to the product of the current capacity and the load factor.
+4. **ModCount Constraints**: The modCount must be non-negative.
+5. **Hash Table Integrity**: Each entry in the hash table must have a non-null key and value. The hash code of the key must be consistent with the hash code used in the table. The key must be consistent with the hash code, meaning the hash code must be within the bounds of the table.
+6. **Size Consistency**: The size of the map must be consistent with the number of entries in the hash table.
+
+This method ensures that the `HashMap` class maintains its invariants, which are crucial for the correct functioning of the data structure.

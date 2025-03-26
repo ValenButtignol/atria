@@ -1,0 +1,36 @@
+
+- `size >= 0`: The size of the list must be non-negative.
+- `cacheSize >= 0`: The cache size must be non-negative.
+- `cacheSize <= maximumCacheSize`: The cache size must not exceed the maximum cache size.
+- `firstCachedNode != null implies cacheSize > 0`: If the first cached node is not null, the cache size must be greater than zero.
+- `header.next != header implies size > 0`: If the header's next node is not the header itself, the size of the list must be greater than zero.
+
+```java
+public boolean property() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean property() {
+    return cacheSize >= 0;
+}
+```
+
+```java
+public boolean property() {
+    return cacheSize <= maximumCacheSize;
+}
+```
+
+```java
+public boolean property() {
+    return !(firstCachedNode != null && cacheSize <= 0);
+}
+```
+
+```java
+public boolean property() {
+    return !(header.next != header) || size > 0;
+}
+```

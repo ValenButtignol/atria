@@ -1,0 +1,79 @@
+
+- **Attributes:**
+  - `header`: A transient `Entry` object serving as the sentinel node for the doubly linked list.
+  - `size`: An integer representing the number of elements in the list.
+
+- **Methods:**
+  - `add(Object o)`: Adds the specified element to the end of the list. Returns `true`.
+  - `remove(Object o)`: Removes the first occurrence of the specified element from the list. Returns `true` if the element was present, `false` otherwise.
+  - `clear()`: Removes all elements from the list.
+  - `size()`: Returns the number of elements in the list.
+
+- **Constraints:**
+  - The `header` node is a sentinel node and should not be removed.
+  - The list is doubly linked, with each `Entry` node having references to its `next` and `previous` nodes.
+  - The `size` attribute should always accurately reflect the number of elements in the list.
+
+To ensure the integrity of the `LinkedList` class, we need to define a `repOK` method that checks the following constraints:
+
+1. The `header` node should not be removed.
+2. The list should be doubly linked, with each `Entry` node having valid `next` and `previous` references.
+3. The `size` attribute should accurately reflect the number of elements in the list.
+
+Here is the `repOK` method for the `LinkedList` class:
+
+```java
+public boolean repOK() {
+    // Check if the header is not null
+    if (header == null) {
+        return false;
+    }
+
+    // Check if the header's next and previous references are consistent
+    if (header.next == null || header.previous == null) {
+        return false;
+    }
+
+    // Check if the header's next and previous references point to each other
+    if (header.next.previous != header || header.previous.next != header) {
+        return false;
+    }
+
+    // Check the size of the list
+    int actualSize = 0;
+    Entry current = header.next;
+    while (current != header) {
+        actualSize++;
+        current = current.next;
+    }
+
+    if (actualSize != size) {
+        return false;
+    }
+
+    // Check if all entries are properly linked
+    current = header.next;
+    while (current != header) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    return true;
+}
+```
+
+### Explanation:
+
+1. **Header Check**: The method first checks if the `header` is not null. If it is, the list is invalid.
+
+2. **Header Consistency Check**: It checks if the `header`'s `next` and `previous` references are not null. This ensures that the header is properly linked to itself.
+
+3. **Header Self-Link Check**: It verifies that the `header`'s `next` and `previous` references point back to the `header`. This is crucial for the sentinel node to function correctly.
+
+4. **Size Check**: It calculates the actual size of the list by traversing from the `header.next` to the `header` and compares it with the `size` attribute. If they do not match, the list is invalid.
+
+5. **Entry Link Check**: It traverses the list from the `header.next` to the `header` and checks that each `Entry` node has valid `next` and `previous` references. This ensures that the list is properly doubly linked.
+
+By implementing this `repOK` method, you can verify that the `LinkedList` class maintains its invariants and behaves as expected.

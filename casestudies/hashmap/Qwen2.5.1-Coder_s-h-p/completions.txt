@@ -1,0 +1,36 @@
+
+- `size >= 0`: The size of the HashMap must be non-negative.
+- `size <= table.length`: The size of the HashMap cannot exceed the number of buckets.
+- `threshold > 0`: The threshold must be greater than zero.
+- `loadFactor > 0`: The load factor must be greater than zero.
+- `table.length >= 1`: The length of the table must be at least one.
+
+```java
+public boolean property() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean property() {
+    return size <= table.length;
+}
+```
+
+```java
+public boolean property() {
+    return threshold > 0;
+}
+```
+
+```java
+public boolean property() {
+    return loadFactor > 0;
+}
+```
+
+```java
+public boolean property() {
+    return table.length >= 1;
+}
+```

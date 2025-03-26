@@ -1,0 +1,109 @@
+### Specification:
+
+**Class: HashMap**
+
+**Attributes:**
+- `table`: An array of Entry objects representing the hash table.
+- `size`: The number of key-value mappings in the map.
+- `threshold`: The threshold for resizing the hash table.
+- `loadFactor`: The load factor for the hash table.
+- `modCount`: A volatile integer to track modifications.
+
+**Methods:**
+- `HashMap(int initialCapacity, float loadFactor)`: Constructor to initialize the hash map with a specified initial capacity and load factor.
+- `HashMap(int initialCapacity)`: Constructor to initialize the hash map with a specified initial capacity and the default load factor.
+- `HashMap()`: Constructor to initialize the hash map with the default initial capacity and load factor.
+- `int size()`: Returns the number of key-value mappings in the map.
+- `boolean isEmpty()`: Returns true if the map contains no key-value mappings.
+- `Object get(Object key)`: Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
+- `Object put(Object key, Object value)`: Associates the specified value with the specified key in the map and returns the previous value associated with the key, or null if there was no mapping for the key.
+- `Object remove(Object key)`: Removes the mapping of the specified key from this map if present and returns the previous value associated with the key, or null if there was no mapping for the key.
+- `void clear()`: Removes all of the mappings from this map.
+
+**Constraints:**
+- The initial capacity must be non-negative.
+- The load factor must be positive.
+- The hash table is resized when the number of entries exceeds the threshold, which is calculated as the product of the current capacity and the load factor.
+- The hash table uses chaining to handle collisions.
+- The `Entry` class represents a key-value pair in the hash table.
+
+To ensure the integrity of the `HashMap` class, we need to define a `repOK` method that checks the representation invariants. Here are the constraints and invariants that need to be checked:
+
+1. **Initial Capacity and Load Factor Constraints:**
+   - The initial capacity must be non-negative.
+   - The load factor must be positive.
+
+2. **Threshold Calculation:**
+   - The threshold should be calculated as the product of the current capacity and the load factor.
+
+3. **Table Initialization:**
+   - The `table` array should be initialized with the correct capacity.
+   - Each entry in the `table` array should be `null`.
+
+4. **Size Constraint:**
+   - The `size` attribute should not exceed the number of non-null entries in the `table`.
+
+5. **ModCount Constraint:**
+   - The `modCount` attribute should be a non-negative integer.
+
+6. **Entry Integrity:**
+   - Each `Entry` in the `table` should have a valid hash, key, value, and next pointer.
+
+Here is the `repOK` method that checks these constraints:
+
+```java
+public boolean repOK() {
+    // Check initial capacity and load factor constraints
+    if (initialCapacity < 0) {
+        return false;
+    }
+    if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
+        return false;
+    }
+
+    // Check threshold calculation
+    if (threshold != (int) (table.length * loadFactor)) {
+        return false;
+    }
+
+    // Check table initialization
+    if (table == null || table.length != capacity) {
+        return false;
+    }
+    for (Entry e : table) {
+        if (e != null) {
+            if (e.key == null || e.value == null || e.hash < 0 || e.next == null) {
+                return false;
+            }
+        }
+    }
+
+    // Check size constraint
+    int actualSize = 0;
+    for (Entry e : table) {
+        while (e != null) {
+            actualSize++;
+            e = e.next;
+        }
+    }
+    if (size != actualSize) {
+        return false;
+    }
+
+    // Check modCount constraint
+    if (modCount < 0) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+### Explanation:
+- **Initial Capacity and Load Factor:** The method first checks if the initial capacity is non-negative and the load factor is positive.
+- **Threshold Calculation:** It verifies that the threshold is correctly calculated as the product of the current capacity and the load factor.
+- **Table Initialization:** It checks that the `table` array is initialized with the correct capacity and that each entry in the `table` array is either `null` or has a valid hash, key, value, and next pointer.
+- **Size Constraint:** It calculates the actual size of the map by iterating through the `table` and counts the number of non-null entries. It then checks if this count matches the `size` attribute.
+- **ModCount Constraint:** It ensures that the `modCount` attribute is a non-negative integer.
+
+This `repOK` method helps ensure that the `HashMap` class maintains its invariants and behaves correctly.

@@ -1,0 +1,23 @@
+
+### Behavior
+The LinkedList class represents a doubly-linked list data structure, where each node (Entry) has references to its previous and next nodes. The list maintains a header node that serves as a sentinel, simplifying the implementation of methods. The class provides methods for adding, removing, and clearing elements, as well as retrieving the size of the list.
+
+### Attributes
+- header (Entry): The header node of the linked list, which serves as a sentinel.
+- size (int): Tracks the number of elements in the list.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of elements in the list.
+- Acyclic structure: The list structure must be acyclic, i.e., no node should have a path back to itself.
+- Ordered structure: The list does not maintain any specific order, as elements can be added and removed at any position.
+- No null elements: The list does not allow null elements, as the remove method checks for null elements and removes them.
+
+### Methods
+- add(Object o): Adds a new element to the end of the list.
+- remove(Object o): Removes the first occurrence of the specified element from the list.
+- clear(): Removes all elements from the list.
+- size(): Returns the number of elements in the list.
+
+### Constraints
+- The list must not be modified while iterating over it.
+- The remove method throws a NoSuchElementException if the specified element is not found in the list.

@@ -1,0 +1,126 @@
+
+The NodeCachingLinkedList class represents a doubly linked list with a cache mechanism. It has the following attributes and methods:
+
+Attributes:
+
+- header: a reference to the first node in the list
+- size: the number of nodes in the list
+- DEFAULT_MAXIMUM_CACHE_SIZE: the default maximum size of the cache
+- firstCachedNode: a reference to the first node in the cache
+- cacheSize: the number of nodes in the cache
+- maximumCacheSize: the maximum size of the cache
+
+Methods:
+
+- remove(Object value): removes the first occurrence of the specified value from the list
+- add(Object value): adds the specified value to the end of the list
+- addLast(Object o): adds the specified value to the end of the list
+- addNodeBefore(LinkedListNode node, Object value): adds a new node with the specified value before the specified node
+- addNode(LinkedListNode nodeToInsert, LinkedListNode insertBeforeNode): adds a new node to the list before the specified node
+- getNodeFromCache(): retrieves a node from the cache and returns it
+- isCacheFull(): checks if the cache is full
+- addNodeToCache(LinkedListNode node): adds a node to the cache
+- createNode(Object value): creates a new node with the specified value
+- removeNode(LinkedListNode node): removes the specified node from the list and adds it to the cache
+- super_removeNode(LinkedListNode node): removes the specified node from the list
+- isEqualValue(Object value1, Object value2): checks if two values are equal
+
+Constraints:
+
+- The cache size is limited to the maximum cache size.
+- The list size is updated when a node is added or removed.
+- The cache size is updated when a node is added or removed from the cache.
+- The cache is implemented as a doubly linked list.
+- The list is implemented as a doubly linked list.
+
+Purpose:
+
+- The NodeCachingLinkedList class provides a data structure that combines the benefits of a doubly linked list and a cache.
+- It is designed to efficiently store and retrieve nodes, while also providing a mechanism for caching frequently accessed nodes.
+- It can be used in scenarios where fast access to nodes is required, such as in database query optimization or web page caching.
+
+Here is the representation invariant for the NodeCachingLinkedList class:
+
+```java
+public boolean repOK() {
+    // The header node is the first node in the list
+    if (header.next != header) {
+        return false;
+    }
+
+    // The list size is equal to the number of nodes in the list
+    if (size != countNodes(header)) {
+        return false;
+    }
+
+    // The cache size is equal to the number of nodes in the cache
+    if (cacheSize != countCachedNodes(firstCachedNode)) {
+        return false;
+    }
+
+    // The cache is a doubly linked list
+    if (!isDoublyLinkedList(firstCachedNode)) {
+        return false;
+    }
+
+    // The list is a doubly linked list
+    if (!isDoublyLinkedList(header)) {
+        return false;
+    }
+
+    // The cache size is limited to the maximum cache size
+    if (cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    // The list size is updated when a node is added or removed
+    if (size != countNodes(header) + countCachedNodes(firstCachedNode)) {
+        return false;
+    }
+
+    // The cache size is updated when a node is added or removed from the cache
+    if (cacheSize != countCachedNodes(firstCachedNode) + (size - countNodes(header))) {
+        return false;
+    }
+
+    return true;
+}
+
+private int countNodes(LinkedListNode node) {
+    int count = 0;
+    for (LinkedListNode currentNode = node.next; currentNode != node; currentNode = currentNode.next) {
+        count++;
+    }
+    return count;
+}
+
+private int countCachedNodes(LinkedListNode node) {
+    int count = 0;
+    for (LinkedListNode currentNode = node; currentNode != null; currentNode = currentNode.next) {
+        count++;
+    }
+    return count;
+}
+
+private boolean isDoublyLinkedList(LinkedListNode node) {
+    for (LinkedListNode currentNode = node; currentNode != null; currentNode = currentNode.next) {
+        if (currentNode.previous != currentNode.next) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+This representation invariant checks the following conditions:
+
+* The header node is the first node in the list.
+* The list size is equal to the number of nodes in the list.
+* The cache size is equal to the number of nodes in the cache.
+* The cache is a doubly linked list.
+* The list is a doubly linked list.
+* The cache size is limited to the maximum cache size.
+* The list size is updated when a node is added or removed.
+* The cache size is updated when a node is added or removed from the cache.
+
+If any of these conditions are not met, the `repOK` method returns `false`. Otherwise, it returns `true`.

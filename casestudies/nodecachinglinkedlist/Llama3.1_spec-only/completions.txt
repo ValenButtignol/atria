@@ -1,0 +1,128 @@
+
+The NodeCachingLinkedList class represents a doubly linked list with a cache mechanism. It has the following attributes and methods:
+
+Attributes:
+
+- header: a reference to the first node in the list
+- size: the number of nodes in the list
+- DEFAULT_MAXIMUM_CACHE_SIZE: the default maximum size of the cache
+- firstCachedNode: a reference to the first node in the cache
+- cacheSize: the number of nodes in the cache
+- maximumCacheSize: the maximum size of the cache
+
+Methods:
+
+- remove(Object value): removes the first occurrence of the specified value from the list
+- add(Object value): adds the specified value to the end of the list
+- addLast(Object o): adds the specified value to the end of the list
+- addNodeBefore(LinkedListNode node, Object value): adds a new node with the specified value before the specified node
+- addNode(LinkedListNode nodeToInsert, LinkedListNode insertBeforeNode): adds a new node to the list before the specified node
+- getNodeFromCache(): retrieves a node from the cache and returns it
+- isCacheFull(): checks if the cache is full
+- addNodeToCache(LinkedListNode node): adds a node to the cache
+- createNode(Object value): creates a new node with the specified value
+- removeNode(LinkedListNode node): removes the specified node from the list and adds it to the cache
+- super_removeNode(LinkedListNode node): removes the specified node from the list
+- isEqualValue(Object value1, Object value2): checks if two values are equal
+
+Constraints:
+
+- The cache size is limited to the maximum cache size.
+- The list size is updated when a node is added or removed.
+- The cache size is updated when a node is added or removed from the cache.
+- The cache is implemented as a doubly linked list.
+- The list is implemented as a doubly linked list.
+
+Purpose:
+
+- The NodeCachingLinkedList class provides a data structure that combines the benefits of a doubly linked list and a cache.
+- It is designed to efficiently store and retrieve nodes, while also providing a mechanism for caching frequently accessed nodes.
+- It can be used in scenarios where fast access to nodes is required, such as in database query optimization or web page caching.
+
+Here's the representation invariant for the NodeCachingLinkedList class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the list size is correct
+    if (size != countNodes(header)) {
+        return false;
+    }
+
+    // Check if the cache size is correct
+    if (cacheSize != countNodes(firstCachedNode)) {
+        return false;
+    }
+
+    // Check if the cache is not full
+    if (isCacheFull() && cacheSize != maximumCacheSize) {
+        return false;
+    }
+
+    // Check if the cache is not empty
+    if (cacheSize == 0 && firstCachedNode != null) {
+        return false;
+    }
+
+    // Check if the cache is not larger than the list
+    if (cacheSize > size) {
+        return false;
+    }
+
+    // Check if the maximum cache size is not exceeded
+    if (cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    // Check if the first cached node is the first node in the list
+    if (firstCachedNode != null && firstCachedNode != header) {
+        return false;
+    }
+
+    // Check if the last cached node is the last node in the list
+    if (lastCachedNode() != null && lastCachedNode() != lastNode(header)) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper method to count the number of nodes in the list
+private int countNodes(LinkedListNode node) {
+    int count = 0;
+    while (node != null) {
+        count++;
+        node = node.next;
+    }
+    return count;
+}
+
+// Helper method to get the last node in the list
+private LinkedListNode lastNode(LinkedListNode node) {
+    while (node.next != null) {
+        node = node.next;
+    }
+    return node;
+}
+
+// Helper method to get the last node in the cache
+private LinkedListNode lastCachedNode() {
+    LinkedListNode node = firstCachedNode;
+    while (node.next != null) {
+        node = node.next;
+    }
+    return node;
+}
+```
+
+This `repOK` method checks the following invariants:
+
+*   The list size is correct.
+*   The cache size is correct.
+*   The cache is not full.
+*   The cache is not empty.
+*   The cache is not larger than the list.
+*   The maximum cache size is not exceeded.
+*   The first cached node is the first node in the list.
+*   The last cached node is the last node in the list.
+
+These invariants ensure that the NodeCachingLinkedList class maintains a consistent and valid state.

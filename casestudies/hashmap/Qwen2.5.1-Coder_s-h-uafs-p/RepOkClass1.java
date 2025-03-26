@@ -1,0 +1,16 @@
+public class RepOkClass1{
+    public boolean property() {
+        for (int i = 0; i < table.length; i++) {
+            Entry e = table[i];
+            while (e != null) {
+                if (e.key == null) {
+                    return false;
+                }
+                e = e.next;
+            }
+        }
+        return true;
+    }
+
+
+}

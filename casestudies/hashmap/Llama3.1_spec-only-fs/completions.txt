@@ -1,0 +1,193 @@
+
+### Behavior
+The HashMap class represents a hash map data structure that stores key-value pairs. It provides methods for adding, retrieving, updating, and removing entries. The class maintains a table of entries, where each entry is a key-value pair. The table is resized dynamically when the load factor exceeds a certain threshold. The class also provides methods for checking the size of the map, checking if the map is empty, and clearing the map.
+
+### Attributes
+- table (Entry[]): An array of entries that stores the key-value pairs.
+- size (int): Tracks the number of entries in the map.
+- threshold (int): The threshold at which the table is resized.
+- loadFactor (float): The load factor at which the table is resized.
+- modCount (int): A counter that tracks the number of modifications made to the map.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of entries in the map.
+- No duplicate keys: No two entries in the map can have the same key.
+- Hash code consistency: The hash code of an entry must be consistent with its key.
+- Load factor: The load factor must be greater than or equal to 0 and less than or equal to 1.
+- Table resizing: The table must be resized dynamically when the load factor exceeds the threshold.
+
+### Methods
+- put(Object key, Object value): Adds a new entry to the map or updates an existing entry.
+- get(Object key): Retrieves the value associated with a given key.
+- remove(Object key): Removes an entry from the map.
+- clear(): Clears all entries from the map.
+- size(): Returns the number of entries in the map.
+- isEmpty(): Returns true if the map is empty, false otherwise.
+
+### Entry class
+The Entry class represents a single entry in the map, consisting of a key, a value, a hash code, and a reference to the next entry in the table. The Entry class provides methods for getting the key, value, and hash code of an entry, as well as methods for updating the value and checking for equality with another entry.
+
+### Representation Invariant for the BinTree class
+
+```java
+public boolean repOK() {
+    // Check if the tree is acyclic
+    return isAcyclic(root);
+
+    // Check if the size attribute is consistent with the number of nodes
+    return size == countNodes(root);
+
+    // Check if the tree maintains the binary search tree property
+    return isBST(root);
+
+    // Check if there are no duplicate values in the tree
+    return hasNoDuplicates(root);
+}
+
+private boolean isAcyclic(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && node.left.info == node.info) {
+        return false;
+    }
+    if (node.right != null && node.right.info == node.info) {
+        return false;
+    }
+    return isAcyclic(node.left) && isAcyclic(node.right);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean isBST(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && node.left.info >= node.info) {
+        return false;
+    }
+    if (node.right != null && node.right.info <= node.info) {
+        return false;
+    }
+    return isBST(node.left) && isBST(node.right);
+}
+
+private boolean hasNoDuplicates(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && node.left.info == node.info) {
+        return false;
+    }
+    if (node.right != null && node.right.info == node.info) {
+        return false;
+    }
+    return hasNoDuplicates(node.left) && hasNoDuplicates(node.right);
+}
+```
+
+### Representation Invariant for the MinHeap class
+
+```java
+public boolean repOK() {
+    // Check if the heap is a complete binary tree
+    return isCompleteTree(heap);
+
+    // Check if the heap property is maintained
+    return isHeapProperty(heap);
+
+    // Check if the size attribute is consistent with the number of elements
+    return size == countElements(heap);
+
+    // Check if the capacity attribute is consistent with the size of the heap array
+    return capacity == heap.length;
+}
+
+private boolean isCompleteTree(int[] heap) {
+    int level = 0;
+    int index = 0;
+    while (index < heap.length) {
+        int nodesAtLevel = (int) Math.pow(2, level);
+        if (index + nodesAtLevel > heap.length) {
+            return false;
+        }
+        for (int i = 0; i < nodesAtLevel; i++) {
+            if (heap[index + i] == 0) {
+                return false;
+            }
+        }
+        index += nodesAtLevel;
+        level++;
+    }
+    return true;
+}
+
+private boolean isHeapProperty(int[] heap) {
+    for (int i = 0; i < heap.length; i++) {
+        if (i * 2 + 1 < heap.length && heap[i] > heap[i * 2 + 1]) {
+            return false;
+        }
+        if (i * 2 + 2 < heap.length && heap[i] > heap[i * 2 + 2]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+private int countElements(int[] heap) {
+    int count = 0;
+    for (int i = 0; i < heap.length; i++) {
+        if (heap[i] != 0) {
+            count++;
+        }
+    }
+    return count;
+}
+```
+
+### Representation Invariant for the HashMap class
+
+```java
+public boolean repOK() {
+    // Check if the size attribute is consistent with the number of entries
+    return size == countEntries(table);
+
+    // Check if the load factor is within the valid range
+    return loadFactor >= 0 && loadFactor <= 1;
+
+    // Check if the table is resized dynamically when the load factor exceeds the threshold
+    return isTableResized(table);
+
+    // Check if there are no duplicate keys in the map
+    return hasNoDuplicates(table);
+}
+
+private int countEntries(Entry[] table) {
+    int count = 0;
+    for (Entry entry : table) {
+        if (entry != null) {
+            count++;
+        }
+    }
+    return count;
+}
+
+private boolean isTableResized(Entry[] table) {
+    // Check if the table is resized dynamically when the load factor exceeds the threshold
+    // This can be implemented using the load factor and threshold attributes
+    return true;
+}
+
+private boolean hasNoDuplicates(Entry[] table) {
+    // Check if there are no duplicate keys in the map
+    // This can be implemented by iterating through the table and checking for duplicate keys
+    return true;
+}
+```
+
+Note that the implementation of the `isTableResized` and `hasNoDuplicates` methods is not provided as it depends on the specific implementation of the `HashMap` class.

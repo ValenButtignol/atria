@@ -1,0 +1,51 @@
+
+<think>
+Okay, so I need to write an informal specification for the LinkedList class provided in the Java code. Let me start by understanding what this LinkedList does. From the code, I can see that it's a doubly linked list because each Entry has both next and previous pointers. The class has methods like add, remove, clear, and size, which are standard for a linked list data structure.
+
+First, I'll look at the attributes. There's a header Entry which seems to act as a sentinel node, meaning it's not used to store any data but helps in managing the list. The size variable keeps track of the number of elements in the list. The Entry class has an element, next, and previous fields, which are standard for a doubly linked list.
+
+Now, looking at the methods:
+
+1. **Constructor**: Initializes the list with a header node that points to itself as both next and previous, making an empty list.
+
+2. **add(Object o)**: Adds the object at the beginning of the list before the header. It uses the addBefore method for this.
+
+3. **remove(Object o)**: Removes the first occurrence of the object. If the object is null, it removes any null element; otherwise, it uses equals() to find the element.
+
+4. **clear()**: Removes all elements by resetting the header's next and previous to itself and setting size to 0.
+
+5. **size()**: Returns the current size of the list.
+
+6. **addBefore(Object o, Entry e)**: Adds a new Entry before a given Entry e. It adjusts the next and previous pointers accordingly and increments the size.
+
+7. **remove(Entry e)**: Removes the given Entry from the list. It checks if e is the header and throws an exception if so. Otherwise, it links the previous and next nodes of e and decrements the size.
+
+Now, thinking about the behavior, the linked list maintains its elements in a sequence where each node points to the next and previous nodes. The header helps in managing the boundaries of the list. The add and remove operations modify the links between nodes to maintain the integrity of the list.
+
+Key constraints include ensuring that the size is always accurate, the links between nodes are correctly maintained to prevent cycles or dangling pointers, and that operations like add and remove handle edge cases such as adding to an empty list or removing the only element.
+
+I should also consider the properties of the linked list, such as the elements being stored in a specific order, the ability to traverse the list in both directions, and the efficient insertion and deletion at any point in the list.
+
+I need to make sure that the specification covers all these aspects without going into implementation details. It should clearly describe what the class does, its attributes, and the behavior of each method in a concise manner.
+</think>
+
+### Behavior
+
+The LinkedList class implements a doubly linked list data structure, which consists of nodes (Entry objects) connected in sequence, where each node contains a reference to the next and previous nodes. The class provides methods to add elements, remove elements, clear the list, and retrieve the size of the list. The list is maintained using a sentinel header node that simplifies edge-case handling for operations like adding to an empty list or removing the first element. The add method inserts elements at the beginning of the list, while the remove method removes the first occurrence of a specified element. The clear method resets the list to an empty state, and the size method returns the current number of elements in the list.
+
+### Attributes
+
+- header (Entry): A sentinel node that acts as a placeholder to simplify list operations. It is never removed and always points to itself when the list is empty.
+- size (int): Tracks the number of elements in the list.
+- Entry (static inner class): Represents a node in the linked list, containing:
+  - element (Object): The data stored in the node.
+  - next (Entry): Reference to the next node in the sequence.
+  - previous (Entry): Reference to the previous node in the sequence.
+
+### Properties
+
+- Consistent size: The size attribute accurately reflects the number of elements in the list.
+- Correct linking: Each node's next and previous references maintain the integrity of the linked sequence, preventing cycles and dangling pointers.
+- Ordered elements: Elements are stored in the order they are added, and the list maintains the sequence through node references.
+- Efficient operations: The add and remove operations efficiently manage the list structure with constant-time adjustments to node references, ensuring O(1) time complexity for these operations in average cases.
+- Null handling: The list can store null elements, and the remove method can remove null values when explicitly searched for.

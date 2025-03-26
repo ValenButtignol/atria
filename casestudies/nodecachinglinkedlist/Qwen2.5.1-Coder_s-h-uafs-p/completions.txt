@@ -1,0 +1,58 @@
+
+- Consistent size: The size attribute must accurately reflect the number of nodes in the linked list.
+- Cache size limit: The cache size should not exceed the maximum cache size.
+- Cache integrity: Cached nodes should not be part of the main linked list.
+- Node values: Node values should be correctly set and retrieved.
+- Node connections: Each node should correctly reference its previous and next nodes.
+
+```java
+public boolean property() {
+    int count = 0;
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        count++;
+    }
+    return count == size;
+}
+```
+
+```java
+public boolean property() {
+    return cacheSize <= maximumCacheSize;
+}
+```
+
+```java
+public boolean property() {
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        if (node.getValue() == null) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        if (node.getValue() == null) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        if (node.previous == null || node.next == null) {
+            return false;
+        }
+        if (node.previous.next != node || node.next.previous != node) {
+            return false;
+        }
+    }
+    return true;
+}
+```

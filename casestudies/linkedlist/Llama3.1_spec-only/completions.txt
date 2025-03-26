@@ -1,0 +1,81 @@
+
+The LinkedList class represents a dynamic collection of elements, where each element is linked to its predecessor and successor in the sequence. 
+
+Attributes:
+- header: a sentinel node that serves as the first and last element in the list.
+- size: the number of elements in the list.
+
+Methods:
+- add(Object o): adds a new element to the end of the list.
+- remove(Object o): removes the first occurrence of the specified element from the list.
+- clear(): removes all elements from the list.
+- size(): returns the number of elements in the list.
+
+Constraints:
+- The list is a circularly linked list, where the header node is both the first and last element.
+- The list does not allow null elements.
+- The remove method throws a NoSuchElementException if the specified element is not found in the list.
+
+Purpose:
+- The LinkedList class provides a basic implementation of a dynamic collection, allowing elements to be added and removed efficiently.
+
+### Representation Invariant for LinkedList Class
+
+```java
+/**
+ * Represents the invariant of the LinkedList class.
+ * 
+ * @return true if the representation invariant holds, false otherwise.
+ */
+public boolean repOK() {
+    // Check if the list is not empty
+    if (size() == 0) {
+        // If the list is empty, the header node should be the only node in the list
+        return header == header.getPrev() && header == header.getNext();
+    } else {
+        // If the list is not empty, check the following conditions
+        // Check if the header node is the first and last element in the list
+        if (header != header.getPrev() || header != header.getNext()) {
+            return false;
+        }
+        
+        // Check if all nodes in the list are linked correctly
+        Node prev = header.getPrev();
+        Node curr = header;
+        for (int i = 0; i < size() - 1; i++) {
+            if (curr == null || curr.getNext() != prev) {
+                return false;
+            }
+            prev = curr;
+            curr = curr.getNext();
+        }
+        
+        // Check if the last node is linked to the header node
+        if (curr != header) {
+            return false;
+        }
+        
+        // Check if the list does not contain any null elements
+        for (Node node = header; node != header; node = node.getNext()) {
+            if (node.getElement() == null) {
+                return false;
+            }
+        }
+        
+        // If all checks pass, the representation invariant holds
+        return true;
+    }
+}
+```
+
+### Explanation
+
+The `repOK` method checks the following conditions to ensure the representation invariant of the LinkedList class holds:
+
+1.  The list is not empty, and the header node is the only node in the list.
+2.  The header node is the first and last element in the list.
+3.  All nodes in the list are linked correctly, with each node's `next` field pointing to the next node in the list.
+4.  The last node in the list is linked to the header node.
+5.  The list does not contain any null elements.
+
+If any of these conditions are not met, the `repOK` method returns `false`, indicating that the representation invariant does not hold. Otherwise, it returns `true`.

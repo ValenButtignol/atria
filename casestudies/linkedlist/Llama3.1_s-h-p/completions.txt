@@ -1,0 +1,48 @@
+
+- The header entry is not null: The representation invariant checks if the header entry is not null.
+- The header entry is a sentinel node: The representation invariant checks if the header entry is a sentinel node with next and previous pointers pointing to itself.
+- The size is non-negative: The representation invariant checks if the size of the linked list is non-negative.
+- There are no duplicate elements: The representation invariant checks if there are no duplicate elements in the linked list.
+- The list is properly linked: The representation invariant checks if the next and previous pointers of each entry are correctly linked.
+
+```java
+public boolean isHeaderNotNull() {
+    return header != null;
+}
+```
+
+```java
+public boolean isHeaderSentinelNode() {
+    return header.next == header && header.previous == header;
+}
+```
+
+```java
+public boolean isValid() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean noDuplicates() {
+    for (Entry e = header.next; e != header; e = e.next) {
+        for (Entry f = e.next; f != header; f = f.next) {
+            if (e.element.equals(f.element)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean isProperlyLinked() {
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.next != header || e.previous != e.previous.next) {
+            return false;
+        }
+    }
+    return true;
+}
+```

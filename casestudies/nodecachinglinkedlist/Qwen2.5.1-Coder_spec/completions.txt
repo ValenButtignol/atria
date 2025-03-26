@@ -1,0 +1,97 @@
+
+### Specification for NodeCachingLinkedList
+
+**Attributes:**
+- `header`: A `LinkedListNode` representing the header of the linked list.
+- `size`: An integer representing the number of elements in the linked list.
+- `DEFAULT_MAXIMUM_CACHE_SIZE`: An integer constant set to 20, representing the default maximum size of the cache.
+- `firstCachedNode`: A `LinkedListNode` representing the first node in the cache.
+- `cacheSize`: An integer representing the current number of nodes in the cache.
+- `maximumCacheSize`: An integer representing the maximum number of nodes that can be cached.
+
+**Methods:**
+- `NodeCachingLinkedList()`: Constructor initializes the linked list with a header node, sets the size to 0, cache size to 0, and maximum cache size to the default value.
+- `remove(Object value)`: Removes the first occurrence of the specified value from the linked list. Throws an `IllegalArgumentException` if the value is null. Returns true if the value was found and removed, false otherwise.
+- `add(Object value)`: Adds the specified value to the end of the linked list. Throws an `IllegalArgumentException` if the value is null. Returns true.
+- `addLast(Object o)`: Adds the specified value to the end of the linked list. Returns true.
+- `addNodeBefore(LinkedListNode node, Object value)`: Adds a new node with the specified value before the given node.
+- `addNode(LinkedListNode nodeToInsert, LinkedListNode insertBeforeNode)`: Inserts the specified node before the given node.
+- `getNodeFromCache()`: Retrieves a node from the cache if available, otherwise returns null.
+- `isCacheFull()`: Checks if the cache is full.
+- `addNodeToCache(LinkedListNode node)`: Adds the specified node to the cache if the cache is not full.
+- `createNode(Object value)`: Creates a new node with the specified value, using a cached node if available.
+- `removeNode(LinkedListNode node)`: Removes the specified node from the linked list and adds it to the cache.
+- `super_removeNode(LinkedListNode node)`: Removes the specified node from the linked list without adding it to the cache.
+- `isEqualValue(Object value1, Object value2)`: Compares two values for equality, considering null values.
+
+**Constraints:**
+- The linked list is circular, with the header node pointing to itself.
+- The cache size is limited by `maximumCacheSize`, which defaults to 20.
+- Nodes are added to the cache when they are removed from the linked list, provided the cache is not full.
+
+To ensure the integrity of the `NodeCachingLinkedList` class, we need to define a `repOK` method that checks the following constraints:
+
+1. The linked list is circular, with the header node pointing to itself.
+2. The size of the linked list is non-negative.
+3. The cache size is non-negative and does not exceed the maximum cache size.
+4. The `firstCachedNode` is valid if the cache size is greater than zero.
+5. All nodes in the linked list have valid `previous` and `next` pointers.
+6. All nodes in the cache have valid `previous` and `next` pointers.
+
+Here is the `repOK` method for the `NodeCachingLinkedList` class:
+
+```java
+public boolean repOK() {
+    // Check if the linked list is circular
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check if the size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check if the cache size is non-negative and does not exceed the maximum cache size
+    if (cacheSize < 0 || cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    // Check if the firstCachedNode is valid if the cache size is greater than zero
+    if (cacheSize > 0 && firstCachedNode == null) {
+        return false;
+    }
+
+    // Check if all nodes in the linked list have valid previous and next pointers
+    LinkedListNode node = header.next;
+    int count = 0;
+    while (node != header) {
+        if (node.previous == null || node.next == null) {
+            return false;
+        }
+        node = node.next;
+        count++;
+    }
+    if (count != size) {
+        return false;
+    }
+
+    // Check if all nodes in the cache have valid previous and next pointers
+    node = firstCachedNode;
+    count = 0;
+    while (node != null) {
+        if (node.previous == null || node.next == null) {
+            return false;
+        }
+        node = node.next;
+        count++;
+    }
+    if (count != cacheSize) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+This `repOK` method ensures that the `NodeCachingLinkedList` class maintains its invariants by verifying the circular nature of the linked list, the validity of the size and cache size, the integrity of the `firstCachedNode`, and the validity of all node pointers in both the linked list and the cache.

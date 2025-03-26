@@ -1,0 +1,13 @@
+
+### Behavior
+The LinkedList class implements a doubly linked list data structure. It consists of a private inner Entry class, which represents each node in the list. Each Entry contains an element, a reference to the next node, and a reference to the previous node. The LinkedList class maintains a header node that acts as a sentinel, simplifying edge cases like adding or removing nodes at the beginning or end of the list. The class provides methods to add elements (add(Object o)), remove elements (remove(Object o)), clear the list (clear()), and get the size of the list (size()).
+
+### Attributes
+- header (Entry): A sentinel node that serves as the head of the list.
+- size (int): Tracks the number of elements in the list.
+
+### Properties
+- Consistent size: The size attribute must accurately reflect the number of elements in the list.
+- Doubly linked structure: Each node must have a reference to both its next and previous nodes.
+- No null elements: The list should not contain null elements, except for the header node.
+- No circular references: The list should not have circular references, ensuring that the header node is the only node with a null previous reference and the last node with a null next reference.

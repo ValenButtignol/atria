@@ -1,0 +1,69 @@
+
+- Consistent size: The size attribute must accurately reflect the number of elements in the list.
+- Doubly linked: Each node must have a reference to both its next and previous nodes.
+- Non-circular: The header node should not be part of the actual data nodes, and the list should not be circular.
+- No null elements: The list should not contain null elements unless explicitly allowed by the implementation.
+- Properly linked: The next and previous references of each node must be correctly set to maintain the list structure.
+
+```java
+public boolean property() {
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        count++;
+    }
+    return count == size;
+}
+```
+
+```java
+public boolean property() {
+    Entry current = header.next;
+    while (current != header) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    if (header.next == header || header.previous == header) {
+        return false;
+    }
+    Entry current = header.next;
+    while (current != header) {
+        if (current.next == header || current.previous == header) {
+            return false;
+        }
+        current = current.next;
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element == null) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    Entry current = header.next;
+    for (int i = 0; i < size; i++) {
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+    return true;
+}
+```

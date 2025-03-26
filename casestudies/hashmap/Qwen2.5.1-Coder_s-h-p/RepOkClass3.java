@@ -1,0 +1,7 @@
+public class RepOkClass3{
+    public boolean property() {
+        return threshold > 0;
+    }
+
+
+}

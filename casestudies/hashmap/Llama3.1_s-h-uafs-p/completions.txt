@@ -1,0 +1,63 @@
+
+- Consistent size: The size attribute must be equal to the number of key-value pairs in the map.
+- No null keys: The map should not contain any null keys.
+- No duplicate keys: The map should not contain any duplicate keys.
+- Hash code consistency: The hash code of a key should be consistent across different invocations of the hash function.
+- Load factor: The size of the map should not exceed the threshold, which is calculated based on the load factor and the current capacity of the map.
+
+```java
+public boolean property() {
+    int count = 0;
+    for (Entry e : table) {
+        while (e != null) {
+            count++;
+            e = e.next;
+        }
+    }
+    return size == count;
+}
+```
+
+```java
+public boolean property() {
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.key == null) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    Set<Object> keys = new HashSet<>();
+    for (Entry e : table) {
+        while (e != null) {
+            if (keys.contains(e.key))
+                return false;
+            keys.add(e.key);
+            e = e.next;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    int hash = hash(maskNull("test"));
+    int hash2 = hash(maskNull("test"));
+    return hash == hash2;
+}
+```
+
+```java
+public boolean property() {
+    return size <= threshold;
+}
+```

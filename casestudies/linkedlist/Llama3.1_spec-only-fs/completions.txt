@@ -1,0 +1,188 @@
+
+### Behavior
+The LinkedList class represents a doubly-linked list data structure, where each node (Entry) has references to its previous and next nodes. The list maintains a header node that serves as a sentinel, simplifying the implementation of methods. The class provides methods for adding, removing, and clearing elements, as well as retrieving the size of the list.
+
+### Attributes
+- header (Entry): The header node of the linked list, which serves as a sentinel.
+- size (int): Tracks the number of elements in the list.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of elements in the list.
+- Acyclic structure: The list structure must be acyclic, i.e., no node should have a path back to itself.
+- Ordered structure: The list does not maintain any specific order, as elements can be added and removed at any position.
+- No null elements: The list does not allow null elements, as the remove method checks for null elements and removes them.
+
+### Methods
+- add(Object o): Adds a new element to the end of the list.
+- remove(Object o): Removes the first occurrence of the specified element from the list.
+- clear(): Removes all elements from the list.
+- size(): Returns the number of elements in the list.
+
+### Constraints
+- The list must not be modified while iterating over it.
+- The remove method throws a NoSuchElementException if the specified element is not found in the list.
+
+### Representation Invariant for the LinkedList class
+
+```java
+public boolean repOK() {
+    // Check if the list is acyclic
+    if (header == null || header.next == header || header.prev == header) {
+        return false;
+    }
+
+    // Check if the size is consistent
+    int size = 0;
+    Entry current = header.next;
+    while (current != header) {
+        size++;
+        current = current.next;
+    }
+    if (size != this.size) {
+        return false;
+    }
+
+    // Check if the list does not contain null elements
+    current = header.next;
+    while (current != header) {
+        if (current.item == null) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    // Check if the remove method has not been called while iterating over the list
+    // This is a bit tricky, as we cannot directly check this in the repOK method.
+    // However, we can add a flag to the Entry class to indicate whether the list is being iterated over.
+    // If the flag is set, we can throw an exception in the remove method.
+
+    return true;
+}
+```
+
+### Representation Invariant for the MinHeap class
+
+```java
+public boolean repOK() {
+    // Check if the heap is not empty
+    if (size == 0) {
+        return false;
+    }
+
+    // Check if the heap is a complete binary tree
+    for (int i = 0; i < size; i++) {
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
+        if (leftChild < size && heap[i] > heap[leftChild]) {
+            return false;
+        }
+        if (rightChild < size && heap[i] > heap[rightChild]) {
+            return false;
+        }
+    }
+
+    // Check if the heap property is satisfied
+    for (int i = 0; i < size; i++) {
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
+        if (leftChild < size && heap[i] > heap[leftChild]) {
+            return false;
+        }
+        if (rightChild < size && heap[i] > heap[rightChild]) {
+            return false;
+        }
+    }
+
+    // Check if the size is consistent
+    if (size > capacity) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+### Representation Invariant for the BinTree class
+
+```java
+public boolean repOK() {
+    // Check if the tree is acyclic
+    if (root == null || containsCycle(root)) {
+        return false;
+    }
+
+    // Check if the size is consistent
+    int size = 0;
+    countNodes(root, size);
+    if (size != this.size) {
+        return false;
+    }
+
+    // Check if the tree is ordered
+    if (!isOrdered(root)) {
+        return false;
+    }
+
+    // Check if the tree does not contain duplicate values
+    if (containsDuplicate(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean containsCycle(Node node) {
+    if (node == null) {
+        return false;
+    }
+    if (node.left == node || node.right == node) {
+        return true;
+    }
+    return containsCycle(node.left) || containsCycle(node.right);
+}
+
+private void countNodes(Node node, int[] size) {
+    if (node == null) {
+        return;
+    }
+    countNodes(node.left, size);
+    countNodes(node.right, size);
+    size[0]++;
+}
+
+private boolean isOrdered(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && node.left.info >= node.info) {
+        return false;
+    }
+    if (node.right != null && node.right.info <= node.info) {
+        return false;
+    }
+    return isOrdered(node.left) && isOrdered(node.right);
+}
+
+private boolean containsDuplicate(Node node) {
+    if (node == null) {
+        return false;
+    }
+    if (contains(node.left, node.info)) {
+        return true;
+    }
+    if (contains(node.right, node.info)) {
+        return true;
+    }
+    return containsDuplicate(node.left) || containsDuplicate(node.right);
+}
+
+private boolean contains(Node node, int value) {
+    if (node == null) {
+        return false;
+    }
+    if (node.info == value) {
+        return true;
+    }
+    return contains(node.left, value) || contains(node.right, value);
+}
+```

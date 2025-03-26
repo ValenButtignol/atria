@@ -1,0 +1,102 @@
+
+### Behavior
+The HashMap class implements a hash table that maps keys to values. It uses a hash function to compute the index of the bucket where each key-value pair is stored. The class supports basic operations such as insertion (put(Object key, Object value)), retrieval (get(Object key)), removal (remove(Object key)), and checking for the presence of a key (containsKey(Object key)). It also provides methods to get the size of the map and clear all entries. The class handles collisions using separate chaining with linked lists. The load factor determines when the map should be resized to maintain efficient performance.
+
+### Attributes
+- table (Entry[]): An array of Entry objects where each bucket in the hash table is represented.
+- size (int): The number of key-value pairs currently stored in the map.
+- threshold (int): The maximum number of entries allowed in the table before it is resized.
+- loadFactor (float): The load factor that determines when the table should be resized.
+- modCount (int): A counter used to track modifications to the map for iterator validity.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of key-value pairs in the map.
+- Unique keys: No two keys in the map can be equal.
+- Efficient access: The average time complexity for put, get, and remove operations is O(1), assuming a good hash function and low load factor.
+- Resizing: The table is resized when the number of entries exceeds the threshold, which is calculated as the product of the current capacity and the load factor. The new capacity is always a power of two.
+- Separate chaining: Collisions are resolved using separate chaining with linked lists, where each bucket points to the head of a linked list of entries that hash to the same index.
+- Null keys: The map supports a single null key, which is handled by using a special NULL_KEY object.
+- Thread safety: The class is not thread-safe and does not provide synchronization mechanisms.
+
+```java
+public boolean repOK() {
+    // Check if the size is consistent with the number of entries in the table
+    if (size < 0 || size > table.length) {
+        return false;
+    }
+
+    // Check for unique keys and efficient access
+    Set<Object> keys = new HashSet<>();
+    for (Entry e : table) {
+        while (e != null) {
+            // Check for duplicate keys
+            if (!keys.add(e.key)) {
+                return false;
+            }
+            // Check for null keys
+            if (e.key == null && e != NULL_KEY) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+
+    // Check if the table is resized correctly
+    if (size > threshold) {
+        return false;
+    }
+
+    // Check if the load factor is within valid range
+    if (loadFactor <= 0 || loadFactor >= 1) {
+        return false;
+    }
+
+    // Check if the modCount is non-negative
+    if (modCount < 0) {
+        return false;
+    }
+
+    // Check if the table is a power of two
+    if (threshold != 0 && (threshold & (threshold - 1)) != 0) {
+        return false;
+    }
+
+    // Check if the table is acyclic
+    for (Entry e : table) {
+        while (e != null) {
+            if (e.key == e.value) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+
+    // Check if the table maintains the binary search tree property
+    for (Entry e : table) {
+        while (e != null) {
+            if (e.left != null && e.left.key >= e.key) {
+                return false;
+            }
+            if (e.right != null && e.right.key <= e.key) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+
+    return true;
+}
+```
+
+### Explanation:
+1. **Size Consistency**: Ensures that the `size` attribute matches the number of entries in the table.
+2. **Unique Keys**: Uses a `HashSet` to track keys and ensure no duplicates.
+3. **Efficient Access**: Checks that the load factor and threshold are within valid ranges.
+4. **Resizing**: Ensures that the number of entries does not exceed the threshold.
+5. **Separate Chaining**: Verifies that collisions are handled using separate chaining.
+6. **Null Keys**: Ensures that the map supports a single null key.
+7. **Thread Safety**: Assumes the map is not thread-safe, so no synchronization checks are included.
+8. **Acyclic Structure**: Ensures that no node points to itself.
+9. **Ordered Structure**: Checks that the tree maintains the binary search tree property (though this is more relevant to a `BinTree` class, not a `HashMap`).
+
+This `repOK` method provides a comprehensive check for the integrity of the `HashMap` class.

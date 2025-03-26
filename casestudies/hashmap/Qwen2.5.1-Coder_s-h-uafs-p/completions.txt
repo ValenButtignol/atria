@@ -1,0 +1,84 @@
+
+- Non-null keys: The HashMap should not allow null keys.
+- Unique keys: The HashMap should not allow duplicate keys.
+- Correct size: The size attribute should accurately reflect the number of key-value pairs in the HashMap.
+- Proper hashing: The hash function should distribute keys uniformly across the buckets.
+- Consistent iteration: Iterating over the HashMap should not throw `ConcurrentModificationException` if no structural modifications are made during iteration.
+- Correct value retrieval: Retrieving a value using a key should return the correct value if the key exists in the HashMap.
+- Correct value update: Updating a value using a key should replace the existing value with the new value.
+- Correct value removal: Removing a key-value pair should remove the correct entry from the HashMap.
+- Correct clear operation: Clearing the HashMap should remove all entries and reset the size to zero.
+
+```java
+public boolean property() {
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.key == null) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.next != null && e.key.equals(e.next.key)) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    int count = 0;
+    for (Entry e : table) {
+        while (e != null) {
+            count++;
+            e = e.next;
+        }
+    }
+    return count == size;
+}
+```
+
+```java
+public boolean property() {
+    int[] bucketCounts = new int[table.length];
+    for (Entry e : table) {
+        while (e != null) {
+            bucketCounts[indexFor(e.hash, table.length)]++;
+            e = e.next;
+        }
+    }
+    int maxCount = 0;
+    int minCount = Integer.MAX_VALUE;
+    for (int count : bucketCounts) {
+        if (count > maxCount)
+            maxCount = count;
+        if (count < minCount)
+            minCount = count;
+    }
+    return maxCount - minCount <= 1;
+}
+```
+
+```java
+public boolean property() {
+    Iterator<Entry> iterator = iterator();
+    while (iterator.hasNext()) {
+        iterator.next();
+    }
+    return true;
+}
+```

@@ -1,0 +1,106 @@
+
+### Behavior
+The NodeCachingLinkedList class is a custom implementation of a linked list that incorporates a cache mechanism to improve performance. It maintains a header node, a size counter, and a cache of recently accessed nodes. The class provides methods for adding and removing nodes, as well as checking for the presence of a given value.
+
+### Attributes
+- header (LinkedListNode): The header node of the linked list.
+- size (int): Tracks the number of nodes in the list.
+- cacheSize (int): Tracks the number of nodes in the cache.
+- maximumCacheSize (int): The maximum number of nodes that can be stored in the cache.
+- firstCachedNode (LinkedListNode): The first node in the cache.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of nodes in the list.
+- Cache size: The cacheSize attribute must be less than or equal to the maximumCacheSize attribute.
+- No duplicate values: No two nodes in the list should have the same value.
+- Cache consistency: The cache must be consistent with the list, meaning that a node is only added to the cache if it is also present in the list.
+
+### Methods
+- add(Object value): Adds a new node with the given value to the end of the list and caches the node if the cache is not full.
+- remove(Object value): Removes the first occurrence of the given value from the list and adds the removed node to the cache if the cache is not full.
+- getNodeFromCache(): Retrieves a node from the cache and removes it from the cache.
+- isCacheFull(): Checks if the cache is full.
+- addNodeToCache(LinkedListNode node): Adds a node to the cache.
+- createNode(Object value): Creates a new node with the given value and caches it if possible.
+- removeNode(LinkedListNode node): Removes a node from the list and adds it to the cache.
+
+### NodeCachingLinkedListNode class
+The LinkedListNode class represents a node in the linked list. It has attributes for the previous and next nodes, as well as the node's value. The class provides methods for getting and setting the node's value, previous node, and next node.
+
+### Representation Invariant for NodeCachingLinkedList
+
+```java
+/**
+ * Checks if the representation invariant of the NodeCachingLinkedList is satisfied.
+ * 
+ * @return true if the representation invariant is satisfied, false otherwise
+ */
+public boolean repOK() {
+    // Check if the size attribute is consistent with the number of nodes in the list
+    if (size != countNodes(header)) {
+        return false;
+    }
+
+    // Check if the cache size is less than or equal to the maximum cache size
+    if (cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    // Check if the cache is consistent with the list
+    LinkedListNode current = firstCachedNode;
+    while (current != null) {
+        if (!containsNode(current)) {
+            return false;
+        }
+        current = current.nextCachedNode;
+    }
+
+    // Check if the list does not contain duplicate values
+    if (hasDuplicates(header)) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper methods
+private int countNodes(LinkedListNode node) {
+    int count = 0;
+    while (node != null) {
+        count++;
+        node = node.nextNode;
+    }
+    return count;
+}
+
+private boolean containsNode(LinkedListNode node) {
+    LinkedListNode current = header;
+    while (current != null) {
+        if (current == node) {
+            return true;
+        }
+        current = current.nextNode;
+    }
+    return false;
+}
+
+private boolean hasDuplicates(LinkedListNode node) {
+    Set<Object> values = new HashSet<>();
+    while (node != null) {
+        if (!values.add(node.value)) {
+            return true;
+        }
+        node = node.nextNode;
+    }
+    return false;
+}
+```
+
+This representation invariant checks the following properties:
+
+*   The size attribute is consistent with the number of nodes in the list.
+*   The cache size is less than or equal to the maximum cache size.
+*   The cache is consistent with the list, meaning that a node is only added to the cache if it is also present in the list.
+*   The list does not contain duplicate values.
+
+If any of these properties are not satisfied, the `repOK` method returns `false`. Otherwise, it returns `true`.

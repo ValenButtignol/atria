@@ -1,0 +1,102 @@
+
+The HashMap class is a data structure that stores key-value pairs in a hash table. It provides methods for adding, removing, and retrieving entries, as well as resizing the table when it becomes too full.
+
+Attributes:
+
+- table: an array of Entry objects that stores the key-value pairs
+- size: the number of entries in the map
+- threshold: the maximum number of entries allowed in the map before resizing
+- loadFactor: the ratio of the number of entries to the table size
+- modCount: a counter for the number of modifications made to the map
+
+Methods:
+
+- HashMap(int initialCapacity, float loadFactor): constructs a new HashMap with the specified initial capacity and load factor
+- HashMap(int initialCapacity): constructs a new HashMap with the specified initial capacity and the default load factor
+- HashMap(): constructs a new HashMap with the default initial capacity and load factor
+- size(): returns the number of entries in the map
+- isEmpty(): returns true if the map is empty
+- get(Object key): returns the value associated with the specified key, or null if the key is not in the map
+- put(Object key, Object value): adds a new entry to the map or updates the value associated with the specified key
+- remove(Object key): removes the entry associated with the specified key and returns its value
+- clear(): removes all entries from the map
+- resize(int newCapacity): resizes the table to the specified capacity
+- transfer(Entry[] newTable): transfers the entries from the old table to the new table
+
+Constraints:
+
+- The initial capacity must be a positive integer
+- The load factor must be a positive float
+- The table size must be a power of 2
+- The threshold must be a multiple of the load factor
+- The modCount must be incremented whenever the map is modified
+
+Purpose:
+
+- The HashMap class provides a data structure for storing and retrieving key-value pairs efficiently
+- It is designed to handle a large number of entries and to resize the table automatically when it becomes too full
+- It provides methods for adding, removing, and retrieving entries, as well as resizing the table and clearing the map.
+
+Here is the representation invariant for the HashMap class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the table size is a power of 2
+    if ((table.length & (table.length - 1)) != 0) {
+        return false;
+    }
+
+    // Check if the threshold is a multiple of the load factor
+    if (threshold % loadFactor != 0) {
+        return false;
+    }
+
+    // Check if the modCount is incremented correctly
+    if (modCount != size + table.length) {
+        return false;
+    }
+
+    // Check if all entries in the table are valid
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.hash == Integer.MIN_VALUE || e.hash == Integer.MAX_VALUE) {
+                return false;
+            }
+            if (e.key == null && e.hash != 0) {
+                return false;
+            }
+            e = e.next;
+        }
+    }
+
+    // Check if the size is correct
+    if (size != countEntries()) {
+        return false;
+    }
+
+    return true;
+}
+
+private int countEntries() {
+    int count = 0;
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            count++;
+            e = e.next;
+        }
+    }
+    return count;
+}
+```
+
+This method checks the following invariants:
+
+1. The table size is a power of 2.
+2. The threshold is a multiple of the load factor.
+3. The modCount is incremented correctly.
+4. All entries in the table are valid (i.e., their hash codes are not Integer.MIN_VALUE or Integer.MAX_VALUE, and their keys are not null unless their hash codes are 0).
+5. The size is correct (i.e., it matches the number of entries in the table).
+
+If any of these invariants are not met, the method returns false. Otherwise, it returns true.

@@ -1,0 +1,140 @@
+
+<think>
+Alright, I'm trying to write an informal specification for the HashMap class. I'm not entirely sure where to start, but I know that specifications usually describe what the class does, its attributes, methods, and any important constraints or properties.
+
+First, I'll look at the code provided. The HashMap class seems to be a custom implementation, not using the standard Java HashMap. It has a static final initial capacity and maximum capacity, and a default load factor. There's a table array that holds Entry objects, and methods like put, get, and resize.
+
+I notice that the HashMap has constructors that handle initial capacity and load factor, and it initializes the table array with a certain size. There's also a resize method that doubles the capacity when the load factor is exceeded.
+
+Attributes in the HashMap include the table array, size, threshold, load factor, and modCount. The modCount is volatile, which probably means it's used for performance in concurrent environments.
+
+Methods like put, get, and remove manipulate the data in the table. The put method adds or updates entries, get retrieves values based on keys, and remove deletes entries. There are also helper methods like resize and transfer for managing the table's size.
+
+I think the specification should outline the behavior of the HashMap, its attributes, and the key methods. It should explain how it manages its internal table, handles collisions with the hash function, and maintains the load factor to keep performance efficient.
+
+I'm a bit confused about the resizing process and how the threshold is managed. Also, the hash function seems a bit complex, and I'm not sure how it contributes to the overall performance of the HashMap.
+
+I should also consider the properties, like the table being an array of Entry objects, the size tracking the number of entries, and the load factor determining when to resize. The modCount is probably used to track modifications for consistency in concurrent access.
+
+I need to make sure the specification is clear and covers all the important aspects without being too technical. It should be understandable for someone who is familiar with HashMaps but not necessarily with this specific implementation.
+
+Maybe I should start by describing the overall behavior, then list the attributes, followed by the key methods and their purposes. I should also mention any important constraints or properties that ensure the correct functioning of the HashMap.
+
+I'm still unsure about some details, like how the hash function affects performance or how the threshold is calculated. I might need to look up more about HashMap implementations to fully understand these aspects.
+
+Overall, I think I have a rough idea of what to include, but I need to organize it in a logical way that clearly explains the HashMap's functionality and structure.
+</think>
+
+### Informal Specification for HashMap Class
+
+**Behavior:**
+The HashMap class implements a hash table data structure that stores key-value pairs. It provides efficient average-time complexity for basic operations like put, get, and containsKey. The class manages its own table to avoid external dependencies, ensuring flexibility and portability.
+
+**Attributes:**
+- **table (Entry[]):** An array of Entry objects, each containing a key, value, hash, and next pointer. The table's size is determined by the initial capacity and resizing strategy.
+- **size (int):** The current number of entries in the table.
+- **threshold (int):** A target number of entries that triggers resizing to maintain load factor efficiency.
+- **loadFactor (float):** The ratio of size to table capacity, used to determine when to resize.
+- **modCount (int):** A counter for modifications (put, remove, etc.), ensuring consistency in concurrent access.
+
+**Key Methods:**
+
+1. **put(Object key, Object value):**
+   - Adds or updates an entry in the table based on the key.
+   - Uses a custom hash function to distribute keys uniformly.
+   - Resizes the table if the load factor exceeds the threshold, maintaining performance.
+
+2. **get(Object key):**
+   - Retrieves the value associated with a key.
+   - Uses the hash function to compute the initial index and linear probing for collisions.
+
+3. **remove(Object key):**
+   - Deletes the entry associated with a key.
+   - Uses the same collision resolution strategy as get.
+
+4. **resize(int newCapacity):**
+   - Doubles the table size to accommodate more entries.
+   - Reallocates existing entries to the new table to maintain performance.
+
+5. **transfer(Entry[] newTable):**
+   - Copies entries from the current table to a new table, handling null pointers and updating references.
+
+6. **clear():**
+   - Removes all entries from the table, resetting size and modCount.
+
+**Helper Methods:**
+
+- **hash(Object x):** Computes a hash value for an object, ensuring uniform distribution.
+- **eq(Object x, Object y):** Checks equality between two objects, considering null values.
+- **indexFor(int h, int length):** Computes the index for an entry in the table.
+- **addEntry(int hash, Object key, Object value, int bucketIndex):** Inserts an Entry into the table, handling resizing.
+- **removeEntryForKey(Object key):** Removes an entry based on the key, adjusting the table structure.
+
+**Properties:**
+
+- The HashMap maintains a complete table, ensuring all entries are accounted for.
+- The load factor ensures that the table size grows proportionally to the number of entries, preventing excessive collisions.
+- The modCount ensures thread-safety by tracking modifications and allowing only one modification per operation.
+
+**Notes:**
+
+- The HashMap uses a dynamic resizing strategy to maintain efficiency, adjusting its internal table size as needed.
+- The hash function and collision resolution strategy are designed to minimize key collisions and optimize lookup times.
+- The class provides a flexible and self-contained implementation, suitable for various applications requiring efficient key-value storage.
+
+This specification outlines the core functionality and design principles of the HashMap class, emphasizing its dynamic nature, collision resolution, and efficient memory management.
+
+<think>
+Okay, I need to write a representation invariant for the MinHeap class. Let me think about what a representation invariant is. It's a condition that must always hold true for the class to be in a valid state. So, for MinHeap, what properties should always be true?
+
+First, the MinHeap maintains a complete binary tree structure. That means all levels are fully filled except possibly the last one, which is filled from left to right. So, the invariant should ensure that the heap is complete.
+
+Next, the heap property must hold. In a min-heap, each parent node is less than or equal to its children. So, for every node, the value should be less than or equal to its left and right children.
+
+Also, the size of the heap should not exceed the capacity. The capacity is the maximum size the heap can hold, so the size should always be less than or equal to the capacity.
+
+Let me try to write these conditions formally.
+
+1. The size of the heap is always less than or equal to the capacity.
+2. The heap maintains the min-heap property: for every node, the parent's value is less than or equal to its children's values.
+3. The heap is a complete binary tree.
+
+I think these are the main points. Now, I'll write them as a Java method called repOK that returns a boolean indicating whether the invariants are satisfied.
+</think>
+
+```java
+public boolean repOK() {
+    // Check if the size does not exceed the capacity
+    if (size > capacity) {
+        return false;
+    }
+    
+    // Check if the heap property is maintained
+    for (int i = 0; i < size; i++) {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        if (left < size && heap[left] < heap[i]) {
+            return false;
+        }
+        if (right < size && heap[right] < heap[i]) {
+            return false;
+        }
+    }
+    
+    // Check if the heap is complete
+    int lastLevel = (int) (Math.log(size) / Math.log(2)) + 1;
+    int lastLevelStart = (int) Math.pow(2, lastLevel - 1);
+    for (int i = lastLevelStart; i < size; i++) {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        if (left >= size || right >= size) {
+            continue;
+        }
+        if (heap[left] < heap[i] || heap[right] < heap[i]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+```

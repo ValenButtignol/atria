@@ -1,0 +1,38 @@
+
+- The table is not null: The representation invariant checks if the table is not null.
+- The size is non-negative: The representation invariant checks if the size is non-negative.
+- The threshold is valid: The representation invariant checks if the threshold is valid based on the load factor and the table size.
+- The modCount is non-negative: The representation invariant checks if the modCount is non-negative.
+- The table is not resized while iterating: The representation invariant checks if the table is not resized while iterating over its entries.
+
+```java
+public boolean property() {
+    return table != null;
+}
+```
+
+```java
+public boolean property() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean property() {
+    return threshold >= 0 && threshold <= (int) (table.length * loadFactor);
+}
+```
+
+```java
+public boolean property() {
+    return modCount >= 0;
+}
+```
+
+```java
+public boolean property() {
+    return modCount == size;
+}
+```
+
+This property checks if the modCount (the number of modifications made to the map) is equal to the size of the map. If the map is not resized while iterating, the modCount will be equal to the size of the map, because each modification (addition or removal of an entry) will increment the modCount and also update the size of the map.

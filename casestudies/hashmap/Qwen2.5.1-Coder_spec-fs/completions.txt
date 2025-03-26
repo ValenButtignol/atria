@@ -1,0 +1,19 @@
+
+### Behavior
+The HashMap class implements a hash table that maps keys to values. It uses a hash function to compute the index of the bucket where each key-value pair is stored. The class supports basic operations such as insertion (put(Object key, Object value)), retrieval (get(Object key)), removal (remove(Object key)), and checking for the presence of a key (containsKey(Object key)). It also provides methods to get the size of the map and clear all entries. The class handles collisions using separate chaining with linked lists. The load factor determines when the map should be resized to maintain efficient performance.
+
+### Attributes
+- table (Entry[]): An array of Entry objects where each bucket in the hash table is represented.
+- size (int): The number of key-value pairs currently stored in the map.
+- threshold (int): The maximum number of entries allowed in the table before it is resized.
+- loadFactor (float): The load factor that determines when the table should be resized.
+- modCount (int): A counter used to track modifications to the map for iterator validity.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of key-value pairs in the map.
+- Unique keys: No two keys in the map can be equal.
+- Efficient access: The average time complexity for put, get, and remove operations is O(1), assuming a good hash function and low load factor.
+- Resizing: The table is resized when the number of entries exceeds the threshold, which is calculated as the product of the current capacity and the load factor. The new capacity is always a power of two.
+- Separate chaining: Collisions are resolved using separate chaining with linked lists, where each bucket points to the head of a linked list of entries that hash to the same index.
+- Null keys: The map supports a single null key, which is handled by using a special NULL_KEY object.
+- Thread safety: The class is not thread-safe and does not provide synchronization mechanisms.

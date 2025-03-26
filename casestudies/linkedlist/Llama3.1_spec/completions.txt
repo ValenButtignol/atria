@@ -1,0 +1,71 @@
+
+The LinkedList class represents a dynamic collection of elements, where each element is linked to its predecessor and successor in the sequence. 
+
+Attributes:
+- header: a sentinel node that serves as the first and last element in the list.
+- size: the number of elements in the list.
+
+Methods:
+- add(Object o): adds a new element to the end of the list.
+- remove(Object o): removes the first occurrence of the specified element from the list.
+- clear(): removes all elements from the list.
+- size(): returns the number of elements in the list.
+
+Constraints:
+- The list is a circularly linked list, where the header node is both the first and last element.
+- The list does not allow null elements.
+- The remove method throws a NoSuchElementException if the specified element is not found in the list.
+
+Purpose:
+- The LinkedList class provides a basic implementation of a dynamic collection, allowing elements to be added and removed efficiently.
+
+### Representation Invariant for the LinkedList class
+
+```java
+public boolean repOK() {
+    // Check if the list is empty
+    if (size == 0) {
+        return header.next == header && header.previous == header;
+    }
+
+    // Check if the list has at least one element
+    Entry first = header.next;
+    Entry last = header.previous;
+    if (first == header || last == header) {
+        return false;
+    }
+
+    // Check if the list is circularly linked
+    if (first.next != last || last.previous != first) {
+        return false;
+    }
+
+    // Check if all elements are non-null
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element == null) {
+            return false;
+        }
+    }
+
+    // Check if the size is correct
+    return size == countElements();
+}
+
+private int countElements() {
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        count++;
+    }
+    return count;
+}
+```
+
+The `repOK` method checks the following invariants:
+
+1.  If the list is empty, the `header` node is both the first and last element.
+2.  If the list has at least one element, the `header` node is not the first or last element.
+3.  The list is circularly linked, meaning the `first` node's next element is the `last` node, and the `last` node's previous element is the `first` node.
+4.  All elements in the list are non-null.
+5.  The size of the list is correct, which is verified by counting the number of elements in the list.
+
+The `countElements` method is a helper method that counts the number of elements in the list by iterating through the linked list starting from the `header` node.

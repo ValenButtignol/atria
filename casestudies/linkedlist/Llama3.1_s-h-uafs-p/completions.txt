@@ -1,0 +1,59 @@
+
+- Consistent size: The size attribute must be equal to the number of elements in the list.
+- No null elements: The list should not contain any null elements.
+- No cycles: The list should not contain any cycles, i.e., no node should have a path back to itself.
+- Correct insertion and removal: The add and remove methods should maintain the correct order of elements in the list.
+
+```java
+public boolean property() {
+    int count = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element != null) {
+            count++;
+        }
+    }
+    return count == size;
+}
+```
+
+```java
+public boolean property() {
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element == null) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    Set<Entry> visited = new HashSet<Entry>();
+    Entry current = header.next;
+    while (current != header) {
+        if (visited.contains(current)) {
+            return false;
+        }
+        visited.add(current);
+        current = current.next;
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element != null && (e.previous.element == null || e.previous.element.compareTo(e.element) > 0)) {
+            return false;
+        }
+        if (e.element != null && (e.next.element == null || e.next.element.compareTo(e.element) < 0)) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+This property checks that the elements in the list are in the correct order after insertion and removal. It does this by iterating over the list and checking that each element is less than the next element and greater than the previous element. If it finds any pair of adjacent elements that are not in the correct order, it returns false. If it checks all the elements and doesn't find any that are out of order, it returns true.

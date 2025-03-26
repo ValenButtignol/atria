@@ -1,0 +1,229 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:174: error: cannot find symbol
+    private boolean containsCycle(Node node) {
+                                  ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:184: error: cannot find symbol
+    private void countNodes(Node node, int[] size) {
+                            ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:193: error: cannot find symbol
+    private boolean isOrdered(Node node) {
+                              ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:206: error: cannot find symbol
+    private boolean containsDuplicate(Node node) {
+                                      ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:219: error: cannot find symbol
+    private boolean contains_3(Node node, int value) {
+                               ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:88: error: cannot find symbol
+        if (header == null || header.next == header || header.prev == header) {
+                                                             ^
+  symbol:   variable prev
+  location: variable header of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:104: error: cannot find symbol
+            if (current.item == null) {
+                       ^
+  symbol:   variable item
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:126: error: cannot find symbol
+            if (leftChild < size && heap[i] > heap[leftChild]) {
+                                    ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:126: error: cannot find symbol
+            if (leftChild < size && heap[i] > heap[leftChild]) {
+                                              ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:129: error: cannot find symbol
+            if (rightChild < size && heap[i] > heap[rightChild]) {
+                                     ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:129: error: cannot find symbol
+            if (rightChild < size && heap[i] > heap[rightChild]) {
+                                               ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:137: error: cannot find symbol
+            if (leftChild < size && heap[i] > heap[leftChild]) {
+                                    ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:137: error: cannot find symbol
+            if (leftChild < size && heap[i] > heap[leftChild]) {
+                                              ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: cannot find symbol
+            if (rightChild < size && heap[i] > heap[rightChild]) {
+                                     ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: cannot find symbol
+            if (rightChild < size && heap[i] > heap[rightChild]) {
+                                               ^
+  symbol:   variable heap
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:145: error: cannot find symbol
+        if (size > capacity) {
+                   ^
+  symbol:   variable capacity
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:154: error: cannot find symbol
+        if (root == null || containsCycle(root)) {
+            ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:154: error: cannot find symbol
+        if (root == null || containsCycle(root)) {
+                                          ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:159: error: cannot find symbol
+        countNodes(root, size);
+                   ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:164: error: cannot find symbol
+        if (!isOrdered(root)) {
+                       ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:168: error: cannot find symbol
+        if (containsDuplicate(root)) {
+                              ^
+  symbol:   variable root
+  location: class LinkedList
+21 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:174: error: cannot find symbol
+      private boolean containsCycle(Node node) {
+                                    ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:184: error: cannot find symbol
+      private void countNodes(Node node, int[] size) {
+                              ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:193: error: cannot find symbol
+      private boolean isOrdered(Node node) {
+                                ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:206: error: cannot find symbol
+      private boolean containsDuplicate(Node node) {
+                                        ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:219: error: cannot find symbol
+      private boolean contains_3(Node node, int value) {
+                                 ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:88: error: cannot find symbol
+          if (header == null || header.next == header || header.prev == header) {
+                                                               ^
+    symbol:   variable prev
+    location: variable header of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:104: error: cannot find symbol
+              if (current.item == null) {
+                         ^
+    symbol:   variable item
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:126: error: cannot find symbol
+              if (leftChild < size && heap[i] > heap[leftChild]) {
+                                      ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:126: error: cannot find symbol
+              if (leftChild < size && heap[i] > heap[leftChild]) {
+                                                ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:129: error: cannot find symbol
+              if (rightChild < size && heap[i] > heap[rightChild]) {
+                                       ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:129: error: cannot find symbol
+              if (rightChild < size && heap[i] > heap[rightChild]) {
+                                                 ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:137: error: cannot find symbol
+              if (leftChild < size && heap[i] > heap[leftChild]) {
+                                      ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:137: error: cannot find symbol
+              if (leftChild < size && heap[i] > heap[leftChild]) {
+                                                ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: cannot find symbol
+              if (rightChild < size && heap[i] > heap[rightChild]) {
+                                       ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: cannot find symbol
+              if (rightChild < size && heap[i] > heap[rightChild]) {
+                                                 ^
+    symbol:   variable heap
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:145: error: cannot find symbol
+          if (size > capacity) {
+                     ^
+    symbol:   variable capacity
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:154: error: cannot find symbol
+          if (root == null || containsCycle(root)) {
+              ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:154: error: cannot find symbol
+          if (root == null || containsCycle(root)) {
+                                            ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:159: error: cannot find symbol
+          countNodes(root, size);
+                     ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:164: error: cannot find symbol
+          if (!isOrdered(root)) {
+                         ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:168: error: cannot find symbol
+          if (containsDuplicate(root)) {
+                                ^
+    symbol:   variable root
+    location: class LinkedList
+  21 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 386ms
+1 actionable task: 1 executed

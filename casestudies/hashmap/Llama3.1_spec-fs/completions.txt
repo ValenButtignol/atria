@@ -1,0 +1,28 @@
+
+### Behavior
+The HashMap class represents a hash map data structure that stores key-value pairs. It provides methods for adding, retrieving, updating, and removing entries. The class maintains a table of entries, where each entry is a key-value pair. The table is resized dynamically when the load factor exceeds a certain threshold. The class also provides methods for checking the size of the map, checking if the map is empty, and clearing the map.
+
+### Attributes
+- table (Entry[]): An array of entries that stores the key-value pairs.
+- size (int): Tracks the number of entries in the map.
+- threshold (int): The threshold at which the table is resized.
+- loadFactor (float): The load factor at which the table is resized.
+- modCount (int): A counter that tracks the number of modifications made to the map.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of entries in the map.
+- No duplicate keys: No two entries in the map can have the same key.
+- Hash code consistency: The hash code of an entry must be consistent with its key.
+- Load factor: The load factor must be greater than or equal to 0 and less than or equal to 1.
+- Table resizing: The table must be resized dynamically when the load factor exceeds the threshold.
+
+### Methods
+- put(Object key, Object value): Adds a new entry to the map or updates an existing entry.
+- get(Object key): Retrieves the value associated with a given key.
+- remove(Object key): Removes an entry from the map.
+- clear(): Clears all entries from the map.
+- size(): Returns the number of entries in the map.
+- isEmpty(): Returns true if the map is empty, false otherwise.
+
+### Entry class
+The Entry class represents a single entry in the map, consisting of a key, a value, a hash code, and a reference to the next entry in the table. The Entry class provides methods for getting the key, value, and hash code of an entry, as well as methods for updating the value and checking for equality with another entry.

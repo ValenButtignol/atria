@@ -1,0 +1,81 @@
+
+<think>
+Okay, I need to write an informal specification for the LinkedList class in Java. Let me look at the code provided and understand what each part does.
+
+First, the class has a private transient Entry called header, which is initialized to a new Entry with nulls. There's also a size variable, which is 0 initially. The constructor sets the header's next and previous to itself, making it a circular linked list.
+
+The add method adds an object before the header. It uses the addBefore method, which creates a new Entry, links it before the given Entry, and increments the size. So add() adds elements to the front, but since the header is a sentinel, it's effectively adding before the first element.
+
+The remove method takes an object, checks if it's null, and then iterates through the entries. If the element is null or matches the object, it removes that entry. It returns true if removed, false otherwise. So it removes the first occurrence of the object.
+
+The clear method resets the header's next and previous to itself and sets size to 0. That makes sense because it's resetting the list to its initial empty state.
+
+The size() method simply returns the current size, which is straightforward.
+
+Looking at the Entry class, it's a static inner class with element, next, and previous pointers. The constructor initializes these fields.
+
+Now, putting this together, the LinkedList behaves like a doubly linked list with a header sentinel. It allows adding elements before any given point, but the main add() adds to the front. Removing an element finds the first occurrence and removes it. The list can be cleared, and its size can be queried.
+
+I should note the key behaviors: adding, removing, clearing, and size tracking. Also, the use of the header as a sentinel node is important for managing the list without a dummy head. The Entry class is part of the LinkedList's structure, so it's included in the spec.
+
+I need to make sure the specification covers all public methods and their behaviors, including how the list handles null elements and the size changes with each operation. Also, the transient keyword on header and size indicates they aren't serialized, but that's more about persistence and not the core behavior, so maybe not necessary to mention unless it affects functionality.
+
+So, the informal specification should describe each method's purpose, how they modify the list, and any constraints, like the header being a sentinel. It should also mention the Entry class as part of the LinkedList's structure.
+</think>
+
+The `LinkedList` class implements a doubly linked list using a sentinel header node. It provides methods to add, remove, and clear elements, as well as to track the size of the list.
+
+- **Header Node**: The list uses a transient `header` node to simplify insertion and removal operations. This node acts as a sentinel and is never added to the list itself.
+- **Size Tracking**: The `size` variable keeps track of the number of elements in the list and is updated with each addition or removal.
+- **Addition**: The `add(Object o)` method adds the specified element to the front of the list by inserting it before the header node.
+- **Removal**: The `remove(Object o)` method removes the first occurrence of the specified element. If the element is `null`, it removes the first `null` element; otherwise, it uses `equals()` for comparison.
+- **Clearing**: The `clear()` method resets the list to its initial empty state by re-linking the header node to itself and setting the size to zero.
+- **Size Query**: The `size()` method returns the current number of elements in the list.
+
+The `LinkedList` class encapsulates its nodes in a private static `Entry` class, which contains an element, a `next` pointer, and a `previous` pointer. The `Entry` class is used internally to manage the linked structure of the list.
+
+<think>
+To write the representation invariant for the `LinkedList` class, we need to ensure that the data structure maintains its integrity after any operation. The invariant should hold true for all valid states of the list.
+
+Here's the `repOK` method:
+
+```java
+private boolean repOK() {
+    // Check that header is not null
+    if (header == null) {
+        return false;
+    }
+
+    // Check that header's next and previous point to itself
+    if (header.next != header || header.previous != header) {
+        return false;
+    }
+
+    // Check that the size is consistent with the linked structure
+    int actualSize = 0;
+    Entry e = header.next;
+    while (e != header) {
+        actualSize++;
+        e = e.next;
+    }
+    if (actualSize != size) {
+        return false;
+    }
+
+    // Check that all entries have non-null next and previous pointers
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.next == null || e.previous == null) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```
+
+This method verifies:
+1. The header node is not null and correctly points to itself.
+2. The size of the list matches the actual number of elements traversed.
+3. All entries have valid next and previous pointers, ensuring the linked structure is intact.
+
+The invariant ensures that the linked list remains a valid doubly linked structure with consistent size tracking.

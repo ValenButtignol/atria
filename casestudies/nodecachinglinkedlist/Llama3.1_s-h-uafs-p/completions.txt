@@ -1,0 +1,53 @@
+
+- Consistent size: The size attribute must be equal to the number of nodes in the linked list.
+- No null values in the linked list: All nodes in the linked list must have a non-null value.
+- No cycles in the linked list: The linked list must not contain any cycles, i.e., no node should have a path back to itself.
+- Cache consistency: The cache size must be equal to the number of nodes in the cache.
+- Maximum cache size: The cache size must not exceed the maximum cache size.
+
+```java
+public boolean property() {
+    int actualSize = 0;
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        actualSize++;
+    }
+    return size == actualSize;
+}
+```
+
+```java
+public boolean property() {
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        if (node.getValue() == null) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    LinkedListNode current = header.next;
+    while (current != header) {
+        LinkedListNode nextNode = current.next;
+        if (nextNode == current) {
+            return false;
+        }
+        current = nextNode;
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    return cacheSize == size;
+}
+```
+
+```java
+public boolean property() {
+    return cacheSize <= maximumCacheSize;
+}
+```

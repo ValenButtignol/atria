@@ -1,0 +1,35 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:197: error: incompatible types: int cannot be converted to int[]
+        boolean isBalanced = checkRedBlackProperties(root, 0, blackHeight);
+                                                              ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:203: error: bad operand types for binary operator '=='
+            if (blackHeight == -1) {
+                            ^
+  first type:  int[]
+  second type: int
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:203: error: bad operand types for binary operator '=='
+              if (blackHeight == -1) {
+                              ^
+    first type:  int[]
+    second type: int/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:197: error: incompatible types: int cannot be converted to int[]
+          boolean isBalanced = checkRedBlackProperties(root, 0, blackHeight);
+                                                                ^
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 392ms
+1 actionable task: 1 executed

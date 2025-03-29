@@ -9,15 +9,15 @@ Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
     allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
-Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-26T05:15:43.313478771Z     7,89M used)
-Progress update: steps=1000, test inputs generated=867, failing inputs=0      (2025-03-26T05:15:53.065392900Z     210M used)
-Progress update: steps=1163, test inputs generated=1001, failing inputs=0      (2025-03-26T05:15:54.370381902Z     103M used)
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-27T11:42:49.642057020Z     7,58M used)
+Progress update: steps=1000, test inputs generated=867, failing inputs=0      (2025-03-27T11:42:59.565009444Z     127M used)
+Progress update: steps=1163, test inputs generated=1001, failing inputs=0      (2025-03-27T11:43:00.879561470Z     205M used)
 Normal method executions: 242634
 Exceptional method executions: 0
 
-Average method execution time (normal termination):      0,000114
+Average method execution time (normal termination):      0,000119
 Average method execution time (exceptional termination): NaN
-Approximate memory usage 103M
+Approximate memory usage 205M
 Explorer = ForwardGenerator(steps: 1163, null steps: 162, num_sequences_generated: 1001;
     allSequences: 1001, regresson seqs: 1000, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 40)

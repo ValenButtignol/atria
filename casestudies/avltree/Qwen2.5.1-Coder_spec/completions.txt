@@ -1,0 +1,75 @@
+
+- **Attributes:**
+  - `root`: The root node of the AVL tree.
+  - `ALLOWED_IMBALANCE`: A constant representing the maximum allowed imbalance between the heights of the left and right subtrees.
+
+- **Methods:**
+  - `insert(int x)`: Inserts an element `x` into the AVL tree.
+  - `remove(int x)`: Removes an element `x` from the AVL tree.
+  - `findMin()`: Returns the minimum element in the AVL tree.
+  - `isEmpty()`: Checks if the AVL tree is empty.
+
+- **Behavior:**
+  - The AVL tree maintains a balance factor between the heights of the left and right subtrees of each node, ensuring that the tree remains approximately balanced.
+  - The `insert` method adds a new element while maintaining the AVL property.
+  - The `remove` method deletes an element while maintaining the AVL property.
+  - The `findMin` method returns the smallest element in the tree.
+  - The `isEmpty` method returns true if the tree has no elements, otherwise false.
+
+- **Constraints:**
+  - The height difference between the left and right subtrees of any node is at most `ALLOWED_IMBALANCE`.
+  - The tree is dynamically adjusted to maintain balance after insertions and deletions.
+
+To ensure the AVL tree maintains its properties, we need to check the following constraints:
+
+1. The height difference between the left and right subtrees of any node should be at most `ALLOWED_IMBALANCE`.
+2. The tree should not contain duplicate elements.
+
+Here is the `repOK` method for the `AvlTree` class:
+
+```java
+public boolean repOK() {
+    return checkHeight(root) && !hasDuplicates(root, null, null);
+}
+
+private boolean checkHeight(AvlNode t) {
+    if (t == null) {
+        return true;
+    }
+    int leftHeight = height(t.left);
+    int rightHeight = height(t.right);
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+    return checkHeight(t.left) && checkHeight(t.right);
+}
+
+private boolean hasDuplicates(AvlNode t, Integer min, Integer max) {
+    if (t == null) {
+        return false;
+    }
+    if (min != null && t.element <= min) {
+        return true;
+    }
+    if (max != null && t.element >= max) {
+        return true;
+    }
+    return hasDuplicates(t.left, min, t.element) || hasDuplicates(t.right, t.element, max);
+}
+```
+
+### Explanation:
+
+1. **checkHeight Method**:
+   - This method recursively checks the height balance of the tree.
+   - For each node, it calculates the height of the left and right subtrees.
+   - It checks if the absolute difference between the heights is greater than `ALLOWED_IMBALANCE`.
+   - It recursively checks the left and right subtrees.
+
+2. **hasDuplicates Method**:
+   - This method checks for duplicate elements in the tree.
+   - It uses a range to ensure that each node's value is within the valid range defined by its ancestors.
+   - If a node's value is less than or equal to the minimum value allowed for its subtree or greater than or equal to the maximum value allowed for its subtree, it returns true, indicating a duplicate.
+   - It recursively checks the left and right subtrees with updated ranges.
+
+By implementing these checks, the `repOK` method ensures that the AVL tree maintains its balance and does not contain duplicate elements.

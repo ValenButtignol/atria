@@ -56,3 +56,280 @@ The class provides methods to add nodes to the end of the list, remove nodes bas
 - The linked list is maintained in a standard doubly linked list structure.
 - The cache operates on a First-In, First-Out (FIFO) basis, evicting the oldest node when the cache is full.
 - The isEqualValue method handles null values by considering them equal to themselves but not to any non-null value.
+
+<think>
+Alright, I'm trying to write a representation invariant for the NodeCachingLinkedList class. Let me start by understanding what this class does. From the code, it looks like it's a linked list with some caching functionality. The class has methods like add, remove, and some cache-related methods like addNodeToCache and removeNode.
+
+First, I need to describe the behavior of the class. It should manage a linked list while also caching nodes to improve performance by reducing the number of times nodes need to be fetched from the main structure. The caching mechanism probably helps in reducing the overhead of accessing nodes frequently.
+
+Attributes-wise, the class has a header node, which I assume is the starting point of the linked list. There's a size variable to keep track of the number of nodes. The maximum cache size is set by default to 20, and there's a cache size that can grow or shrink based on usage. There's also a firstCachedNode variable that points to the first node in the cache.
+
+Properties include the size, maximum cache size, and cache size. The size should always match the actual number of nodes in the linked list. The cache size should never exceed the maximum cache size, and it should accurately reflect how many nodes are currently in the cache.
+
+Now, for the methods. The remove method iterates through the linked list to find the node with the given value and removes it. The add method adds a new node at the end of the list. There's also an addLast method, which seems redundant but probably adds a node before the last one. The addNodeBefore and addNode methods handle inserting nodes at specific positions, maintaining the linked list structure.
+
+The getNodeFromCache method retrieves a node from the cache, moving it to the end so it's available next time. The isCacheFull method checks if the cache is at its maximum size. The addNodeToCache method adds a node to the cache if there's space, and removeNodeToCache seems to remove a node from the cache before adding a new one, possibly to free up space.
+
+The isEqualValue method checks if two objects are equal, considering null values. The LinkedListNode inner class represents each node in the linked list, containing previous and next pointers and the node's value.
+
+Putting this all together, the specification should explain what the class does, its structure, and the rules it follows, like ensuring the cache size doesn't exceed the maximum and maintaining the linked list's integrity.
+</think>
+
+### Informal Specification for NodeCachingLinkedList Class
+
+#### Behavior
+The NodeCachingLinkedList class implements a linked list with a caching mechanism to optimize node access. It manages a list of nodes where each node contains a value and pointers to the previous and next nodes. Additionally, it caches nodes to reduce the frequency of accessing nodes from the main list, improving performance by storing frequently accessed nodes temporarily.
+
+The class provides methods to add nodes to the end of the list, remove nodes based on their value, and manage the cache. When a node is accessed (either added or removed), it is moved to the cache if it's not already there. If the cache is full, nodes may be evicted to make space for new ones.
+
+#### Attributes
+- **header**: A dummy node used as the starting point of the linked list.
+- **size**: An integer counter tracking the total number of nodes in the list.
+- **maximumCacheSize**: The maximum number of nodes that can be cached, set to 20 by default.
+- **cacheSize**: The current number of nodes in the cache.
+- **firstCachedNode**: A reference to the first node in the cache.
+- **cache**: A linked list of cached nodes, managed to ensure efficient access.
+
+#### Properties
+- **Cache Management**: The cache size must not exceed the maximum cache size. When the cache is full, adding a new node evicts the oldest node in the cache.
+- **Node Access**: Accessing a node (adding or removing) moves it to the front of the cache if it's not already present.
+- **Consistency**: The size of the linked list and the cache must always be consistent with the actual number of nodes.
+- **Node Structure**: Each node contains a value and pointers to its previous and next nodes.
+
+#### Methods
+- **add(Object value)**: Adds a new node to the end of the linked list and moves it to the cache if there is space.
+- **remove(Object value)**: Removes the node containing the specified value from the linked list and moves it to the cache if it was previously in the cache.
+- **addLast(Object value)**: Adds a new node to the end of the linked list.
+- **getNodeFromCache()**: Retrieves a node from the cache and moves it to the end of the cache for future access.
+- **isCacheFull()**: Checks if the cache has reached its maximum capacity.
+- **addNodeToCache(LinkedListNode node)**: Adds a node to the cache if there is space.
+- **removeNode(LinkedListNode node)**: Removes a node from the cache before adding it to the main linked list.
+
+#### Inner Class: LinkedListNode
+- **previous**: Pointer to the previous node in the list.
+- **next**: Pointer to the next node in the list.
+- **value**: The value stored in the node.
+
+#### Notes
+- The linked list is maintained in a standard doubly linked list structure.
+- The cache operates on a First-In, First-Out (FIFO) basis, evicting the oldest node when the cache is full.
+- The isEqualValue method handles null values by considering them equal to themselves but not to any non-null value.
+### repOK:
+</think>
+
+### Informal Specification for NodeCachingLinkedList Class
+
+#### Behavior
+The NodeCachingLinkedList class implements a linked list with a caching mechanism to optimize node access. It manages a list of nodes where each node contains a value and pointers to the previous and next nodes. Additionally, it caches nodes to reduce the frequency of accessing nodes from the main list, improving performance by storing frequently accessed nodes temporarily.
+
+The class provides methods to add nodes to the end of the list, remove nodes based on their value, and manage the cache. When a node is accessed (either added or removed), it is moved to the cache if it's not already there. If the cache is full, nodes may be evicted to make space for new ones.
+
+#### Attributes
+- **header**: A dummy node used as the starting point of the linked list.
+- **size**: An integer counter tracking the total number of nodes in the list.
+- **maximumCacheSize**: The maximum number of nodes that can be cached, set to 20 by default.
+- **cacheSize**: The current number of nodes in the cache.
+- **firstCachedNode**: A reference to the first node in the cache.
+- **cache**: A linked list of cached nodes, managed to ensure efficient access.
+
+#### Properties
+- **Cache Management**: The cache size must not exceed the maximum cache size. When the cache is full, adding a new node evicts the oldest node in the cache.
+- **Node Access**: Accessing a node (adding or removing) moves it to the front of the cache if it's not already present.
+- **Consistency**: The size of the linked list and the cache must always be consistent with the actual number of nodes.
+- **Node Structure**: Each node contains a value and pointers to its previous and next nodes.
+
+#### Methods
+- **add(Object value)**: Adds a new node to the end of the linked list and moves it to the cache if there is space.
+- **remove(Object value)**: Removes the node containing the specified value from the linked list and moves it to the cache if it was previously in the cache.
+- **addLast(Object value)**: Adds a new node to the end of the linked list.
+- **getNodeFromCache()**: Retrieves a node from the cache and moves it to the end of the cache for future access.
+- **isCacheFull()**: Checks if the cache has reached its maximum capacity.
+- **addNodeToCache(LinkedListNode node)**: Adds a node to the cache if there is space.
+- **removeNode(LinkedListNode node)**: Removes a node from the cache before adding it to the main linked list.
+
+#### Inner Class: LinkedListNode
+- **previous**: Pointer to the previous node in the list.
+- **next**: Pointer to the next node in the list.
+- **value**: The value stored in the node.
+
+#### Notes
+- The linked list is maintained in a standard doubly linked list structure.
+- The cache operates on a First-In, First-Out (FIFO) basis, evicting the oldest node when the cache is full.
+- The isEqualValue method handles null values by considering them equal to themselves but not to any non-null value.
+### repOK:
+</think>
+
+### Informal Specification for NodeCachingLinkedList Class
+
+#### Behavior
+The NodeCachingLinkedList class implements a linked list with a caching mechanism to optimize node access. It manages a list of nodes where each node contains a value and pointers to the previous and next nodes. Additionally, it caches nodes to reduce the frequency of accessing nodes from the main list, improving performance by storing frequently accessed nodes temporarily.
+
+The class provides methods to add nodes to the end of the list, remove nodes based on their value, and manage the cache. When a node is accessed (either added or removed), it is moved to the cache if it's not already there. If the cache is full, nodes may be evicted to make space for new ones.
+
+#### Attributes
+- **header**: A dummy node used as the starting point of the linked list.
+- **size**: An integer counter tracking the total number of nodes in the list.
+- **maximumCacheSize**: The maximum number of nodes that can be cached, set to 20 by default.
+- **cacheSize**: The current number of nodes in the cache.
+- **firstCachedNode**: A reference to the first node in the cache.
+- **cache**: A linked list of cached nodes, managed to ensure efficient access.
+
+#### Properties
+- **Cache Management**: The cache size must not exceed the maximum cache size. When the cache is full, adding a new node evicts the oldest node in the cache.
+- **Node Access**: Accessing a node (adding or removing) moves it to the front of the cache if it's not already present.
+- **Consistency**: The size of the linked list and the cache must always be consistent with the actual number of nodes.
+- **Node Structure**: Each node contains a value and pointers to its previous and next nodes.
+
+#### Methods
+- **add(Object value)**: Adds a new node to the end of the linked list and moves it to the cache if there is space.
+- **remove(Object value)**: Removes the node containing the specified value from the linked list and moves it to the cache if it was previously in the cache.
+- **addLast(Object value)**: Adds a new node to the end of the linked list.
+- **getNodeFromCache()**: Retrieves a node from the cache and moves it to the end of the cache for future access.
+- **isCacheFull()**: Checks if the cache has reached its maximum capacity.
+- **addNodeToCache(LinkedListNode node)**: Adds a node to the cache if there is space.
+- **removeNode(LinkedListNode node)**: Removes a node from the cache before adding it to the main linked list.
+
+#### Inner Class: LinkedListNode
+- **previous**: Pointer to the previous node in the list.
+- **next**: Pointer to the next node in the list.
+- **value**: The value stored in the node.
+
+#### Notes
+- The linked list is maintained in a standard doubly linked list structure.
+- The cache operates on a First-In, First-Out (FIFO) basis, evicting the oldest node when the cache is full.
+- The isEqualValue method handles null values by considering them equal to themselves but not to any non-null value.
+### repOK:
+</think>
+
+### Informal Specification for NodeCachingLinkedList Class
+
+#### Behavior
+The NodeCachingLinkedList class implements a linked list with a caching mechanism to optimize node access. It manages a list of nodes where each node contains a value and pointers to the previous and next nodes. Additionally, it caches nodes to reduce the frequency of accessing nodes from the main list, improving performance by storing frequently accessed nodes temporarily.
+
+The class provides methods to add nodes to the end of the list, remove nodes based on their value, and manage the cache. When a node is accessed (either added or removed), it is moved to the cache if it's not already there. If the cache is full, nodes may be evicted to make space for new ones.
+
+#### Attributes
+- **header**: A dummy node used as the starting point of the linked list.
+- **size**: An integer counter tracking the total number of nodes in the list.
+- **maximumCacheSize**: The maximum number of nodes that can be cached, set to 20 by default.
+- **cacheSize**: The current number of nodes in the cache.
+- **firstCachedNode**: A reference to the first node in the cache.
+- **cache**: A linked list of cached nodes, managed to ensure efficient access.
+
+#### Properties
+- **Cache Management**: The cache size must not exceed the maximum cache size. When the cache is full, adding a new node evicts the oldest node in the cache.
+- **Node Access**: Accessing a node (adding or removing) moves it to the front of the cache if it's not already present.
+- **Consistency**: The size of the linked list and the cache must always be consistent with the actual number of nodes.
+- **Node Structure**: Each node contains a value and pointers to its previous and next nodes.
+
+#### Methods
+- **add(Object value)**: Adds a new node to the end of the linked list and moves it to the cache if there is space.
+- **remove(Object value)**: Removes the node containing the specified value from the linked list and moves it to the cache if it was previously in the cache.
+- **addLast(Object value)**: Adds a new node to the end of the linked list.
+- **getNodeFromCache()**: Retrieves a node from the cache and moves it to the end of the cache for future access.
+- **isCacheFull()**: Checks if the cache has reached its maximum capacity.
+- **addNodeToCache(LinkedListNode node)**: Adds a node to the cache if there is space.
+- **removeNode(LinkedListNode node)**: Removes a node from the cache before adding it to the main linked list.
+
+#### Inner Class: LinkedListNode
+- **previous**: Pointer to the previous node in the list.
+- **next**: Pointer to the next node in the list.
+- **value**: The value stored in the node.
+
+#### Notes
+- The linked list is maintained in a standard doubly linked list structure.
+- The cache operates on a First-In, First-Out (FIFO) basis, evicting the oldest node when the cache is full.
+- The isEqualValue method handles null values by considering them equal to themselves but not to any non-null value.
+### repOK:
+</think>
+
+### Informal Specification for NodeCachingLinkedList Class
+
+#### Behavior
+The NodeCachingLinkedList class implements a linked list with a caching mechanism to optimize node access. It manages a list of nodes where each node contains a value and pointers to the previous and next nodes. Additionally, it caches nodes to reduce the frequency of accessing nodes from the main list, improving performance by storing frequently accessed nodes temporarily.
+
+The class provides methods to add nodes to the end of the list, remove nodes based on their value, and manage the cache. When a node is accessed (either added or removed), it is moved to the cache if it's not already there. If the cache is full, nodes may be evicted to make space for new ones.
+
+#### Attributes
+- **header**: A dummy node used as the starting point of the linked list.
+- **size**: An integer counter tracking the total number of nodes in the list.
+- **maximumCacheSize**: The maximum number of nodes that can be cached, set to 20 by default.
+- **cacheSize**: The current number of nodes in the cache.
+- **firstCachedNode**: A reference to the first node in the cache.
+- **cache**: A linked list of cached nodes, managed to ensure efficient access.
+
+#### Properties
+- **Cache Management**: The cache size must not exceed the maximum cache size. When the cache is full, adding a new node evicts the oldest node in the cache.
+- **Node Access**: Accessing a node (adding or removing) moves it to the front of the cache if it's not already present.
+- **Consistency**: The size of the linked list and the cache must always be consistent with the actual number of nodes.
+- **Node Structure**: Each node contains a value and pointers to its previous and next nodes.
+
+#### Methods
+- **add(Object value)**: Adds a new node to the end of the linked list and moves it to the cache if there is space.
+- **remove(Object value)**: Removes the node containing the specified value from the linked list and moves it to the cache if it was previously in the cache.
+- **addLast(Object value)**: Adds a new node to the end of the linked list.
+- **getNodeFromCache()**: Retrieves a node from the cache and moves it to the end of the cache for future access.
+- **isCacheFull()**: Checks if the cache has reached its maximum capacity.
+- **addNodeToCache(LinkedListNode node)**: Adds a node to the cache if there is space.
+- **removeNode(LinkedListNode node)**: Removes a node from the cache before adding it to the main linked list.
+
+#### Inner Class: LinkedListNode
+- **previous**: Pointer to the previous node in the list.
+- **next**: Pointer to the next node in the list.
+- **value**: The value stored in the node.
+
+#### Notes
+- The linked list is maintained in a standard doubly linked list structure.
+- The cache operates on a First-In, First-Out (FIFO) basis, evicting the oldest node when the cache is full.
+- The isEqualValue method handles null values by considering them equal to themselves but not to any non-null value.
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+### repOK:
+

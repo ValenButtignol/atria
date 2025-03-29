@@ -1,0 +1,129 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:266: error: cannot find symbol
+        if (root == null) {
+            ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:272: error: cannot find symbol
+        queue.add(root);
+                  ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:277: error: cannot find symbol
+            if (current.left != null) {
+                       ^
+  symbol:   variable left
+  location: variable current of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:278: error: cannot find symbol
+                if (current.left.parent != current) {
+                           ^
+  symbol:   variable left
+  location: variable current of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:282: error: cannot find symbol
+            if (current.right != null) {
+                       ^
+  symbol:   variable right
+  location: variable current of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:283: error: cannot find symbol
+                if (current.right.parent != current) {
+                           ^
+  symbol:   variable right
+  location: variable current of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:288: error: cannot find symbol
+            if (current != root) {
+                           ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:295: error: cannot find symbol
+            if (current.left != null) {
+                       ^
+  symbol:   variable left
+  location: variable current of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:296: error: cannot find symbol
+                queue.add(current.left);
+                                 ^
+  symbol:   variable left
+  location: variable current of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:298: error: cannot find symbol
+            if (current.right != null) {
+                       ^
+  symbol:   variable right
+  location: variable current of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:299: error: cannot find symbol
+                queue.add(current.right);
+                                 ^
+  symbol:   variable right
+  location: variable current of type BinomialHeapNode
+11 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:266: error: cannot find symbol
+          if (root == null) {
+              ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:272: error: cannot find symbol
+          queue.add(root);
+                    ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:277: error: cannot find symbol
+              if (current.left != null) {
+                         ^
+    symbol:   variable left
+    location: variable current of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:278: error: cannot find symbol
+                  if (current.left.parent != current) {
+                             ^
+    symbol:   variable left
+    location: variable current of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:282: error: cannot find symbol
+              if (current.right != null) {
+                         ^
+    symbol:   variable right
+    location: variable current of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:283: error: cannot find symbol
+                  if (current.right.parent != current) {
+                             ^
+    symbol:   variable right
+    location: variable current of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:288: error: cannot find symbol
+              if (current != root) {
+                             ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:295: error: cannot find symbol
+              if (current.left != null) {
+                         ^
+    symbol:   variable left
+    location: variable current of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:296: error: cannot find symbol
+                  queue.add(current.left);
+                                   ^
+    symbol:   variable left
+    location: variable current of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:298: error: cannot find symbol
+              if (current.right != null) {
+                         ^
+    symbol:   variable right
+    location: variable current of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:299: error: cannot find symbol
+                  queue.add(current.right);
+                                   ^
+    symbol:   variable right
+    location: variable current of type BinomialHeapNode
+  11 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 382ms
+1 actionable task: 1 executed

@@ -1,109 +1,17 @@
+> Task :compileJava
+> Task :processResources
+> Task :classes
+> Task :jar
+> Task :startScripts
+> Task :distTar
+> Task :distZip
+> Task :assemble
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test NO-SOURCE
+> Task :check UP-TO-DATE
+> Task :build
 
-> Task :compileJava FAILED
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:252: error: cannot find symbol
-        if (size > capacity) {
-                   ^
-  symbol:   variable capacity
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:259: error: cannot find symbol
-            if (left < size && heap[left] < heap[i]) {
-                               ^
-  symbol:   variable heap
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:259: error: cannot find symbol
-            if (left < size && heap[left] < heap[i]) {
-                                            ^
-  symbol:   variable heap
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:262: error: cannot find symbol
-            if (right < size && heap[right] < heap[i]) {
-                                ^
-  symbol:   variable heap
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:262: error: cannot find symbol
-            if (right < size && heap[right] < heap[i]) {
-                                              ^
-  symbol:   variable heap
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-            if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                ^
-  symbol:   variable heap
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-            if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                             ^
-  symbol:   variable heap
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-            if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                                        ^
-  symbol:   variable heap
-  location: class HashMap
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-            if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                                                      ^
-  symbol:   variable heap
-  location: class HashMap
-9 errors
-
-[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':compileJava'.
-> Compilation failed; see the compiler output below.
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:252: error: cannot find symbol
-          if (size > capacity) {
-                     ^
-    symbol:   variable capacity
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:259: error: cannot find symbol
-              if (left < size && heap[left] < heap[i]) {
-                                 ^
-    symbol:   variable heap
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:259: error: cannot find symbol
-              if (left < size && heap[left] < heap[i]) {
-                                              ^
-    symbol:   variable heap
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:262: error: cannot find symbol
-              if (right < size && heap[right] < heap[i]) {
-                                  ^
-    symbol:   variable heap
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:262: error: cannot find symbol
-              if (right < size && heap[right] < heap[i]) {
-                                                ^
-    symbol:   variable heap
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-              if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                  ^
-    symbol:   variable heap
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-              if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                               ^
-    symbol:   variable heap
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-              if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                                          ^
-    symbol:   variable heap
-    location: class HashMap
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/HashMap.java:275: error: cannot find symbol
-              if (heap[left] < heap[i] || heap[right] < heap[i]) {
-                                                        ^
-    symbol:   variable heap
-    location: class HashMap
-  9 errors
-
-* Try:
-> Check your code and dependencies to fix the compilation error(s)
-> Run with --scan to get full insights.
-
-BUILD FAILED in 410ms
-1 actionable task: 1 executed
+BUILD SUCCESSFUL in 682ms
+6 actionable tasks: 6 executed

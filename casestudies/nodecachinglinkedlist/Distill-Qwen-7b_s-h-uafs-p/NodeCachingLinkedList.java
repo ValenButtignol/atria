@@ -166,12 +166,6 @@ public class NodeCachingLinkedList {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
         return true;
-    }
-
-    public boolean property() {
-        return cacheSize <= maximumCacheSize;
     }
 }

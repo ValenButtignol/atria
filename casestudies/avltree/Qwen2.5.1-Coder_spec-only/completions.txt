@@ -1,0 +1,79 @@
+
+- **Attributes:**
+  - `root`: The root node of the AVL tree.
+  - `ALLOWED_IMBALANCE`: A constant representing the maximum allowed imbalance between the heights of the left and right subtrees.
+
+- **Methods:**
+  - `insert(int x)`: Inserts an element `x` into the AVL tree.
+  - `remove(int x)`: Removes an element `x` from the AVL tree.
+  - `findMin()`: Returns the minimum element in the AVL tree.
+  - `isEmpty()`: Checks if the AVL tree is empty.
+
+- **Behavior:**
+  - The AVL tree maintains a balance factor between the heights of the left and right subtrees of each node, ensuring that the tree remains approximately balanced.
+  - The `insert` method adds a new element while maintaining the AVL property.
+  - The `remove` method deletes an element while maintaining the AVL property.
+  - The `findMin` method returns the smallest element in the tree.
+  - The `isEmpty` method returns true if the tree has no elements, otherwise false.
+
+- **Constraints:**
+  - The height difference between the left and right subtrees of any node is at most `ALLOWED_IMBALANCE`.
+  - The tree is dynamically adjusted to maintain balance after insertions and deletions.
+
+To ensure the AVL tree maintains its balance properties, we need to define a representation invariant that checks the balance factor of each node. The balance factor of a node is defined as the difference in heights between its left and right subtrees. For an AVL tree, this balance factor should be between -1 and 1.
+
+Here is the `repOK` method for the `AvlTree` class:
+
+```java
+public class AvlTree {
+    private Node root;
+    private static final int ALLOWED_IMBALANCE = 1;
+
+    // Node class definition
+    private static class Node {
+        int key;
+        int height;
+        Node left;
+        Node right;
+
+        Node(int key) {
+            this.key = key;
+            this.height = 1;
+            this.left = null;
+            this.right = null;
+        }
+    }
+
+    // Method to check the representation invariant
+    public boolean repOK() {
+        return checkBalance(root);
+    }
+
+    // Helper method to check the balance factor of each node
+    private boolean checkBalance(Node node) {
+        if (node == null) {
+            return true;
+        }
+
+        int leftHeight = (node.left != null) ? node.left.height : 0;
+        int rightHeight = (node.right != null) ? node.right.height : 0;
+
+        // Check the balance factor
+        if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+            return false;
+        }
+
+        // Recursively check the left and right subtrees
+        return checkBalance(node.left) && checkBalance(node.right);
+    }
+
+    // Other methods (insert, remove, findMin, isEmpty) would be implemented here
+}
+```
+
+### Explanation:
+- **Node Class**: The `Node` class represents each node in the AVL tree, containing the key, height, and pointers to the left and right children.
+- **repOK Method**: This method checks the balance of the entire tree by calling the `checkBalance` helper method on the root node.
+- **checkBalance Method**: This recursive method checks the balance factor of each node. It calculates the height of the left and right subtrees and ensures the balance factor is within the allowed range (`-ALLOWED_IMBALANCE` to `ALLOWED_IMBALANCE`). If any node violates this condition, the method returns `false`. Otherwise, it recursively checks the left and right subtrees.
+
+This `repOK` method ensures that the AVL tree maintains its balance properties, which is crucial for the efficient performance of the tree operations.

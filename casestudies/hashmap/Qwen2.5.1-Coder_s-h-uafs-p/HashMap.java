@@ -242,36 +242,6 @@ public class HashMap {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        return true;
-    }
-
-    public boolean property() {
-        for (int i = 0; i < table.length; i++) {
-            Entry e = table[i];
-            while (e != null) {
-                if (e.key == null) {
-                    return false;
-                }
-                e = e.next;
-            }
-        }
-        return true;
-    }
-
-    public boolean property_2() {
-        for (int i = 0; i < table.length; i++) {
-            Entry e = table[i];
-            while (e != null) {
-                if (e.next != null && e.key.equals(e.next.key)) {
-                    return false;
-                }
-                e = e.next;
-            }
-        }
         return true;
     }
 }

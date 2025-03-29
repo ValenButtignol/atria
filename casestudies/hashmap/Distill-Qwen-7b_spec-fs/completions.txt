@@ -83,3 +83,64 @@ The HashMap class implements a hash table data structure that stores key-value p
 - The class provides a flexible and self-contained implementation, suitable for various applications requiring efficient key-value storage.
 
 This specification outlines the core functionality and design principles of the HashMap class, emphasizing its dynamic nature, collision resolution, and efficient memory management.
+
+<think>
+Okay, so I need to write a representation invariant for the HashMap class. Hmm, what's a representation invariant? From what I remember, it's a property that describes how the object's attributes relate to each other and the external world. It's like a contract that the object must maintain to behave correctly.
+
+Looking at the HashMap class, it has several attributes: table, size, threshold, loadFactor, and modCount. I need to find a way to express the relationship between these attributes and any other externally visible properties.
+
+Let me think about the key properties of a HashMap. It should maintain a certain load factor to ensure efficiency, and the table should grow or shrink based on that. The modCount is used for thread-safety, so it should be incremented whenever the map is modified.
+
+Wait, how does the load factor relate to the table size and threshold? The load factor is a ratio of size to capacity. The threshold is the target number of entries that triggers resizing. So, maybe the load factor should be equal to size divided by capacity, and the threshold should be based on the load factor and capacity.
+
+Also, modCount should be at least 1 if the map is not empty, right? Because if the map has entries, it's been modified at least once. And if the map is empty, modCount should be 0.
+
+So, putting this together, the representation invariant could be:
+
+- The load factor equals the size divided by the capacity.
+- The threshold equals the ceiling of the load factor multiplied by the capacity.
+- The modCount is at least 1 if the size is greater than 0, and exactly 0 if the size is 0.
+
+Does that make sense? Let me double-check. If the map has entries, modCount should reflect that, and the load factor and threshold should be correctly calculated based on the current state of the table.
+
+I think that covers the main points. Now, I'll write this as a formal representation invariant.
+</think>
+
+### Representation Invariant for HashMap Class
+
+The representation invariant ensures that the internal state of the HashMap class is consistent and reflects the actual state of the data structure. It guarantees that the class maintains its intended behavior and properties.
+
+**Invariant:**
+1. **Load Factor Calculation:**
+   - The load factor is equal to the size divided by the capacity.
+   
+2. **Threshold Calculation:**
+   - The threshold is equal to the ceiling of the load factor multiplied by the capacity.
+   
+3. **ModCount Consistency:**
+   - The modCount is at least 1 if the size is greater than 0, and exactly 0 if the size is 0.
+
+**Formal Representation:**
+```java
+public boolean repOK() {
+    if (size == 0) {
+        return modCount == 0;
+    }
+    
+    if (threshold != (int) (Math.ceil((float) loadFactor * (float) capacity))) {
+        return false;
+    }
+    
+    if (loadFactor != (float) size / (float) capacity) {
+        return false;
+    }
+    
+    if (modCount < 1) {
+        return false;
+    }
+    
+    return true;
+}
+```
+
+This invariant ensures that the HashMap maintains its internal state correctly, with proper calculation of load factor, threshold, and modCount, ensuring the class behaves as expected.

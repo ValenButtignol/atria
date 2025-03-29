@@ -1,0 +1,93 @@
+
+<think>
+Okay, so I need to write an informal specification for the AvlTree class based on the provided Java code. Let me start by understanding what the code does. 
+
+The AvlTree class is a type of balanced binary search tree. It uses a static variable ALLOWED_IMBALANCE set to 1, which I think determines how much the tree can be unbalanced. The tree is maintained using rotations and other operations to keep it balanced after insertions and deletions.
+
+Looking at the class, it has a root node which is of type AvlNode. The root starts as null when the tree is empty. There are methods for inserting and removing elements, and these methods call helper functions that perform the actual tree modifications.
+
+The insert method takes an integer x and inserts it into the tree. It uses a helper function insert that recursively finds the correct position for the new node. After insertion, it calls balance to ensure the tree remains AVL.
+
+The remove method takes an integer x and removes the node with that value from the tree. It also uses a helper function remove, which recursively finds the node to remove and then calls balance to rebalance the tree.
+
+The balance method is crucial here. It checks the heights of the left and right subtrees to ensure that the tree doesn't exceed the allowed imbalance. If the left subtree is more than 1 taller than the right, it performs a left rotation. If the right subtree is more than 1 taller, it performs a right rotation. If the imbalance is exactly 2, it might need to do a double rotation, either left-right or right-left.
+
+The findMin method finds the minimum element in the tree by traversing to the leftmost node. The isEmpty method checks if the tree is empty by seeing if the root is null.
+
+There's also a helper method height that returns the height of a node, which is used to calculate the balance factor.
+
+Looking at the private helper methods, there are rotations: rotateWithLeftChild and rotateWithRightChild, which handle single rotations. Then there are doubleWithLeftChild and doubleWithRightChild, which handle double rotations needed when the imbalance is two levels deep.
+
+The AvlNode class is a nested class inside AvlTree. It represents a node in the tree with an element, left and right children, and a height. The height is automatically set when a node is created, but when modified, it's updated in the balance methods.
+
+So, putting this all together, the AvlTree class is designed to maintain a balanced binary search tree using rotations to ensure that the tree's height remains logarithmic relative to the number of nodes. This ensures efficient search, insert, and delete operations.
+
+Now, to write the informal specification. I need to describe the behavior, attributes, methods, and key constraints.
+
+The AvlTree class maintains a balanced binary search tree using the AVL algorithm. It has a root node, and methods for insertion, deletion, and finding the minimum element. The tree ensures that the height difference between any two child subtrees is no more than one, maintaining balance through rotations.
+
+The class has a static allowed imbalance of 1, which dictates how much the tree can be unbalanced before rotations are needed. The balance method handles the rotations to maintain this balance, ensuring that operations remain efficient.
+
+The findMin method efficiently finds the smallest element by traversing to the leftmost node. The isEmpty method checks if the tree is empty. The insert and remove methods handle the core operations, using helper functions to maintain the tree's balance.
+
+In summary, the AvlTree class is a robust implementation of an AVL tree, providing efficient operations with guaranteed logarithmic time complexity for search, insert, and delete.
+</think>
+
+### Informal Specification for AvlTree Class
+
+The `AvlTree` class implements an AVL tree, a self-balancing binary search tree. It maintains a root node and provides methods for insertion, deletion, and finding the minimum element. The tree ensures that the height difference between any node's left and right subtrees is at most 1, maintaining balance through rotations. Key methods include `insert`, `remove`, `findMin`, and `isEmpty`, which handle core operations efficiently. The class uses helper methods for balancing and rotations, ensuring optimal performance with logarithmic time complexity for key operations.
+
+<think>
+Okay, so I need to write a representation invariant for the AvlTree class. Hmm, I'm not exactly sure what a representation invariant is, but I think it's something that ensures the internal state of the object is valid. Since AvlTree is an AVL tree, it has to maintain certain properties to keep it balanced.
+
+First, I remember that an AVL tree is a self-balancing binary search tree. So, each node has a balance factor, which is the difference in heights between the left and right subtrees. The balance factor can be -1, 0, or 1. If it's outside this range, the tree isn't balanced anymore, and rotations are needed to fix it.
+
+So, the representation invariant should ensure that for every node in the tree, the balance factor is within -1 to 1. That makes sense because if any node's balance factor is outside this range, the tree isn't an AVL tree anymore, and the helper methods would have already rebalanced it.
+
+I should write a method called repOK that checks this condition. It should traverse the tree and verify that each node's balance factor is -1, 0, or 1. If any node violates this, the method should throw an assertion error, indicating that the tree's representation is invalid.
+
+Wait, how do I traverse the tree? I'll need to write a helper method that recursively checks each node. Starting from the root, I'll check the balance factor of each node. If all are within the allowed range, everything is fine. Otherwise, there's a problem.
+
+Also, I should consider the case where the tree is empty. An empty tree should still satisfy the invariant because there are no nodes with invalid balance factors.
+
+Putting it all together, the repOK method will recursively check each node's balance factor. If any node fails, it throws an assertion error. This way, whenever someone accesses the tree's internal state directly, they can ensure it's still a valid AVL tree.
+
+I think that's the plan. Now, I'll write the Java code for the repOK method, making sure it correctly checks each node's balance factor.
+</think>
+
+To ensure the `AvlTree` class maintains the properties of an AVL tree, we need to verify that the balance factor of every node is within the valid range of -1 to 1. This invariant guarantees the tree remains balanced, allowing for efficient operations.
+
+### Solution Code
+
+```java
+public class AvlTree {
+    // Representation invariant: For every node in this tree, the balance factor is -1, 0, or 1.
+    // This invariant is maintained by all methods that modify the tree structure.
+    // It is also maintained by the constructor and any method that directly accesses the tree's structure.
+    public boolean repOK() {
+        return checkBalance(root);
+    }
+
+    private boolean checkBalance(node Node) {
+        if (node == null) {
+            return true;
+        }
+        if (Math.abs(node.getBalance()) > 1) {
+            throw new AssertionFailedException("Balance factor exceeds allowed range (-1 to 1)");
+        }
+        return checkBalance(node.getLeft()) && checkBalance(node.getRight());
+    }
+}
+```
+
+### Explanation
+
+1. **Representation Invariant**: The `repOK` method checks that every node in the tree has a balance factor within the valid range of -1 to 1. This invariant ensures the tree remains balanced and functions correctly.
+
+2. **Recursive Check**: The `checkBalance` helper method recursively traverses the tree. It returns `true` if all nodes are balanced and `false` otherwise. If a node's balance factor is outside the allowed range, it throws an `AssertionFailedException`.
+
+3. **Base Case**: If a node is `null`, it is considered balanced, and the method returns `true`.
+
+4. **Recursive Case**: For each non-null node, the method checks the balance factor. If it's valid, it recursively checks the left and right subtrees.
+
+This invariant is crucial for maintaining the correctness and efficiency of the AVL tree operations.

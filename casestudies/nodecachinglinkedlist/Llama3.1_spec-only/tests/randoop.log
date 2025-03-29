@@ -9,9 +9,9 @@ Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
     allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
-Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-25T23:58:43.431805287Z     8,42M used)
-Progress update: steps=19, test inputs generated=14, failing inputs=0      (2025-03-25T23:59:43.440341411Z     89,6M used)
-Progress update: steps=19, test inputs generated=14, failing inputs=0      (2025-03-26T00:00:43.440799589Z     89,6M used)
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-27T05:48:16.099985052Z     7,94M used)
+Progress update: steps=19, test inputs generated=14, failing inputs=0      (2025-03-27T05:49:16.108720259Z     87,7M used)
+Progress update: steps=19, test inputs generated=14, failing inputs=0      (2025-03-27T05:50:16.109138586Z     87,7M used)
 
 *** Randoop has spent over 10 seconds executing the following test.
 See https://randoop.github.io/randoop/manual/index.html#no-input-generation .
@@ -23,22 +23,12 @@ Will dump a heap profile to randoop-slow.hprof.
 Will print all thread stack traces (twice) and exit with code 1.
 
 --------------------------------------------------
-Thread Thread[#10,Finalizer,8,system]
-Stack trace:
-java.base@21.0.6/java.lang.Object.wait0(Native Method)
-java.base@21.0.6/java.lang.Object.wait(Object.java:366)
-java.base@21.0.6/java.lang.Object.wait(Object.java:339)
-java.base@21.0.6/java.lang.ref.NativeReferenceQueue.await(NativeReferenceQueue.java:48)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:158)
-java.base@21.0.6/java.lang.ref.NativeReferenceQueue.remove(NativeReferenceQueue.java:89)
-java.base@21.0.6/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:173)
---------------------------------------------------
 Thread Thread[#1,main,5,main]
 Stack trace:
 app//system.classfixer.classes.NodeCachingLinkedList.countNodes(NodeCachingLinkedList.java:214)
 app//system.classfixer.classes.NodeCachingLinkedList.repOK_2(NodeCachingLinkedList.java:176)
-java.base@21.0.6/java.lang.invoke.LambdaForm$DMH/0x00007f065c038000.invokeVirtual(LambdaForm$DMH)
-java.base@21.0.6/java.lang.invoke.LambdaForm$MH/0x00007f065c22c800.invoke(LambdaForm$MH)
+java.base@21.0.6/java.lang.invoke.LambdaForm$DMH/0x00007fc9ec038000.invokeVirtual(LambdaForm$DMH)
+java.base@21.0.6/java.lang.invoke.LambdaForm$MH/0x00007fc9ec22c800.invoke(LambdaForm$MH)
 java.base@21.0.6/java.lang.invoke.Invokers$Holder.invokeExact_MT(Invokers$Holder)
 java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(DirectMethodHandleAccessor.java:153)
 java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
@@ -62,9 +52,6 @@ app//randoop.main.GenTests.handle(GenTests.java:515)
 app//randoop.main.Main.nonStaticMain(Main.java:69)
 app//randoop.main.Main.main(Main.java:31)
 --------------------------------------------------
-Thread Thread[#11,Signal Dispatcher,9,system]
-Stack trace:
---------------------------------------------------
 Thread Thread[#27,Common-Cleaner,8,InnocuousThreadGroup]
 Stack trace:
 java.base@21.0.6/jdk.internal.misc.Unsafe.park(Native Method)
@@ -78,13 +65,10 @@ java.base@21.0.6/java.lang.Thread.runWith(Thread.java:1596)
 java.base@21.0.6/java.lang.Thread.run(Thread.java:1583)
 java.base@21.0.6/jdk.internal.misc.InnocuousThread.run(InnocuousThread.java:186)
 --------------------------------------------------
-Thread Thread[#9,Reference Handler,10,system]
-Stack trace:
-java.base@21.0.6/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
-java.base@21.0.6/java.lang.ref.Reference.processPendingReferences(Reference.java:246)
-java.base@21.0.6/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:208)
---------------------------------------------------
 Thread Thread[#26,Notification Thread,9,system]
+Stack trace:
+--------------------------------------------------
+Thread Thread[#11,Signal Dispatcher,9,system]
 Stack trace:
 --------------------------------------------------
 Thread Thread[#39,randoop.util.ProgressDisplay,5,main]
@@ -95,7 +79,11 @@ app//randoop.util.ProgressDisplay.printAllStackTraces(ProgressDisplay.java:160)
 app//randoop.util.ProgressDisplay.exitDueToNoSteps(ProgressDisplay.java:147)
 app//randoop.util.ProgressDisplay.run(ProgressDisplay.java:110)
 --------------------------------------------------
-
+Thread Thread[#9,Reference Handler,10,system]
+Stack trace:
+java.base@21.0.6/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@21.0.6/java.lang.ref.Reference.processPendingReferences(Reference.java:246)
+java.base@21.0.6/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:208)
 --------------------------------------------------
 Thread Thread[#10,Finalizer,8,system]
 Stack trace:
@@ -107,12 +95,14 @@ java.base@21.0.6/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:158)
 java.base@21.0.6/java.lang.ref.NativeReferenceQueue.remove(NativeReferenceQueue.java:89)
 java.base@21.0.6/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:173)
 --------------------------------------------------
+
+--------------------------------------------------
 Thread Thread[#1,main,5,main]
 Stack trace:
 app//system.classfixer.classes.NodeCachingLinkedList.countNodes(NodeCachingLinkedList.java:214)
 app//system.classfixer.classes.NodeCachingLinkedList.repOK_2(NodeCachingLinkedList.java:176)
-java.base@21.0.6/java.lang.invoke.LambdaForm$DMH/0x00007f065c038000.invokeVirtual(LambdaForm$DMH)
-java.base@21.0.6/java.lang.invoke.LambdaForm$MH/0x00007f065c22c800.invoke(LambdaForm$MH)
+java.base@21.0.6/java.lang.invoke.LambdaForm$DMH/0x00007fc9ec038000.invokeVirtual(LambdaForm$DMH)
+java.base@21.0.6/java.lang.invoke.LambdaForm$MH/0x00007fc9ec22c800.invoke(LambdaForm$MH)
 java.base@21.0.6/java.lang.invoke.Invokers$Holder.invokeExact_MT(Invokers$Holder)
 java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(DirectMethodHandleAccessor.java:153)
 java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
@@ -136,9 +126,6 @@ app//randoop.main.GenTests.handle(GenTests.java:515)
 app//randoop.main.Main.nonStaticMain(Main.java:69)
 app//randoop.main.Main.main(Main.java:31)
 --------------------------------------------------
-Thread Thread[#11,Signal Dispatcher,9,system]
-Stack trace:
---------------------------------------------------
 Thread Thread[#27,Common-Cleaner,8,InnocuousThreadGroup]
 Stack trace:
 java.base@21.0.6/jdk.internal.misc.Unsafe.park(Native Method)
@@ -152,13 +139,10 @@ java.base@21.0.6/java.lang.Thread.runWith(Thread.java:1596)
 java.base@21.0.6/java.lang.Thread.run(Thread.java:1583)
 java.base@21.0.6/jdk.internal.misc.InnocuousThread.run(InnocuousThread.java:186)
 --------------------------------------------------
-Thread Thread[#9,Reference Handler,10,system]
-Stack trace:
-java.base@21.0.6/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
-java.base@21.0.6/java.lang.ref.Reference.processPendingReferences(Reference.java:246)
-java.base@21.0.6/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:208)
---------------------------------------------------
 Thread Thread[#26,Notification Thread,9,system]
+Stack trace:
+--------------------------------------------------
+Thread Thread[#11,Signal Dispatcher,9,system]
 Stack trace:
 --------------------------------------------------
 Thread Thread[#39,randoop.util.ProgressDisplay,5,main]
@@ -168,6 +152,22 @@ java.base@21.0.6/java.lang.Thread.getAllStackTraces(Thread.java:2521)
 app//randoop.util.ProgressDisplay.printAllStackTraces(ProgressDisplay.java:160)
 app//randoop.util.ProgressDisplay.exitDueToNoSteps(ProgressDisplay.java:154)
 app//randoop.util.ProgressDisplay.run(ProgressDisplay.java:110)
+--------------------------------------------------
+Thread Thread[#9,Reference Handler,10,system]
+Stack trace:
+java.base@21.0.6/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+java.base@21.0.6/java.lang.ref.Reference.processPendingReferences(Reference.java:246)
+java.base@21.0.6/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:208)
+--------------------------------------------------
+Thread Thread[#10,Finalizer,8,system]
+Stack trace:
+java.base@21.0.6/java.lang.Object.wait0(Native Method)
+java.base@21.0.6/java.lang.Object.wait(Object.java:366)
+java.base@21.0.6/java.lang.Object.wait(Object.java:339)
+java.base@21.0.6/java.lang.ref.NativeReferenceQueue.await(NativeReferenceQueue.java:48)
+java.base@21.0.6/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:158)
+java.base@21.0.6/java.lang.ref.NativeReferenceQueue.remove(NativeReferenceQueue.java:89)
+java.base@21.0.6/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:173)
 --------------------------------------------------
 
 > Task :runRandoop FAILED

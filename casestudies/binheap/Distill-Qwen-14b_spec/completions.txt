@@ -1,0 +1,488 @@
+
+<think>
+Okay, I need to write an informal specification for the BinomialHeap class in Java. Let me start by understanding what this class does. It's a binomial heap, which is a data structure used to efficiently implement priority queues. The class has methods for inserting elements, deleting elements, extracting the minimum element, finding the minimum key, decreasing a key's value, and some helper methods for merging and reversing nodes.
+
+First, I'll look at the class structure. The BinomialHeap class has a private BinomialHeapNode called Nodes, which seems to be the root of the heap. There's also a size variable that keeps track of the number of elements in the heap. The constructor initializes Nodes to null and size to 0, which makes sense for an empty heap.
+
+Next, the insert method. It takes an integer value, creates a new BinomialHeapNode, and if the heap is empty, it sets this node as the root. Otherwise, it calls unionNodes, which I assume merges the new node into the existing heap structure. The size is incremented each time a node is added.
+
+The delete method is a bit more complex. It checks if the value exists in the heap. If it does, it decreases the key value to something lower (findMinimum() -1) and then extracts the minimum. Wait, that might not be the standard approach. Usually, to delete a key, you decrease it to negative infinity and then extract the minimum. But here, it's decreased to findMinimum() -1, which is a way to ensure it's lower than the current minimum, effectively marking it for deletion.
+
+The extractMin method is crucial. It finds the minimum node, removes it from the heap, and then merges the children of the removed node back into the heap. There's some logic to handle the merging and updating the root pointer. After extracting, the size is adjusted based on the new structure.
+
+The findMinimum method simply returns the key of the minimum node, but throws an exception if the heap is empty. That makes sense because you can't find a minimum in an empty heap.
+
+The decreaseKeyValue method allows changing the key of a node to a smaller value. It finds the node with the old value and calls decreaseKeyNode. The decreaseKeyNode method then propagates up the tree, swapping keys with parents if necessary to maintain the heap property.
+
+The helper methods like merge and unionNodes are used to combine two binomial heaps. Merge seems to interleave the nodes by degree, while unionNodes further processes them to maintain the heap structure, possibly linking children to parents where appropriate.
+
+Now, looking at the BinomialHeapNode inner class. Each node has a key, degree, parent, sibling, and child. The constructor initializes these. The size method calculates the size of the subtree rooted at this node. The reverse method is used to reverse the order of siblings, which is necessary during the extractMin operation to properly merge the children.
+
+The findMinNode method traverses all siblings to find the node with the smallest key. The findANodeWithKey method searches the subtree for a node with a given key, checking the current node and then recursively checking the child if it exists.
+
+Putting it all together, the BinomialHeap class implements a priority queue using binomial heap properties. It allows insertion, deletion, and extraction of the minimum element efficiently. The methods manage the heap structure by merging trees and maintaining the necessary properties, such as each node having a key less than its parent.
+
+I should make sure the specification covers all the main functionalities without going into too much detail. It should mention the key operations and how the class maintains the heap invariant. I'll structure it by describing the class's purpose, its attributes, the main methods, and any important constraints or invariants.
+</think>
+
+The `BinomialHeap` class implements a priority queue using a binomial heap data structure. It provides operations for inserting elements, deleting elements, extracting the minimum element, and finding the minimum key. The heap is composed of nodes organized in a tree structure where each node has a key, degree, parent, sibling, and child pointers. The class maintains the heap property, ensuring that each node's key is less than or equal to its parent's key.
+
+**Attributes:**
+- `Nodes`: The root node of the binomial heap.
+- `size`: The number of elements in the heap.
+
+**Methods:**
+- `insert(int value)`: Adds a new element to the heap. If the heap is empty, the new node becomes the root. Otherwise, the new node is merged into the existing heap structure.
+- `delete(int value)`: Removes the specified value from the heap by decreasing its key to a value lower than the current minimum and then extracting the minimum element.
+- `extractMin()`: Removes and returns the node with the smallest key. It merges the children of the removed node back into the heap to maintain the heap structure.
+- `findMinimum()`: Returns the smallest key in the heap. Throws an exception if the heap is empty.
+- `decreaseKeyValue(int old_value, int new_value)`: Decreases the key value of the specified node to a smaller value, ensuring the heap property is maintained.
+- `decreaseKeyNode(BinomialHeapNode node, int new_value)`: Adjusts the key of the specified node and propagates up the tree to maintain the heap property.
+- `merge(BinomialHeapNode binHeap)`: Combines two binomial heaps by interleaving their nodes based on degree.
+- `unionNodes(BinomialHeapNode binHeap)`: Merges two binomial heaps and links nodes appropriately to maintain the heap structure.
+
+**Constraints:**
+- The heap maintains the property that each node's key is less than or equal to its parent's key.
+- The `size` attribute accurately reflects the number of elements in the heap.
+- The `Nodes` attribute always points to the root of the heap or is `null` if the heap is empty.
+
+**Behavior:**
+- Insertion and deletion operations maintain the heap structure and properties.
+- The `extractMin` operation efficiently finds and removes the smallest element while merging the affected subtrees.
+- The `findMinimum` operation quickly locates the smallest key in the heap.
+- The `decreaseKeyValue` operation allows for dynamic key adjustments, ensuring the heap property is preserved.
+
+<think>
+Okay, I need to write a representation invariant for the BinomialHeap class. The invariant should be a method called repOK that checks the internal consistency of the data structure. Let me think about what properties the heap must maintain.
+
+First, the BinomialHeap has a Nodes field, which is the root of the heap, and a size field that keeps track of the number of elements. The heap is made up of nodes connected in a way that maintains the heap property: each node's key is less than or equal to its parent's key.
+
+So, the repOK method should verify several things. Let me list them out:
+
+1. **Size Consistency**: The size field should correctly reflect the number of nodes in the heap. If Nodes is null, size must be 0. Otherwise, the size should equal the size computed by the root node's size() method.
+
+2. **Heap Property**: Every node's key must be less than or equal to its parent's key. This ensures the heap structure is maintained.
+
+3. **Tree Structure Integrity**: Each node's child, sibling, and parent pointers should form valid trees. For example, a node's child should not have a parent pointing back to it, and the structure should not have cycles.
+
+4. **Degree Consistency**: The degree of each node (number of children) should be correctly maintained, especially after operations like insertions and extractions.
+
+5. **Null Checks**: Ensure that when Nodes is null, size is 0, and vice versa.
+
+Let me think about how to implement each check.
+
+For size consistency, I can compare the size field with the size computed by the root node. If Nodes is not null, then Nodes.size() should equal size. If Nodes is null, size must be 0.
+
+Next, the heap property. I need to traverse the heap and ensure that every node's key is <= its parent's key. This might involve checking each node and its parent, but since the heap is a tree, I can start from the root and check each child.
+
+Wait, but in a binomial heap, each node has a parent, except the root. So for each node except the root, node.key <= parent.key must hold.
+
+Then, for tree structure integrity, I need to ensure that the links between nodes are correct. For example, a node's child should not have a sibling that points back to the parent, and there should be no cycles. This might be tricky to check, but perhaps I can ensure that each node's child and sibling form a valid tree structure without loops.
+
+Another point: each node's degree should be equal to the number of children it has. So, for each node, node.degree should equal the number of children. This can be checked by counting the number of children each node has.
+
+Also, when a node is removed, its children should be properly merged back into the heap, maintaining the structure.
+
+Let me outline the steps for repOK:
+
+1. Check if size is consistent with the root's size.
+   - If Nodes is null, size must be 0.
+   - Else, Nodes.size() must equal size.
+
+2. Check the heap property for all nodes.
+   - For each node except the root, node.key <= parent.key.
+
+3. Check that each node's degree matches the number of children it has.
+   - For each node, node.degree should equal the count of its children.
+
+4. Ensure that the tree structure is valid, i.e., no cycles and correct parent/child/sibling links.
+
+5. Verify that the root node is correctly set after operations like extractMin, where the root might change.
+
+Wait, but how do I traverse all nodes to check the heap property? Maybe I can write a helper method that recursively checks each node's key against its parent.
+
+Alternatively, since the heap is a collection of trees, each node's parent is known, so I can traverse from each node to its parent and check the key condition.
+
+Let me think about the implementation.
+
+For the size check:
+
+if (Nodes == null) {
+    return size == 0;
+} else {
+    return size == Nodes.size();
+}
+
+That's straightforward.
+
+For the heap property, I can write a helper method that takes a node and its parent, and recursively checks all descendants.
+
+Wait, but in the BinomialHeapNode class, each node has a parent, so I can start from the root and for each node, check its children.
+
+Alternatively, for each node, if it has a parent, check that node.key <= parent.key.
+
+But how do I traverse all nodes? Maybe using a loop that starts from the root and then follows siblings and children.
+
+Alternatively, for each node, check its parent's key if it has one.
+
+So, in repOK:
+
+- If Nodes is not null, then for every node in the heap, if it has a parent, its key must be <= parent's key.
+
+But how to traverse all nodes? Maybe using a helper method that traverses the entire tree.
+
+Alternatively, since the BinomialHeapNode has a size() method that returns the size of the subtree, perhaps I can iterate through all nodes by traversing the tree.
+
+Wait, but in the BinomialHeapNode class, the size() method is recursive and counts the number of nodes in the subtree. So, perhaps I can write a method that traverses all nodes starting from the root.
+
+Alternatively, perhaps I can write a helper method that takes a node and checks the heap property for that node and its children.
+
+Let me outline the helper method:
+
+private boolean checkHeapProperty(BinomialHeapNode node, BinomialHeapNode parent) {
+    if (node == null) {
+        return true;
+    }
+    if (parent != null && node.key > parent.key) {
+        return false;
+    }
+    return checkHeapProperty(node.child, node) && checkHeapProperty(node.sibling, node);
+}
+
+Wait, but the siblings are part of the same level, so each sibling's parent is the same. So, for each node, I need to check its key against its parent, and then recursively check its children.
+
+Wait, no. Each node's parent is known, so for each node, if it has a parent, node.key <= parent.key. Then, for each child of the node, the same condition must hold: child.key <= node.key.
+
+So, the helper function should check that for the current node, all its children have keys <= its key, and then recursively check each child.
+
+Wait, no. The heap property is that each node's key is <= its parent's key. So, for each node, if it has a parent, node.key <= parent.key. Additionally, each child of the node must have a key <= node.key.
+
+So, the helper function should:
+
+1. For the current node, if it has a parent, check node.key <= parent.key.
+
+2. For each child of the current node, check child.key <= node.key.
+
+3. Recursively check each child's subtree.
+
+So, the helper function could be:
+
+private boolean checkHeapProperty(BinomialHeapNode node, BinomialHeapNode parent) {
+    // Check current node against parent
+    if (parent != null && node.key > parent.key) {
+        return false;
+    }
+
+    // Check each child against current node
+    BinomialHeapNode child = node.child;
+    while (child != null) {
+        if (child.key > node.key) {
+            return false;
+        }
+        // Recursively check child's subtree
+        if (!checkHeapProperty(child, node)) {
+            return false;
+        }
+        child = child.sibling;
+    }
+
+    return true;
+}
+
+Wait, but in the BinomialHeapNode, the child is a single node, and siblings are linked via the sibling pointer. So, for each node, the children are in the child field, and the siblings are in the sibling field. So, to traverse all children, I need to follow the child and sibling pointers.
+
+Wait, no. Each node has a child, which is the first child, and siblings are the nodes at the same level. So, for a node, its children are in the child field, and the next child is in the sibling field of the child.
+
+Wait, perhaps I'm getting confused. Let me look at the BinomialHeapNode structure.
+
+Each node has:
+
+- key: the value
+- degree: number of children
+- parent: pointer to parent node
+- sibling: pointer to the next sibling node at the same level
+- child: pointer to the first child node
+
+So, the children of a node are organized in a linked list via the child and sibling pointers. So, to traverse all children of a node, I can start with node.child, then follow the sibling pointers until I reach null.
+
+So, in the helper function, for each node, I need to check all its children (via child and sibling) to ensure their keys are <= node.key.
+
+So, the helper function would:
+
+1. Check if the current node's key is <= its parent's key (if parent exists).
+
+2. For each child of the current node (traversing via child and sibling), check that the child's key is <= current node's key.
+
+3. Recursively check each child's subtree.
+
+So, the helper function would look something like this:
+
+private boolean checkHeapProperty(BinomialHeapNode node, BinomialHeapNode parent) {
+    // Check current node against parent
+    if (parent != null && node.key > parent.key) {
+        return false;
+    }
+
+    // Check each child against current node
+    BinomialHeapNode child = node.child;
+    while (child != null) {
+        if (child.key > node.key) {
+            return false;
+        }
+        // Recursively check child's subtree
+        if (!checkHeapProperty(child, node)) {
+            return false;
+        }
+        child = child.sibling;
+    }
+
+    return true;
+}
+
+But wait, in the BinomialHeapNode, the child is a single node, and the siblings are linked via the sibling pointer. So, the above code correctly traverses all children.
+
+Now, in the repOK method, I need to call this helper starting from the root node, which has no parent.
+
+So, in repOK:
+
+if (Nodes != null) {
+    return checkHeapProperty(Nodes, null) && ... other checks ... ;
+}
+
+But I also need to perform other checks, like size consistency and tree structure.
+
+Another check is the size consistency. So, in repOK:
+
+if (Nodes == null) {
+    return size == 0;
+} else {
+    return size == Nodes.size();
+}
+
+But wait, the size() method in BinomialHeapNode returns 1 + child.size() + sibling.size(). So, if the tree is correctly structured, this should hold.
+
+But perhaps I should also check that the size computed by the root node equals the size field.
+
+So, combining these:
+
+if (Nodes == null) {
+    if (size != 0) {
+        return false;
+    }
+} else {
+    if (size != Nodes.size()) {
+        return false;
+    }
+}
+
+Then, check the heap property:
+
+if (Nodes != null && !checkHeapProperty(Nodes, null)) {
+    return false;
+}
+
+Another check: each node's degree should equal the number of children it has. Because in a binomial heap, the degree of a node is the number of children it has.
+
+So, for each node, node.degree should equal the number of children.
+
+How to check this? For each node, count the number of children by traversing the child and sibling pointers, and compare it to node.degree.
+
+So, I can write a helper method:
+
+private boolean checkDegreeConsistency(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    int childCount = 0;
+    BinomialHeapNode child = node.child;
+    while (child != null) {
+        childCount++;
+        child = child.sibling;
+    }
+    if (childCount != node.degree) {
+        return false;
+    }
+    // Recursively check children
+    return checkDegreeConsistency(node.child);
+}
+
+Wait, but this would only check the first level of children. Because for each node, the child is the first child, and siblings are linked. So, the childCount correctly counts the number of children.
+
+But wait, in a binomial heap, each node's degree is the number of children, which is the number of direct children. So, the helper function correctly counts the number of children.
+
+So, in repOK, after checking the heap property, I should also check that all nodes have correct degree.
+
+So, in repOK:
+
+if (Nodes != null && !checkDegreeConsistency(Nodes)) {
+    return false;
+}
+
+Another check: the tree structure should not have cycles. So, each node's parent should not form a cycle.
+
+How to check for cycles? One way is to traverse from the root, keeping track of visited nodes, and ensure that we don't revisit any node.
+
+But this could be computationally expensive, but for the purposes of an invariant, perhaps it's necessary.
+
+Alternatively, since the heap is a collection of trees, each node's parent should eventually point to the root or null.
+
+Wait, but in a binomial heap, each node has exactly one parent, except the root. So, the structure should be a forest of trees, each rooted at the root node.
+
+Wait, no. The BinomialHeap has a single root node, so the structure is a single tree.
+
+So, to check for cycles, I can traverse from any node, following the parent pointers, and ensure that we eventually reach null without revisiting any node.
+
+But this might be complicated. Alternatively, perhaps it's sufficient to ensure that each node's parent is either null (for the root) or points to a node with a lower key, and that the structure is a tree.
+
+But for the purposes of the repOK method, perhaps the main checks are:
+
+- Size consistency
+- Heap property
+- Degree consistency
+- No cycles in the parent pointers.
+
+But checking for cycles could be tricky. Maybe I can implement a helper method that traverses the parent pointers from any node and ensures no cycles.
+
+Alternatively, perhaps it's sufficient to assume that the other checks ensure the structure is a tree, but I'm not sure.
+
+Another point: when a node is removed, its children are merged into the heap, so their parent pointers are updated correctly.
+
+But for the repOK method, perhaps the main checks are the ones I've outlined: size, heap property, degree consistency.
+
+Wait, but what about the structure of the tree? For example, ensuring that each node's child and sibling pointers form a valid tree.
+
+Perhaps another check is that each node's child's parent is the current node.
+
+So, for each node, if it has a child, then the child's parent should point back to it.
+
+So, in the helper function, for each node, check that all children's parent is the node.
+
+So, in the checkDegreeConsistency function, after counting the children, also check that each child's parent is the current node.
+
+Wait, but in the helper function, I'm already traversing the children via the child and sibling pointers. So, for each child, I can check that child.parent == node.
+
+So, modifying the helper function:
+
+private boolean checkDegreeConsistency(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    int childCount = 0;
+    BinomialHeapNode child = node.child;
+    while (child != null) {
+        if (child.parent != node) {
+            return false;
+        }
+        childCount++;
+        child = child.sibling;
+    }
+    if (childCount != node.degree) {
+        return false;
+    }
+    // Recursively check children
+    return checkDegreeConsistency(node.child);
+}
+
+Wait, but this would only check the first level of children. Because for each child, we check that its parent is the current node, but we don't check the children of the child.
+
+Wait, no. Because the helper function is called recursively on node.child, which is the first child. So, in the recursive call, it will check the children of the child, ensuring their parents are correctly set.
+
+Wait, no. Because node.child is the first child, and the helper function is called on node.child. So, for node.child, it will check its own children, ensuring their parents are node.child, and so on.
+
+So, this should correctly check that all descendants have their parents correctly set.
+
+Another check: the root node's parent should be null.
+
+So, in repOK:
+
+if (Nodes != null && Nodes.parent != null) {
+    return false;
+}
+
+That's a simple check.
+
+Putting it all together, the repOK method would perform the following checks:
+
+1. If Nodes is null, size must be 0.
+2. If Nodes is not null, size must equal Nodes.size().
+3. If Nodes is not null, check that the root's parent is null.
+4. Check that the heap property holds for all nodes.
+5. Check that all nodes have correct degree (number of children matches degree).
+6. Check that each node's children have their parent correctly set to the node.
+
+So, the repOK method would look something like this:
+
+public boolean repOK() {
+    // Check size consistency
+    if (Nodes == null) {
+        if (size != 0) {
+            return false;
+        }
+    } else {
+        if (size != Nodes.size()) {
+            return false;
+        }
+    }
+
+    // Check root's parent is null
+    if (Nodes != null && Nodes.parent != null) {
+        return false;
+    }
+
+    // Check heap property
+    if (Nodes != null && !checkHeapProperty(Nodes, null)) {
+        return false;
+    }
+
+    // Check degree consistency and parent pointers
+    if (Nodes != null && !checkDegreeConsistency(Nodes)) {
+        return false;
+    }
+
+    return true;
+}
+
+And the helper methods:
+
+private boolean checkHeapProperty(BinomialHeapNode node, BinomialHeapNode parent) {
+    if (parent != null && node.key > parent.key) {
+        return false;
+    }
+
+    BinomialHeapNode child = node.child;
+    while (child != null) {
+        if (child.key > node.key) {
+            return false;
+        }
+        if (!checkHeapProperty(child, node)) {
+            return false;
+        }
+        child = child.sibling;
+    }
+
+    return true;
+}
+
+private boolean checkDegreeConsistency(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int childCount = 0;
+    BinomialHeapNode child = node.child;
+    while (child != null) {
+        if (child.parent != node) {
+            return false;
+        }
+        childCount++;
+        child = child.sibling;
+    }
+
+    if (childCount != node.degree) {
+        return false;
+    }
+
+    return checkDegreeConsistency(node.child);
+}
+
+Wait, but in the checkDegreeConsistency method, after checking the first level of children, it recursively checks the children's subtrees. So, it ensures

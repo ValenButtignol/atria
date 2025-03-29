@@ -242,18 +242,6 @@ public class HashMap {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
         return true;
-    }
-
-    public boolean property() {
-        return loadFactor > 0;
-    }
-
-    public boolean property_2() {
-        return size >= 0;
     }
 }

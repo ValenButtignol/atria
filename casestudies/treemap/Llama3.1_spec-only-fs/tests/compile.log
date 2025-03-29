@@ -1,0 +1,211 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+            if (current.color == Color.RED && (current.left != null && current.left.color == Color.RED || current.right != null && current.right.color == Color.RED)) {
+                                 ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+            if (current.color == Color.RED && (current.left != null && current.left.color == Color.RED || current.right != null && current.right.color == Color.RED)) {
+                                                                                             ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+            if (current.color == Color.RED && (current.left != null && current.left.color == Color.RED || current.right != null && current.right.color == Color.RED)) {
+                                                                                                                                                          ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:214: error: cannot find symbol
+            if (current.color == Color.RED && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                 ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:214: error: cannot find symbol
+            if (current.color == Color.RED && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                             ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:214: error: cannot find symbol
+            if (current.color == Color.RED && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                                                                                              ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:217: error: cannot find symbol
+            if (current.color == Color.BLACK && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                 ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:217: error: cannot find symbol
+            if (current.color == Color.BLACK && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                               ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:217: error: cannot find symbol
+            if (current.color == Color.BLACK && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                                                                                                ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:227: error: cannot find symbol
+                if (temp.color == Color.BLACK) {
+                                  ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:236: error: cannot find symbol
+                    if (leftTemp.color == Color.BLACK) {
+                                          ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:249: error: cannot find symbol
+                    if (rightTemp.color == Color.BLACK) {
+                                           ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+12 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+              if (current.color == Color.RED && (current.left != null && current.left.color == Color.RED || current.right != null && current.right.color == Color.RED)) {
+                                   ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+              if (current.color == Color.RED && (current.left != null && current.left.color == Color.RED || current.right != null && current.right.color == Color.RED)) {
+                                                                                               ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+              if (current.color == Color.RED && (current.left != null && current.left.color == Color.RED || current.right != null && current.right.color == Color.RED)) {
+                                                                                                                                                            ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:214: error: cannot find symbol
+              if (current.color == Color.RED && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                   ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:214: error: cannot find symbol
+              if (current.color == Color.RED && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                               ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:214: error: cannot find symbol
+              if (current.color == Color.RED && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                                                                                                ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:217: error: cannot find symbol
+              if (current.color == Color.BLACK && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                   ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:217: error: cannot find symbol
+              if (current.color == Color.BLACK && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                                 ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:217: error: cannot find symbol
+              if (current.color == Color.BLACK && (current.left == null || current.left.color == Color.BLACK) && (current.right == null || current.right.color == Color.BLACK)) {
+                                                                                                                                                                  ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:227: error: cannot find symbol
+                  if (temp.color == Color.BLACK) {
+                                    ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:236: error: cannot find symbol
+                      if (leftTemp.color == Color.BLACK) {
+                                            ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:249: error: cannot find symbol
+                      if (rightTemp.color == Color.BLACK) {
+                                             ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  12 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 400ms
+1 actionable task: 1 executed

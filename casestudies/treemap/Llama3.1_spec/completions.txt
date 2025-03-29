@@ -1,0 +1,150 @@
+
+The TreeMap class represents a self-balancing binary search tree data structure. It stores key-value pairs and provides efficient insertion, deletion, and search operations.
+
+Attributes:
+
+- root: The root node of the tree.
+- comparator: A comparator used to compare keys, or null if the keys are Comparable.
+- size: The number of key-value pairs in the tree.
+
+Methods:
+
+- put(K key, V value): Inserts a new key-value pair into the tree. If the key already exists, its value is updated.
+- size(): Returns the number of key-value pairs in the tree.
+- isEmpty(): Returns true if the tree is empty, false otherwise.
+- clear(): Removes all key-value pairs from the tree.
+
+Constraints:
+
+- The tree is self-balancing, ensuring that the height of the tree remains relatively small even after insertions and deletions.
+- The tree maintains the following properties:
+  - All nodes are either red or black.
+  - The root node is black.
+  - All leaf nodes are black.
+  - If a node is red, both its children must be black.
+  - For any node, all paths from the node to its leaf nodes contain the same number of black nodes.
+
+Purpose:
+
+- The TreeMap class provides an efficient way to store and retrieve key-value pairs, with an average time complexity of O(log n) for search, insertion, and deletion operations.
+
+Here's the representation invariant for the TreeMap class as a Java method called `repOK`:
+
+```java
+private boolean repOK() {
+    // Check if the root is null
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check if the root is black
+    if (root.color == RED) {
+        return false;
+    }
+
+    // Check if all leaf nodes are black
+    checkLeafNodes();
+
+    // Check if all nodes are either red or black
+    checkNodeColors();
+
+    // Check if the tree is self-balancing
+    checkSelfBalancing();
+
+    return true;
+}
+
+private void checkLeafNodes() {
+    checkLeafNodes(root, true);
+}
+
+private void checkLeafNodes(Node node, boolean isLeft) {
+    if (node == null) {
+        return;
+    }
+
+    if (node.left == null && node.right == null) {
+        if (node.color == RED) {
+            throw new AssertionError("Leaf node is red");
+        }
+    } else {
+        checkLeafNodes(node.left, false);
+        checkLeafNodes(node.right, true);
+    }
+}
+
+private void checkNodeColors() {
+    checkNodeColors(root);
+}
+
+private void checkNodeColors(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            throw new AssertionError("Red node has a red left child");
+        }
+        if (node.right != null && node.right.color == RED) {
+            throw new AssertionError("Red node has a red right child");
+        }
+    }
+
+    checkNodeColors(node.left);
+    checkNodeColors(node.right);
+}
+
+private void checkSelfBalancing() {
+    checkSelfBalancing(root, 0);
+}
+
+private void checkSelfBalancing(Node node, int blackCount) {
+    if (node == null) {
+        return;
+    }
+
+    if (node.color == BLACK) {
+        blackCount++;
+    }
+
+    if (node.left != null) {
+        checkSelfBalancing(node.left, blackCount);
+    }
+
+    if (node.right != null) {
+        checkSelfBalancing(node.right, blackCount);
+    }
+
+    if (node.left != null && node.right != null) {
+        if (Math.abs(blackCount - node.left.blackCount) > 1) {
+            throw new AssertionError("Tree is not self-balancing");
+        }
+        if (Math.abs(blackCount - node.right.blackCount) > 1) {
+            throw new AssertionError("Tree is not self-balancing");
+        }
+    }
+}
+
+private int getBlackCount(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    if (node.color == BLACK) {
+        return 1 + getBlackCount(node.left) + getBlackCount(node.right);
+    } else {
+        return getBlackCount(node.left) + getBlackCount(node.right);
+    }
+}
+```
+
+This `repOK` method checks the following properties:
+
+1.  If the tree is empty, the root is null, and the size is 0.
+2.  The root node is black.
+3.  All leaf nodes are black.
+4.  All nodes are either red or black.
+5.  The tree is self-balancing, meaning that all paths from the root to the leaf nodes contain the same number of black nodes.
+
+If any of these properties are not satisfied, the `repOK` method throws an AssertionError.

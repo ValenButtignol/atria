@@ -1,0 +1,75 @@
+
+### Behavior
+The TreeMap class represents a self-balancing binary search tree (BST) that stores key-value pairs. It maintains a root node and tracks the size of the tree. The put method inserts a new key-value pair into the tree, ensuring that the tree remains balanced. If the key already exists, it updates the value. The class uses a private inner Node class to represent each node in the tree, which holds a key, value, left child, right child, and parent. The tree is colored with red and black nodes to maintain balance. The fixInsertion method rebalances the tree after insertion by rotating nodes and changing node colors. The class provides methods to get the size of the tree, check if it's empty, and clear the tree.
+
+### Attributes
+- root (Node): This attribute is a reference to the root node of the tree. It is initially set to null when the tree is empty.
+- size (int): This integer keeps track of the number of key-value pairs in the tree. It is initialized to 0 when the tree is created and is updated when elements are added or removed.
+- comparator (Comparator<? super K>): This attribute is a comparator that is used to compare keys in the tree. It can be null, in which case the keys must implement the Comparable interface.
+
+### Properties
+- No negative size: The size attribute must not be negative.
+- Size consistency with root: The size attribute must be consistent with the root attribute.
+- Consistent size: The size attribute must be equal to the number of nodes in the tree.
+- Acyclic structure: The tree structure must be acyclic, i.e., no node should have a path back to itself.
+- Balanced tree: The tree must be balanced, i.e., the height of the left and right subtrees of every node must differ by at most one.
+- Red-black tree properties: The tree must satisfy the properties of a red-black tree, including:
+  - Every node is either red or black.
+  - The root node is black.
+  - All leaf nodes are black.
+  - If a node is red, both its children must be black.
+  - For any node, all paths from the node to its leaf nodes contain the same number of black nodes.
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+    
+    if (size == 0) {
+        return root == null;
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    int nodeCount = 0;
+    Set<Node> visitedNodes = new HashSet<>();
+    Node current = root;
+
+    while (current != null) {
+        if (!visitedNodes.add(current)) {
+            return false;
+        }
+
+        nodeCount++;
+        current = current.left;
+        if (current != null) {
+            current = current.right;
+        }
+    }
+
+    if (nodeCount != size) {
+        return false;
+    }
+
+    Node currentNode = root;
+    while (currentNode != null) {
+        if (currentNode.color == RED) {
+            if (currentNode.left != null && currentNode.left.color == RED) {
+                return false;
+            }
+            if (currentNode.right != null && currentNode.right.color == RED) {
+                return false;
+            }
+        }
+        currentNode = currentNode.left;
+        if (currentNode != null) {
+            currentNode = currentNode.right;
+        }
+    }
+
+    return true;
+}
+```

@@ -44,3 +44,57 @@ The LinkedList class models a doubly linked list that supports the insertion and
 - **size():** Returns the total number of nodes in the list.
 
 This specification captures the essential behavior, attributes, and constraints of the LinkedList class, highlighting its role as a flexible and efficient data structure for sequential data organization.
+
+
+
+To write a representation invariant for the LinkedList class, we need to ensure that the list adheres to its structural properties and behaves as expected. The invariant should check that the list is correctly linked, maintains the proper size, and follows the BST property if applicable. Here's a possible implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    // Check if the list is empty
+    if (size == 0) {
+        return header.next == header && header.previous == header;
+    }
+
+    // Traverse the list to check for cycles and proper linking
+    Set<Node> visited = new HashSet<>();
+    Node current = header.next;
+    while (current != header) {
+        if (visited.contains(current)) {
+            return false; // Cycle detected
+        }
+        visited.add(current);
+        current = current.next;
+    }
+
+    // Check that each node has a valid previous and next
+    for (Node node : visited) {
+        if (node.previous == null || node.next == null) {
+            return false;
+        }
+    }
+
+    // Check that the size is correct
+    if (numNodes(header.next) != size) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper method to count the number of nodes in the list
+private int numNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + numNodes(node.next);
+}
+```
+
+**Explanation:**
+1. **Empty List Check:** The method first checks if the list is empty by verifying that the header's next and previous are itself.
+2. **Cycle Detection:** It traverses the list starting from the header's next node, using a set to track visited nodes. If a node is revisited, a cycle is detected.
+3. **Node Linking Check:** Ensures each node has valid previous and next references.
+4. **Size Consistency:** Counts the number of nodes from the header's next to ensure it matches the size attribute.
+
+This invariant ensures that the LinkedList class maintains its structural integrity and behaves as expected, providing a reliable foundation for operations on the list.

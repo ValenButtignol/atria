@@ -1,0 +1,198 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:282: error: cannot find symbol
+        return countNodesRecursive(nodes());
+                                   ^
+  symbol:   method nodes()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+        return 1 + countNodesRecursive(node.left) + countNodesRecursive(node.right);
+                                           ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+        return 1 + countNodesRecursive(node.left) + countNodesRecursive(node.right);
+                                                                            ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:293: error: cannot find symbol
+        return isMinHeapRecursive(nodes(), root());
+                                  ^
+  symbol:   method nodes()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:293: error: cannot find symbol
+        return isMinHeapRecursive(nodes(), root());
+                                           ^
+  symbol:   method root()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:303: error: cannot find symbol
+        return isMinHeapRecursive(node.left, node) && isMinHeapRecursive(node.right, node);
+                                      ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:303: error: cannot find symbol
+        return isMinHeapRecursive(node.left, node) && isMinHeapRecursive(node.right, node);
+                                                                             ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:307: error: cannot find symbol
+        return isAcyclicRecursive(nodes(), root());
+                                  ^
+  symbol:   method nodes()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:307: error: cannot find symbol
+        return isAcyclicRecursive(nodes(), root());
+                                           ^
+  symbol:   method root()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:318: error: cannot find symbol
+        if (node.left != null && !isAcyclicRecursive(node.left, visited)) {
+                ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:318: error: cannot find symbol
+        if (node.left != null && !isAcyclicRecursive(node.left, visited)) {
+                                                         ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:321: error: cannot find symbol
+        if (node.right != null && !isAcyclicRecursive(node.right, visited)) {
+                ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:321: error: cannot find symbol
+        if (node.right != null && !isAcyclicRecursive(node.right, visited)) {
+                                                          ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: cannot find symbol
+        return isBinomialHeapRecursive(nodes(), 0);
+                                       ^
+  symbol:   method nodes()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:336: error: cannot find symbol
+        if (node.left != null) {
+                ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:337: error: cannot find symbol
+            actualDegree = 1 + isBinomialHeapRecursive(node.left, 0);
+                                                           ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:339: error: cannot find symbol
+        if (node.right != null) {
+                ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:340: error: cannot find symbol
+            actualDegree = 1 + isBinomialHeapRecursive(node.right, actualDegree);
+                                                           ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+18 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+          return 1 + countNodesRecursive(node.left) + countNodesRecursive(node.right);
+                                             ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+          return 1 + countNodesRecursive(node.left) + countNodesRecursive(node.right);
+                                                                              ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:303: error: cannot find symbol
+          return isMinHeapRecursive(node.left, node) && isMinHeapRecursive(node.right, node);
+                                        ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:303: error: cannot find symbol
+          return isMinHeapRecursive(node.left, node) && isMinHeapRecursive(node.right, node);
+                                                                               ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:318: error: cannot find symbol
+          if (node.left != null && !isAcyclicRecursive(node.left, visited)) {
+                  ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:318: error: cannot find symbol
+          if (node.left != null && !isAcyclicRecursive(node.left, visited)) {
+                                                           ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:321: error: cannot find symbol
+          if (node.right != null && !isAcyclicRecursive(node.right, visited)) {
+                  ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:321: error: cannot find symbol
+          if (node.right != null && !isAcyclicRecursive(node.right, visited)) {
+                                                            ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:336: error: cannot find symbol
+          if (node.left != null) {
+                  ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:337: error: cannot find symbol
+              actualDegree = 1 + isBinomialHeapRecursive(node.left, 0);
+                                                             ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:339: error: cannot find symbol
+          if (node.right != null) {
+                  ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:340: error: cannot find symbol
+              actualDegree = 1 + isBinomialHeapRecursive(node.right, actualDegree);
+                                                             ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:282: error: cannot find symbol
+          return countNodesRecursive(nodes());
+                                     ^
+    symbol:   method nodes()
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:293: error: cannot find symbol
+          return isMinHeapRecursive(nodes(), root());
+                                    ^
+    symbol:   method nodes()
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:293: error: cannot find symbol
+          return isMinHeapRecursive(nodes(), root());
+                                             ^
+    symbol:   method root()
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:307: error: cannot find symbol
+          return isAcyclicRecursive(nodes(), root());
+                                    ^
+    symbol:   method nodes()
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:307: error: cannot find symbol
+          return isAcyclicRecursive(nodes(), root());
+                                             ^
+    symbol:   method root()
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: cannot find symbol
+          return isBinomialHeapRecursive(nodes(), 0);
+                                         ^
+    symbol:   method nodes()
+    location: class BinomialHeap
+  18 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 393ms
+1 actionable task: 1 executed

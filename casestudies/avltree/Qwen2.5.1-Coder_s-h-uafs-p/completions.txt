@@ -1,0 +1,89 @@
+
+- Balance Factor. The balance factor of each node must be between -1 and 1.
+- Height Property. The height of a node is the maximum height of its subtrees plus one.
+- No Duplicates. The tree should not contain duplicate elements.
+- In-order Traversal Sorted. An in-order traversal of the tree should yield a sorted sequence of elements.
+
+```java
+public boolean property() {
+    return isBalanced(root);
+}
+
+private boolean isBalanced(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int balanceFactor = height(node.left) - height(node.right);
+
+    if (Math.abs(balanceFactor) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return isBalanced(node.left) && isBalanced(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return checkHeight(root);
+}
+
+private boolean checkHeight(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return checkHeight(node.left) && checkHeight(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return isUnique(root);
+}
+
+private boolean isUnique(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && node.element == node.left.element) {
+        return false;
+    }
+    if (node.right != null && node.element == node.right.element) {
+        return false;
+    }
+    return isUnique(node.left) && isUnique(node.right);
+}
+```
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public boolean property() {
+    List<Integer> inOrderList = new ArrayList<>();
+    inOrderTraversal(root, inOrderList);
+    for (int i = 1; i < inOrderList.size(); i++) {
+        if (inOrderList.get(i - 1) > inOrderList.get(i)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+private void inOrderTraversal(AvlNode node, List<Integer> list) {
+    if (node != null) {
+        inOrderTraversal(node.left, list);
+        list.add(node.element);
+        inOrderTraversal(node.right, list);
+    }
+}
+```

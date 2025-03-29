@@ -49,3 +49,42 @@ The LinkedList class implements a doubly linked list data structure, which consi
 - Ordered elements: Elements are stored in the order they are added, and the list maintains the sequence through node references.
 - Efficient operations: The add and remove operations efficiently manage the list structure with constant-time adjustments to node references, ensuring O(1) time complexity for these operations in average cases.
 - Null handling: The list can store null elements, and the remove method can remove null values when explicitly searched for.
+
+<think>
+
+```java
+public boolean repOK() {
+    if (header.next == header && header.previous == header) {
+        return size == 0;
+    }
+
+    int actualSize = 0;
+    Entry current = header.next;
+    while (current != header) {
+        actualSize++;
+        current = current.next;
+    }
+
+    if (actualSize != size) {
+        return false;
+    }
+
+    current = header.next;
+    while (current != header) {
+        if (current.next == null || current.next.previous != current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    current = header.previous;
+    while (current != header) {
+        if (current.previous == null || current.previous.next != current) {
+            return false;
+        }
+        current = current.previous;
+    }
+
+    return true;
+}
+```

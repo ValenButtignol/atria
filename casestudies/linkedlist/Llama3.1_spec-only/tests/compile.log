@@ -94,5 +94,5 @@ Execution failed for task ':compileJava'.
 > Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights.
 
-BUILD FAILED in 387ms
+BUILD FAILED in 378ms
 1 actionable task: 1 executed

@@ -73,3 +73,124 @@ The HashMap class implements a hash table-based collection that stores key-value
 - **Null Handling**: Null keys and values are allowed, with null keys represented internally by a special object.
 
 This informal specification outlines the main aspects of the HashMap class, focusing on its structure, behavior, and key properties. It provides a high-level understanding of how the HashMap operates and the mechanisms it uses to store and retrieve key-value pairs efficiently.
+
+<think>
+Okay, so I need to write a representation invariant for the HashMap class. I'm a bit new to this, so I'll take it step by step. First, I'll try to understand what a representation invariant is. From what I remember, a representation invariant is a condition that must always hold true for the data structure to be correct. It ensures that the internal state of the object adheres to the constraints and properties defined by its specification.
+
+Looking back at the HashMap class, I see that it's a complex data structure with several components: the table array, size, threshold, load factor, and modCount. Each of these plays a crucial role in maintaining the integrity of the hash map.
+
+I think the representation invariant for the HashMap should cover several key aspects:
+
+1. **Table Integrity**: The table array should only contain Entry objects or be null. This ensures that the buckets are correctly structured.
+2. **Size Consistency**: The size variable should accurately reflect the number of entries in the table. This means that the size should not exceed the capacity of the table.
+3. **Load Factor Compliance**: The threshold should be set correctly based on the current capacity and load factor. This ensures that resizing happens at the appropriate time.
+4. **Entry Validity**: Each Entry in the table should have valid keys and values, and the hash codes should correspond correctly to their positions in the table.
+5. **No Duplicates**: Each key should be unique in the hash map, ensuring that no two entries have the same key.
+6. **Null Handling**: The handling of null keys and values should be consistent with the design, using the special NULL_KEY object for null keys.
+
+Now, I'll think about how to translate these aspects into a method called repOK(). This method should check all these conditions and return true if they are all satisfied, and false otherwise.
+
+I'll start by checking if the table is properly initialized and that all elements are either Entry objects or null. Then, I'll verify that the size is within the bounds of the table's capacity. Next, I'll ensure that the threshold is correctly calculated based on the load factor and current capacity. I'll also need to check that each Entry's hash code correctly maps to its bucket index and that there are no duplicate keys in the map.
+
+I realize that some of these checks might be complex, especially verifying the hash codes and ensuring no duplicate keys. I'll need to traverse the table and inspect each Entry to perform these validations.
+
+I also need to consider the performance implications of these checks. Since the repOK() method is meant to validate the internal state, it's acceptable for it to be somewhat computationally intensive, as it's not part of the main operations.
+
+Another thing to consider is thread safety. Since the HashMap is not thread-safe, the repOK() method should not assume any synchronization and should handle potential concurrent modifications gracefully, though this might complicate the invariant.
+
+I think I'll structure the repOK() method as follows:
+
+1. **Check Table Initialization**: Ensure that the table is not null and that its length is consistent with the capacity.
+2. **Validate Entry Objects**: Traverse each bucket and ensure that all entries are valid and correctly linked.
+3. **Check Size and Threshold**: Verify that the size is within the capacity and that the threshold is correctly set.
+4. **Hash Code Consistency**: For each Entry, confirm that its hash code correctly maps to its bucket index.
+5. **Unique Keys**: Ensure that no two entries have the same key by comparing all keys during traversal.
+6. **Null Handling**: Confirm that null keys are correctly represented using the NULL_KEY object and that null values are allowed.
+
+I'll need to implement helper methods to assist with these checks, such as a method to traverse the table and inspect each Entry, and another to compare keys for uniqueness.
+
+I also need to handle edge cases, such as an empty HashMap, a HashMap with a single entry, and a HashMap that has undergone resizing. Each of these scenarios should be validated by the repOK() method.
+
+Finally, I'll write the repOK() method, incorporating all these checks, and ensure that it returns true only if all conditions are met. This will involve a series of if statements and loops to validate each aspect of the HashMap's state.
+
+I think I've covered the main points. Now, I'll proceed to write the repOK() method based on these considerations.
+</think>
+
+```java
+public boolean repOK() {
+    // Check if the table is initialized
+    if (table == null) {
+        return false;
+    }
+
+    // Check if the size is within the bounds of the table's capacity
+    if (size < 0 || size > table.length) {
+        return false;
+    }
+
+    // Check if the threshold is correctly set
+    if (threshold < 0 || threshold > Integer.MAX_VALUE) {
+        return false;
+    }
+
+    // Check each bucket in the table
+    for (int i = 0; i < table.length; i++) {
+        Entry current = table[i];
+        int hash = 0;
+        Object key = null;
+
+        // Traverse the linked list in the current bucket
+        while (current != null) {
+            // Check if the Entry is valid
+            if (current.key == null && current.value == null) {
+                return false;
+            }
+
+            // Calculate the hash for the key
+            if (current.key != null) {
+                hash = hash(current.key);
+            } else {
+                hash = hash(HashMap.NULL_KEY);
+            }
+
+            // Check if the hash correctly maps to the bucket index
+            if (indexFor(hash, table.length) != i) {
+                return false;
+            }
+
+            // Check for duplicate keys
+            if (key != null && key.equals(current.getKey())) {
+                return false;
+            }
+
+            key = current.getKey();
+            current = current.next;
+        }
+    }
+
+    // Additional checks for null handling and other properties
+    // (These can be added based on specific requirements)
+
+    return true;
+}
+```
+
+### Explanation
+
+The `repOK()` method performs several checks to ensure the HashMap's internal state is consistent and adheres to its specification:
+
+1. **Table Initialization**: It first checks if the `table` array is initialized and not null. If the table is null, the method returns false.
+
+2. **Size Validation**: It verifies that the `size` is within the valid range (0 to the length of the table). If the size is negative or exceeds the table's capacity, the method returns false.
+
+3. **Threshold Check**: It ensures that the `threshold` is a valid value, not exceeding the maximum integer value. This is crucial for proper resizing behavior.
+
+4. **Bucket Validation**: For each bucket in the table, the method traverses the linked list of Entries. It checks if each Entry is valid (keys and values are correctly set) and if the hash code correctly maps the Entry to its bucket index.
+
+5. **Duplicate Key Check**: While traversing the linked list, it ensures that no two Entries in the same or different buckets have the same key, maintaining the uniqueness of keys in the HashMap.
+
+6. **Hash Code Consistency**: For each Entry, it recalculates the hash for the key and checks if it correctly maps to the current bucket index using `indexFor()`. This ensures that the hash function behaves as expected.
+
+7. **Null Handling**: The method handles null keys by using the special `NULL_KEY` object, ensuring that null keys are stored and retrieved correctly.
+
+By systematically checking each aspect of the HashMap's state, the `repOK()` method ensures that the data structure remains consistent and adheres to its design specifications. This method serves as a critical safeguard, helping to detect and prevent issues that could arise from an inconsistent internal state.

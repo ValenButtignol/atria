@@ -1,0 +1,70 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:216: error: bad operand types for binary operator '>'
+            if (node.right != null && node.value > node.right.value) {
+                                                 ^
+  first type:  V
+  second type: V
+  where V is a type-variable:
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:219: error: bad operand types for binary operator '<='
+            if (node.left != null && node.value <= node.left.value) {
+                                                ^
+  first type:  V
+  second type: V
+  where V is a type-variable:
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:235: error: incompatible types: boolean cannot be converted to int
+        int leftHeight = isBalanced(node.left);
+                                   ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:236: error: incompatible types: boolean cannot be converted to int
+        int rightHeight = isBalanced(node.right);
+                                    ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:239: error: incompatible types: int cannot be converted to boolean
+            return 2;
+                   ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:241: error: incompatible types: int cannot be converted to boolean
+        return Math.max(leftHeight, rightHeight) + 1;
+                                                 ^
+6 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:216: error: bad operand types for binary operator '>'
+              if (node.right != null && node.value > node.right.value) {
+                                                   ^
+    first type:  V
+    second type: V
+    where V is a type-variable:
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:219: error: bad operand types for binary operator '<='
+              if (node.left != null && node.value <= node.left.value) {
+                                                  ^
+    first type:  V
+    second type: V
+    where V is a type-variable:
+      V extends Object declared in class TreeMap/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:235: error: incompatible types: boolean cannot be converted to int
+          int leftHeight = isBalanced(node.left);
+                                     ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:236: error: incompatible types: boolean cannot be converted to int
+          int rightHeight = isBalanced(node.right);
+                                      ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:239: error: incompatible types: int cannot be converted to boolean
+              return 2;
+                     ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:241: error: incompatible types: int cannot be converted to boolean
+          return Math.max(leftHeight, rightHeight) + 1;
+                                                   ^
+  6 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 422ms
+1 actionable task: 1 executed

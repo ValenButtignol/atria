@@ -1,0 +1,71 @@
+
+### Behavior
+The AvlTree class represents an implementation of an AVL tree, a self-balancing binary search tree. It maintains a reference to the root node and tracks the height of each node. The insert method adds a new node with the given integer value, ensuring the tree remains balanced by rotating nodes as necessary. The remove method removes the node with the given integer value, rebalancing the tree after removal. The findMin method returns the smallest element in the tree by traversing down to the leftmost leaf node. The isEmpty method checks whether the tree is empty by verifying the root node is null. The class uses helper methods for rotating nodes (rotateWithLeftChild, rotateWithRightChild, doubleWithLeftChild, doubleWithRightChild) and finding the minimum node (findMin).
+
+### Attributes
+- root (AvlNode): This attribute is a reference to the root node of the AVL tree. It is initially set to null when the tree is empty.
+- height (int): This integer keeps track of the height of each node in the tree. It is updated when nodes are inserted or removed.
+
+### Properties
+- Balance Property: The height of the left and right subtrees of every node differs by at most one.
+- Height Property: The height of a node is the number of edges on the longest path from the node to a leaf.
+- Empty Tree: The tree is empty if the root node is null.
+- Non-Negative Height: The height of every node is non-negative.
+- No Cycles: The tree structure must be acyclic, i.e., no node should have a path back to itself.
+
+```java
+public boolean repOK() {
+    if (isEmpty()) {
+        return root == null;
+    }
+
+    int heightDiff = Math.abs(height(root.left) - height(root.right));
+    if (heightDiff > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    if (height(root.left) - height(root.right) > ALLOWED_IMBALANCE) {
+        if (height(root.left.left) >= height(root.left.right)) {
+            return repOKAfterRotateLeft(root);
+        } else {
+            return repOKAfterDoubleLeft(root);
+        }
+    } else if (height(root.right) - height(root.left) > ALLOWED_IMBALANCE) {
+        if (height(root.right.right) >= height(root.right.left)) {
+            return repOKAfterRotateRight(root);
+        } else {
+            return repOKAfterDoubleRight(root);
+        }
+    }
+
+    return true;
+}
+
+private boolean repOKAfterRotateLeft(AvlNode k2) {
+    AvlNode k1 = k2.left;
+    k2.left = k1.right;
+    k1.right = k2;
+    k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
+    k1.height = Math.max(height(k1.left), k2.height) + 1;
+    return repOK();
+}
+
+private boolean repOKAfterRotateRight(AvlNode k1) {
+    AvlNode k2 = k1.right;
+    k1.right = k2.left;
+    k2.left = k1;
+    k1.height = Math.max(height(k1.left), height(k1.right)) + 1;
+    k2.height = Math.max(height(k2.right), k1.height) + 1;
+    return repOK();
+}
+
+private boolean repOKAfterDoubleLeft(AvlNode k3) {
+    k3.left = repOKAfterRotateRight(k3.left);
+    return repOKAfterRotateLeft(k3);
+}
+
+private boolean repOKAfterDoubleRight(AvlNode k1) {
+    k1.right = repOKAfterRotateLeft(k1.right);
+    return repOKAfterRotateRight(k1);
+}
+```

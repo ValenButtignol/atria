@@ -166,58 +166,6 @@ public class NodeCachingLinkedList {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        if (!property_3())
-            return false;
-        if (!property_4())
-            return false;
-        if (!property_5())
-            return false;
-        return true;
-    }
-
-    public boolean property() {
-        for (LinkedListNode node = header.next; node != header; node = node.next) {
-            if (node.getValue() == null) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean property_2() {
-        int count = 0;
-        for (LinkedListNode node = header.next; node != header; node = node.next) {
-            count++;
-        }
-        return count == size;
-    }
-
-    public boolean property_3() {
-        for (LinkedListNode node = header.next; node != header; node = node.next) {
-            if (node.previous == null || node.next == null) {
-                return false;
-            }
-            if (node.previous.next != node || node.next.previous != node) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean property_4() {
-        return cacheSize <= maximumCacheSize;
-    }
-
-    public boolean property_5() {
-        for (LinkedListNode node = header.next; node != header; node = node.next) {
-            if (node.getValue() == null) {
-                return false;
-            }
-        }
         return true;
     }
 }

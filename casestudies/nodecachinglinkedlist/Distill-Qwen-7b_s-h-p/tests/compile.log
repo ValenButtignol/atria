@@ -1,17 +1,104 @@
-> Task :compileJava
-> Task :processResources
-> Task :classes
-> Task :jar
-> Task :startScripts
-> Task :distTar
-> Task :distZip
-> Task :assemble
-> Task :compileTestJava NO-SOURCE
-> Task :processTestResources NO-SOURCE
-> Task :testClasses UP-TO-DATE
-> Task :test NO-SOURCE
-> Task :check UP-TO-DATE
-> Task :build
 
-BUILD SUCCESSFUL in 656ms
-6 actionable tasks: 6 executed
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+        if (cacheSize == 0) {
+            ^
+  symbol:   variable cacheSize
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:7: error: cannot find symbol
+            return firstCachedNode == null;
+                   ^
+  symbol:   variable firstCachedNode
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:6: error: cannot find symbol
+        if (header == null || header.next == null) {
+            ^
+  symbol:   variable header
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:6: error: cannot find symbol
+        if (header == null || header.next == null) {
+                              ^
+  symbol:   variable header
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:9: error: package header does not exist
+        return header.next.previous == header;
+                     ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:9: error: cannot find symbol
+        return header.next.previous == header;
+                                       ^
+  symbol:   variable header
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass5.java:6: error: cannot find symbol
+        return maximumCacheSize == DEFAULT_MAXIMUM_CACHE_SIZE;
+               ^
+  symbol:   variable maximumCacheSize
+  location: class RepOkClass5
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass5.java:6: error: cannot find symbol
+        return maximumCacheSize == DEFAULT_MAXIMUM_CACHE_SIZE;
+                                   ^
+  symbol:   variable DEFAULT_MAXIMUM_CACHE_SIZE
+  location: class RepOkClass5
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        return size >= 0;
+               ^
+  symbol:   variable size
+  location: class RepOkClass2
+9 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:9: error: package header does not exist
+          return header.next.previous == header;
+                       ^/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+          if (cacheSize == 0) {
+              ^
+    symbol:   variable cacheSize
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:7: error: cannot find symbol
+              return firstCachedNode == null;
+                     ^
+    symbol:   variable firstCachedNode
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:6: error: cannot find symbol
+          if (header == null || header.next == null) {
+              ^
+    symbol:   variable header
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:6: error: cannot find symbol
+          if (header == null || header.next == null) {
+                                ^
+    symbol:   variable header
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:9: error: cannot find symbol
+          return header.next.previous == header;
+                                         ^
+    symbol:   variable header
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass5.java:6: error: cannot find symbol
+          return maximumCacheSize == DEFAULT_MAXIMUM_CACHE_SIZE;
+                 ^
+    symbol:   variable maximumCacheSize
+    location: class RepOkClass5
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass5.java:6: error: cannot find symbol
+          return maximumCacheSize == DEFAULT_MAXIMUM_CACHE_SIZE;
+                                     ^
+    symbol:   variable DEFAULT_MAXIMUM_CACHE_SIZE
+    location: class RepOkClass5
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          return size >= 0;
+                 ^
+    symbol:   variable size
+    location: class RepOkClass2
+  9 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 387ms
+1 actionable task: 1 executed

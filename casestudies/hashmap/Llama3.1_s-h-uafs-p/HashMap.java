@@ -242,50 +242,6 @@ public class HashMap {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        if (!property_3())
-            return false;
-        if (!property_4())
-            return false;
-        return true;
-    }
-
-    public boolean property() {
-        int hash = hash(maskNull("test"));
-        int hash2 = hash(maskNull("test"));
-        return hash == hash2;
-    }
-
-    public boolean property_2() {
-        return size <= threshold;
-    }
-
-    public boolean property_3() {
-        for (int i = 0; i < table.length; i++) {
-            Entry e = table[i];
-            while (e != null) {
-                if (e.key == null) {
-                    return false;
-                }
-                e = e.next;
-            }
-        }
-        return true;
-    }
-
-    public boolean property_4() {
-        Set<Object> keys = new HashSet<>();
-        for (Entry e : table) {
-            while (e != null) {
-                if (keys.contains(e.key))
-                    return false;
-                keys.add(e.key);
-                e = e.next;
-            }
-        }
         return true;
     }
 }

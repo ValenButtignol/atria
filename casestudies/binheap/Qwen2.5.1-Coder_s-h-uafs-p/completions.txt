@@ -1,0 +1,88 @@
+
+- No negative size: The size attribute must not be negative.
+- Size consistency: The size attribute must be equal to the number of nodes in the heap.
+- Acyclic structure: The heap structure must be acyclic, i.e., no node should have a path back to itself.
+- Min-heap property: The key of each node must be greater than or equal to the keys of its children.
+- Correct degree: The degree of each node must be non-negative.
+
+```java
+public boolean property() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean property() {
+    int count = 0;
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        count += current.size();
+        current = current.sibling;
+    }
+    return count == size;
+}
+```
+
+```java
+public boolean property() {
+    Set<BinomialHeapNode> visited = new HashSet<BinomialHeapNode>();
+    visited.add(Nodes);
+    LinkedList<BinomialHeapNode> workList = new LinkedList<BinomialHeapNode>();
+    workList.add(Nodes);
+    while (!workList.isEmpty()) {
+        BinomialHeapNode current = (BinomialHeapNode) workList.removeFirst();
+        if (current.child != null) {
+            if (!visited.add(current.child))
+                return false;
+            workList.add(current.child);
+        }
+        if (current.sibling != null) {
+            if (!visited.add(current.sibling))
+                return false;
+            workList.add(current.sibling);
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    return checkMinHeapProperty(Nodes);
+}
+
+private boolean checkMinHeapProperty(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.child != null) {
+        BinomialHeapNode child = node.child;
+        while (child != null) {
+            if (node.key > child.key) {
+                return false;
+            }
+            if (!checkMinHeapProperty(child)) {
+                return false;
+            }
+            child = child.sibling;
+        }
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    return checkDegree(Nodes);
+}
+
+private boolean checkDegree(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.degree < 0) {
+        return false;
+    }
+    return checkDegree(node.sibling) && checkDegree(node.child);
+}
+```

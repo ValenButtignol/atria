@@ -1,0 +1,59 @@
+
+- Balance Property: The height of the left and right subtrees of every node should differ by at most 1.
+- Non-Null Property: All nodes in the tree should be non-null.
+- No Cycles Property: The tree should not contain any cycles.
+- Empty Tree Property: The tree should be empty if and only if the root is null.
+
+```java
+public boolean property() {
+    return checkBalance(root);
+}
+
+private boolean checkBalance(AvlNode t) {
+    if (t == null)
+        return true;
+
+    int leftHeight = height(t.left);
+    int rightHeight = height(t.right);
+
+    if (Math.abs(leftHeight - rightHeight) > AvlTree.ALLOWED_IMBALANCE)
+        return false;
+
+    return checkBalance(t.left) && checkBalance(t.right);
+}
+```
+
+```java
+public boolean property() {
+    return root != null && isNonNull(root);
+}
+
+private boolean isNonNull(AvlNode node) {
+    if (node == null) {
+        return false;
+    }
+    return isNonNull(node.left) && isNonNull(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return !hasCycle(root);
+}
+
+private boolean hasCycle(AvlNode node) {
+    if (node == null)
+        return false;
+
+    if (node.left == node || node.right == node)
+        return true;
+
+    return hasCycle(node.left) || hasCycle(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return root == null;
+}
+```

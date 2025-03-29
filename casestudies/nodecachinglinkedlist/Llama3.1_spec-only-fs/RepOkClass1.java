@@ -1,61 +1,55 @@
 public class RepOkClass1{
     public boolean repOK() {
-        // Check if the size attribute is consistent with the number of nodes in the list
         if (size != countNodes(header)) {
             return false;
         }
     
-        // Check if the cache size is less than or equal to the maximum cache size
         if (cacheSize > maximumCacheSize) {
             return false;
         }
     
-        // Check if the cache is consistent with the list
-        LinkedListNode current = firstCachedNode;
-        while (current != null) {
-            if (!containsNode(current)) {
-                return false;
-            }
-            current = current.nextCachedNode;
+        if (!isCacheConsistent()) {
+            return false;
         }
     
-        // Check if the list does not contain duplicate values
-        if (hasDuplicates(header)) {
+        if (!noDuplicates()) {
             return false;
         }
     
         return true;
     }
 
+    private boolean isCacheConsistent() {
+        LinkedListNode current = firstCachedNode;
+        while (current != null) {
+            if (!contains(current.value)) {
+                return false;
+            }
+            current = current.nextCached;
+        }
+        return true;
+    }
+
+    private boolean noDuplicates() {
+        Set<Object> seen = new HashSet<>();
+        return noDuplicatesHelper(header, seen);
+    }
+
+    private boolean noDuplicatesHelper(LinkedListNode node, Set<Object> seen) {
+        if (node == null) return true;
+    
+        if (!seen.add(node.value)) return false;
+    
+        return noDuplicatesHelper(node.next, seen);
+    }
+
     private int countNodes(LinkedListNode node) {
         int count = 0;
         while (node != null) {
             count++;
-            node = node.nextNode;
+            node = node.next;
         }
         return count;
-    }
-
-    private boolean containsNode(LinkedListNode node) {
-        LinkedListNode current = header;
-        while (current != null) {
-            if (current == node) {
-                return true;
-            }
-            current = current.nextNode;
-        }
-        return false;
-    }
-
-    private boolean hasDuplicates(LinkedListNode node) {
-        Set<Object> values = new HashSet<>();
-        while (node != null) {
-            if (!values.add(node.value)) {
-                return true;
-            }
-            node = node.nextNode;
-        }
-        return false;
     }
 
 

@@ -1,0 +1,83 @@
+
+The AvlTree class represents a self-balancing binary search tree, ensuring efficient insertion, deletion, and search operations. 
+
+The class has the following attributes:
+
+- root: The root node of the tree, initialized to null.
+
+The class has the following methods:
+
+- insert(int x): Inserts a new element x into the tree, maintaining the balance property.
+- remove(int x): Removes the element x from the tree, maintaining the balance property.
+- findMin(): Returns the minimum element in the tree, throwing a RuntimeException if the tree is empty.
+- isEmpty(): Checks if the tree is empty, returning true if the root is null.
+
+The class has several private helper methods:
+
+- remove(int x, AvlNode t): Recursively removes the element x from the tree, maintaining the balance property.
+- balance(AvlNode t): Balances the tree by rotating nodes as necessary to maintain the balance property.
+- insert(int x, AvlNode t): Recursively inserts a new element x into the tree, maintaining the balance property.
+- findMin(AvlNode t): Recursively finds the minimum element in the tree.
+- height(AvlNode t): Returns the height of the tree.
+- rotateWithLeftChild(AvlNode k2): Rotates the tree to the left, maintaining the balance property.
+- rotateWithRightChild(AvlNode k1): Rotates the tree to the right, maintaining the balance property.
+- doubleWithLeftChild(AvlNode k3): Doubles the tree to the left, maintaining the balance property.
+- doubleWithRightChild(AvlNode k1): Doubles the tree to the right, maintaining the balance property.
+
+The AvlNode class represents a node in the tree, with the following attributes:
+
+- element: The value stored in the node.
+- left: The left child of the node.
+- right: The right child of the node.
+- height: The height of the node.
+
+The AvlNode class has several constructors:
+
+- AvlNode(): Initializes an empty node.
+- AvlNode(int theElement): Initializes a node with the given element and no children.
+- AvlNode(int theElement, AvlNode lt, AvlNode rt): Initializes a node with the given element and children.
+
+### Representation Invariant for the AvlTree class
+
+The representation invariant for the AvlTree class is a method called `repOK` that checks if the tree satisfies the following properties:
+
+- The tree is either empty (i.e., the root is null) or non-empty (i.e., the root is not null).
+- For every non-empty tree, the root node is an AvlNode object.
+- For every non-empty tree, the left and right subtrees of every node are either empty (i.e., null) or non-empty (i.e., not null).
+- For every non-empty tree, the height of every node is a non-negative integer.
+- For every non-empty tree, the balance property is maintained: the height of the left subtree of every node is at most the height of the node minus 1, and the height of the right subtree of every node is at most the height of the node minus 1.
+
+Here is the implementation of the `repOK` method:
+
+```java
+public boolean repOK() {
+    return repOK(root);
+}
+
+private boolean repOK(AvlNode t) {
+    if (t == null) {
+        return true;
+    } else {
+        if (!(t instanceof AvlNode)) {
+            return false;
+        }
+        if (t.left != null && t.left != root && !repOK(t.left)) {
+            return false;
+        }
+        if (t.right != null && t.right != root && !repOK(t.right)) {
+            return false;
+        }
+        if (t.height < 0) {
+            return false;
+        }
+        int leftHeight = height(t.left);
+        int rightHeight = height(t.right);
+        if (leftHeight > t.height - 1 || rightHeight > t.height - 1) {
+            return false;
+        }
+        return true;
+    }
+}
+```
+
+This implementation uses a recursive approach to check the representation invariant for every node in the tree. The `repOK` method takes an AvlNode object as an argument and returns a boolean value indicating whether the tree satisfies the representation invariant. If the tree is empty, the method returns true. Otherwise, it checks if the node is an instance of AvlNode, and if its left and right subtrees satisfy the representation invariant. It also checks if the height of the node is a non-negative integer and if the balance property is maintained. If any of these checks fail, the method returns false.

@@ -9,178 +9,37 @@ Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
     allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
-Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-25T23:28:08.792482481Z     7,94M used)
-Progress update: steps=19, test inputs generated=14, failing inputs=0      (2025-03-25T23:29:08.801138629Z     85,6M used)
-Progress update: steps=19, test inputs generated=14, failing inputs=0      (2025-03-25T23:30:08.801577687Z     85,6M used)
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-27T05:17:44.358295429Z     8,26M used)
+Progress update: steps=1000, test inputs generated=575, failing inputs=1      (2025-03-27T05:17:51.947843164Z     27,9M used)
+Progress update: steps=1791, test inputs generated=1001, failing inputs=1      (2025-03-27T05:17:56.276574497Z     140M used)
+Normal method executions: 2742655
+Exceptional method executions: 1
 
-*** Randoop has spent over 10 seconds executing the following test.
-See https://randoop.github.io/randoop/manual/index.html#no-input-generation .
+Average method execution time (normal termination):      2,56e-05
+Average method execution time (exceptional termination): 0,0305
+Approximate memory usage 140M
+Explorer = ForwardGenerator(steps: 1791, null steps: 790, num_sequences_generated: 1001;
+    allSequences: 1001, regresson seqs: 999, error seqs: 1=1=1, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
-system.classfixer.classes.NodeCachingLinkedList nodeCachingLinkedList0 = new system.classfixer.classes.NodeCachingLinkedList();
+Error-revealing test output:
+Error-revealing test count: 1
+Writing error-revealing JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/ErrorTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/ErrorTest.java
+Wrote error-revealing JUnit tests.
 
+About to look for failing assertions in 484 regression sequences.
 
-Will dump a heap profile to randoop-slow.hprof.
-Will print all thread stack traces (twice) and exit with code 1.
+Regression test output:
+Regression test count: 484
+Writing regression JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest.java
+Wrote regression JUnit tests.
+About to look for flaky methods.
 
---------------------------------------------------
-Thread Thread[#1,main,5,main]
-Stack trace:
-app//system.classfixer.classes.NodeCachingLinkedList.repOK_2(NodeCachingLinkedList.java:184)
-java.base@21.0.6/java.lang.invoke.LambdaForm$DMH/0x00007fa7b0038000.invokeVirtual(LambdaForm$DMH)
-java.base@21.0.6/java.lang.invoke.LambdaForm$MH/0x00007fa7b022c800.invoke(LambdaForm$MH)
-java.base@21.0.6/java.lang.invoke.Invokers$Holder.invokeExact_MT(Invokers$Holder)
-java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(DirectMethodHandleAccessor.java:153)
-java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-java.base@21.0.6/java.lang.reflect.Method.invoke(Method.java:580)
-app//randoop.contract.CheckRepContract.evaluate(CheckRepContract.java:74)
-app//randoop.util.ObjectContractReflectionCode.runReflectionCodeRaw(ObjectContractReflectionCode.java:19)
-app//randoop.util.ReflectionCode.runReflectionCode(ReflectionCode.java:63)
-app//randoop.util.ReflectionExecutor.executeReflectionCodeUnThreaded(ReflectionExecutor.java:164)
-app//randoop.util.ReflectionExecutor.executeReflectionCode(ReflectionExecutor.java:94)
-app//randoop.contract.ObjectContractUtils.execute(ObjectContractUtils.java:26)
-app//randoop.contract.ObjectContract.checkContract(ObjectContract.java:112)
-app//randoop.test.ContractCheckingGenerator.checkContracts(ContractCheckingGenerator.java:167)
-app//randoop.test.ContractCheckingGenerator.generateTestChecks(ContractCheckingGenerator.java:93)
-app//randoop.test.ExtendGenerator.generateTestChecks(ExtendGenerator.java:41)
-app//randoop.test.ExtendGenerator.generateTestChecks(ExtendGenerator.java:37)
-app//randoop.sequence.ExecutableSequence.execute(ExecutableSequence.java:343)
-app//randoop.sequence.ExecutableSequence.execute(ExecutableSequence.java:237)
-app//randoop.generation.ForwardGenerator.step(ForwardGenerator.java:237)
-app//randoop.generation.AbstractGenerator.createAndClassifySequences(AbstractGenerator.java:321)
-app//randoop.main.GenTests.handle(GenTests.java:515)
-app//randoop.main.Main.nonStaticMain(Main.java:69)
-app//randoop.main.Main.main(Main.java:31)
---------------------------------------------------
-Thread Thread[#11,Signal Dispatcher,9,system]
-Stack trace:
---------------------------------------------------
-Thread Thread[#9,Reference Handler,10,system]
-Stack trace:
-java.base@21.0.6/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
-java.base@21.0.6/java.lang.ref.Reference.processPendingReferences(Reference.java:246)
-java.base@21.0.6/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:208)
---------------------------------------------------
-Thread Thread[#27,Common-Cleaner,8,InnocuousThreadGroup]
-Stack trace:
-java.base@21.0.6/jdk.internal.misc.Unsafe.park(Native Method)
-java.base@21.0.6/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
-java.base@21.0.6/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1852)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
-java.base@21.0.6/jdk.internal.ref.CleanerImpl.run(CleanerImpl.java:140)
-java.base@21.0.6/java.lang.Thread.runWith(Thread.java:1596)
-java.base@21.0.6/java.lang.Thread.run(Thread.java:1583)
-java.base@21.0.6/jdk.internal.misc.InnocuousThread.run(InnocuousThread.java:186)
---------------------------------------------------
-Thread Thread[#26,Notification Thread,9,system]
-Stack trace:
---------------------------------------------------
-Thread Thread[#39,randoop.util.ProgressDisplay,5,main]
-Stack trace:
-java.base@21.0.6/java.lang.Thread.dumpThreads(Native Method)
-java.base@21.0.6/java.lang.Thread.getAllStackTraces(Thread.java:2521)
-app//randoop.util.ProgressDisplay.printAllStackTraces(ProgressDisplay.java:160)
-app//randoop.util.ProgressDisplay.exitDueToNoSteps(ProgressDisplay.java:147)
-app//randoop.util.ProgressDisplay.run(ProgressDisplay.java:110)
---------------------------------------------------
-Thread Thread[#10,Finalizer,8,system]
-Stack trace:
-java.base@21.0.6/java.lang.Object.wait0(Native Method)
-java.base@21.0.6/java.lang.Object.wait(Object.java:366)
-java.base@21.0.6/java.lang.Object.wait(Object.java:339)
-java.base@21.0.6/java.lang.ref.NativeReferenceQueue.await(NativeReferenceQueue.java:48)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:158)
-java.base@21.0.6/java.lang.ref.NativeReferenceQueue.remove(NativeReferenceQueue.java:89)
-java.base@21.0.6/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:173)
---------------------------------------------------
+Invalid tests generated: 0
 
---------------------------------------------------
-Thread Thread[#1,main,5,main]
-Stack trace:
-app//system.classfixer.classes.NodeCachingLinkedList.repOK_2(NodeCachingLinkedList.java:184)
-java.base@21.0.6/java.lang.invoke.LambdaForm$DMH/0x00007fa7b0038000.invokeVirtual(LambdaForm$DMH)
-java.base@21.0.6/java.lang.invoke.LambdaForm$MH/0x00007fa7b022c800.invoke(LambdaForm$MH)
-java.base@21.0.6/java.lang.invoke.Invokers$Holder.invokeExact_MT(Invokers$Holder)
-java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(DirectMethodHandleAccessor.java:153)
-java.base@21.0.6/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-java.base@21.0.6/java.lang.reflect.Method.invoke(Method.java:580)
-app//randoop.contract.CheckRepContract.evaluate(CheckRepContract.java:74)
-app//randoop.util.ObjectContractReflectionCode.runReflectionCodeRaw(ObjectContractReflectionCode.java:19)
-app//randoop.util.ReflectionCode.runReflectionCode(ReflectionCode.java:63)
-app//randoop.util.ReflectionExecutor.executeReflectionCodeUnThreaded(ReflectionExecutor.java:164)
-app//randoop.util.ReflectionExecutor.executeReflectionCode(ReflectionExecutor.java:94)
-app//randoop.contract.ObjectContractUtils.execute(ObjectContractUtils.java:26)
-app//randoop.contract.ObjectContract.checkContract(ObjectContract.java:112)
-app//randoop.test.ContractCheckingGenerator.checkContracts(ContractCheckingGenerator.java:167)
-app//randoop.test.ContractCheckingGenerator.generateTestChecks(ContractCheckingGenerator.java:93)
-app//randoop.test.ExtendGenerator.generateTestChecks(ExtendGenerator.java:41)
-app//randoop.test.ExtendGenerator.generateTestChecks(ExtendGenerator.java:37)
-app//randoop.sequence.ExecutableSequence.execute(ExecutableSequence.java:343)
-app//randoop.sequence.ExecutableSequence.execute(ExecutableSequence.java:237)
-app//randoop.generation.ForwardGenerator.step(ForwardGenerator.java:237)
-app//randoop.generation.AbstractGenerator.createAndClassifySequences(AbstractGenerator.java:321)
-app//randoop.main.GenTests.handle(GenTests.java:515)
-app//randoop.main.Main.nonStaticMain(Main.java:69)
-app//randoop.main.Main.main(Main.java:31)
---------------------------------------------------
-Thread Thread[#11,Signal Dispatcher,9,system]
-Stack trace:
---------------------------------------------------
-Thread Thread[#9,Reference Handler,10,system]
-Stack trace:
-java.base@21.0.6/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
-java.base@21.0.6/java.lang.ref.Reference.processPendingReferences(Reference.java:246)
-java.base@21.0.6/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:208)
---------------------------------------------------
-Thread Thread[#27,Common-Cleaner,8,InnocuousThreadGroup]
-Stack trace:
-java.base@21.0.6/jdk.internal.misc.Unsafe.park(Native Method)
-java.base@21.0.6/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
-java.base@21.0.6/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1852)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
-java.base@21.0.6/jdk.internal.ref.CleanerImpl.run(CleanerImpl.java:140)
-java.base@21.0.6/java.lang.Thread.runWith(Thread.java:1596)
-java.base@21.0.6/java.lang.Thread.run(Thread.java:1583)
-java.base@21.0.6/jdk.internal.misc.InnocuousThread.run(InnocuousThread.java:186)
---------------------------------------------------
-Thread Thread[#26,Notification Thread,9,system]
-Stack trace:
---------------------------------------------------
-Thread Thread[#39,randoop.util.ProgressDisplay,5,main]
-Stack trace:
-java.base@21.0.6/java.lang.Thread.dumpThreads(Native Method)
-java.base@21.0.6/java.lang.Thread.getAllStackTraces(Thread.java:2521)
-app//randoop.util.ProgressDisplay.printAllStackTraces(ProgressDisplay.java:160)
-app//randoop.util.ProgressDisplay.exitDueToNoSteps(ProgressDisplay.java:154)
-app//randoop.util.ProgressDisplay.run(ProgressDisplay.java:110)
---------------------------------------------------
-Thread Thread[#10,Finalizer,8,system]
-Stack trace:
-java.base@21.0.6/java.lang.Object.wait0(Native Method)
-java.base@21.0.6/java.lang.Object.wait(Object.java:366)
-java.base@21.0.6/java.lang.Object.wait(Object.java:339)
-java.base@21.0.6/java.lang.ref.NativeReferenceQueue.await(NativeReferenceQueue.java:48)
-java.base@21.0.6/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:158)
-java.base@21.0.6/java.lang.ref.NativeReferenceQueue.remove(NativeReferenceQueue.java:89)
-java.base@21.0.6/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:173)
---------------------------------------------------
-
-> Task :runRandoop FAILED
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':runRandoop'.
-> Process 'command '/usr/lib/jvm/jdk-21.0.6-oracle-x64/bin/java'' finished with non-zero exit value 1
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights.
-> Get more help at https://help.gradle.org.
-
-BUILD FAILED in 2m 1s
+BUILD SUCCESSFUL in 14s
 1 actionable task: 1 executed

@@ -1,0 +1,99 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+    private int sizeOfTree(TreeNode<K, V> node) {
+                           ^
+  symbol:   class TreeNode
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:218: error: cannot find symbol
+    private boolean isRedBlackTree(TreeNode<K, V> node) {
+                                   ^
+  symbol:   class TreeNode
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:237: error: cannot find symbol
+    private boolean areKeysUnique(TreeNode<K, V> node, TreeNode<K, V> parent) {
+                                  ^
+  symbol:   class TreeNode
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:237: error: cannot find symbol
+    private boolean areKeysUnique(TreeNode<K, V> node, TreeNode<K, V> parent) {
+                                                       ^
+  symbol:   class TreeNode
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:250: error: cannot find symbol
+    private boolean areKeysConsistentWithComparator(TreeNode<K, V> node, Comparator<? super K> comparator) {
+                                                    ^
+  symbol:   class TreeNode
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+5 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:211: error: cannot find symbol
+      private int sizeOfTree(TreeNode<K, V> node) {
+                             ^
+    symbol:   class TreeNode
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:218: error: cannot find symbol
+      private boolean isRedBlackTree(TreeNode<K, V> node) {
+                                     ^
+    symbol:   class TreeNode
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:237: error: cannot find symbol
+      private boolean areKeysUnique(TreeNode<K, V> node, TreeNode<K, V> parent) {
+                                    ^
+    symbol:   class TreeNode
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:237: error: cannot find symbol
+      private boolean areKeysUnique(TreeNode<K, V> node, TreeNode<K, V> parent) {
+                                                         ^
+    symbol:   class TreeNode
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:250: error: cannot find symbol
+      private boolean areKeysConsistentWithComparator(TreeNode<K, V> node, Comparator<? super K> comparator) {
+                                                      ^
+    symbol:   class TreeNode
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  5 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 376ms
+1 actionable task: 1 executed

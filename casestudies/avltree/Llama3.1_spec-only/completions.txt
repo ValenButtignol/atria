@@ -1,0 +1,114 @@
+
+The AvlTree class represents a self-balancing binary search tree, ensuring efficient insertion, deletion, and search operations. 
+
+The class has the following attributes:
+
+- root: The root node of the tree, initialized to null.
+
+The class has the following methods:
+
+- insert(int x): Inserts a new element x into the tree, maintaining the balance property.
+- remove(int x): Removes the element x from the tree, maintaining the balance property.
+- findMin(): Returns the minimum element in the tree, throwing a RuntimeException if the tree is empty.
+- isEmpty(): Checks if the tree is empty, returning true if the root is null.
+
+The class has several private helper methods:
+
+- remove(int x, AvlNode t): Recursively removes the element x from the tree, maintaining the balance property.
+- balance(AvlNode t): Balances the tree by rotating nodes as necessary to maintain the balance property.
+- insert(int x, AvlNode t): Recursively inserts a new element x into the tree, maintaining the balance property.
+- findMin(AvlNode t): Recursively finds the minimum element in the tree.
+- height(AvlNode t): Returns the height of the tree.
+- rotateWithLeftChild(AvlNode k2): Rotates the tree to the left, maintaining the balance property.
+- rotateWithRightChild(AvlNode k1): Rotates the tree to the right, maintaining the balance property.
+- doubleWithLeftChild(AvlNode k3): Doubles the tree to the left, maintaining the balance property.
+- doubleWithRightChild(AvlNode k1): Doubles the tree to the right, maintaining the balance property.
+
+The AvlNode class represents a node in the tree, with the following attributes:
+
+- element: The value stored in the node.
+- left: The left child of the node.
+- right: The right child of the node.
+- height: The height of the node.
+
+The AvlNode class has several constructors:
+
+- AvlNode(): Initializes an empty node.
+- AvlNode(int theElement): Initializes a node with the given element and no children.
+- AvlNode(int theElement, AvlNode lt, AvlNode rt): Initializes a node with the given element and children.
+
+### Representation Invariant for the AvlTree Class
+
+The representation invariant for the AvlTree class ensures that the tree is a valid self-balancing binary search tree. The invariant is represented by the `repOK` method, which checks the following conditions:
+
+- The tree is empty if and only if the root is null.
+- For every non-empty tree, the root node is not null.
+- For every non-empty tree, the left subtree of every node contains only elements less than the node's element.
+- For every non-empty tree, the right subtree of every node contains only elements greater than the node's element.
+- For every non-empty tree, the height of the left and right subtrees of every node differs by at most 1.
+- For every non-empty tree, the height of every node is at least 1.
+
+Here is the implementation of the `repOK` method in Java:
+
+```java
+public class AvlTree {
+    // ... (other methods and attributes)
+
+    private boolean repOK() {
+        return repOK(this.root);
+    }
+
+    private boolean repOK(AvlNode t) {
+        if (t == null) {
+            return true;
+        }
+
+        if (t.left != null && t.left.element >= t.element) {
+            return false;
+        }
+
+        if (t.right != null && t.right.element <= t.element) {
+            return false;
+        }
+
+        if (t.left != null && Math.abs(height(t.left) - height(t.right)) > 1) {
+            return false;
+        }
+
+        if (t.right != null && Math.abs(height(t.right) - height(t.left)) > 1) {
+            return false;
+        }
+
+        return repOK(t.left) && repOK(t.right);
+    }
+
+    // ... (other methods)
+}
+```
+
+The `repOK` method checks the representation invariant for the given tree. It recursively traverses the tree, checking the conditions for each node. If any of the conditions are not met, the method returns false. Otherwise, it returns true.
+
+Note that the `repOK` method is private and only accessible within the `AvlTree` class. This is because the representation invariant is an internal implementation detail of the class, and it should not be exposed to external users.
+
+### Example Use Case
+
+To demonstrate the usage of the `repOK` method, let's create an instance of the `AvlTree` class and insert some elements into the tree:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        AvlTree tree = new AvlTree();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(2);
+        tree.insert(4);
+        tree.insert(6);
+        tree.insert(8);
+
+        System.out.println(tree.repOK()); // prints: true
+    }
+}
+```
+
+In this example, we create an instance of the `AvlTree` class and insert some elements into the tree. We then call the `repOK` method to check if the tree satisfies the representation invariant. Since the tree is a valid self-balancing binary search tree, the `repOK` method returns true.

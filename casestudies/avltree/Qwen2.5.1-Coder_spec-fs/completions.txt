@@ -1,0 +1,67 @@
+
+### Behavior
+The AvlTree class represents an implementation of an AVL tree, a self-balancing binary search tree. It ensures that the tree remains balanced by maintaining a height difference of at most 1 between the left and right subtrees of any node. The class provides methods to insert and remove elements, ensuring the tree remains balanced after each operation. The findMin method returns the smallest element in the tree, and the isEmpty method checks if the tree is empty. The AVL tree is constructed using an inner static class AvlNode, which holds an integer element, references to the left and right children, and an integer height representing the height of the subtree rooted at that node.
+
+### Attributes
+- root (AvlNode): A reference to the root node of the AVL tree. It is initially set to null when the tree is empty.
+- ALLOWED_IMBALANCE (int): A constant representing the maximum allowed imbalance between the heights of the left and right subtrees of any node. It is set to 1.
+
+### Properties
+- Balanced Tree: The AVL tree must maintain a height difference of at most 1 between the left and right subtrees of any node.
+- Binary Search Tree: The AVL tree must satisfy the binary search tree property, where for any node, all elements in the left subtree are less than the node's element, and all elements in the right subtree are greater.
+- No duplicates: The AVL tree must not contain duplicate elements.
+- Consistent height: The height attribute of each node must be consistent with the actual height of its subtree.
+- Proper rotations: After insertions and deletions, the tree must be properly rotated to maintain balance.
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return true;
+    }
+
+    return isBalanced(root) && isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE) && isConsistentHeight(root);
+}
+
+private boolean isBalanced(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return isBalanced(node.left) && isBalanced(node.right);
+}
+
+private boolean isBST(AvlNode node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.element <= min || node.element >= max) {
+        return false;
+    }
+
+    return isBST(node.left, min, node.element) && isBST(node.right, node.element, max);
+}
+
+private boolean isConsistentHeight(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.height != Math.max(height(node.left), height(node.right)) + 1) {
+        return false;
+    }
+
+    return isConsistentHeight(node.left) && isConsistentHeight(node.right);
+}
+
+private int height(AvlNode node) {
+    return node == null ? -1 : node.height;
+}
+```

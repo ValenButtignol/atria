@@ -242,12 +242,6 @@ public class HashMap {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
         return true;
-    }
-
-    public boolean property() {
-        return loadFactor > 0 && !Float.isNaN(loadFactor);
     }
 }

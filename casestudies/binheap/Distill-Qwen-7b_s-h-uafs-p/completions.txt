@@ -1,0 +1,482 @@
+
+<think>
+Alright, so I'm trying to figure out the representation invariants for the BinomialHeap class. I'm not super familiar with binomial heaps, but I know they're a type of priority queue data structure. Let me start by recalling what a binomial heap is.
+
+From what I remember, a binomial heap is a collection of binomial trees. Each binomial tree in the heap follows certain properties. The heap itself maintains these properties to ensure efficient operations like insertion, deletion, and finding the minimum element.
+
+First, I think about the structure of a binomial tree. Each node has a degree, which represents the number of children it has. The degree of a node is also the number of children it has. The binomial tree of degree k has exactly C(k, i) nodes at depth i, where C is the combination function.
+
+Now, looking at the Java code for BinomialHeap, I see that it has a private field Nodes of type BinomialHeapNode and a size variable. The class also has methods for inserting, deleting, finding the minimum, and others.
+
+I need to identify the properties that must always hold true for the heap to function correctly. These properties are the representation invariants. They ensure that the heap maintains its structure and that operations can be performed efficiently.
+
+Let me think about the key properties of a binomial heap:
+
+1. **Each binomial tree in the heap is a valid binomial tree.** This means that each tree has the correct structure based on its degree. For example, a tree of degree 0 is just a single node, a tree of degree 1 has a root with one child, and so on.
+
+2. **The degrees of the trees in the heap are unique and form a continuous sequence from 0 up to some maximum degree.** This ensures that the heap is built correctly and allows for efficient merging during operations like insertion and deletion.
+
+3. **The size of the heap is equal to the sum of the sizes of all the binomial trees in the heap.** This is important because the size is used to track the number of elements in the heap.
+
+4. **The minimum element is always at the root of one of the binomial trees.** This allows for efficient extraction of the minimum element during the extractMin operation.
+
+5. **The structure of the heap allows for efficient merging of two heaps.** This is crucial for operations like insertion, where a new node is added and the heap is merged with the existing structure.
+
+Now, looking back at the Java code, I can see that the class has methods like insert, delete, and extractMin, which rely on these properties. The insert method adds a new node and then unions the heaps, which involves merging binomial trees based on their degrees.
+
+I also notice that there are private methods like merge and unionNodes that handle the merging of heaps. These methods ensure that the degrees of the trees are managed correctly to maintain the heap's structure.
+
+Another thing I should consider is the size variable. It's maintained correctly throughout the operations, ensuring that the heap's size is always accurate. This is important for any operation that depends on the size, like findMinimum.
+
+I should also think about the findMinNode method. It finds the minimum element by traversing the siblings of each tree. This relies on the fact that the minimum element is always at the root of one of the trees.
+
+Now, let's think about potential issues. If the degrees of the trees are not managed correctly during merging, the heap could become unbalanced, leading to inefficient operations. Similarly, if the size is not updated correctly during insertions or deletions, it could lead to incorrect behavior.
+
+I also need to consider the findANodeWithKey method. It searches for a node with a specific key, which could be time-consuming if not implemented efficiently. However, since this is a binomial heap, the structure allows for efficient lookups based on the degrees of the trees.
+
+In summary, the key representation invariants for the BinomialHeap class are:
+
+- Each binomial tree in the heap is a valid binomial tree with the correct structure based on its degree.
+- The degrees of the trees are unique and form a continuous sequence from 0 up to the maximum degree in the heap.
+- The size of the heap is equal to the sum of the sizes of all the binomial trees.
+- The minimum element is always at the root of one of the binomial trees.
+- The merging of two heaps maintains the invariant that the resulting heap is a valid binomial heap.
+
+These properties ensure that the binomial heap operates efficiently and correctly for all its methods.
+</think>
+
+- Each binomial tree in the heap is a valid binomial tree with the correct structure based on its degree.
+- The degrees of the trees are unique and form a continuous sequence from 0 up to the maximum degree in the heap.
+- The size of the heap is equal to the sum of the sizes of all the binomial trees.
+- The minimum element is always at the root of one of the binomial trees.
+- The merging of two heaps maintains the invariant that the resulting heap is a valid binomial heap.
+
+<think>
+Okay, so I need to write a Java method called property() that represents the invariant for the BinomialHeap class. The invariant given is that each binomial tree in the heap is a valid binomial tree with the correct structure based on its degree.
+
+First, I need to understand what a binomial tree is and what makes it valid. A binomial tree of degree k has exactly k children, and the subtrees at each level from 0 to k-1 must have exactly one node less than the current level. Also, the root has a degree equal to its key, and the keys are arranged in a certain way.
+
+Looking at the BinomialHeap class, it has a private member called Nodes, which is of type BinomialHeapNode. The size is an integer that keeps track of the number of nodes in the heap.
+
+The property method needs to check that the structure of each binomial tree in the heap adheres to the binomial tree properties. So, I need to traverse each binomial tree in the heap and verify their structures.
+
+I recall that in a binomial heap, the trees are stored in a list, and each tree corresponds to a certain degree. So, I should iterate through each tree in the heap and check if it's a valid binomial tree of its degree.
+
+To check each tree, I can start from the root and perform a level-order traversal, verifying that each level has the correct number of nodes. For a tree of degree k, the number of nodes should be 2^k, and the number of nodes at each level i (starting from 0) should be C(k, i), where C is the combination function.
+
+I also need to ensure that the root's key is equal to its degree, and that the keys are in the correct order.
+
+So, the steps for the property method would be:
+
+1. Iterate through each binomial tree in the heap.
+2. For each tree, perform a level-order traversal.
+3. At each level, check that the number of nodes matches the expected count for that level in a binomial tree of the tree's degree.
+4. Ensure that the root's key equals its degree.
+5. Verify that the keys are in the correct order.
+
+I need to implement this logic in Java. I'll create a helper method to check if a given BinomialHeapNode is the root of a valid binomial tree of a certain degree. This helper method will perform the level-order traversal and verify the structure.
+
+In the property() method, I'll loop through each tree in the heap, extract the root, and use the helper method to validate the tree's structure.
+
+I also need to handle edge cases, such as an empty heap or a single node. If the heap is empty, the property should return true. If there's only one node, it should be a binomial tree of degree 0.
+
+Potential issues I might face include correctly implementing the level-order traversal and accurately counting the nodes at each level. I should also ensure that the helper method correctly handles trees of different degrees.
+
+Testing the helper method with various binomial trees would be essential to catch any bugs. For example, a tree of degree 2 should have 4 nodes, with 1 node at level 0, 2 nodes at level 1, and 1 node at level 2.
+
+Finally, I'll integrate the helper method into the property() method, ensuring that all trees in the heap are validated before returning true.
+</think>
+
+To verify the representation invariant for the BinomialHeap class, we need to ensure that each binomial tree in the heap adheres to the structure of a valid binomial tree based on its degree. Here's the Java code that implements this invariant:
+
+```java
+public boolean property() {
+    if (Nodes == null) {
+        return true;
+    }
+
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        int expectedSize = 1 << current.getDegree(); // 2^degree
+        int currentLevel = 0;
+        int expectedNodesAtLevel = 1 << currentLevel; // 2^level
+        int actualNodesAtLevel = 0;
+        current = current.child;
+        while (current != null) {
+            if (current.getDegree() == expectedSize - 1) {
+                if (actualNodesAtLevel != expectedNodesAtLevel) {
+                    return false;
+                }
+                expectedLevel = currentLevel;
+                expectedNodesAtLevel = 1 << expectedLevel;
+                actualNodesAtLevel = 0;
+            }
+            actualNodesAtLevel++;
+            current = current.child;
+            currentLevel++;
+        }
+        current = current.sibling;
+    }
+    return true;
+}
+```
+
+This code ensures that each binomial tree in the heap has the correct number of nodes at each level, corresponding to the degree of the tree.
+
+<think>
+Alright, so I'm trying to figure out how to write a Java method called `property` that represents the invariant for the BinomialHeap class. The invariant given is that the degrees of the trees are unique and form a continuous sequence from 0 up to the maximum degree in the heap. 
+
+First, I need to understand what a BinomialHeap is. From what I remember, a BinomialHeap is a collection of binary trees where each tree satisfies the heap property. Each tree in the heap has a degree, which is the height of the tree. The degrees of these trees should be unique and form a continuous sequence starting from 0 up to the maximum degree present in the heap.
+
+So, the `property` method should check whether this invariant holds true for the current state of the BinomialHeap. That means, for every tree in the heap, its degree should be unique and each degree from 0 up to the maximum degree should be present exactly once.
+
+Looking at the provided code, the BinomialHeap class has a private member `Nodes` which is of type `BinomialHeapNode`. Each `BinomialHeapNode` has a `degree` field. So, I need to access the degrees of all the trees in the heap.
+
+I think I'll need to iterate through all the trees in the heap, collect their degrees, and then check if the degrees form a continuous sequence starting from 0 up to the maximum degree.
+
+But wait, how do I collect all the degrees? The `Nodes` field is a BinomialHeapNode, and each tree in the heap is represented by a node. So, I might need to traverse the heap to collect all the degrees.
+
+Alternatively, maybe there's a helper method or a way to get all the degrees directly. Looking at the code, I see that the `findMinNode()` method is present, which finds the node with the minimum key. Maybe I can use that to traverse the heap.
+
+Another thought: perhaps the `size()` method of the BinomialHeapNode returns the size of the subtree rooted at that node. But I'm not sure if that helps directly with collecting degrees.
+
+I think I'll need to write a loop that traverses the heap, collecting the degrees of each tree. Once I have all the degrees, I can sort them and check if they form a continuous sequence from 0 up to the maximum degree.
+
+But wait, the degrees should be unique and form a continuous sequence. So, if I collect all the degrees, sort them, and then check if each degree from 0 to max is present exactly once, that should work.
+
+However, I'm not sure how to traverse the heap to collect all the degrees. Maybe I can start from the root node and traverse each tree by following the siblings.
+
+Alternatively, perhaps there's a method like `findMaxDegree()` that returns the maximum degree in the heap. If such a method exists, I can collect all degrees and ensure that they include every integer from 0 to max degree.
+
+But looking at the provided code, I don't see a `findMaxDegree()` method. So, I'll need to implement that functionality within the `property` method.
+
+So, the steps I need to take are:
+
+1. Traverse the heap to collect all the degrees of the trees.
+2. Find the maximum degree.
+3. Check that all degrees from 0 to max are present exactly once.
+
+Now, how do I traverse the heap to collect all the degrees? Starting from the root node, I can follow the sibling links to visit each tree. For each tree, I can get its degree and add it to a list.
+
+Once I have the list of degrees, I can sort them and then check if they form a continuous sequence from 0 to max degree.
+
+But wait, what if there are multiple trees with the same degree? That would violate the invariant, so I need to ensure that all degrees are unique.
+
+Also, I need to make sure that the maximum degree is present in the list.
+
+So, putting it all together, the `property` method will:
+
+- Traverse the heap to collect all degrees.
+- Check that all degrees are unique.
+- Check that the degrees form a continuous sequence from 0 to max degree.
+
+I think that's a solid plan. Now, I'll need to implement this in Java.
+
+First, I'll write a loop to collect all the degrees. Starting from the root node, I'll follow the sibling links until I reach the end of the heap.
+
+Then, I'll sort the list of degrees and check if each degree from 0 to max is present exactly once.
+
+If any of these checks fail, the `property` method will return false; otherwise, it will return true.
+
+I also need to handle edge cases, such as an empty heap. In that case, the invariant should trivially hold true since there are no trees.
+
+Alright, I think I'm ready to write the code for the `property` method.
+</think>
+
+To write the `property` method for the BinomialHeap class, we need to ensure that the degrees of the trees in the heap form a continuous sequence from 0 up to the maximum degree. Here's the step-by-step explanation and the code:
+
+### Explanation:
+1. **Collect Degrees**: Traverse the heap to collect the degrees of all trees.
+2. **Find Maximum Degree**: Determine the maximum degree present in the collected degrees.
+3. **Check Continuity**: Ensure that all degrees from 0 to the maximum degree are present exactly once.
+
+### Code:
+```java
+public boolean property() {
+    List<Integer> degrees = new ArrayList<>();
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        degrees.add(current.getDegree());
+        current = current.sibling;
+    }
+
+    if (degrees.isEmpty()) {
+        return true;
+    }
+
+    Collections.sort(degrees);
+    int maxDegree = degrees.get(degrees.size() - 1);
+
+    for (int i = 0; i <= maxDegree; i++) {
+        if (!degrees.contains(i)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```
+
+### Code Property:
+```java
+public boolean property() {
+    List<Integer> degrees = new ArrayList<>();
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        degrees.add(current.getDegree());
+        current = current.sibling;
+    }
+
+    if (degrees.isEmpty()) {
+        return true;
+    }
+
+    Collections.sort(degrees);
+    int maxDegree = degrees.get(degrees.size() - 1);
+
+    for (int i = 0; i <= maxDegree; i++) {
+        if (!degrees.contains(i)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```
+
+<think>
+Alright, so I'm trying to figure out how to write a Java method called `property` that represents the invariant for the `BinomialHeap` class. The invariant given is that the size of the heap is equal to the sum of the sizes of all the binomial trees. 
+
+First, I need to understand what a binomial heap is. From what I remember, a binomial heap is a collection of binomial trees. Each binomial tree in the heap has a specific structure based on its order. The size of the heap is the total number of nodes across all these trees.
+
+So, the invariant here is that the size of the heap (which is an instance variable in the `BinomialHeap` class) should be equal to the sum of the sizes of all the binomial trees it contains. That makes sense because each binomial tree contributes its own nodes to the total.
+
+Now, I need to translate this invariant into a Java method. The method should return a boolean indicating whether the invariant holds. 
+
+Looking at the `BinomialHeap` class, I see that it has a private variable `Nodes` which is of type `BinomialHeapNode`. The `Nodes` variable likely represents the root of the binomial heap. There's also a `size` variable that keeps track of the total number of nodes in the heap.
+
+To compute the sum of the sizes of all binomial trees, I need to traverse all the trees in the heap and sum their sizes. Each binomial tree can be accessed through the `Nodes` structure, which probably contains references to all the trees.
+
+I think the `Nodes` variable might be a linked list or some kind of collection of binomial trees. If I can iterate through each tree, I can call their `size()` method and accumulate the total.
+
+So, the plan is:
+
+1. Check if the heap is empty. If it is, the size should be zero, which matches the sum of an empty collection.
+2. If the heap is not empty, iterate through each binomial tree in the heap.
+3. For each tree, add its size to a running total.
+4. After summing, compare the total to the `size` variable of the heap.
+5. Return `true` if they are equal, `false` otherwise.
+
+Now, how do I iterate through all the binomial trees in the heap? Looking at the `BinomialHeap` class, the `Nodes` variable is of type `BinomialHeapNode`, which is the root of the heap. But I need to traverse all the trees under the root.
+
+I recall that in a binomial heap, the trees are linked in a way that each node has a sibling. So, starting from the root, I can traverse through each tree by following the sibling links until I reach the end.
+
+I'll need to write a loop that starts at the root and follows the sibling pointers, accessing each tree's `size()` method and adding it to a sum.
+
+Putting it all together, the `property` method will:
+
+- Initialize a sum to zero.
+- Traverse each binomial tree in the heap, adding their sizes to the sum.
+- Compare the sum to the heap's size.
+- Return the result of this comparison.
+
+I should also handle the case where the heap is empty to avoid any NullPointerExceptions.
+
+So, the code will look something like this:
+
+- Check if `Nodes` is null. If it is, return true because the size is zero.
+- Initialize sum to zero.
+- Start with the current node as `Nodes`.
+- Loop while current node is not null:
+  - Add current node's size to sum.
+  - Move current node to its sibling.
+- After the loop, compare sum to `size`.
+- Return true if they are equal, false otherwise.
+
+This should ensure that the size of the heap matches the sum of the sizes of all its binomial trees, maintaining the invariant.
+</think>
+
+To write the `property` method for the `BinomialHeap` class that verifies the invariant that the size of the heap equals the sum of the sizes of all binomial trees, follow these steps:
+
+1. **Check for an empty heap**: If `Nodes` is null, the size is zero, so the invariant holds.
+2. **Initialize a sum variable**: This will accumulate the total number of nodes across all trees.
+3. **Traverse all trees**: Starting from the root (`Nodes`), follow the sibling links to visit each tree.
+4. **Sum the sizes**: For each tree encountered, add its size to the sum.
+5. **Compare sums**: After traversing all trees, compare the accumulated sum to the heap's size.
+6. **Return the result**: Return `true` if they are equal, `false` otherwise.
+
+Here is the Java code implementing this logic:
+
+```java
+public boolean property() {
+    int sum = 0;
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        sum += current.size();
+        current = current.sibling;
+    }
+    return sum == size;
+}
+```
+
+This method ensures that the size of the binomial heap matches the sum of the sizes of all its constituent binomial trees, thus verifying the representation invariant.
+
+<think>
+Okay, so I need to write a Java method called property() that checks if the minimum element in a BinomialHeap is always at the root of one of the binomial trees. Hmm, let's think about how the BinomialHeap class is structured.
+
+First, I remember that a BinomialHeap is composed of multiple binomial trees. Each tree has a root, and the heap property should hold for each tree, meaning the root has the smallest key in that tree. But the overall minimum of the heap should be the smallest among all the roots of the binomial trees.
+
+So, the property I need to verify is that the minimum element across the entire heap is indeed the root of one of these binomial trees. That means, if I look at all the roots of the binomial trees in the heap, the smallest key among them should be the global minimum of the heap.
+
+Let me think about how to implement this. I'll need to traverse all the binomial trees in the heap and collect their root keys. Then, I'll find the minimum among these root keys and compare it with the global minimum of the heap.
+
+Wait, but how do I traverse all the binomial trees in the heap? The BinomialHeap class has a Nodes field which is a BinomialHeapNode. Each BinomialHeapNode has a degree, which indicates the level in the tree. The root of each binomial tree has a degree equal to the number of children it has.
+
+So, I can start from the root (Nodes) and keep moving to the sibling of the current node until I reach the end of the current binomial tree. Then, I can move to the next sibling, which would be the root of the next binomial tree, and repeat this process until all trees are traversed.
+
+Once I have all the root keys, I'll find the minimum among them. Then, I'll compare this minimum with the global minimum of the heap, which is obtained using the findMinNode() method.
+
+If the minimum root key is equal to the global minimum, then the property holds. Otherwise, it doesn't.
+
+Let me outline the steps:
+
+1. Initialize a set to keep track of all root keys.
+2. Traverse each binomial tree in the heap, collecting the root key of each tree into the set.
+3. Find the minimum key in the set of root keys.
+4. Find the global minimum of the heap using findMinNode().
+5. Compare the minimum root key with the global minimum.
+6. Return true if they are equal, otherwise false.
+
+I need to make sure that the traversal correctly visits all binomial trees in the heap. Also, I should handle edge cases, like when the heap is empty or contains only one binomial tree.
+
+Wait, in the code, the Nodes field is a BinomialHeapNode, and the findMinNode() method returns the root of the tree with the smallest key. So, if the heap has multiple trees, the global minimum should be the smallest among all the roots.
+
+Therefore, the property should be that the minimum root key is equal to the global minimum.
+
+I think this approach makes sense. Now, I'll translate this into Java code.
+
+First, I'll create a Set to store the root keys. Then, I'll write a loop to traverse each binomial tree and collect their root keys.
+
+Once I have all the root keys, I'll find the minimum among them. Then, I'll find the global minimum using findMinNode().
+
+Finally, I'll compare the two minima and return the result.
+
+I should also handle the case where the heap is empty, but according to the code, the size is always at least zero, and if it's zero, the findMinNode() method throws an exception. So, I'll need to add a check for an empty heap.
+
+Putting it all together, the property method should look something like this.
+</think>
+
+To verify that the minimum element in the BinomialHeap is always at the root of one of the binomial trees, we can follow these steps:
+
+1. **Check for an empty heap**: If the heap is empty, return `true` since there's no minimum element to check.
+2. **Collect all root keys**: Traverse each binomial tree in the heap and collect the key of each root node.
+3. **Find the minimum root key**: Determine the smallest key among all collected root keys.
+4. **Find the global minimum**: Use the `findMinNode()` method to get the global minimum of the heap.
+5. **Compare the minima**: Check if the minimum root key is equal to the global minimum.
+
+Here is the Java code implementing the above steps:
+
+```java
+public boolean property() {
+    if (size == 0) {
+        return true;
+    }
+
+    Set<Integer> rootKeys = new HashSet<>();
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        rootKeys.add(current.key);
+        current = current.sibling;
+    }
+
+    int minRootKey = rootKeys.stream().min(Integer::compare).orElseThrow();
+    BinomialHeapNode minNode = findMinNode();
+    return minRootKey == minNode.key;
+}
+```
+
+This code ensures that the smallest element in the heap is indeed the root of one of the binomial trees, maintaining the representation invariant of the BinomialHeap.
+
+<think>
+Okay, so I need to write a Java method called property() that checks if the representation invariant for the BinomialHeap class is maintained. The invariant here is that the merging of two heaps maintains the invariant that the resulting heap is a valid binomial heap.
+
+First, I need to understand what a binomial heap is and what its representation invariant entails. From what I remember, a binomial heap is a collection of binomial trees that satisfy certain properties. Each binomial tree in the heap has a specific structure based on its degree, and the heap maintains that the sizes of the trees follow a certain order.
+
+The key points about a binomial heap's structure are:
+1. A binomial tree of degree k has exactly 2^k nodes.
+2. The number of nodes in each binomial tree is unique for each degree.
+3. The heap is represented as a collection of these trees, and the heap property (min-heap) is maintained by the keys in the nodes.
+
+Now, the method property() needs to verify that after any operation that merges two heaps, the resulting structure still satisfies these properties. Specifically, the merging process should ensure that the resulting heap is a valid binomial heap.
+
+Looking at the code provided, the BinomialHeap class has a method called unionNodes(), which seems to handle the merging of two heaps. The property() method I need to write should check the state of the heap after such a merge.
+
+I think the property() method should verify several things:
+1. The structure of each tree in the heap follows the binomial tree properties.
+2. The degrees of the trees are unique and follow the correct order.
+3. The heap property (min-heap) is maintained, meaning the smallest key is at the root.
+
+Since the unionNodes() method is responsible for merging, perhaps the property() method should check the state of the heap after this method has been called. Alternatively, it could check the entire heap's structure regardless of the operation.
+
+I also need to consider that the property() method should not be too complex, as it's a boolean method that returns true if the invariant holds and false otherwise. It should be efficient and not overly resource-intensive.
+
+One approach is to iterate through each node in the heap and verify that each tree adheres to the binomial tree properties. This would involve checking the degree of each node, ensuring that the number of children and parents are correct, and that the structure follows the binomial tree rules.
+
+Another consideration is to check that the heap maintains the min-heap property, where the root of each tree contains the smallest key in that tree. This ensures that the overall heap is a valid min-heap.
+
+I should also think about edge cases, such as when the heap is empty, contains a single node, or has multiple trees with varying degrees. The property() method should handle all these scenarios correctly.
+
+In terms of implementation, I'll need to traverse the heap, possibly using a linked list or another traversal method, to check each node's properties. For each node, I'll verify its degree, parent, children, and key values against the expected properties.
+
+I should also consider the efficiency of the property() method. Since it's a boolean method, it should return as soon as it finds a violation of the invariant. This means that it doesn't need to check every single node unless it finds an issue early on.
+
+Additionally, I need to make sure that the property() method doesn't interfere with the existing operations of the BinomialHeap class. It should be a standalone method that can be called independently to verify the invariant.
+
+Overall, the property() method will involve checking each node in the heap to ensure that the structure and properties of a binomial heap are maintained. This includes verifying the degrees of the trees, the relationships between parent and child nodes, and the heap property itself.
+</think>
+
+public boolean property() {
+    if (Nodes == null) {
+        return true;
+    }
+
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        int degree = current.getDegree();
+        int key = current.getKey();
+
+        // Check if the current node's degree is correct
+        if (degree != expectedDegree(current)) {
+            return false;
+        }
+
+        // Check if the parent has a higher degree
+        if (current.getParent() != null && current.getParent().getDegree() <= degree) {
+            return false;
+        }
+
+        // Check if the children are correctly linked
+        if (current.getSibling() != null && (current.getSibling().getDegree() != degree + 1)) {
+            return false;
+        }
+
+        // Check the heap property
+        if (current.getKey() != findMinNode().getKey) {
+            return false;
+        }
+
+        current = current.getSibling();
+    }
+
+    return true;
+}
+
+Explanation:
+- The property() method checks if the current state of the binomial heap maintains the representation invariant.
+- It iterates through each node in the heap.
+- For each node, it verifies:
+  - The node's degree matches the expected degree based on its position in the heap.
+  - The parent node has a higher degree than the current node.
+  - The sibling nodes have degrees that follow the correct order.
+  - The heap property is maintained, ensuring the smallest key is at the root.
+- If any of these checks fail, the method returns false, indicating the invariant is violated. Otherwise, it returns true.

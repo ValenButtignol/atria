@@ -1,31 +1,74 @@
 public class RepOkClass1{
     public boolean repOK() {
-        // Check if the header's next is the header, indicating an empty list.
-        if (header.next != header) {
-            // Traverse the list to ensure all nodes are doubly linked.
-            Node current = header.next;
-            Node previous = header;
-            while (current != null) {
-                // Check if any node has a null next or previous, indicating a broken link.
-                if (current.next == null || previous == null) {
-                    return false;
-                }
-                previous = current.previous;
-                current = current.next;
-            }
-        }
-        // Check if the size matches the actual number of nodes.
-        if (size != (header.next == null ? 0 : countNodes(header.next))) {
+        // Check if the header's next and previous are correctly set.
+        if (header.next != header || header.previous != header) {
             return false;
         }
+    
+        // Check if the size is consistent.
+        if (size != numNodes(header)) {
+            return false;
+        }
+    
+        // Check for acyclic structure.
+        if (!isAcyclic(header)) {
+            return false;
+        }
+    
+        // Check for duplicate elements.
+        if (!noDuplicates(header)) {
+            return false;
+        }
+    
         return true;
     }
 
-    private int countNodes(Node node) {
+    private boolean isAcyclic(Node header) {
+        Set<Node> visited = new HashSet<>();
+        visited.add(header);
+        LinkedList<Node> workList = new LinkedList<>();
+        workList.add(header);
+    
+        while (!workList.isEmpty()) {
+            Node current = workList.removeFirst();
+            if (current.next != null && !visited.add(current.next)) {
+                return false;
+            }
+            if (current.previous != null && !visited.add(current.previous)) {
+                return false;
+            }
+            if (current.next != null) {
+                workList.add(current.next);
+            }
+            if (current.previous != null) {
+                workList.add(current.previous);
+            }
+        }
+    
+        return true;
+    }
+
+    private boolean noDuplicates(Node header) {
+        Set<Integer> seen = new HashSet<>();
+        return noDuplicatesHelper(header, seen);
+    }
+
+    private boolean noDuplicatesHelper(Node node, Set<Integer> seen) {
         if (node == null) {
+            return true;
+        }
+        if (seen.contains(node.element)) {
+            return false;
+        }
+        seen.add(node.element);
+        return noDuplicatesHelper(node.next, seen) && noDuplicatesHelper(node.previous, seen);
+    }
+
+    private int numNodes(Node header) {
+        if (header == null) {
             return 0;
         }
-        return 1 + countNodes(node.next);
+        return 1 + numNodes(header.next) + numNodes(header.previous);
     }
 
 

@@ -1,0 +1,84 @@
+
+- No duplicate values: The tree should not contain duplicate values.
+- Binary property: Each node should have at most two children.
+- Size consistency: The size attribute should be consistent with the number of nodes in the tree.
+- Root non-null: The root node should not be null if the tree is not empty.
+- Proper hierarchy: Each node's value should be greater than all values in its left subtree and less than all values in its right subtree.
+
+```java
+public boolean property() {
+    return checkForDuplicates(root);
+}
+
+private boolean checkForDuplicates(Node current) {
+    if (current == null) {
+        return true;
+    }
+    if (current.left != null && current.left.info == current.info) {
+        return false;
+    }
+    if (current.right != null && current.right.info == current.info) {
+        return false;
+    }
+    return checkForDuplicates(current.left) && checkForDuplicates(current.right);
+}
+```
+
+```java
+public boolean property() {
+    return checkBinaryProperty(root);
+}
+
+private boolean checkBinaryProperty(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && node.right != null) {
+        return checkBinaryProperty(node.left) && checkBinaryProperty(node.right);
+    }
+    return (node.left == null && node.right == null) ||
+           (node.left != null && node.right == null) ||
+           (node.left == null && node.right != null);
+}
+```
+
+```java
+public boolean property() {
+    return size == countNodes(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return size == 0 ? root == null : root != null;
+}
+```
+
+```java
+public boolean property() {
+    return checkHierarchy(root);
+}
+
+private boolean checkHierarchy(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.left != null && node.left.info >= node.info) {
+        return false;
+    }
+
+    if (node.right != null && node.right.info <= node.info) {
+        return false;
+    }
+
+    return checkHierarchy(node.left) && checkHierarchy(node.right);
+}
+```

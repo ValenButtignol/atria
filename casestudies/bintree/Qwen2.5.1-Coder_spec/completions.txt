@@ -1,0 +1,62 @@
+
+- **Attributes:**
+  - `root`: The root node of the binary search tree.
+  - `size`: The number of nodes in the tree.
+
+- **Methods:**
+  - `add(int x)`: Adds an integer `x` to the binary search tree. If the tree is empty, `x` becomes the root. Otherwise, it is inserted in the correct position to maintain the binary search tree property. If `x` already exists in the tree, no action is taken.
+  - `getSize()`: Returns the number of nodes in the tree.
+
+- **Constraints:**
+  - The tree maintains the binary search tree property: for any node, all values in its left subtree are less than its value, and all values in its right subtree are greater than its value.
+  - Duplicates are not allowed in the tree.
+
+To ensure the representation invariant for the `BinTree` class is correctly implemented, we need to verify that the tree maintains the binary search tree property and that there are no duplicate values. Here is the `repOK` method that checks these conditions:
+
+```java
+public boolean repOK() {
+    // Check if the size is non-negative
+    if (size < 0) {
+        return false;
+    }
+
+    // Check if the root is null or satisfies the BST property
+    if (root != null && !isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+        return false;
+    }
+
+    // Check if the size matches the actual number of nodes in the tree
+    return size == countNodes(root);
+}
+
+private boolean isBST(Node node, int min, int max) {
+    // Base case: an empty tree is a BST
+    if (node == null) {
+        return true;
+    }
+
+    // Check if the current node's value is within the valid range
+    if (node.info <= min || node.info >= max) {
+        return false;
+    }
+
+    // Recursively check the left and right subtrees
+    return isBST(node.left, min, node.info) && isBST(node.right, node.info, max);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+```
+
+### Explanation:
+1. **Size Check**: The method first checks if the `size` attribute is non-negative. A negative size is invalid for any tree.
+
+2. **BST Property Check**: The `isBST` method is a recursive helper function that checks if the tree rooted at a given node satisfies the binary search tree property. It ensures that all values in the left subtree are less than the node's value and all values in the right subtree are greater than the node's value. The method uses `Integer.MIN_VALUE` and `Integer.MAX_VALUE` as initial bounds to ensure all values are within the valid range.
+
+3. **Node Count Check**: The `countNodes` method is a recursive helper function that counts the number of nodes in the tree. It compares this count with the `size` attribute to ensure they match.
+
+By implementing these checks, the `repOK` method ensures that the `BinTree` class maintains its representation invariant.

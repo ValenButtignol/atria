@@ -166,51 +166,6 @@ public class NodeCachingLinkedList {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        if (!property_3())
-            return false;
-        return true;
-    }
-
-    public boolean property() {
-        int actualSize = 0;
-        LinkedListNode current = header.next;
-        while (current != header && current != null) {
-            actualSize++;
-            current = current.next;
-        }
-        return actualSize == size;
-    }
-
-    public boolean property_2() {
-        Set<LinkedListNode> visited = new HashSet<>();
-        visited.add(header);
-        LinkedListNode current = header.next;
-        while (current != header) {
-            // Prevents infinite loop in case of a cycle
-            if (visited.contains(current)) {
-                return false;
-            }
-            visited.add(current);
-            current = current.next;
-        }
-        return true;
-    }
-
-    public boolean property_3() {
-        Set<Object> seenValues = new HashSet<>();
-        for (LinkedListNode node = header.next; node != header; node = node.next) {
-            Object value = node.getValue();
-            if (value != null) {
-                if (seenValues.contains(value)) {
-                    return false;
-                }
-                seenValues.add(value);
-            }
-        }
         return true;
     }
 }

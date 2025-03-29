@@ -1,0 +1,51 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:267: error: cannot find symbol
+        if (size != countNodes()) {
+                    ^
+  symbol:   method countNodes()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+        BinomialHeapNode minNode = findMinNode();
+                                   ^
+  symbol:   method findMinNode()
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:318: error: incompatible types: BinomialHeap cannot be converted to BinomialHeapNode
+        merge(otherHeap);
+              ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: incompatible types: BinomialHeap cannot be converted to BinomialHeapNode
+        unionNodes(otherHeap);
+                   ^
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+4 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:318: error: incompatible types: BinomialHeap cannot be converted to BinomialHeapNode
+          merge(otherHeap);
+                ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: incompatible types: BinomialHeap cannot be converted to BinomialHeapNode
+          unionNodes(otherHeap);
+                     ^/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:267: error: cannot find symbol
+          if (size != countNodes()) {
+                      ^
+    symbol:   method countNodes()
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:289: error: cannot find symbol
+          BinomialHeapNode minNode = findMinNode();
+                                     ^
+    symbol:   method findMinNode()
+    location: class BinomialHeap
+  4 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 385ms
+1 actionable task: 1 executed

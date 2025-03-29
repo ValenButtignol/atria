@@ -1,17 +1,257 @@
-> Task :compileJava
-> Task :processResources
-> Task :classes
-> Task :jar
-> Task :startScripts
-> Task :distTar
-> Task :distZip
-> Task :assemble
-> Task :compileTestJava NO-SOURCE
-> Task :processTestResources NO-SOURCE
-> Task :testClasses UP-TO-DATE
-> Task :test NO-SOURCE
-> Task :check UP-TO-DATE
-> Task :build
 
-BUILD SUCCESSFUL in 630ms
-6 actionable tasks: 6 executed
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:90: error: cannot find symbol
+        if (size != numNodes(root)) {
+                             ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:96: error: cannot find symbol
+        if (!isOrdered(root)) {
+                       ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:99: error: cannot find symbol
+        if (!noDuplicates(root)) {
+                          ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:107: error: cannot find symbol
+        visited.add(root);
+                    ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:108: error: type LinkedList does not take parameters
+        LinkedList<Entry> workList = new LinkedList<>();
+                  ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:108: error: cannot infer type arguments for LinkedList
+        LinkedList<Entry> workList = new LinkedList<>();
+                                                   ^
+  reason: cannot use '<>' with non-generic class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: cannot find symbol
+        workList.add(root);
+                     ^
+  symbol:   variable root
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:112: error: cannot find symbol
+            if (current.left != null) {
+                       ^
+  symbol:   variable left
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:113: error: cannot find symbol
+                if (!visited.add(current.left)) {
+                                        ^
+  symbol:   variable left
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:116: error: cannot find symbol
+                workList.add(current.left);
+                                    ^
+  symbol:   variable left
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:118: error: cannot find symbol
+            if (current.right != null) {
+                       ^
+  symbol:   variable right
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:119: error: cannot find symbol
+                if (!visited.add(current.right)) {
+                                        ^
+  symbol:   variable right
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:122: error: cannot find symbol
+                workList.add(current.right);
+                                    ^
+  symbol:   variable right
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:132: error: cannot find symbol
+        return 1 + numNodes(n.left) + numNodes(n.right);
+                             ^
+  symbol:   variable left
+  location: variable n of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:132: error: cannot find symbol
+        return 1 + numNodes(n.left) + numNodes(n.right);
+                                                ^
+  symbol:   variable right
+  location: variable n of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:136: error: method isOrdered in class LinkedList cannot be applied to given types;
+        return isOrdered(n, -1, -1);
+               ^
+  required: Entry
+  found:    Entry,int,int
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: bad operand types for binary operator '<='
+        if ((min != -1 && n.element <= min) || (max != -1 && n.element >= max)) {
+                                    ^
+  first type:  Object
+  second type: int
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: bad operand types for binary operator '>='
+        if ((min != -1 && n.element <= min) || (max != -1 && n.element >= max)) {
+                                                                       ^
+  first type:  Object
+  second type: int
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:143: error: cannot find symbol
+        if (n.left != null) {
+             ^
+  symbol:   variable left
+  location: variable n of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:144: error: cannot find symbol
+            if (!isOrdered(n.left, min, n.element)) {
+                            ^
+  symbol:   variable left
+  location: variable n of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:148: error: cannot find symbol
+        if (n.right != null) {
+             ^
+  symbol:   variable right
+  location: variable n of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:149: error: cannot find symbol
+            if (!isOrdered(n.right, n.element, max)) {
+                            ^
+  symbol:   variable right
+  location: variable n of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:165: error: incompatible types: Object cannot be converted to Integer
+        if (!seen.add(node.element)) {
+                          ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:168: error: cannot find symbol
+        return noDuplicatesHelper(node.left, seen) && noDuplicatesHelper(node.right, seen);
+                                      ^
+  symbol:   variable left
+  location: variable node of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:168: error: cannot find symbol
+        return noDuplicatesHelper(node.left, seen) && noDuplicatesHelper(node.right, seen);
+                                                                             ^
+  symbol:   variable right
+  location: variable node of type Entry
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+25 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:136: error: method isOrdered in class LinkedList cannot be applied to given types;
+          return isOrdered(n, -1, -1);
+                 ^
+    required: Entry
+    found:    Entry,int,int
+    reason: actual and formal argument lists differ in length/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:90: error: cannot find symbol
+          if (size != numNodes(root)) {
+                               ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:96: error: cannot find symbol
+          if (!isOrdered(root)) {
+                         ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:99: error: cannot find symbol
+          if (!noDuplicates(root)) {
+                            ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:107: error: cannot find symbol
+          visited.add(root);
+                      ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: cannot find symbol
+          workList.add(root);
+                       ^
+    symbol:   variable root
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:112: error: cannot find symbol
+              if (current.left != null) {
+                         ^
+    symbol:   variable left
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:113: error: cannot find symbol
+                  if (!visited.add(current.left)) {
+                                          ^
+    symbol:   variable left
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:116: error: cannot find symbol
+                  workList.add(current.left);
+                                      ^
+    symbol:   variable left
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:118: error: cannot find symbol
+              if (current.right != null) {
+                         ^
+    symbol:   variable right
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:119: error: cannot find symbol
+                  if (!visited.add(current.right)) {
+                                          ^
+    symbol:   variable right
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:122: error: cannot find symbol
+                  workList.add(current.right);
+                                      ^
+    symbol:   variable right
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:132: error: cannot find symbol
+          return 1 + numNodes(n.left) + numNodes(n.right);
+                               ^
+    symbol:   variable left
+    location: variable n of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:132: error: cannot find symbol
+          return 1 + numNodes(n.left) + numNodes(n.right);
+                                                  ^
+    symbol:   variable right
+    location: variable n of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:143: error: cannot find symbol
+          if (n.left != null) {
+               ^
+    symbol:   variable left
+    location: variable n of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:144: error: cannot find symbol
+              if (!isOrdered(n.left, min, n.element)) {
+                              ^
+    symbol:   variable left
+    location: variable n of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:148: error: cannot find symbol
+          if (n.right != null) {
+               ^
+    symbol:   variable right
+    location: variable n of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:149: error: cannot find symbol
+              if (!isOrdered(n.right, n.element, max)) {
+                              ^
+    symbol:   variable right
+    location: variable n of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:168: error: cannot find symbol
+          return noDuplicatesHelper(node.left, seen) && noDuplicatesHelper(node.right, seen);
+                                        ^
+    symbol:   variable left
+    location: variable node of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:168: error: cannot find symbol
+          return noDuplicatesHelper(node.left, seen) && noDuplicatesHelper(node.right, seen);
+                                                                               ^
+    symbol:   variable right
+    location: variable node of type Entry/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: bad operand types for binary operator '<='
+          if ((min != -1 && n.element <= min) || (max != -1 && n.element >= max)) {
+                                      ^
+    first type:  Object
+    second type: int
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:140: error: bad operand types for binary operator '>='
+          if ((min != -1 && n.element <= min) || (max != -1 && n.element >= max)) {
+                                                                         ^
+    first type:  Object
+    second type: int/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:165: error: incompatible types: Object cannot be converted to Integer
+          if (!seen.add(node.element)) {
+                            ^/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:108: error: cannot infer type arguments for LinkedList
+          LinkedList<Entry> workList = new LinkedList<>();
+                                                     ^
+    reason: cannot use '<>' with non-generic class LinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:108: error: type LinkedList does not take parameters
+          LinkedList<Entry> workList = new LinkedList<>();
+                    ^
+  25 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 405ms
+1 actionable task: 1 executed

@@ -78,32 +78,6 @@ public class LinkedList {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
         return true;
-    }
-
-    public boolean property() {
-        if (size == 0) {
-            return true;
-        }
-        Entry current = header.next;
-        while (current != header) {
-            if (current.previous == null || current.next == null) {
-                return false;
-            }
-            current = current.next;
-        }
-        return true;
-    }
-
-    public boolean property_2() {
-        int count = 0;
-        for (Entry current = header.next; current != header; current = current.next) {
-            count++;
-        }
-        return count == size;
     }
 }

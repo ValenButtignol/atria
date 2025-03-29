@@ -78,48 +78,6 @@ public class LinkedList {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        if (!property_3())
-            return false;
-        return true;
-    }
-
-    public boolean property() {
-        int actualSize = 0;
-        Entry current = header.next;
-        while (current != header) {
-            if (current != null) {
-                actualSize++;
-            }
-            current = current.next;
-        }
-        return actualSize == size;
-    }
-
-    public boolean property_2() {
-        Entry header = (Entry) this.header;
-        if (header == null) {
-            // Empty list satisfies the invariant
-            return true;
-        }
-        Entry nextNode = header.next;
-        if (nextNode != null && nextNode.previous != header) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean property_3() {
-        Entry current = header.next;
-        while (current != header && current.next != null) {
-            current = current.next;
-        }
-        if (current != header) {
-            return false;
-        }
         return true;
     }
 }

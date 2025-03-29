@@ -26,3 +26,31 @@ The HashMap class represents a hash map data structure that stores key-value pai
 
 ### Entry class
 The Entry class represents a single entry in the map, consisting of a key, a value, a hash code, and a reference to the next entry in the table. The Entry class provides methods for getting the key, value, and hash code of an entry, as well as methods for updating the value and checking for equality with another entry.
+
+```java
+public boolean repOK() {
+    if (size < 0)
+        return false;
+
+    for (int i = 0; i < table.length; i++) {
+        Entry e = table[i];
+        while (e != null) {
+            if (e.key == null && e.value != null)
+                return false;
+            if (e.key != null && e.value == null)
+                return false;
+            if (e.key != null && e.value != null && !e.key.equals(e.value))
+                return false;
+            e = e.next;
+        }
+    }
+
+    if (size > threshold)
+        return false;
+
+    if (loadFactor <= 0 || loadFactor > 1)
+        return false;
+
+    return true;
+}
+```

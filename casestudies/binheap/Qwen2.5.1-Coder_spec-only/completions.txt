@@ -1,0 +1,150 @@
+
+### Specification:
+
+**Class: BinomialHeap**
+
+**Attributes:**
+- `Nodes`: A reference to the root of the binomial heap.
+- `size`: An integer representing the number of nodes in the heap.
+
+**Methods:**
+- `BinomialHeap()`: Constructor to initialize an empty binomial heap.
+- `insert(int value)`: Inserts a new node with the given value into the heap.
+- `delete(int value)`: Deletes a node with the given value from the heap.
+- `extractMin()`: Removes and returns the node with the minimum key from the heap.
+- `findMinimum()`: Returns the key of the node with the minimum key in the heap.
+- `decreaseKeyValue(int old_value, int new_value)`: Decreases the key of a node with the given old value to the new value.
+
+**Behavior:**
+- The heap maintains the binomial heap property, where each node is a tree with a degree, and the root of each tree has a key less than or equal to the keys of its children.
+- The `insert` method adds a new node to the heap, maintaining the heap property.
+- The `delete` method finds the node with the given value, decreases its key to the minimum possible value, and then extracts the minimum node.
+- The `extractMin` method removes and returns the node with the smallest key, merging the remaining trees to maintain the heap property.
+- The `findMinimum` method returns the key of the node with the smallest key.
+- The `decreaseKeyValue` method decreases the key of a node with the given old value to the new value, maintaining the heap property.
+
+**Constraints:**
+- The heap size is updated correctly after each insertion and deletion.
+- The `extractMin` method throws an `IllegalStateException` if the heap is empty.
+- The `decreaseKeyValue` method throws an `IllegalStateException` if the heap is empty.
+
+To write the `repOK` method for the `BinomialHeap` class, we need to ensure that the heap maintains its binomial heap properties. The `repOK` method will check the following conditions:
+
+1. The `size` attribute correctly reflects the number of nodes in the heap.
+2. Each node in the heap satisfies the binomial heap property, i.e., the key of each node is less than or equal to the keys of its children.
+3. The root of each tree in the heap has a degree that is a power of 2.
+4. The heap is a valid binary tree structure.
+
+Here is the `repOK` method for the `BinomialHeap` class:
+
+```java
+public class BinomialHeap {
+    private Node root;
+    private int size;
+
+    // Node class representing each node in the binomial heap
+    private class Node {
+        int key;
+        Node parent;
+        Node sibling;
+        Node child;
+        int degree;
+
+        Node(int key) {
+            this.key = key;
+            this.parent = null;
+            this.sibling = null;
+            this.child = null;
+            this.degree = 0;
+        }
+    }
+
+    // Constructor to initialize an empty binomial heap
+    public BinomialHeap() {
+        this.root = null;
+        this.size = 0;
+    }
+
+    // Method to check the representation invariant
+    public boolean repOK() {
+        // Check if the size is correct
+        if (size < 0) {
+            return false;
+        }
+
+        // Check if the heap is empty
+        if (root == null) {
+            return size == 0;
+        }
+
+        // Check if the heap is a valid binary tree
+        if (!isValidBinaryTree(root)) {
+            return false;
+        }
+
+        // Check if each node satisfies the binomial heap property
+        if (!isBinomialHeapPropertySatisfied(root)) {
+            return false;
+        }
+
+        // Check if the root of each tree has a degree that is a power of 2
+        if (!areDegreesPowersOfTwo(root)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Helper method to check if the heap is a valid binary tree
+    private boolean isValidBinaryTree(Node node) {
+        if (node == null) {
+            return true;
+        }
+
+        if (node.child != null && node.child.parent != node) {
+            return false;
+        }
+
+        if (node.sibling != null && node.sibling.parent != node) {
+            return false;
+        }
+
+        return isValidBinaryTree(node.child) && isValidBinaryTree(node.sibling);
+    }
+
+    // Helper method to check if each node satisfies the binomial heap property
+    private boolean isBinomialHeapPropertySatisfied(Node node) {
+        if (node == null) {
+            return true;
+        }
+
+        if (node.child != null && node.key > node.child.key) {
+            return false;
+        }
+
+        return isBinomialHeapPropertySatisfied(node.child) && isBinomialHeapPropertySatisfied(node.sibling);
+    }
+
+    // Helper method to check if the degrees of the roots are powers of 2
+    private boolean areDegreesPowersOfTwo(Node node) {
+        if (node == null) {
+            return true;
+        }
+
+        if (!isPowerOfTwo(node.degree)) {
+            return false;
+        }
+
+        return areDegreesPowersOfTwo(node.sibling);
+    }
+
+    // Helper method to check if a number is a power of 2
+    private boolean isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+
+    // Other methods (insert, delete, extractMin, findMinimum, decreaseKeyValue) are not shown here
+}
+```
+
+This `repOK` method checks the necessary conditions to ensure that the `BinomialHeap` class maintains its binomial heap properties. It is important to call this method after any operation that modifies the heap to verify that the heap remains valid.

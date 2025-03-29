@@ -1,0 +1,59 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:65: error: cannot find symbol
+        if (!isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+             ^
+  symbol:   method isBST(Node,int,int)
+  location: class BinTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:69: error: cannot find symbol
+        int actualSize = countNodes(root);
+                         ^
+  symbol:   method countNodes(Node)
+  location: class BinTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:75: error: cannot find symbol
+        if (!hasUniqueValues(root, seen)) {
+             ^
+  symbol:   method hasUniqueValues(Node,Set<Integer>)
+  location: class BinTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:80: error: cannot find symbol
+        if (!isAcyclic(root, visited)) {
+             ^
+  symbol:   method isAcyclic(Node,Set<Node>)
+  location: class BinTree
+4 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:65: error: cannot find symbol
+          if (!isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+               ^
+    symbol:   method isBST(Node,int,int)
+    location: class BinTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:69: error: cannot find symbol
+          int actualSize = countNodes(root);
+                           ^
+    symbol:   method countNodes(Node)
+    location: class BinTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:75: error: cannot find symbol
+          if (!hasUniqueValues(root, seen)) {
+               ^
+    symbol:   method hasUniqueValues(Node,Set<Integer>)
+    location: class BinTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:80: error: cannot find symbol
+          if (!isAcyclic(root, visited)) {
+               ^
+    symbol:   method isAcyclic(Node,Set<Node>)
+    location: class BinTree
+  4 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 393ms
+1 actionable task: 1 executed

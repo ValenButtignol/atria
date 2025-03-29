@@ -1,0 +1,263 @@
+
+<think>
+Okay, so I need to write an informal specification for the TreeMap class provided in the Java code. Let me start by understanding what a TreeMap is. From what I remember, a TreeMap is a data structure that stores key-value pairs in a sorted manner. It's based on a binary search tree, and it maintains the keys in a specific order, usually determined by a comparator.
+
+Looking at the code, I see that the TreeMap class has a private static inner class called Node. Each Node contains a key, a value, pointers to left and right children, and a color attribute which is either RED or BLACK. This suggests that the TreeMap is implemented using a balanced binary search tree, likely a Red-Black tree, which helps maintain logarithmic time complexity for insertion, deletion, and search operations.
+
+The TreeMap constructor can be called with or without a comparator. If no comparator is provided, it defaults to using the natural ordering of the keys, assuming they implement the Comparable interface. This is important because it determines how the keys are compared and ordered in the tree.
+
+The put method is used to insert key-value pairs into the tree. It first checks if the key is null and throws an IllegalArgumentException if it is. Then, it handles the case where the tree is empty by creating a new root node. For non-empty trees, it traverses the tree to find the correct position for the new node, starting from the root and moving down based on comparisons between the key and existing node keys.
+
+Once the correct position is found, a new node is created and inserted. After insertion, the fixInsertion method is called to ensure the tree remains balanced according to the Red-Black tree properties. This involves checking the parent and grandparent nodes and possibly recoloring or rotating nodes to maintain balance.
+
+The fixInsertion method seems to handle the rebalancing by checking if the parent and grandparent nodes are red. If they are, it either recolors them or performs rotations to maintain the properties of a Red-Black tree. The rotations are implemented in the rotateLeft and rotateRight methods, which rearrange the nodes to maintain the tree structure.
+
+Other methods like size(), isEmpty(), and clear() are straightforward. size() returns the number of key-value pairs in the tree, isEmpty() checks if the tree is empty, and clear() removes all nodes, resetting the size to zero.
+
+I also notice that the rotateLeft and rotateRight methods are used to perform left and right rotations, which are essential for maintaining the tree's balance after insertions and deletions.
+
+Now, to write the informal specification, I need to describe the behavior, attributes, and properties of the TreeMap class. I should explain how it stores key-value pairs, the use of the comparator, the insertion process, and the balancing mechanism. I should also mention the methods provided and their functionalities.
+
+I should make sure to highlight that the TreeMap maintains keys in a sorted order, supports efficient operations, and handles null keys appropriately. Additionally, I should note that the tree is balanced using Red-Black properties, ensuring that operations like insertion and deletion are efficient.
+
+I need to avoid being too technical and keep the explanation clear and concise, focusing on the overall behavior and functionality rather than the implementation details.
+
+Let me start drafting the specification based on these thoughts.
+</think>
+
+### Behavior
+
+The TreeMap class implements a balanced binary search tree using the Red-Black tree algorithm. It stores key-value pairs, maintaining the keys in a sorted order based on a provided comparator or the natural ordering of the keys. The class supports efficient insertion, deletion, and search operations, each with an average time complexity of O(log n). 
+
+The put method inserts a key-value pair into the tree. If the key is null, it throws an IllegalArgumentException. The tree is traversed to find the correct position for the new node, which is then inserted. After insertion, the tree is rebalanced using the fixInsertion method to maintain the Red-Black properties, ensuring the tree remains balanced.
+
+The rotateLeft and rotateRight methods perform left and right rotations, respectively, to maintain the tree structure during rebalancing. These rotations help in reorganizing the tree nodes to preserve the balance and properties of the Red-Black tree.
+
+The size() method returns the number of key-value pairs in the tree, isEmpty() checks if the tree is empty, and clear() removes all nodes, resetting the size to zero.
+
+### Attributes
+
+- root (Node): The root node of the tree. It is initially null when the tree is empty.
+- comparator (Comparator<? super K>): A comparator used to compare keys. It is set during construction and determines the ordering of keys.
+- size (int): The number of key-value pairs in the tree. It starts at zero and is updated with each insertion and removal.
+- Node (inner class): Each node contains a key, value, pointers to left and right children, and a color attribute (RED or BLACK).
+
+### Properties
+
+- Balanced Tree: The tree maintains the Red-Black properties, ensuring that it remains approximately balanced, which guarantees efficient operations.
+- Key Ordering: Keys are ordered according to the provided comparator or their natural ordering, ensuring that the tree can be traversed in sorted order.
+- Null Handling: The tree does not allow null keys, and inserting a null key results in an IllegalArgumentException.
+- Efficient Operations: Insertion, deletion, and search operations are efficient, with an average time complexity of O(log n), making the TreeMap suitable for applications requiring ordered data access.
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. I'm a bit new to this, so I'll try to break it down step by step.
+
+First, what's a representation invariant? From what I remember, it's a condition that must always hold true for the data structure to be considered correct. It's like a set of rules that the class follows to maintain its integrity.
+
+Looking at the TreeMap class, it's a balanced binary search tree using the Red-Black tree algorithm. So, the main properties it should maintain are related to the Red-Black tree properties.
+
+Let me recall the Red-Black tree properties:
+1. Every node is either red or black.
+2. The root is always black.
+3. If a node is red, its parent must be black.
+4. All leaves (null nodes) are considered black.
+5. For every node, the number of black nodes in the left and right subtrees must be equal.
+
+These properties ensure the tree remains balanced, which is crucial for the efficiency of operations like insertion, deletion, and search.
+
+Now, looking at the TreeMap class, it has attributes like root, comparator, size, and nodes with color, key, value, etc. The methods include put, rotateLeft, rotateRight, fixInsertion, size(), isEmpty(), and clear().
+
+To write the repOK method, I need to check all the invariants that must hold for the TreeMap to be correct.
+
+First, the root must be black. That's straightforward. If the root is null (empty tree), it's considered valid since all leaves are black.
+
+Next, every node must be either red or black. So, I need to ensure that no node has an invalid color.
+
+Then, if a node is red, its parent must be black. This ensures that there are no two consecutive red nodes on the same path from the root to a leaf.
+
+Also, the size attribute must be consistent with the actual number of nodes in the tree. So, I need to verify that the size matches the count of nodes.
+
+Another important property is that the tree maintains the Red-Black properties, specifically that the number of black nodes is the same in the left and right subtrees of every node.
+
+Additionally, the tree should not contain any null keys, but since the put method already checks for null keys and throws an exception, maybe I don't need to check this in repOK.
+
+I also need to ensure that the tree is a valid binary search tree, meaning that for every node, all keys in the left subtree are less than the node's key, and all keys in the right subtree are greater.
+
+Moreover, the comparator should be correctly set, but since it's set during construction, perhaps it's not necessary to check in repOK unless there's a possibility of it being modified elsewhere.
+
+Now, thinking about how to implement these checks:
+
+1. Check if the root is black or null.
+2. Traverse the tree to ensure all nodes have valid colors (red or black).
+3. Ensure that no red node has a red parent.
+4. Verify that the size matches the actual number of nodes.
+5. Check the Red-Black properties for each node regarding the number of black nodes in left and right subtrees.
+
+But wait, checking the exact number of black nodes in each subtree might be complicated. Maybe I can simplify by ensuring that the tree is balanced according to the Red-Black rules, which indirectly ensures the properties.
+
+I also need to make sure that the tree is a valid BST, so during traversal, the keys are in the correct order.
+
+Perhaps I can combine these checks into a single method that traverses the tree and verifies each property as it goes.
+
+I should also consider edge cases, like when the tree is empty (root is null), which should return true for repOK.
+
+Another thing to consider is that after any operation like put, the tree should still satisfy repOK. So, the invariants must hold after every method call.
+
+I think I'll start by writing a helper method to count the number of black nodes in a subtree. Then, for each node, I can check if the left and right subtrees have the same number of black nodes.
+
+But implementing that might be a bit involved. Maybe there's a simpler way to ensure the Red-Black properties are maintained.
+
+Alternatively, I can perform a standard BST check and then add checks for the color properties.
+
+I also need to make sure that the size is correct. So, I'll traverse the tree and count the nodes to compare with the size attribute.
+
+Putting it all together, the repOK method will:
+
+- Check if the root is black or null.
+- Traverse the tree to ensure all nodes have valid colors.
+- Ensure no red node has a red parent.
+- Verify that the size matches the actual number of nodes.
+- Check that the tree is a valid BST.
+- Ensure the Red-Black properties are maintained.
+
+This seems comprehensive, but I'm not sure if I'm missing anything. Maybe I should look for examples of repOK methods for similar data structures to see what's commonly checked.
+
+Looking back at the examples provided, like the MinHeap and LinkedList, their repOK methods checked array bounds, heap property, and cyclic structures, respectively. So, for TreeMap, I need to check the specific properties of a Red-Black tree.
+
+I think I've covered the main points. Now, I'll try to write the code for repOK, implementing these checks step by step.
+</think>
+
+To write a representation invariant for the `TreeMap` class, we need to ensure that the tree maintains the properties of a balanced Red-Black tree. These properties include:
+
+1. **Root Node**: The root node must be black.
+2. **Node Colors**: Every node must be either red or black.
+3. **Red Node Parents**: If a node is red, its parent must be black.
+4. **Black Height Consistency**: For every node, the number of black nodes in the left and right subtrees must be equal.
+5. **Size Consistency**: The size attribute must match the actual number of nodes in the tree.
+6. **BST Property**: The tree must maintain the Binary Search Tree property, where for every node, all keys in the left subtree are less than the node's key, and all keys in the right subtree are greater.
+
+Here is the implementation of the `repOK` method for the `TreeMap` class:
+
+```java
+public boolean repOK() {
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    if (size < 0) {
+        return false;
+    }
+
+    int actualSize = 0;
+    Set<Node> visitedNodes = new HashSet<>();
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(root);
+
+    while (!queue.isEmpty()) {
+        Node current = queue.poll();
+        if (current == null) {
+            continue;
+        }
+
+        if (visitedNodes.contains(current)) {
+            return false; // Detected a cycle
+        }
+
+        visitedNodes.add(current);
+        actualSize++;
+
+        if (current.color != RED && current.color != BLACK) {
+            return false; // Invalid color
+        }
+
+        if (current.color == RED) {
+            if (current.parent != null && current.parent.color == RED) {
+                return false; // Red node has a red parent
+            }
+        }
+
+        if (current.left != null) {
+            queue.add(current.left);
+        }
+        if (current.right != null) {
+            queue.add(current.right);
+        }
+    }
+
+    if (actualSize != size) {
+        return false; // Size mismatch
+    }
+
+    // Check BST property
+    if (!isBST(root)) {
+        return false;
+    }
+
+    // Check black height consistency
+    if (!checkBlackHeights(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isBST(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.left != null && compare(node.key, node.left.key) >= 0) {
+        return false;
+    }
+
+    if (node.right != null && compare(node.key, node.right.key) <= 0) {
+        return false;
+    }
+
+    return isBST(node.left) && isBST(node.right);
+}
+
+private boolean checkBlackHeights(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftBlackHeight = getBlackHeight(node.left);
+    int rightBlackHeight = getBlackHeight(node.right);
+
+    if (leftBlackHeight != rightBlackHeight) {
+        return false;
+    }
+
+    return checkBlackHeights(node.left) && checkBlackHeights(node.right);
+}
+
+private int getBlackHeight(Node node) {
+    if (node == null) {
+        return 0;
+    }
+
+    int height = getBlackHeight(node.left);
+    if (node.color == BLACK) {
+        height++;
+    }
+
+    return height;
+}
+```
+
+### Explanation
+
+1. **Root Node Check**: The root node must be black. If the tree is empty (root is null), this condition is trivially satisfied.
+
+2. **Node Color Check**: Each node must be either red or black. This is verified by checking the color attribute of each node during traversal.
+
+3. **Red Node Parent Check**: If a node is red, its parent must be black. This ensures that no two consecutive nodes on the same path from the root are red.
+
+4. **Size Consistency Check**: The actual number of nodes in the tree is counted during traversal and compared with the size attribute. They must match.
+
+5. **BST Property Check**: The tree is traversed to ensure that for every node, all keys in the left subtree are less than the node's key, and all keys in the right subtree are greater.
+
+6. **Black Height Consistency Check**: For every node, the number of black nodes in the left and right subtrees must be equal. This is checked using a helper method `checkBlackHeights`, which ensures that the black height property is maintained throughout the tree.
+
+By implementing these checks, the `repOK` method ensures that the `TreeMap` class maintains the invariants required for a balanced Red-Black tree, ensuring efficient operations and correct behavior.

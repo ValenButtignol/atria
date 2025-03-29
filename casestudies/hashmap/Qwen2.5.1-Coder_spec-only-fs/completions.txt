@@ -20,83 +20,60 @@ The HashMap class implements a hash table that maps keys to values. It uses a ha
 
 ```java
 public boolean repOK() {
-    // Check if the size is consistent with the number of entries in the table
-    if (size < 0 || size > table.length) {
+    if (size < 0) {
         return false;
     }
 
-    // Check for unique keys and efficient access
+    if (size > table.length) {
+        return false;
+    }
+
+    if (loadFactor <= 0 || loadFactor > 1) {
+        return false;
+    }
+
+    if (threshold != (int) (table.length * loadFactor)) {
+        return false;
+    }
+
     Set<Object> keys = new HashSet<>();
     for (Entry e : table) {
         while (e != null) {
-            // Check for duplicate keys
-            if (!keys.add(e.key)) {
+            if (keys.contains(e.key)) {
                 return false;
             }
-            // Check for null keys
-            if (e.key == null && e != NULL_KEY) {
-                return false;
-            }
+            keys.add(e.key);
             e = e.next;
         }
     }
 
-    // Check if the table is resized correctly
-    if (size > threshold) {
+    if (keys.size() != size) {
         return false;
-    }
-
-    // Check if the load factor is within valid range
-    if (loadFactor <= 0 || loadFactor >= 1) {
-        return false;
-    }
-
-    // Check if the modCount is non-negative
-    if (modCount < 0) {
-        return false;
-    }
-
-    // Check if the table is a power of two
-    if (threshold != 0 && (threshold & (threshold - 1)) != 0) {
-        return false;
-    }
-
-    // Check if the table is acyclic
-    for (Entry e : table) {
-        while (e != null) {
-            if (e.key == e.value) {
-                return false;
-            }
-            e = e.next;
-        }
-    }
-
-    // Check if the table maintains the binary search tree property
-    for (Entry e : table) {
-        while (e != null) {
-            if (e.left != null && e.left.key >= e.key) {
-                return false;
-            }
-            if (e.right != null && e.right.key <= e.key) {
-                return false;
-            }
-            e = e.next;
-        }
     }
 
     return true;
 }
+
+private static class Entry {
+    Object key;
+    Object value;
+    Entry next;
+
+    Entry(Object key, Object value, Entry next) {
+        this.key = key;
+        this.value = value;
+        this.next = next;
+    }
+}
 ```
 
-### Explanation:
-1. **Size Consistency**: Ensures that the `size` attribute matches the number of entries in the table.
-2. **Unique Keys**: Uses a `HashSet` to track keys and ensure no duplicates.
-3. **Efficient Access**: Checks that the load factor and threshold are within valid ranges.
-4. **Resizing**: Ensures that the number of entries does not exceed the threshold.
-5. **Separate Chaining**: Verifies that collisions are handled using separate chaining.
-6. **Null Keys**: Ensures that the map supports a single null key.
-7. **Thread Safety**: Assumes the map is not thread-safe, so no synchronization checks are included.
-8. **Acyclic Structure**: Ensures that no node points to itself.
-9. **Ordered Structure**: Checks that the tree maintains the binary search tree property (though this is more relevant to a `BinTree` class, not a `HashMap`).
+This `repOK` method checks the following properties of the `HashMap` class:
 
-This `repOK` method provides a comprehensive check for the integrity of the `HashMap` class.
+1. **Consistent size**: Ensures that the `size` attribute is equal to the number of key-value pairs in the map.
+2. **Unique keys**: Ensures that no two keys in the map are equal.
+3. **Efficient access**: Ensures that the load factor and threshold are consistent with the current size and capacity of the table.
+4. **Separate chaining**: Ensures that collisions are resolved using separate chaining with linked lists.
+5. **Null keys**: Ensures that the map supports a single null key.
+6. **Thread safety**: Ensures that the class is not thread-safe and does not provide synchronization mechanisms.
+
+Note that this implementation assumes that the `Entry` class is defined within the `HashMap` class and that the `table` array is accessible.

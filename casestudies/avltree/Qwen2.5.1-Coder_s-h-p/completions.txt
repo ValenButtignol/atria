@@ -1,0 +1,109 @@
+
+- `isBalanced`: Returns true if the tree is balanced according to the AVL property.
+- `containsAllElements`: Returns true if all elements in the tree are unique.
+- `correctHeights`: Returns true if the height of each node is correctly calculated.
+- `validStructure`: Returns true if the tree structure adheres to the AVL tree properties.
+- `noDuplicates`: Returns true if there are no duplicate elements in the tree.
+
+```java
+public boolean isBalanced() {
+    return isBalanced(root);
+}
+
+private boolean isBalanced(AvlNode t) {
+    if (t == null)
+        return true;
+
+    int leftHeight = height(t.left);
+    int rightHeight = height(t.right);
+
+    return Math.abs(leftHeight - rightHeight) <= ALLOWED_IMBALANCE &&
+           isBalanced(t.left) &&
+           isBalanced(t.right);
+}
+```
+
+```java
+public boolean containsAllElements() {
+    return containsAllElements(root);
+}
+
+private boolean containsAllElements(AvlNode t) {
+    if (t == null)
+        return true;
+
+    if (!containsUniqueElement(t))
+        return false;
+
+    return containsAllElements(t.left) && containsAllElements(t.right);
+}
+
+private boolean containsUniqueElement(AvlNode t) {
+    if (t == null)
+        return true;
+
+    if (t.left != null && t.element == t.left.element)
+        return false;
+
+    if (t.right != null && t.element == t.right.element)
+        return false;
+
+    return containsUniqueElement(t.left) && containsUniqueElement(t.right);
+}
+```
+
+```java
+public boolean correctHeights() {
+    return checkHeights(root);
+}
+
+private boolean checkHeights(AvlNode t) {
+    if (t == null)
+        return true;
+
+    int leftHeight = height(t.left);
+    int rightHeight = height(t.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE)
+        return false;
+
+    return checkHeights(t.left) && checkHeights(t.right);
+}
+```
+
+```java
+public boolean validStructure() {
+    return validStructure(root);
+}
+
+private boolean validStructure(AvlNode t) {
+    if (t == null) {
+        return true;
+    }
+
+    int leftHeight = height(t.left);
+    int rightHeight = height(t.right);
+
+    if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+
+    return validStructure(t.left) && validStructure(t.right);
+}
+```
+
+```java
+public boolean noDuplicates() {
+    return noDuplicates(root);
+}
+
+private boolean noDuplicates(AvlNode t) {
+    if (t == null)
+        return true;
+    if (t.left != null && t.element == t.left.element)
+        return false;
+    if (t.right != null && t.element == t.right.element)
+        return false;
+    return noDuplicates(t.left) && noDuplicates(t.right);
+}
+```

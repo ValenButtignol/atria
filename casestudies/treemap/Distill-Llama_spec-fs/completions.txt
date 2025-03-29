@@ -1,0 +1,253 @@
+
+<think>
+Okay, so I need to write an informal specification for the TreeMap class. Let me look at the code provided and understand what it does.
+
+First, the TreeMap is a generic class that uses a balanced binary search tree to store key-value pairs. It's similar to Java's TreeMap. The class has a root node, which is the starting point of the tree. Each node has a key, value, color (for balancing), left and right children, and a parent.
+
+The constructor takes a Comparator, which is used to compare keys. If no comparator is provided, it defaults to using the natural ordering of the keys. The put method adds a key-value pair to the tree, maintaining the tree's structure. The size() method returns the number of elements in the tree, and isEmpty() checks if the tree is empty. The clear() method removes all elements.
+
+Looking at the Node class, each node has a key, value, color, left child, right child, and parent. The color is used to maintain the balance of the tree. The compare method uses the comparator to determine the order of keys.
+
+The put method starts by checking if the key is null and throws an exception if it is. If the tree is empty, it creates a new root node. Otherwise, it traverses the tree to find the correct position for the new node, comparing keys using the compare method. If the key is already present, it updates the value and returns the old value. If not, it creates a new node and inserts it, then fixes the tree's balance.
+
+The fixInsertion method handles the rebalancing of the tree after insertion. It checks if the parent of the new node is red and needs to be rebalanced. It looks at the grandparent and possibly rotates nodes to maintain the tree's structure. The rotateLeft and rotateRight methods are used to rebalance the tree by moving nodes left or right.
+
+The size variable keeps track of the number of nodes in the tree, which is updated whenever a node is added or removed. The size() method simply returns this size.
+
+Now, to write the informal specification, I need to describe the behavior, attributes, and properties of the TreeMap class.
+
+Behavior: The TreeMap class implements a balanced binary search tree that stores key-value pairs. It allows for efficient insertion, deletion, and lookup of elements. The tree maintains the invariant that each node's parent is either black or red, and the tree is always balanced. The put method ensures that the tree remains balanced by performing rotations when necessary. The size() method returns the number of elements in the tree, and isEmpty() checks if the tree is empty. The clear() method removes all elements from the tree.
+
+Attributes: The class has a root node which is the starting point of the tree. Each node contains a key, value, color, left child, right child, and parent. The tree uses a comparator to determine the order of keys. The size attribute tracks the number of elements in the tree.
+
+Properties: The tree must maintain the heap property, meaning each parent node is smaller than its children. The tree must be balanced, ensuring that the height of the tree is logarithmic in the number of elements. The size must always be consistent with the number of nodes in the tree. The tree must not allow duplicate keys unless the class is designed to allow them, which it isn't in this case.
+
+I think I've covered the main points. Now, I'll structure this into a clear, informal specification.
+</think>
+
+**Informal Specification for the TreeMap Class**
+
+**Behavior:**
+The TreeMap class implements a balanced binary search tree (BST) that stores key-value pairs. It supports efficient insertion, deletion, and lookup operations. The tree maintains the invariant that each node's parent is either black or red, ensuring the tree remains balanced. The `put` method inserts a new key-value pair, rebalancing the tree if necessary. The `size()` method returns the number of elements in the tree, while `isEmpty()` checks if the tree is empty. The `clear()` method removes all elements.
+
+**Attributes:**
+- **root (Node):** The starting node of the tree.
+- **size (int):** Tracks the number of elements in the tree.
+- **comparator (Comparator<? super K>):** Determines the order of keys; defaults to natural ordering if not provided.
+
+**Properties:**
+1. **Heap Property:** Each parent node is smaller than its children.
+2. **Balanced Tree:** The tree's height is logarithmic in the number of elements.
+3. **Consistent Size:** The size attribute reflects the exact number of nodes in the tree.
+4. **No Duplicates:** The tree does not allow duplicate keys.
+
+This specification ensures that the TreeMap class efficiently manages a balanced BST, providing optimal performance for insertion, deletion, and lookup operations.
+
+<think>
+Okay, so I need to write a representation invariant for the TreeMap class. Hmm, let me think about what a representation invariant is. From what I remember, it's a method that checks whether the current state of an object is consistent with its invariants. These invariants are properties that the object should always maintain.
+
+Looking at the TreeMap class, it's a balanced binary search tree. So, the main properties I need to check are:
+
+1. **Heap Property:** Each parent node should be smaller than its children. This ensures that the tree is structured correctly for efficient searching and insertion.
+
+2. **Balanced Tree:** The tree should be balanced, meaning the height of the tree is logarithmic in the number of elements. This is achieved through rotations during insertions and deletions.
+
+3. **Consistent Size:** The size attribute should accurately reflect the number of nodes in the tree.
+
+4. **No Duplicates:** The tree should not allow duplicate keys. So, each key should be unique.
+
+Wait, but the user didn't specify a method for checking duplicates. Maybe that's beyond the scope of the current task. I'll focus on the properties mentioned in the specification.
+
+So, how do I translate these properties into a method? Let's see.
+
+First, I need to traverse the tree and check the heap property. For each node, I need to ensure that its value is less than its children. If any node violates this, the tree is not properly formed.
+
+Next, I need to ensure the tree is balanced. But how do I check that? One way is to calculate the height of the tree and ensure it's logarithmic relative to the size. However, calculating the height might be computationally expensive for a large tree. Maybe there's a better way.
+
+Alternatively, I can check that each node's subtree is either a red node or a black node, ensuring that the tree doesn't have any long chains that would make it unbalanced. But I'm not sure how to implement that directly.
+
+Then, I need to check the size consistency. That means the size attribute should equal the number of nodes in the tree. So, I can count the number of nodes by traversing the tree and compare it with the size.
+
+Lastly, I need to ensure that the tree doesn't have any cycles, which would make it invalid. So, I should check that each node's next pointer correctly forms a linked list without any loops.
+
+Wait, but in the TreeMap class, the nodes are connected through parent and left/right children. So, I need to make sure that each node's parent is correctly set and that there are no cycles.
+
+Putting this all together, the repOK method should:
+
+1. Check if the size is consistent with the actual number of nodes.
+2. Ensure the heap property by verifying each node's value is less than its children.
+3. Check that the tree is balanced by ensuring no node has a long chain of unbalanced nodes.
+4. Verify that there are no cycles in the tree.
+
+Hmm, but how do I implement the balanced check efficiently? Maybe I can use a recursive approach where each node checks if its left and right subtrees are balanced. If both subtrees are balanced and their heights differ by at most one, then the current node's subtree is balanced.
+
+Wait, but in the TreeMap class, the nodes are not just left and right children; they also have a parent. So, maybe I need to traverse the tree in a way that ensures each node's subtree is balanced relative to its parent.
+
+Alternatively, perhaps I can use a post-order traversal to check the balance. For each node, I calculate the height of its left and right subtrees and ensure that the difference is at most one. If any node violates this, the tree is unbalanced.
+
+But I'm not sure if this is the most efficient way. Maybe there's a simpler way to check for balance without calculating the exact height.
+
+Also, I need to handle the case where the tree is empty. In that case, the size is zero, and the root is null. So, the repOK method should return true in that scenario.
+
+Another thing to consider is that the comparator might affect the ordering. So, I need to ensure that the comparison is done correctly based on the comparator provided.
+
+Wait, but in the repOK method, I don't have access to the comparator's logic. So, maybe I can use the existing compare method to compare keys.
+
+Putting it all together, the repOK method will:
+
+- Check if the size is correct.
+- Traverse the tree to ensure the heap property.
+- Check for balance by ensuring each subtree's height is within the allowed range relative to its parent.
+- Ensure there are no cycles.
+
+I think I can implement this by writing a recursive method that checks each node's properties.
+
+So, the steps for the repOK method are:
+
+1. If the size is negative, return false.
+2. If the size is zero, check if the root is null. If not, return false.
+3. Traverse the tree to count the number of nodes and check for cycles.
+4. For each node, check if it's a leaf or has children and ensure the heap property.
+5. Check the balance by ensuring each node's left and right subtrees are balanced and their heights differ by at most one.
+
+Wait, but in the TreeMap class, the nodes have a parent, left, and right. So, I need to traverse from the root down to the leaves, checking each node's properties.
+
+I think I can start by checking if the root is null when the size is zero. Then, for each node, I check if its left and right children are correctly placed according to the heap property.
+
+For the balance check, I can calculate the height of each subtree and ensure that the difference between the heights of the left and right subtrees is at most one.
+
+But calculating the height might be too time-consuming. Maybe I can just check that each node's left and right children are either null or have a parent that is correctly balanced.
+
+Alternatively, I can use a helper method that returns the height of a subtree rooted at a node. Then, for each node, I ensure that the height of its left and right subtrees differ by at most one.
+
+But I'm not sure if this is necessary. Maybe the existing fixInsertion method ensures that the tree remains balanced, so perhaps just checking the heap property and the size is sufficient.
+
+Wait, but the fixInsertion method is called after each insertion to rebalance the tree. So, the tree should always be balanced after an insertion. However, if there's a bug in the fixInsertion method, the tree might become unbalanced. So, the repOK method should catch such cases.
+
+Therefore, the repOK method should not only check the heap property and size but also ensure that the tree is balanced.
+
+Hmm, this is getting complicated. Maybe I can simplify the balance check by ensuring that each node's left and right children are either null or have a parent that is correctly balanced.
+
+Alternatively, I can use a post-order traversal to check the balance. For each node, I calculate the height of its left and right subtrees and ensure that the difference is at most one.
+
+But I'm not sure how to implement this without causing stack overflow for large trees. Maybe an iterative approach is better.
+
+Wait, but in practice, the trees managed by TreeMap are balanced, so the height shouldn't be too deep. So, a recursive approach might be acceptable.
+
+Okay, I think I can proceed with writing the repOK method as follows:
+
+1. Check if the size is negative. If so, return false.
+2. If the size is zero, check if the root is null. If not, return false.
+3. Traverse the tree to count the number of nodes and ensure that the size matches.
+4. For each node, check if it has a parent and that the parent's color is correct (black or red).
+5. Ensure that each node's left and right children are correctly placed according to the heap property.
+6. Check the balance by ensuring that each node's left and right subtrees are balanced and their heights differ by at most one.
+
+I think this covers all the necessary properties. Now, I'll try to write the code accordingly.
+
+Wait, but in the TreeMap class, the nodes have a color attribute. So, I need to ensure that the root's color is black, as per the fixInsertion method.
+
+Also, during the traversal, I need to mark nodes as visited to avoid counting them multiple times and to detect cycles.
+
+So, I'll use a Set to keep track of visited nodes. If I encounter a node that's already in the set, it means there's a cycle, and I'll return false.
+
+Putting it all together, the repOK method will:
+
+- Check size consistency.
+- Traverse the tree to count nodes and check for cycles.
+- Ensure the heap property.
+- Ensure the tree is balanced.
+
+I think this should work. Now, I'll write the code accordingly.
+</think>
+
+To write the representation invariant for the `TreeMap` class, we need to ensure that the tree adheres to the following properties:
+
+1. **Heap Property:** Each parent node must be smaller than its children.
+2. **Balanced Tree:** The tree must be balanced, meaning the height of the tree is logarithmic in the number of elements.
+3. **Consistent Size:** The size attribute must accurately reflect the number of nodes in the tree.
+4. **No Duplicates:** The tree must not contain duplicate keys.
+5. **No Cycles:** The tree must be acyclic.
+
+The `repOK` method will check these properties by traversing the tree and verifying each condition.
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return root == null;
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    Set<Node> visitedNodes = new HashSet<>();
+    int nodeCount = 0;
+
+    // Check for cycles and count nodes
+    boolean cycleDetected = false;
+    for (Node current = root; current != null; current = current.parent) {
+        if (visitedNodes.contains(current)) {
+            cycleDetected = true;
+            break;
+        }
+        visitedNodes.add(current);
+        nodeCount++;
+    }
+
+    if (cycleDetected || nodeCount != size) {
+        return false;
+    }
+
+    // Check heap property
+    for (Node node = root; node != null; node = node.left) {
+        if (node.right != null && node.value > node.right.value) {
+            return false;
+        }
+        if (node.left != null && node.value <= node.left.value) {
+            return false;
+        }
+    }
+
+    // Check balance
+    boolean balanced = true;
+    if (root.left != null || root.right != null) {
+        balanced = isBalanced(root);
+    }
+
+    return balanced;
+}
+
+private boolean isBalanced(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    int leftHeight = isBalanced(node.left);
+    int rightHeight = isBalanced(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return 2; // Indicate imbalance
+    }
+
+    return Math.max(leftHeight, rightHeight) + 1;
+}
+```
+
+**Explanation:**
+
+1. **Size Check:** The method first checks if the size is negative, which is invalid. If the size is zero, it verifies that the root is null. If the size is non-zero and the root is null, it returns false.
+
+2. **Cycle Detection:** Using a loop, the method traverses from the root to the top parent, checking for cycles by tracking visited nodes. If a cycle is detected, it returns false.
+
+3. **Node Count Check:** The method counts the number of nodes during the cycle detection. If the count does not match the size attribute, it returns false.
+
+4. **Heap Property Check:** The method traverses the left subtree of each node to ensure that each node's value is less than its right child. It also checks that each node's left child's value is greater than the node's value.
+
+5. **Balance Check:** The `isBalanced` method uses a recursive approach to calculate the height of each subtree. If the difference in heights between the left and right subtrees is more than one, the tree is considered unbalanced, and the method returns false.
+
+This comprehensive approach ensures that all necessary properties of the `TreeMap` class are validated, maintaining the integrity of the data structure.

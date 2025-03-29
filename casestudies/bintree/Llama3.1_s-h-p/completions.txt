@@ -1,0 +1,56 @@
+
+- Representation Invariant: Returns `true` if the tree is empty and the size is 0, and `false` otherwise. 
+- Root Node Validity: Returns `true` if the root node is either null or a valid Node object, and `false` otherwise.
+- Left and Right Child Validity: Returns `true` if both left and right child nodes are either null or valid Node objects, and `false` otherwise.
+- Node Info Validity: Returns `true` if the info of each Node object is a non-negative integer, and `false` otherwise.
+- Size Consistency: Returns `true` if the size of the tree is equal to the number of Node objects in the tree, and `false` otherwise.
+
+```java
+public boolean property() {
+    return (root == null && size == 0);
+}
+```
+
+```java
+public boolean property() {
+    return root == null || (root != null && root instanceof Node);
+}
+```
+
+```java
+public boolean property() {
+    return (root == null) || (root instanceof Node && 
+            (root.left == null || root.left instanceof Node) && 
+            (root.right == null || root.right instanceof Node));
+}
+```
+
+```java
+public boolean property() {
+    return propertyRecursive(root);
+}
+
+private boolean propertyRecursive(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info < 0) {
+        return false;
+    }
+    return propertyRecursive(node.left) && propertyRecursive(node.right);
+}
+```
+
+```java
+public boolean sizeConsistency() {
+    return size == countNodes(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+}
+```

@@ -13,73 +13,33 @@ The LinkedList class implements a doubly linked list data structure. It consists
 - No circular references: The list should not have circular references, ensuring that the header node is the only node with a null previous reference and the last node with a null next reference.
 
 ```java
-public class LinkedList {
-    private static class Entry {
-        Object element;
-        Entry next;
-        Entry prev;
+public boolean repOK() {
+    if (header == null)
+        return false;
 
-        Entry(Object element, Entry next, Entry prev) {
-            this.element = element;
-            this.next = next;
-            this.prev = prev;
-        }
-    }
+    if (size < 0)
+        return false;
 
-    private Entry header;
-    private int size;
+    if (size == 0)
+        return header.next == header && header.prev == header;
 
-    public LinkedList() {
-        header = new Entry(null, null, null);
-        header.next = header;
-        header.prev = header;
-        size = 0;
-    }
+    Entry current = header.next;
+    int count = 0;
 
-    public boolean repOK() {
-        // Check if size is consistent
-        int count = 0;
-        Entry current = header.next;
-        while (current != header) {
-            count++;
-            current = current.next;
-        }
-        if (count != size) {
+    while (current != header) {
+        if (current == null || current.prev == null || current.next == null)
             return false;
-        }
 
-        // Check for null elements (except header)
-        current = header.next;
-        while (current != header) {
-            if (current.element == null) {
-                return false;
-            }
-            current = current.next;
-        }
-
-        // Check for circular references
-        if (header.prev != header || header.next != header) {
+        if (current.prev.next != current || current.next.prev != current)
             return false;
-        }
 
-        // Check doubly linked structure
-        current = header.next;
-        while (current != header) {
-            if (current.prev == null || current.next == null) {
-                return false;
-            }
-            current = current.next;
-        }
+        if (current.info == null)
+            return false;
 
-        return true;
+        count++;
+        current = current.next;
     }
+
+    return count == size;
 }
 ```
-
-### Explanation:
-1. **Consistent size**: The method iterates through the list starting from the `header.next` and counts the number of nodes until it reaches the `header` again. It then checks if this count matches the `size` attribute.
-2. **No null elements**: The method iterates through the list and checks if any node's `element` is `null`. If it finds a `null` element (except for the header), it returns `false`.
-3. **No circular references**: The method checks if the `header.prev` and `header.next` are both pointing to the `header`, which would indicate a circular reference.
-4. **Doubly linked structure**: The method iterates through the list and checks if each node has both a non-null `prev` and `next` reference. If any node is found to have a `null` reference in either direction, it returns `false`.
-
-This `repOK` method ensures that the linked list maintains its structural integrity and properties as specified.

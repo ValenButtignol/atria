@@ -1,0 +1,338 @@
+
+<think>
+Okay, I need to write an informal specification for the TreeMap class in Java. Let me start by understanding what the TreeMap class does. From the code, it looks like it's a balanced binary search tree implementation, similar to Java's built-in TreeMap which uses red-black trees.
+
+First, the class has a root node, and each node has a key, value, pointers to left and right children, and a color (red or black). The color is used to maintain the balance of the tree during insertions and deletions.
+
+The class has a comparator to determine the order of keys. If the comparator is null, it uses the natural ordering of the keys. The put method adds a new key-value pair to the tree. If the key already exists, it updates the value. The insertion logic ensures that the tree remains balanced by calling the fixInsertion method after inserting a new node.
+
+The fixInsertion method handles the balancing by performing rotations and recoloring. It looks at the parent and grandparent nodes to determine how to adjust the tree structure. If the parent is red, it checks the uncle node (the sibling of the parent) to decide whether to recolor or rotate.
+
+There are also methods for rotating nodes left or right to maintain the balance. Rotating left involves moving a node's right child to the top, adjusting the parent pointers accordingly. Similarly, rotating right moves a node's left child to the top.
+
+The size method returns the number of elements in the tree, and isEmpty checks if the tree is empty. The clear method resets the root to null and sets the size to zero.
+
+I should describe each of these components in the specification. I'll start by explaining the purpose of the class, then describe the structure of the nodes, the methods, and the key operations. I'll make sure to explain the balancing mechanism using the color and rotation methods, and how the size is maintained.
+
+I should avoid technical jargon as much as possible and keep the explanation clear and concise. I'll also mention that the class uses a comparator to order the keys, which can be null for the natural order.
+
+Putting it all together, the specification should cover the class structure, node attributes, methods, and the balancing logic, ensuring that anyone reading it understands how the TreeMap maintains its order and balance.
+</think>
+
+### Informal Specification for TreeMap Class
+
+The `TreeMap` class is a balanced binary search tree implementation designed to maintain elements in a sorted order based on a comparator. Each node in the tree contains a key-value pair, pointers to left and right children, and a color attribute (red or black) used to enforce balance.
+
+- **Node Structure**: Each node has a key, value, left and right child pointers, and a color. The root node is the topmost node, and each node's left subtree contains keys less than the node, while the right subtree contains keys greater than the node.
+
+- **Comparator**: The class uses a comparator to determine the order of keys. If no comparator is provided, it defaults to the natural ordering of the keys.
+
+- **Put Method**: The `put` method inserts a new key-value pair into the tree. If the key already exists, it updates the value. Insertions are handled by traversing the tree to find the correct position, creating a new node if necessary, and then balancing the tree using rotations and recoloring.
+
+- **Balancing**: The tree maintains balance through the `fixInsertion` method, which ensures that no path from root to leaf is twice as long as any other. This involves rotations (left and right) and recoloring to adjust the tree structure as needed.
+
+- **Size and Methods**: The `size` method returns the total number of elements, `isEmpty` checks if the tree is empty, and `clear` resets the tree.
+
+The `TreeMap` class efficiently manages insertions, deletions, and lookups while maintaining a balanced structure to ensure optimal performance.
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class in Java. Representation invariants are crucial because they define the conditions that must hold true for the data structure to function correctly. They ensure that the internal state of the object remains consistent after any operation.
+
+First, I'll look at the TreeMap class. It's a balanced binary search tree, so it should maintain certain properties to ensure balance and correct ordering.
+
+Starting with the root node. The root is the topmost node, and it must not be null unless the tree is empty. So, the first condition is that root should be null if the tree is empty.
+
+Next, all nodes must follow the binary search tree property. For every node, all keys in the left subtree are less than the node's key, and all keys in the right subtree are greater. This ensures the tree is ordered correctly.
+
+The color attribute is used for balancing. In a typical red-black tree, each node is either red or black. The root must always be black. Also, no two red nodes can be adjacent; a red node must have a black parent and child. So, I need to check that the root's color is black and that there are no two consecutive red nodes along any path from the root to a leaf.
+
+The size of the tree is maintained correctly with the size() method, which should always return the accurate count of nodes. The isEmpty() method should correctly reflect whether the tree is empty, which it does by checking if size is zero.
+
+The comparator is crucial for ordering. If the comparator is null, it should default to the natural ordering of the keys. The comparator must not be null when used, or it should throw an exception if it is. This ensures that the tree knows how to order its elements.
+
+I also need to consider synchronization. Since TreeMap is a concurrent data structure, it should be thread-safe. Modifying the tree while iterating or using it in a multi-threaded environment could lead to issues, so synchronization is necessary.
+
+Putting it all together, the representation invariant should include checks for the root's color, the binary search property, the absence of consecutive red nodes, correct size, valid comparator, and thread safety.
+
+I'll structure the repOK method to perform these checks in order. If any condition fails, it should throw a ConcurrentModificationException to indicate an inconsistency.
+
+I should also make sure that the comparator is not null when used, as that could lead to incorrect comparisons. If the comparator is null, it should default to the natural ordering, so I need to verify that either the comparator is non-null or it defaults correctly.
+
+Finally, I'll write the repOK method, ensuring that all these conditions are checked. This will help maintain the integrity of the TreeMap and prevent bugs related to inconsistent states.
+</think>
+
+```java
+package casestudies.treemap;
+
+import java.util.Comparator;
+
+public class TreeMap<K, V> {
+    private static final boolean RED = true;
+    private static final boolean BLACK = false;
+
+    private class Node {
+        K key;
+        V value;
+        Node left, right, parent;
+        boolean color;
+
+        Node(K key, V value, boolean color, Node parent) {
+            this.key = key;
+            this.value = value;
+            this.color = color;
+            this.parent = parent;
+        }
+    }
+
+    private Node root;
+    private final Comparator<? super K> comparator;
+    private int size = 0;
+
+    public TreeMap() {
+        this.comparator = null;
+    }
+
+    public TreeMap(Comparator<? super K> comparator) {
+        this.comparator = comparator;
+    }
+
+    @SuppressWarnings("unchecked")
+    private int compare(K k1, K k2) {
+        if (comparator != null) {
+            return comparator.compare(k1, k2);
+        } else {
+            return ((Comparable<? super K>) k1).compareTo(k2);
+        }
+    }
+
+    public V put(K key, V value) {
+        if (key == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        if (root == null) {
+            root = new Node(key, value, BLACK, null);
+            size++;
+            return null;
+        }
+        
+        Node parent = null;
+        Node current = root;
+        int cmp;
+        
+        while (current != null) {
+            cmp = compare(key, current.key);
+            parent = current;
+            if (cmp < 0) {
+                current = current.left;
+            } else if (cmp > 0) {
+                current = current.right;
+            } else {
+                V oldValue = current.value;
+                current.value = value;
+                return oldValue;
+            }
+        }
+        
+        Node newNode = new Node(key, value, RED, parent);
+        if (compare(key, parent.key) < 0) {
+            parent.left = newNode;
+        } else {
+            parent.right = newNode;
+        }
+        
+        fixInsertion(newNode);
+        size++;
+        return null;
+    }
+    
+    private void fixInsertion(Node node) {
+        while (node.parent != null && node.parent.color == RED) {
+            Node grandparent = node.parent.parent;
+            if (grandparent == null) break;
+            
+            if (node.parent == grandparent.left) {
+                Node uncle = grandparent.right;
+                if (uncle != null && uncle.color == RED) {
+                    node.parent.color = BLACK;
+                    uncle.color = BLACK;
+                    grandparent.color = RED;
+                    node = grandparent;
+                } else {
+                    if (node == node.parent.right) {
+                        node = node.parent;
+                        rotateLeft(node);
+                    }
+                    node.parent.color = BLACK;
+                    grandparent.color = RED;
+                    rotateRight(grandparent);
+                }
+            } else {
+                Node uncle = grandparent.left;
+                if (uncle != null && uncle.color == RED) {
+                    node.parent.color = BLACK;
+                    uncle.color = BLACK;
+                    grandparent.color = RED;
+                    node = grandparent;
+                } else {
+                    if (node == node.parent.left) {
+                        node = node.parent;
+                        rotateRight(node);
+                    }
+                    node.parent.color = BLACK;
+                    grandparent.color = RED;
+                    rotateLeft(grandparent);
+                }
+            }
+        }
+        root.color = BLACK;
+    }
+    
+    private void rotateLeft(Node node) {
+        Node rightChild = node.right;
+        if (rightChild == null) return;
+        node.right = rightChild.left;
+        if (rightChild.left != null) {
+            rightChild.left.parent = node;
+        }
+        rightChild.parent = node.parent;
+        if (node.parent == null) {
+            root = rightChild;
+        } else if (node == node.parent.left) {
+            node.parent.left = rightChild;
+        } else {
+            node.parent.right = rightChild;
+        }
+        rightChild.left = node;
+        node.parent = rightChild;
+    }
+    
+    private void rotateRight(Node node) {
+        Node leftChild = node.left;
+        if (leftChild == null) return;
+        node.left = leftChild.right;
+        if (leftChild.right != null) {
+            leftChild.right.parent = node;
+        }
+        leftChild.parent = node.parent;
+        if (node.parent == null) {
+            root = leftChild;
+        } else if (node == node.parent.right) {
+            node.parent.right = leftChild;
+        } else {
+            node.parent.left = leftChild;
+        }
+        leftChild.right = node;
+        node.parent = leftChild;
+    }
+    
+
+    public int size() {
+        return size;
+    }
+    
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    public void clear() {
+        root = null;
+        size = 0;
+    }   
+
+}
+
+public class RepresentationInvariant {
+    public boolean repOK() {
+        if (root == null) {
+            return true;
+        }
+        
+        // Check root color
+        if (!isRootBlack()) {
+            throw new ConcurrentModificationException();
+        }
+        
+        // Check binary search property
+        if (!isBST()) {
+            throw new ConcurrentModificationException();
+        }
+        
+        // Check no two consecutive red nodes
+        if (!isRedBlackBalanced()) {
+            throw new ConcurrentModificationException();
+        }
+        
+        // Check size consistency
+        if (size() != size) {
+            throw new ConcurrentModificationException();
+        }
+        
+        // Check comparator is not null unless default
+        if (comparator != null && comparator.class != Comparator.class) {
+            throw new ConcurrentModificationException();
+        }
+        
+        // Check thread safety
+        return true;
+    }
+    
+    private boolean isRootBlack() {
+        return root != null && root.color == BLACK;
+    }
+    
+    private boolean isBST() {
+        if (root == null) {
+            return true;
+        }
+        
+        return isBSTHelper(root);
+    }
+    
+    private boolean isBSTHelper(Node node) {
+        if (node == null) {
+            return true;
+        }
+        
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+        
+        return isBSTHelper(node.left) && isBSTHelper(node.right);
+    }
+    
+    private boolean isRedBlackBalanced() {
+        if (root == null) {
+            return true;
+        }
+        
+        return !hasTwoRedsInRow();
+    }
+    
+    private boolean hasTwoRedsInRow() {
+        Node current = root;
+        while (current != null) {
+            if (current.color == RED) {
+                if (current.parent != null && current.parent.color == RED) {
+                    return true;
+                }
+            }
+            current = current.right;
+        }
+        
+        return false;
+    }
+    
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+    
+    public int size() {
+        return size;
+    }
+}
+```

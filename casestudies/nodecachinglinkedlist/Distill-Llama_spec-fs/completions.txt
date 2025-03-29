@@ -54,3 +54,51 @@ The NodeCachingLinkedList class manages a linked list with a cache to optimize n
 - The linked list must remain a valid structure with correct pointers to previous and next nodes.
 
 This specification captures the behavior, attributes, and constraints of the NodeCachingLinkedList class, ensuring efficient node management through caching while maintaining the integrity of the linked list structure.
+
+
+
+To write the representation invariant for the NodeCachingLinkedList class, we need to ensure that the class maintains its invariants correctly. The invariant should check that the linked list structure is consistent, the cache is properly managed, and all nodes are unique.
+
+Here is the `repOK` method for the NodeCachingLinkedList class:
+
+```java
+public boolean repOK() {
+    // Check if the size is correct
+    if (size != (header.next != header ? 1 : 0) + (cacheSize)) {
+        return false;
+    }
+
+    // Check if the cache is not over its maximum size
+    if (cacheSize > maximumCacheSize) {
+        return false;
+    }
+
+    // Check if all nodes have unique values
+    Set<Object> seenValues = new HashSet<>();
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        if (seenValues.contains(node.getValue())) {
+            return false;
+        }
+        seenValues.add(node.getValue());
+    }
+
+    // Check if the linked list is properly structured
+    LinkedListNode current = header.next;
+    while (current != header) {
+        if (current.getPrevious() != header || current.getNext() != header.next) {
+            return false;
+        }
+        current = current.getNext();
+    }
+
+    return true;
+}
+```
+
+### Explanation:
+- **Size Check:** The size of the linked list (excluding the header) plus the cache size should equal the total size. This ensures that nodes are correctly added and removed from both the list and the cache.
+- **Cache Size Check:** The cache size must not exceed the maximum allowed size to prevent overflow.
+- **Unique Values Check:** Each node's value must be unique within the linked list to avoid duplicates, which could lead to incorrect behavior.
+- **Linked List Structure Check:** Ensures that each node correctly links to its previous and next nodes, maintaining the integrity of the linked list structure.
+
+This method ensures that all critical invariants of the NodeCachingLinkedList class are maintained, providing a reliable check for the class's state.

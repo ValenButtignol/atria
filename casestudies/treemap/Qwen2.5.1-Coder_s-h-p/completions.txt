@@ -1,0 +1,117 @@
+
+- **Red-Black Tree Property**: Every node is either red or black.
+- **Root Property**: The root node is always black.
+- **Leaf Property**: All leaf nodes (NIL nodes) are black.
+- **Children Property**: If a node is red, both its children are black.
+- **Descendants Property**: For each node, all simple paths from the node to descendant leaves contain the same number of black nodes.
+
+```java
+public boolean property() {
+    return isRedBlackTree(root);
+}
+
+private boolean isRedBlackTree(Node node) {
+    if (node == null) return true;
+    
+    if (node.color == RED && (node.left != null && node.left.color == RED || node.right != null && node.right.color == RED)) {
+        return false;
+    }
+    
+    int leftBlackHeight = blackHeight(node.left);
+    int rightBlackHeight = blackHeight(node.right);
+    
+    if (leftBlackHeight != rightBlackHeight) {
+        return false;
+    }
+    
+    return isRedBlackTree(node.left) && isRedBlackTree(node.right);
+}
+
+private int blackHeight(Node node) {
+    if (node == null) return 1;
+    
+    int leftHeight = blackHeight(node.left);
+    int rightHeight = blackHeight(node.right);
+    
+    if (leftHeight != rightHeight) {
+        return -1;
+    }
+    
+    return node.color == BLACK ? leftHeight + 1 : leftHeight;
+}
+```
+
+```java
+public boolean property() {
+    return root == null || root.color == BLACK;
+}
+```
+
+```java
+public boolean property() {
+    return isLeafPropertySatisfied(root);
+}
+
+private boolean isLeafPropertySatisfied(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left == null && node.right == null) {
+        return node.color == BLACK;
+    }
+    return isLeafPropertySatisfied(node.left) && isLeafPropertySatisfied(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return checkChildrenProperty(root);
+}
+
+private boolean checkChildrenProperty(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    return checkChildrenProperty(node.left) && checkChildrenProperty(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return checkDescendantsProperty(root);
+}
+
+private boolean checkDescendantsProperty(Node node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) {
+            return false;
+        }
+        if (node.right != null && node.right.color == RED) {
+            return false;
+        }
+    }
+    int blackCountLeft = countBlackNodes(node.left);
+    int blackCountRight = countBlackNodes(node.right);
+    return blackCountLeft == blackCountRight && checkDescendantsProperty(node.left) && checkDescendantsProperty(node.right);
+}
+
+private int countBlackNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    int leftBlackCount = countBlackNodes(node.left);
+    int rightBlackCount = countBlackNodes(node.right);
+    return (node.color == BLACK ? 1 : 0) + Math.max(leftBlackCount, rightBlackCount);
+}
+```

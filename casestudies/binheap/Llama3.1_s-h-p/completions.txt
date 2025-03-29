@@ -1,0 +1,77 @@
+
+- RepresentationInvariant: Returns true if the BinomialHeap object is valid, false otherwise. 
+- NodesIsNotNull: Returns true if the Nodes field is not null, false otherwise.
+- SizeIsNonNegative: Returns true if the size field is non-negative, false otherwise.
+- NodesIsConsistent: Returns true if the Nodes field is consistent with the size field, false otherwise.
+- NoCycles: Returns true if there are no cycles in the BinomialHeap object, false otherwise.
+
+```java
+public boolean representationInvariant() {
+    if (Nodes == null) {
+        return size == 0;
+    } else {
+        BinomialHeapNode temp = Nodes;
+        while (temp != null) {
+            if (temp.degree < 0) {
+                return false;
+            }
+            temp = temp.sibling;
+        }
+
+        temp = Nodes;
+        while (temp != null) {
+            if (temp.child != null) {
+                if (temp.child.parent != temp) {
+                    return false;
+                }
+                if (temp.child.degree < 0) {
+                    return false;
+                }
+                temp = temp.child;
+            } else {
+                temp = temp.sibling;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+```java
+public boolean property() {
+    return Nodes != null;
+}
+```
+
+```java
+public boolean property() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean property() {
+    if (Nodes == null) {
+        return size == 0;
+    } else {
+        BinomialHeapNode temp = Nodes;
+        int count = 0;
+        while (temp != null) {
+            count++;
+            temp = temp.sibling;
+        }
+        return count == size;
+    }
+}
+```
+
+```java
+public boolean NoCycles() {
+    return Nodes == null || Nodes.noCycles();
+}
+
+public boolean noCycles() {
+    return (child == null) || (child.noCycles() && (sibling == null || sibling.noCycles()));
+}
+```

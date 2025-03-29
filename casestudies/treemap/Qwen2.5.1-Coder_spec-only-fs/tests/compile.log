@@ -1,0 +1,142 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+        if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+            ^
+  symbol:   method isRed(TreeMap<K,V>.Node)
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+        if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+                           ^
+  symbol:   method isRed(TreeMap<K,V>.Node)
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+        if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+                                               ^
+  symbol:   method isRed(TreeMap<K,V>.Node)
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+        if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+                                                              ^
+  symbol:   method isRed(TreeMap<K,V>.Node)
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:223: error: cannot find symbol
+        if (min != null && node.key.compareTo(min) <= 0) {
+                                   ^
+  symbol:   method compareTo(K)
+  location: variable key of type K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:226: error: cannot find symbol
+        if (max != null && node.key.compareTo(max) >= 0) {
+                                   ^
+  symbol:   method compareTo(K)
+  location: variable key of type K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:233: error: cannot find symbol
+        return node != null && node.color == Color.RED;
+                                             ^
+  symbol:   variable Color
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:245: error: cannot find symbol
+        return isRed(node) ? leftHeight : leftHeight + 1;
+               ^
+  symbol:   method isRed(TreeMap<K,V>.Node)
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+8 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:233: error: cannot find symbol
+          return node != null && node.color == Color.RED;
+                                               ^
+    symbol:   variable Color
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+          if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+              ^
+    symbol:   method isRed(TreeMap<K,V>.Node)
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+          if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+                             ^
+    symbol:   method isRed(TreeMap<K,V>.Node)
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+          if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+                                                 ^
+    symbol:   method isRed(TreeMap<K,V>.Node)
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:209: error: cannot find symbol
+          if (isRed(node) && isRed(node.left) || isRed(node) && isRed(node.right)) {
+                                                                ^
+    symbol:   method isRed(TreeMap<K,V>.Node)
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:223: error: cannot find symbol
+          if (min != null && node.key.compareTo(min) <= 0) {
+                                     ^
+    symbol:   method compareTo(K)
+    location: variable key of type K
+    where K is a type-variable:
+      K extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:226: error: cannot find symbol
+          if (max != null && node.key.compareTo(max) >= 0) {
+                                     ^
+    symbol:   method compareTo(K)
+    location: variable key of type K
+    where K is a type-variable:
+      K extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:245: error: cannot find symbol
+          return isRed(node) ? leftHeight : leftHeight + 1;
+                 ^
+    symbol:   method isRed(TreeMap<K,V>.Node)
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  8 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 421ms
+1 actionable task: 1 executed

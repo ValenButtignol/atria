@@ -1,21 +1,48 @@
 
 > Task :compileJava FAILED
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:108: error: cannot find symbol
-    private int countNodes(Node node) {
-                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:106: error: cannot find symbol
+    private boolean isAcyclic(Node header) {
+                              ^
   symbol:   class Node
   location: class LinkedList
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:90: error: cannot find symbol
-            Node current = header.next;
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:129: error: cannot find symbol
+    private boolean noDuplicates(Node header) {
+                                 ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:134: error: cannot find symbol
+    private boolean noDuplicatesHelper(Node node, Set<Integer> seen) {
+                                       ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:145: error: cannot find symbol
+    private int numNodes(Node header) {
+                         ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:107: error: cannot find symbol
+        Set<Node> visited = new HashSet<>();
             ^
   symbol:   class Node
   location: class LinkedList
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:91: error: cannot find symbol
-            Node previous = header;
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: cannot find symbol
+        LinkedList<Node> workList = new LinkedList<>();
+                   ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: type LinkedList does not take parameters
+        LinkedList<Node> workList = new LinkedList<>();
+                  ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: cannot infer type arguments for LinkedList
+        LinkedList<Node> workList = new LinkedList<>();
+                                                  ^
+  reason: cannot use '<>' with non-generic class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:112: error: cannot find symbol
+            Node current = workList.removeFirst();
             ^
   symbol:   class Node
   location: class LinkedList
-3 errors
+9 errors
 
 [Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
 
@@ -24,26 +51,51 @@ FAILURE: Build failed with an exception.
 * What went wrong:
 Execution failed for task ':compileJava'.
 > Compilation failed; see the compiler output below.
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:108: error: cannot find symbol
-      private int countNodes(Node node) {
-                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:106: error: cannot find symbol
+      private boolean isAcyclic(Node header) {
+                                ^
     symbol:   class Node
     location: class LinkedList
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:90: error: cannot find symbol
-              Node current = header.next;
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:129: error: cannot find symbol
+      private boolean noDuplicates(Node header) {
+                                   ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:134: error: cannot find symbol
+      private boolean noDuplicatesHelper(Node node, Set<Integer> seen) {
+                                         ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:145: error: cannot find symbol
+      private int numNodes(Node header) {
+                           ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:107: error: cannot find symbol
+          Set<Node> visited = new HashSet<>();
               ^
     symbol:   class Node
     location: class LinkedList
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:91: error: cannot find symbol
-              Node previous = header;
-              ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: cannot find symbol
+          LinkedList<Node> workList = new LinkedList<>();
+                     ^
     symbol:   class Node
     location: class LinkedList
-  3 errors
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:112: error: cannot find symbol
+              Node current = workList.removeFirst();
+              ^
+    symbol:   class Node
+    location: class LinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: cannot infer type arguments for LinkedList
+          LinkedList<Node> workList = new LinkedList<>();
+                                                    ^
+    reason: cannot use '<>' with non-generic class LinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:109: error: type LinkedList does not take parameters
+          LinkedList<Node> workList = new LinkedList<>();
+                    ^
+  9 errors
 
 * Try:
 > Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights.
 
-BUILD FAILED in 392ms
+BUILD FAILED in 380ms
 1 actionable task: 1 executed

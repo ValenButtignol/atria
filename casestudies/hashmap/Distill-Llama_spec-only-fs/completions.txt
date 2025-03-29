@@ -67,38 +67,41 @@ The HashMap class provides a high-performance data structure for storing and ret
 
 
 
-### Informal Specification for the HashMap Class
+To verify the correctness of the HashMap class, the following representation invariant method is provided:
 
-**Behavior:**
-The HashMap class implements a hash-based data structure that allows efficient storage and retrieval of key-value pairs. It uses a hash function to compute hash codes for keys, distributing entries across a table of fixed size. The table is dynamically resized when it reaches a specified threshold, determined by a load factor. The class supports the following operations:
-- **Insertion (put):** Adds a new key-value pair, replacing an existing entry if the key is already present.
-- **Removal (remove):** Deletes a key-value pair, returning the value if the key was present.
-- **Retrieval (get):** Retrieves the value associated with a given key.
-- **Clearing:** Removes all entries from the hash map.
-- **Resizing:** Dynamically adjusts the size of the table to maintain performance.
+```java
+public boolean repOK() {
+    // Check if the table is not null and its length is consistent with the size.
+    if (table == null || table.length != size) {
+        return false;
+    }
 
-**Attributes:**
-- **table (Entry[]):** An array of Entry objects, each representing a key-value pair in the hash map.
-- **size (int):** The number of entries currently in the hash map.
-- **threshold (int):** The maximum number of entries allowed in the table before resizing.
-- **loadFactor (float):** A factor used to determine when to resize the table.
-- **modCount (volatile int):** A counter used to detect concurrent modifications in multi-threaded environments.
+    // Check if all entries are non-null and correctly placed.
+    for (int i = 0; i < size; i++) {
+        Entry e = table[i];
+        if (e == null || e.getKey() == null || e.getValue() == null) {
+            return false;
+        }
+    }
 
-**Properties:**
-- **Uniform Distribution:** Entries are distributed across the table as uniformly as possible to minimize collisions.
-- **Load Factor:** The table is resized when the number of entries exceeds the threshold, which is calculated as the capacity multiplied by the load factor.
-- **No Nulls:** The hash map does not allow null keys or values, converting nulls to a special key for handling.
-- **Efficient Access:** Average O(1) time complexity for insertions, deletions, and accesses due to the hash function and linked list structure for buckets.
+    // Check if the size is correctly maintained.
+    if (size < 0) {
+        return false;
+    }
 
-**Constraints:**
-- **Capacity:** The table size is determined by the initial capacity and can be increased up to a maximum capacity.
-- **Load Factor:** The load factor determines the threshold for resizing, ensuring the hash map remains efficient as it grows.
+    // Check if the modCount is correctly incremented.
+    if (modCount != expectedModCount) {
+        return false;
+    }
 
-**Key Features:**
-- **Hashing:** Uses a custom hash function to distribute entries efficiently.
-- **Resizing:** Dynamically adjusts the table size to accommodate more entries, ensuring good performance.
-- **Collision Handling:** Uses linked lists to manage buckets, allowing efficient traversal when multiple entries hash to the same bucket.
-- **Concurrent Modification Detection:** Uses modCount to detect changes in the hash map, useful in multi-threaded environments.
+    return true;
+}
+```
 
-**Summary:**
-The HashMap class provides a high-performance data structure for storing and retrieving key-value pairs, leveraging hashing for efficient operations and dynamic resizing to maintain performance as the data grows.
+**Explanation:**
+- **Table Consistency:** The table must be non-null and its length must match the current size of the hash map.
+- **Entry Validity:** Each entry in the table must be non-null and contain valid keys and values.
+- **Size Check:** The size must be a non-negative integer.
+- **ModCount Check:** The modCount must match the expected value, ensuring no concurrent modifications without detection.
+
+This method ensures that the HashMap class adheres to its expected behavior and constraints, providing a reliable way to verify its state.

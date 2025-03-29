@@ -1,0 +1,70 @@
+
+- Consistent size: The size attribute must be equal to the number of nodes in the heap.
+- Acyclic structure: The heap structure must be acyclic, i.e., no node should have a path back to itself.
+- Heap property: The heap must maintain the heap property, where the parent node is either greater than (max heap) or less than (min heap) its child nodes.
+- No duplicate values: No two nodes in the heap should have the same value.
+
+```java
+public boolean property() {
+    return size == Nodes.size();
+}
+```
+
+```java
+public boolean property() {
+    Set<BinomialHeapNode> visited = new HashSet<BinomialHeapNode>();
+    return propertyRecursive(Nodes, visited);
+}
+
+private boolean propertyRecursive(BinomialHeapNode node, Set<BinomialHeapNode> visited) {
+    if (node == null) {
+        return true;
+    }
+    if (visited.contains(node)) {
+        return false;
+    }
+    visited.add(node);
+    return propertyRecursive(node.sibling, visited) && propertyRecursive(node.child, visited);
+}
+```
+
+```java
+public boolean property() {
+    return checkHeapProperty(Nodes);
+}
+
+private boolean checkHeapProperty(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.child != null) {
+        if (node.key <= node.child.getKey()) {
+            return false;
+        }
+        return checkHeapProperty(node.child) && checkHeapProperty(node.child.sibling);
+    }
+    BinomialHeapNode sibling = node.sibling;
+    while (sibling != null) {
+        if (node.key <= sibling.getKey()) {
+            return false;
+        }
+        sibling = sibling.sibling;
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    Set<Integer> keys = new HashSet<Integer>();
+    BinomialHeapNode temp = Nodes;
+    while (temp != null) {
+        if (keys.contains(temp.key)) {
+            return false;
+        }
+        keys.add(temp.key);
+        temp = temp.sibling;
+    }
+    return true;
+}
+```

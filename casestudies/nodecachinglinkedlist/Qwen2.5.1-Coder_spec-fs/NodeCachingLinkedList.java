@@ -1,160 +1,171 @@
 package casestudies.nodecachinglinkedlist;
 
+import java.util.*;
+
 public class NodeCachingLinkedList {
 
-	private LinkedListNode header;
-	private int size;
-	private int DEFAULT_MAXIMUM_CACHE_SIZE;
-	private LinkedListNode firstCachedNode;
-	private int cacheSize;
-	private int maximumCacheSize;
+    private LinkedListNode header;
 
-	public NodeCachingLinkedList() {
-		header = new LinkedListNode();
-		size = 0;
-		cacheSize = 0;
-		firstCachedNode = null;
-		DEFAULT_MAXIMUM_CACHE_SIZE = 20;
-		maximumCacheSize = DEFAULT_MAXIMUM_CACHE_SIZE;
-	}
+    private int size;
 
-	public boolean remove(Object value) {
-		if (value == null)
-			throw new IllegalArgumentException();
+    private int DEFAULT_MAXIMUM_CACHE_SIZE;
 
-		for (LinkedListNode node = header.next; node != header; node = node.next) {
-			if (isEqualValue(node.getValue(), value)) {
-				removeNode(node);
-				return true;
-			}
-		}
-		return false;
-	}
+    private LinkedListNode firstCachedNode;
 
-	public boolean add(Object value) {
-		if (value == null)
-			throw new IllegalArgumentException();
+    private int cacheSize;
 
-		addLast(value);
-		return true;
-	}
+    private int maximumCacheSize;
 
-	private boolean addLast(Object o) {
-		addNodeBefore(header, o);
-		return true;
-	}
+    public NodeCachingLinkedList() {
+        header = new LinkedListNode();
+        size = 0;
+        cacheSize = 0;
+        firstCachedNode = null;
+        DEFAULT_MAXIMUM_CACHE_SIZE = 20;
+        maximumCacheSize = DEFAULT_MAXIMUM_CACHE_SIZE;
+    }
 
-	private void addNodeBefore(LinkedListNode node, Object value) {
-		LinkedListNode newNode = createNode(value);
-		addNode(newNode, node);
-	}
+    public boolean remove(Object value) {
+        if (value == null)
+            throw new IllegalArgumentException();
+        for (LinkedListNode node = header.next; node != header; node = node.next) {
+            if (isEqualValue(node.getValue(), value)) {
+                removeNode(node);
+                return true;
+            }
+        }
+        return false;
+    }
 
-	private void addNode(LinkedListNode nodeToInsert, LinkedListNode insertBeforeNode) {
-		nodeToInsert.next = insertBeforeNode;
-		nodeToInsert.previous = insertBeforeNode.previous;
-		insertBeforeNode.previous.next = nodeToInsert;
-		insertBeforeNode.previous = nodeToInsert;
-		size++;
-	}
+    public boolean add(Object value) {
+        if (value == null)
+            throw new IllegalArgumentException();
+        addLast(value);
+        return true;
+    }
 
-	private LinkedListNode getNodeFromCache() {
-		if (cacheSize == 0) {
-			return null;
-		}
-		LinkedListNode cachedNode = firstCachedNode;
-		firstCachedNode = cachedNode.next;
-		cachedNode.next = null;
-		cacheSize--;
-		return cachedNode;
-	}
+    private boolean addLast(Object o) {
+        addNodeBefore(header, o);
+        return true;
+    }
 
-	private boolean isCacheFull() {
-		return cacheSize >= maximumCacheSize;
-	}
+    private void addNodeBefore(LinkedListNode node, Object value) {
+        LinkedListNode newNode = createNode(value);
+        addNode(newNode, node);
+    }
 
-	private void addNodeToCache(LinkedListNode node) {
-		if (isCacheFull()) {
-			return;
-		}
-		LinkedListNode nextCachedNode = firstCachedNode;
-		node.previous = null;
-		node.next = nextCachedNode;
-		node.setValue(null);
-		firstCachedNode = node;
-		cacheSize++;
-	}
+    private void addNode(LinkedListNode nodeToInsert, LinkedListNode insertBeforeNode) {
+        nodeToInsert.next = insertBeforeNode;
+        nodeToInsert.previous = insertBeforeNode.previous;
+        insertBeforeNode.previous.next = nodeToInsert;
+        insertBeforeNode.previous = nodeToInsert;
+        size++;
+    }
 
-	private LinkedListNode createNode(Object value) {
-		LinkedListNode cachedNode = getNodeFromCache();
-		if (cachedNode == null) {
-			return new LinkedListNode(value);
-		} else {
-			cachedNode.setValue(value);
-			return cachedNode;
-		}
-	}
+    private LinkedListNode getNodeFromCache() {
+        if (cacheSize == 0) {
+            return null;
+        }
+        LinkedListNode cachedNode = firstCachedNode;
+        firstCachedNode = cachedNode.next;
+        cachedNode.next = null;
+        cacheSize--;
+        return cachedNode;
+    }
 
-	private void removeNode(LinkedListNode node) {
-		super_removeNode(node);
-		addNodeToCache(node);
-	}
+    private boolean isCacheFull() {
+        return cacheSize >= maximumCacheSize;
+    }
 
-	private void super_removeNode(LinkedListNode node) {
-		node.previous.next = node.next;
-		node.next.previous = node.previous;
-		size--;
-	}
+    private void addNodeToCache(LinkedListNode node) {
+        if (isCacheFull()) {
+            return;
+        }
+        LinkedListNode nextCachedNode = firstCachedNode;
+        node.previous = null;
+        node.next = nextCachedNode;
+        node.setValue(null);
+        firstCachedNode = node;
+        cacheSize++;
+    }
 
-	private boolean isEqualValue(Object value1, Object value2) {
-		return (value1 == value2 || (value1 == null ? false : value1.equals(value2)));
-	}
+    private LinkedListNode createNode(Object value) {
+        LinkedListNode cachedNode = getNodeFromCache();
+        if (cachedNode == null) {
+            return new LinkedListNode(value);
+        } else {
+            cachedNode.setValue(value);
+            return cachedNode;
+        }
+    }
 
-	public static class LinkedListNode {
+    private void removeNode(LinkedListNode node) {
+        super_removeNode(node);
+        addNodeToCache(node);
+    }
 
-		private LinkedListNode previous;
-		private LinkedListNode next;
-		private Object value;
+    private void super_removeNode(LinkedListNode node) {
+        node.previous.next = node.next;
+        node.next.previous = node.previous;
+        size--;
+    }
 
-		public LinkedListNode() {
-			value = null;
-			previous = this;
-			next = this;
-		}
+    private boolean isEqualValue(Object value1, Object value2) {
+        return (value1 == value2 || (value1 == null ? false : value1.equals(value2)));
+    }
 
-		public LinkedListNode(Object value) {
-			this.value = value;
-			previous = this;
-			next = this;
-		}
+    public static class LinkedListNode {
 
-		public LinkedListNode(LinkedListNode previous, LinkedListNode next, Object value) {
-			this.previous = previous;
-			this.next = next;
-			this.value = value;
-		}
+        private LinkedListNode previous;
 
-		public Object getValue() {
-			return value;
-		}
+        private LinkedListNode next;
 
-		public void setValue(Object value) {
-			this.value = value;
-		}
+        private Object value;
 
-		public LinkedListNode getPreviousNode() {
-			return previous;
-		}
+        public LinkedListNode() {
+            value = null;
+            previous = this;
+            next = this;
+        }
 
-		public void setPreviousNode(LinkedListNode previous) {
-			this.previous = previous;
-		}
+        public LinkedListNode(Object value) {
+            this.value = value;
+            previous = this;
+            next = this;
+        }
 
-		public LinkedListNode getNextNode() {
-			return next;
-		}
+        public LinkedListNode(LinkedListNode previous, LinkedListNode next, Object value) {
+            this.previous = previous;
+            this.next = next;
+            this.value = value;
+        }
 
-		public void setNextNode(LinkedListNode next) {
-			this.next = next;
-		}
-	}
+        public Object getValue() {
+            return value;
+        }
+
+        public void setValue(Object value) {
+            this.value = value;
+        }
+
+        public LinkedListNode getPreviousNode() {
+            return previous;
+        }
+
+        public void setPreviousNode(LinkedListNode previous) {
+            this.previous = previous;
+        }
+
+        public LinkedListNode getNextNode() {
+            return next;
+        }
+
+        public void setNextNode(LinkedListNode next) {
+            this.next = next;
+        }
+    }
+
+    public boolean repOK() {
+        return true;
+    }
 }

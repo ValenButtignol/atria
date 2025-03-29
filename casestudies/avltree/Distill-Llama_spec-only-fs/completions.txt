@@ -1,0 +1,507 @@
+
+<think>
+Okay, so I need to write an informal specification for the AvlTree class. Let me look at the code provided and understand what it does.
+
+First, the AvlTree class is a binary search tree implementation that maintains balance using the AvlNode class. The key thing here is that the tree ensures that the height difference between the left and right subtrees doesn't exceed a certain limit, which is set by the ALLOWED_IMBALANCE constant. This helps in keeping the tree balanced, which is important for efficient operations like insertions and deletions.
+
+The class has methods for inserting and removing elements. The insert method calls a recursive function that places the new node in the correct position and then balances the tree. The remove method also uses recursion to find and remove the target node, then rebalances the tree.
+
+There's a findMin method that finds the minimum element in the tree by traversing to the leftmost node. The isEmpty method checks if the tree is empty by seeing if the root is null.
+
+The balance method is crucial. It checks the heights of the left and right subtrees. If the imbalance is too much, it rotates or doubles the node to restore balance. This involves methods like rotateWithLeftChild, rotateWithRightChild, doubleWithLeftChild, and doubleWithRightChild, which adjust the tree structure to maintain the balance property.
+
+The AvlNode inner class has element, left, right, and height attributes. It's used to represent each node in the tree.
+
+So, to write the informal specification, I need to describe the behavior, attributes, and properties of the AvlTree class. I should mention that it's a balanced BST, how insertions and deletions work, the balance mechanism, and the structure of the nodes.
+
+I should also note the constraints, like the allowed imbalance, and how the tree maintains its structure to ensure efficient operations. Maybe include something about the recursive nature of the insert and remove methods and how the balance method ensures the tree stays balanced.
+
+I need to make sure I cover all the key aspects without going into too much detail. The user wants an informal spec, so it should be clear and concise, highlighting the main points about the class's functionality and structure.
+</think>
+
+### Informal Specification for the AvlTree Class
+
+**Behavior:**
+The AvlTree class implements a self-balancing binary search tree (BST) that maintains the balance property to ensure efficient operations. The tree stores unique integer values and allows for insertion and removal of elements while maintaining the BST structure. The tree ensures that the height difference between the left and right subtrees does not exceed a specified limit (ALLOWED_IMBALANCE), which helps in keeping the tree balanced.
+
+**Attributes:**
+- `root`: A reference to the root node of the tree. It is initially set to null when the tree is empty.
+- `size`: An integer that tracks the number of elements in the tree. It is updated during insertions and deletions.
+
+**Inner Class AvlNode:**
+- `element`: The integer value stored at the node.
+- `left`: A reference to the left child node.
+- `right`: A reference to the right child node.
+- `height`: The height of the subtree rooted at this node.
+
+**Methods:**
+1. **insert(int x)**: Recursively inserts a new node containing the given integer `x` into the tree, maintaining the BST property. After insertion, the tree is rebalanced using the `balance` method.
+2. **remove(int x)**: Recursively removes a node containing the given integer `x` from the tree. After removal, the tree is rebalanced to maintain the balance property.
+3. **findMin()**: Recursively finds the minimum element in the tree by traversing to the leftmost node.
+4. **isEmpty()**: Checks if the tree is empty by verifying if the root is null.
+5. **balance(AvlNode t)**: Ensures the tree remains balanced by checking the height difference between the left and right subtrees. If the imbalance exceeds the allowed limit, it rotates or doubles the node to restore balance.
+
+**Balance Mechanism:**
+- **Rotation**: Adjusts the tree structure by rotating nodes to redistribute the height difference between the subtrees.
+  - `rotateWithLeftChild(AvlNode k2)`: Rotates the tree to the left.
+  - `rotateWithRightChild(AvlNode k1)`: Rotates the tree to the right.
+- **Doubling**: Rebalances the tree by doubling the height of the node with the larger height.
+
+**Properties:**
+- **Balance Property**: The height difference between the left and right subtrees must not exceed the allowed imbalance.
+- **Complete BST Property**: The tree maintains the BST structure where each node's value is less than its right descendants and greater than its left descendants.
+- **Consistent Structure**: The tree must be a valid BST with no cycles and correct node connections.
+
+**Constraints:**
+- The tree must maintain the balance property to ensure efficient operations.
+- The size of the tree must be consistent with the number of nodes.
+- The tree must remain acyclic, as it is a BST.
+
+This specification highlights the key aspects of the AvlTree class, including its structure, methods, and balance mechanism, ensuring it operates efficiently as a self-balancing BST.
+
+<think>
+Okay, so I need to write a representation invariant for the AvlTree class. Hmm, what's a representation invariant? From what I remember, it's a method that checks whether the current state of an object satisfies certain invariants that are essential to its behavior. So, for the AvlTree, which is an AVL tree, the main invariants would be related to the balance property, the BST property, and the structure of the tree.
+
+First, I should think about what makes an AVL tree different from a regular BST. It's that the height difference between the left and right subtrees can't exceed a certain limit, which is usually allowed to be 1 or 2. This ensures that the tree stays balanced, which is important for efficient operations like insertions and deletions.
+
+So, for the repOK method, I need to check two main things: the balance property and the BST property. Also, I should ensure that the tree doesn't have any cycles and that the structure is consistent.
+
+Let me start by thinking about how to check the BST property. In a BST, each node's value should be less than all its right descendants and greater than all its left descendants. So, for each node, I need to verify that its value is less than the values in the right subtree and greater than the values in the left subtree.
+
+But wait, how do I traverse the tree to check this? I can perform a recursive check where for each node, I check its left and right children. If the left child exists, its value should be less than the current node's value, and similarly, if the right child exists, its value should be greater than the current node's value.
+
+Next, the balance property. The balance is determined by the height difference between the left and right subtrees. The allowed imbalance is a parameter, say ALLOWED_IMBALANCE, which is typically 1 or 2. So, for each node, I need to calculate the height of the left and right subtrees and ensure that the absolute difference between these heights is within the allowed limit.
+
+But calculating the height for each subtree might be computationally expensive if done naively, especially for large trees. Maybe I can cache the heights or compute them on the fly as I traverse the tree.
+
+Also, I should ensure that the tree is acyclic. Since it's a BST, each node should have at most one parent, and there shouldn't be any cycles. So, during traversal, I can keep track of visited nodes to detect cycles.
+
+Wait, but in a BST, cycles are impossible because each node's value determines the direction of traversal, so it's inherently acyclic. Maybe I don't need to check for cycles explicitly.
+
+Another thing to consider is the size of the tree. The size should be consistent with the number of nodes. So, if the tree has a certain number of nodes, the size variable should reflect that accurately.
+
+Putting this all together, the repOK method should:
+
+1. Check that the size is consistent with the actual number of nodes.
+2. Ensure that the tree is a valid BST by verifying the value relationships between nodes.
+3. Verify the balance property by checking the height difference between left and right subtrees for each node.
+4. Ensure that the tree is acyclic.
+
+Now, how to implement this in Java. The AvlTree class has a root node, and each node has left and right children. Each node also has a height attribute.
+
+So, the repOK method will start by checking if the root is null. If the tree is empty, it should return true because an empty tree is trivially balanced.
+
+Then, for each node, I'll recursively check the BST property and the balance. I'll need helper methods to check the BST property and the balance for a given node.
+
+Wait, maybe I can combine these checks into a single recursive method. For each node, I'll check:
+
+- If the node's value is not between its left subtree's maximum and right subtree's minimum, then it's not a BST.
+- Check the balance by comparing the heights of the left and right subtrees.
+
+But how do I get the maximum and minimum values of the subtrees? That might be inefficient. Maybe instead, I can check that all nodes in the left subtree are less than the current node's value and all nodes in the right subtree are greater.
+
+So, for the BST check:
+- For the left child, if it exists, all its descendants must be less than the current node's value.
+- For the right child, if it exists, all its descendants must be greater than the current node's value.
+
+For the balance check:
+- Compute the height of the left and right subtrees.
+- Ensure that the absolute difference between these heights is within the allowed imbalance.
+
+Also, I need to make sure that the tree doesn't have any null children where they shouldn't be, and that the structure is consistent.
+
+Wait, but in a BST, some nodes can have null children if there are no descendants in that direction. So, I don't need to check for null children per se, but I do need to ensure that the children that exist follow the BST property.
+
+Hmm, maybe I can write a helper method that checks the BST property for a given node and returns whether it's valid. Then, in the main repOK method, I'll call this helper method for each node.
+
+Alternatively, I can perform both checks in a single traversal.
+
+Let me outline the steps:
+
+1. Check if the size is consistent with the number of nodes. That is, the size variable should equal the number of nodes in the tree.
+
+2. Traverse the tree starting from the root.
+
+3. For each node:
+   a. Check that all left descendants are less than the node's value.
+   b. Check that all right descendants are greater than the node's value.
+   c. Check the balance by comparing the heights of the left and right subtrees.
+
+4. If any of these checks fail, return false.
+
+5. If all checks pass, return true.
+
+Now, how to implement the checks for left and right descendants. For the BST property, for each node, I need to ensure that if the left child exists, all its descendants are less than the current node's value, and similarly for the right child.
+
+This can be done recursively. For the left child, if it exists, recursively check that all its descendants are less than the current node's value. Similarly for the right child.
+
+For the balance check, I need to compute the height of the left and right subtrees. The height of a subtree is the height of the node plus one if it has children, or zero if it's a leaf.
+
+Wait, but the height is already stored in each node. So, for a given node, the height of its left subtree is the height of the left child, and similarly for the right.
+
+So, for each node, the balance condition is:
+
+|height(left) - height(right)| <= ALLOWED_IMBALANCE
+
+But I need to make sure that this condition holds for all nodes.
+
+Wait, no. Actually, the balance condition is checked at each node, but the imbalance is allowed to be within a certain limit. So, for each node, I need to compute the height of its left and right subtrees and ensure that the difference is within the allowed limit.
+
+But wait, in an AVL tree, the balance is maintained at each node, not just the root. So, each node must satisfy the balance condition.
+
+Therefore, during the traversal, for each node, I need to check the balance condition.
+
+So, putting it all together, the repOK method will:
+
+- Check the size is correct.
+- Traverse each node, checking both BST and balance properties.
+
+Now, let's think about the base cases.
+
+If the root is null, the tree is empty, so it's OK if size is 0.
+
+If the root is not null, then the size must be at least 1.
+
+Then, for each node, check that its value is greater than all left descendants and less than all right descendants.
+
+Also, for each node, check that the height difference between left and right subtrees is within the allowed limit.
+
+Additionally, I should ensure that the tree is acyclic. But in a BST, cycles are impossible because each node's value determines the direction of traversal, so I don't need to check for cycles explicitly.
+
+Wait, but in a linked list, cycles are possible, but in a tree, each node has only one parent, so cycles are not possible. So, I can assume the tree is acyclic.
+
+Another thing to consider is that the tree must be a complete binary tree, but no, that's for a heap. For an AVL tree, it's a balanced BST, not necessarily complete.
+
+So, the main properties to check are BST and balance.
+
+Now, let's think about how to implement this in Java.
+
+The AvlTree class has a root node, and each node has left and right children, as well as a height.
+
+So, the repOK method will be a boolean method that returns true if the tree is in a valid state.
+
+First, check if the size is consistent with the number of nodes.
+
+But how to count the number of nodes? I can traverse the tree and count the nodes.
+
+Alternatively, since the size variable is maintained separately, I can just check if size equals the number of nodes.
+
+Wait, but the size variable is part of the class, so I can access it directly.
+
+So, first, if the size is negative, return false.
+
+Then, if the root is null, check that size is 0.
+
+Otherwise, proceed to check each node.
+
+Now, for the BST check:
+
+For each node, if it has a left child, all nodes in the left subtree must be less than the current node's value.
+
+Similarly, if it has a right child, all nodes in the right subtree must be greater than the current node's value.
+
+This can be checked recursively.
+
+For the balance check:
+
+For each node, compute the height of the left and right subtrees.
+
+The difference between the heights must be within the allowed imbalance.
+
+So, for each node, if the left child exists, get its height, else 0.
+
+Similarly for the right child.
+
+Then, compute the absolute difference between left and right heights.
+
+If it's greater than allowedImbalance, return false.
+
+Now, let's outline the code.
+
+First, check size consistency.
+
+if (size < 0) return false;
+
+if (root == null) {
+    return size == 0;
+}
+
+Then, for each node, perform the checks.
+
+But how to traverse the tree? Starting from the root, then recursively visiting left and right children.
+
+Wait, but in the AvlNode class, the left and right children are references, so we can traverse them.
+
+So, the repOK method can be implemented as follows:
+
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+    if (root == null) {
+        return size == 0;
+    }
+
+    // Check BST property
+    if (!checkBST(root)) {
+        return false;
+    }
+
+    // Check balance property
+    if (!checkBalance(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+Then, implement helper methods checkBST and checkBalance.
+
+But wait, in Java, methods can't be nested, so these helper methods would be private static methods inside the AvlTree class.
+
+So, let's write the helper methods.
+
+First, checkBST:
+
+private static boolean checkBST(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check left subtree
+    if (node.left != null) {
+        if (!checkBST(node.left)) {
+            return false;
+        }
+        // Check that all left subtree values are less than current node's value
+        if (node.left.element >= node.element) {
+            return false;
+        }
+    }
+
+    // Check right subtree
+    if (node.right != null) {
+        if (!checkBST(node.right)) {
+            return false;
+        }
+        // Check that all right subtree values are greater than current node's value
+        if (node.right.element <= node.element) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+Wait, but this only checks the direct children. What about deeper descendants?
+
+No, the recursive calls ensure that all descendants are checked.
+
+Because for the left child, we recursively check its left and right children, and so on.
+
+So, this should correctly verify the BST property.
+
+Now, the balance check.
+
+private static boolean checkBalance(AvlNode node, int allowedImbalance) {
+    if (node == null) {
+        return 0; // height of null is 0
+    }
+
+    int leftHeight = (node.left != null) ? checkBalance(node.left, allowedImbalance) : 0;
+    int rightHeight = (node.right != null) ? checkBalance(node.right, allowedImbalance) : 0;
+
+    int diff = Math.abs(leftHeight - rightHeight);
+
+    if (diff > allowedImbalance) {
+        return false;
+    }
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}
+
+Wait, but this returns the height of the subtree. So, in the main repOK method, how do I get the heights?
+
+Hmm, perhaps the helper method should return both a boolean indicating whether the balance is acceptable and the height of the subtree.
+
+Alternatively, have two separate helper methods: one to check the balance and another to get the height.
+
+But that might complicate things.
+
+Alternatively, have the balance check method return the height, and then compare the heights.
+
+So, in the repOK method:
+
+int rootHeight = checkBalance(root, allowedImbalance);
+
+if (Math.abs(rootHeight - (root.right != null ? checkBalance(root.right, allowedImbalance) : 0)) > allowedImbalance) {
+    return false;
+}
+
+Wait, no, that's not correct. Because each node's balance is checked, not just the root.
+
+Wait, no. The balance condition must be checked at every node, not just the root.
+
+So, the helper method should check the balance condition for each node.
+
+So, perhaps the helper method should return whether the balance condition is satisfied for the subtree rooted at the node.
+
+So, the helper method would be:
+
+private static boolean checkBalance(AvlNode node, int allowedImbalance) {
+    if (node == null) {
+        return true; // null node has no imbalance
+    }
+
+    int leftHeight = (node.left != null) ? node.left.height : 0;
+    int rightHeight = (node.right != null) ? node.right.height : 0;
+
+    int diff = Math.abs(leftHeight - rightHeight);
+
+    if (diff > allowedImbalance) {
+        return false;
+    }
+
+    return true;
+}
+
+Wait, but this only checks the root's balance. We need to check the balance for every node.
+
+So, perhaps the helper method should be called recursively for each node.
+
+So, the helper method would be:
+
+private static boolean checkBalance(AvlNode node, int allowedImbalance) {
+    if (node == null) {
+        return true;
+    }
+
+    // Check balance at this node
+    int leftHeight = (node.left != null) ? node.left.height : 0;
+    int rightHeight = (node.right != null) ? node.right.height : 0;
+    int diff = Math.abs(leftHeight - rightHeight);
+    if (diff > allowedImbalance) {
+        return false;
+    }
+
+    // Recurse on left and right children
+    return checkBalance(node.left, allowedImbalance) && checkBalance(node.right, allowedImbalance);
+}
+
+Yes, this way, the balance is checked at every node.
+
+So, putting it all together, the repOK method would:
+
+- Check size consistency.
+- Check BST property.
+- Check balance property.
+
+Now, let's think about the allowedImbalance value. It's a class constant, probably set to 1 or 2.
+
+So, in the AvlTree class, there should be a static final int ALLOWED_IMBALANCE = 1; or similar.
+
+Assuming that's defined, the repOK method can use it.
+
+Now, let's write the complete code.
+
+But wait, in the AvlTree class, the root is a reference to an AvlNode, and each AvlNode has left and right children, as well as a height.
+
+So, the code would look like this:
+
+public class AvlTree {
+    private static final int ALLOWED_IMBALANCE = 1; // Or 2, depending on the implementation
+
+    private AvlNode root;
+    private int size;
+
+    // Inner class definition
+    private static class AvlNode {
+        int element;
+        AvlNode left;
+        AvlNode right;
+        int height;
+    }
+
+    // Constructor
+    public AvlTree() {
+        root = null;
+        size = 0;
+    }
+
+    // Other methods like insert, remove, etc.
+
+    // Helper method to check BST property
+    private static boolean checkBST(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+
+        // Check left subtree
+        if (node.left != null) {
+            if (!checkBST(node.left)) {
+                return false;
+            }
+            if (node.left.element >= node.element) {
+                return false;
+            }
+        }
+
+        // Check right subtree
+        if (node.right != null) {
+            if (!checkBST(node.right)) {
+                return false;
+            }
+            if (node.right.element <= node.element) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Helper method to check balance property
+    private static boolean checkBalance(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+
+        int leftHeight = (node.left != null) ? node.left.height : 0;
+        int rightHeight = (node.right != null) ? node.right.height : 0;
+        int diff = Math.abs(leftHeight - rightHeight);
+
+        if (diff > ALLOWED_IMBALANCE) {
+            return false;
+        }
+
+        return checkBalance(node.left) && checkBalance(node.right);
+    }
+
+    // Representation invariant method
+    public boolean repOK() {
+        if (size < 0) {
+            return false;
+        }
+
+        if (root == null) {
+            return size == 0;
+        }
+
+        if (!checkBST(root)) {
+            return false;
+        }
+
+        if (!checkBalance(root)) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+Wait, but in the checkBalance method, I'm not considering the height of the current node. The height of a subtree is the height of the node plus the maximum height of its children.
+
+Wait, no. The height of a node is 1 plus the maximum height of its children. So, the height is already stored in the node.
+
+But in the checkBalance method, I'm only comparing the heights of the left and right subtrees, not considering the current node's height.
+
+Wait, no. The height of the subtree rooted at the current node is the height of the current node, which is 1 plus the maximum of

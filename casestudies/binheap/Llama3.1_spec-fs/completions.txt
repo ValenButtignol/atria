@@ -1,0 +1,127 @@
+
+### Behavior
+The BinomialHeap class represents a binomial heap data structure, which is a type of heap that is used for efficient insertion and deletion of elements. It consists of a private inner class BinomialHeapNode, which represents a node in the binomial heap. The binomial heap maintains a reference to the root node and tracks the size of the heap. The insert method inserts a new node into the heap, ensuring that the heap property is maintained. The delete method removes the node with the minimum key from the heap, and the extractMin method removes and returns the node with the minimum key. The findMinimum method returns the key of the node with the minimum key in the heap. The decreaseKeyValue method decreases the key of a node in the heap, and the decreaseKeyNode method decreases the key of a node and maintains the heap property.
+
+### Attributes
+- Nodes (BinomialHeapNode): The root node of the binomial heap.
+- size (int): Tracks the number of nodes in the heap.
+The inner BinomialHeapNode class has:
+- key (int): Stores the integer value of the node.
+- degree (int): Stores the degree of the node.
+- parent (BinomialHeapNode): Reference to the parent node.
+- sibling (BinomialHeapNode): Reference to the sibling node.
+- child (BinomialHeapNode): Reference to the child node.
+
+### Properties
+- Heap property: The binomial heap must maintain the heap property, where the parent node has a key greater than or equal to the key of its child nodes.
+- No cycles: The binomial heap structure must be acyclic, i.e., no node should have a path back to itself.
+- Size consistency: The size attribute must be equal to the number of nodes in the heap.
+- Consistent degree: The degree attribute of each node must be consistent with the actual number of child nodes.
+- No duplicate keys: No two nodes in the heap should have the same key.
+
+```java
+public boolean repOK() {
+    if (size < 0)
+        return false;
+
+    if (Nodes == null)
+        return size == 0;
+
+    if (!isHeapPropertyMaintained())
+        return false;
+
+    if (!isAcyclic())
+        return false;
+
+    if (size != countNodes())
+        return false;
+
+    if (!isConsistentDegree())
+        return false;
+
+    if (!noDuplicateKeys())
+        return false;
+
+    return true;
+}
+
+private boolean isHeapPropertyMaintained() {
+    return isHeapPropertyMaintained(Nodes);
+}
+
+private boolean isHeapPropertyMaintained(BinomialHeapNode node) {
+    if (node == null)
+        return true;
+
+    if (node.parent != null && node.key >= node.parent.key)
+        return false;
+
+    return isHeapPropertyMaintained(node.sibling) && isHeapPropertyMaintained(node.child);
+}
+
+private boolean isAcyclic() {
+    Set<BinomialHeapNode> visited = new HashSet<>();
+    return isAcyclic(Nodes, visited);
+}
+
+private boolean isAcyclic(BinomialHeapNode node, Set<BinomialHeapNode> visited) {
+    if (node == null)
+        return true;
+
+    if (visited.contains(node))
+        return false;
+
+    visited.add(node);
+
+    return isAcyclic(node.sibling, visited) && isAcyclic(node.child, visited);
+}
+
+private int countNodes() {
+    return countNodes(Nodes);
+}
+
+private int countNodes(BinomialHeapNode node) {
+    if (node == null)
+        return 0;
+
+    return 1 + countNodes(node.sibling) + countNodes(node.child);
+}
+
+private boolean isConsistentDegree() {
+    return isConsistentDegree(Nodes);
+}
+
+private boolean isConsistentDegree(BinomialHeapNode node) {
+    if (node == null)
+        return true;
+
+    if (node.degree != countChildNodes(node))
+        return false;
+
+    return isConsistentDegree(node.sibling) && isConsistentDegree(node.child);
+}
+
+private int countChildNodes(BinomialHeapNode node) {
+    if (node == null)
+        return 0;
+
+    return 1 + countChildNodes(node.child);
+}
+
+private boolean noDuplicateKeys() {
+    Set<Integer> keys = new HashSet<>();
+    return noDuplicateKeys(Nodes, keys);
+}
+
+private boolean noDuplicateKeys(BinomialHeapNode node, Set<Integer> keys) {
+    if (node == null)
+        return true;
+
+    if (keys.contains(node.key))
+        return false;
+
+    keys.add(node.key);
+
+    return noDuplicateKeys(node.sibling, keys) && noDuplicateKeys(node.child, keys);
+}
+```

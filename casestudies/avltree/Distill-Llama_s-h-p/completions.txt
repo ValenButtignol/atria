@@ -1,0 +1,209 @@
+
+<think>
+Okay, I need to figure out the representation invariants for the AvlTree class. Representation invariants are boolean methods that return true if the object is valid and false otherwise. They should be part of the class and static if they don't depend on instance variables.
+
+First, I'll look at the class structure. The AvlTree has a root field which is an AvlNode. The root is initialized to null in the constructor. So, one invariant could check if the root is null when the tree is empty.
+
+Next, I notice methods like insert and remove. These methods modify the root, so there should be invariants that ensure the tree's structure remains valid after these operations. Maybe an invariant that checks if the tree is balanced according to the allowed imbalance constant.
+
+The isEmpty method returns true if the root is null. That's a good candidate for an invariant. Also, the findMin method throws a RuntimeException if the tree is empty, so an invariant ensuring that the tree isn't empty before calling findMin makes sense.
+
+Looking at the balance method, it's called after each insertion and removal. It rotates and doubles nodes to maintain balance. So, an invariant that the tree is balanced after any operation would be important.
+
+I should also consider if there are any other methods that could affect the tree's validity, like the findMin method itself. Since it relies on the tree's structure, an invariant ensuring that the tree isn't empty before using findMin is necessary.
+
+I need to make sure each invariant is a boolean method. So, I'll name them something like isRootNull, isBalanced, isEmpty, and isNotEmptyEmptyForFindMin.
+
+Wait, maybe I can combine some. For example, isEmpty already implies that the root is null, so isRootNull could be redundant. But since the problem asks for separate properties, I'll list them individually.
+
+I should also ensure that each invariant correctly reflects the state of the object. For example, isBalanced should return true only if the tree's imbalance is within the allowed limit.
+
+I think that's all. I'll list the properties as boolean methods in the AvlTree class.
+</think>
+
+- isEmpty(): Returns true if the tree is empty (root is null).
+- isRootNull(): Returns true if the root is null.
+- isBalanced(): Returns true if the tree is balanced according to the allowed imbalance.
+- isNotEmptyEmptyForFindMin(): Returns true if the tree is not empty before calling findMin.
+- isBalancedAfterInsertion(): Returns true if the tree is balanced after insertion.
+- isBalancedAfterDeletion(): Returns true if the tree is balanced after deletion.
+
+<think>
+Okay, I need to write a Java method called `property` for the `AvlTree` class. The method should check if the tree is empty, which means the root is null. 
+
+First, I'll look at the existing code. There's a method `isEmpty()` that returns `true` if the root is null. So, the property is already implemented as a method in the class.
+
+Since the task is to provide the property as a method, I can directly return the result of `isEmpty()`. That way, the method `property` will return `true` when the tree is empty and `false` otherwise.
+
+I should make sure the method is correctly named and returns a boolean. So, the method will be `public boolean property() { return isEmpty(); }`.
+
+I don't need to explain anything, just provide the code. So, the final method is straightforward.
+</think>
+
+```java
+public boolean property() {
+    return isEmpty();
+}
+```
+
+<think>
+Okay, I need to write a Java method called `property` for the `AvlTree` class that checks if the root is null. The method should return a boolean indicating whether the root is null.
+
+First, I'll look at the `AvlTree` class. It has a public field `root` of type `AvlNode`. The `isEmpty()` method is already present and returns true if the root is null. So, the property I'm looking for is essentially the negation of `isEmpty()`. 
+
+Wait, no. The user wants a property that returns true if the object satisfies it, which in this case means the root is null. So, the method should return true when `root` is null and false otherwise.
+
+So, the method can be as simple as checking if `root` is null. Therefore, the method can be named `isRootNull` and return `root == null`.
+
+I should make sure the method is public and returns a boolean. It doesn't need to be in a specific package since the class is in `casestudies.avltree`.
+
+I don't see any other considerations here. The method is straightforward.
+</think>
+
+```java
+public boolean isRootNull() {
+    return root == null;
+}
+```
+
+<think>
+Okay, I need to write a Java method called `isBalanced` for the `AvlTree` class. The method should return `true` if the tree is balanced according to the allowed imbalance, and `false` otherwise.
+
+First, I remember that in an AVL tree, the balance condition is that the height difference between the left and right subtrees should not exceed a certain value, which in this case is `ALLOWED_IMBALANCE` set to 1.
+
+So, the method should check the balance of the root node. If the root is null, the tree is empty, which is considered balanced, so return `true`.
+
+If the root is not null, I need to check the balance of the root. The `balance` method in the `AvlTree` class returns a balanced tree, but I think the `isBalanced` method should directly check the current state without modifying the tree.
+
+Wait, no, the `balance` method is called during insertions and deletions to maintain the balance. So, the tree should already be balanced after each operation. But the `isBalanced` method should verify this.
+
+So, the method can be as simple as checking if the tree is empty or if the root's left and right subtrees are balanced with the allowed imbalance.
+
+I should write a helper method to check the balance between two nodes. Let's call it `isBalancedBetween`, which takes a parent node and its left and right children. It returns `true` if the height difference is within the allowed imbalance.
+
+In `isBalancedBetween`, if the left subtree is null, its height is -1. Similarly for the right. Then, the difference between left and right heights should be <= ALLOWED_IMBALANCE.
+
+So, the `isBalanced` method will first check if the root is null. If not, it will call `isBalancedBetween` with the root's left and right children.
+
+Putting it all together, the `isBalanced` method will return `true` if the tree is empty or the root's subtrees are balanced. Otherwise, it returns `false`.
+
+I should also make sure that the method doesn't modify the tree structure, just checks it.
+
+So, the code will have:
+
+public boolean isBalanced() {
+    if (root == null) return true;
+    return isBalancedBetween(root.left, root.right);
+}
+
+And the helper method:
+
+private boolean isBalancedBetween(AvlNode left, AvlNode right) {
+    int leftHeight = left == null ? -1 : left.height;
+    int rightHeight = right == null ? -1 : right.height;
+    return Math.abs(leftHeight - rightHeight) <= ALLOWED_IMBALANCE;
+}
+
+Wait, but the `balance` method in the class is private. So, the helper method can be private as well.
+
+Alternatively, I can compute the heights directly in the `isBalanced` method without a helper, but using a helper makes the code cleaner.
+
+So, the final method will check the root's left and right heights and ensure their difference is within the allowed imbalance.
+
+I think that's all. Now, I'll write the code accordingly.
+</think>
+
+To solve this problem, we need to determine if an AVL tree is balanced according to a specified allowed imbalance. An AVL tree is a self-balancing binary search tree where the height difference between the left and right subtrees of any node does not exceed a certain value, which is defined as `ALLOWED_IMBALANCE` in this case.
+
+### Approach
+The approach to determine if the AVL tree is balanced involves the following steps:
+1. **Check for an Empty Tree**: If the tree is empty (i.e., the root is null), it is trivially balanced, so we return `true`.
+2. **Check Subtree Heights**: For a non-empty tree, we need to check the heights of the left and right subtrees of the root. The difference between these heights should not exceed the allowed imbalance value.
+3. **Helper Method**: To simplify the height comparison, we use a helper method that takes the left and right subtrees and checks if their height difference is within the allowed limit.
+
+### Solution Code
+```java
+public class AvlTree {
+    static final int ALLOWED_IMBALANCE = 1;
+    public AvlNode root;
+
+    public AvlTree() {
+        root = null;
+    }
+
+    // ... (Other methods remain unchanged)
+
+    public boolean isBalanced() {
+        if (root == null) {
+            return true;
+        }
+        return isBalancedBetween(root.left, root.right);
+    }
+
+    private boolean isBalancedBetween(AvlNode left, AvlNode right) {
+        int leftHeight = left == null ? -1 : left.height;
+        int rightHeight = right == null ? -1 : right.height;
+        return Math.abs(leftHeight - rightHeight) <= ALLOWED_IMBALANCE;
+    }
+
+    // ... (Other methods remain unchanged)
+}
+```
+
+### Explanation
+- **isBalanced Method**: This method first checks if the tree is empty. If it is, the tree is balanced, so it returns `true`. If the tree is not empty, it calls the helper method `isBalancedBetween` to check the balance of the root's left and right subtrees.
+- **isBalancedBetween Method**: This helper method calculates the heights of the left and right subtrees. If either subtree is null, its height is considered as -1. It then checks if the absolute difference between these heights is within the allowed imbalance. If it is, the method returns `true`, indicating the tree is balanced; otherwise, it returns `false`.
+
+This approach ensures that the tree is checked for balance efficiently and correctly, adhering to the properties of an AVL tree.
+
+<think>
+Okay, I need to write a Java method called `property` for the `AvlTree` class. The property should be a boolean method that returns `true` if the object satisfies the property and `false` otherwise. The specific property to implement is "isNotEmptyEmptyForFindMin()", which returns true if the tree is not empty before calling `findMin`.
+
+First, I'll look at the existing code to understand the context. The `AvlTree` class has methods like `insert`, `remove`, `findMin`, and `isEmpty`. The `isEmpty` method checks if the root is null. The `findMin` method throws a runtime exception if the tree is empty.
+
+The property I need to implement should check if the tree is not empty before calling `findMin`. So, the method should return true if `isEmpty()` is false, meaning the tree has at least one node.
+
+I'll name the method `isNotEmptyEmptyForFindMin`. It should be a boolean method, so it returns a boolean. The method body will simply call `isEmpty()` and negate the result. If `isEmpty()` returns false, the method returns true, indicating the tree is not empty.
+
+I should make sure the method is correctly placed in the `AvlTree` class. It doesn't need to be public or private; since it's a property, it's likely a public method. But looking at the existing code, other methods like `isEmpty` are public, so I'll make this method public as well.
+
+Putting it all together, the method will be:
+
+public boolean isNotEmptyEmptyForFindMin() {
+    return !isEmpty();
+}
+
+This ensures that before calling `findMin`, the tree isn't empty, preventing the runtime exception.
+</think>
+
+```java
+public boolean isNotEmptyEmptyForFindMin() {
+    return !isEmpty();
+}
+```
+
+<think>
+Okay, I need to write a Java method called `isBalancedAfterInsertion` for the `AvlTree` class. The method should return true if the tree is balanced after an insertion, and false otherwise.
+
+First, I should understand what a balanced AVL tree is. An AVL tree is balanced if for every node, the height of the left subtree is at most one more than the height of the right subtree, and vice versa. The class already has a `balance` method that maintains this property.
+
+Looking at the `insert` method, it calls `balance(t)` after inserting a node. So after each insertion, the tree should be balanced. But I need to confirm this.
+
+Wait, the `insert` method does call `balance(t)`, which should adjust the tree's structure to maintain balance. So after any insertion, the tree should be balanced.
+
+But maybe there's a case where the insertion causes an imbalance that isn't fixed by the `balance` method. Or perhaps the `balance` method doesn't handle all cases correctly.
+
+I should check the `balance` method. It seems to handle both left and right imbalances, rotating or doubling as needed. So after an insertion, the tree should be balanced.
+
+Therefore, the property `isBalancedAfterInsertion` should always return true because the `insert` method ensures balance by calling `balance(t)`.
+
+So the method can simply return true, as the tree is guaranteed to be balanced after each insertion.
+</think>
+
+To determine if the AVL tree remains balanced after an insertion, we can leverage the existing balancing mechanism in the `insert` method. Since `insert` calls `balance(t)` after each insertion, the tree is ensured to be balanced.
+
+```java
+public boolean isBalancedAfterInsertion() {
+    return true;
+}
+```

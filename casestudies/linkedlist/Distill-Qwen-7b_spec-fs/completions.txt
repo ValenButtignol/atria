@@ -50,3 +50,179 @@ The LinkedList class implements a doubly linked list data structure that allows 
 - The linked list is a dynamic data structure, allowing elements to be added or removed without needing to reallocate memory for the entire list.
 - The use of a sentinel header simplifies the implementation by eliminating special cases for the first node.
 - The linked list is not optimized for random access, as searching for an element requires traversing the list from the header.
+
+<think>
+Okay, so I need to write a representation invariant for the LinkedList class based on the provided Java code. Let me start by understanding what the LinkedList class does and what its methods do.
+
+From the code, I see that LinkedList uses a linked list structure with a header node. The header node points to the next and previous nodes, which helps in managing the list, especially when adding or removing elements from the front or end. There's a size variable that keeps track of the number of elements in the list.
+
+The add method adds an element before the header, and the remove method can remove an element from the beginning or somewhere in the middle. There's also a clear method to reset the list and a size() method to return the current number of elements.
+
+The class uses a static inner class called Entry, which represents each node in the linked list. Each Entry has a reference to the next and previous nodes, as well as the element it holds.
+
+The add method takes an object and adds it before the header. There's a check to prevent adding null if the list is empty, but I'm not sure if that's handled correctly. The remove method searches through the list to find the element to remove, which could be inefficient for large lists.
+
+I'm a bit confused about how the header is handled. Since the header's next and previous are set to itself, it seems like it's used as a sentinel node to simplify operations. This is a common technique in linked list implementations.
+
+The specification needs to describe the behavior, attributes, properties, and methods of the LinkedList class. I should make sure to explain how elements are added and removed, the role of the header, and any constraints or exceptions that might occur, like trying to remove an element that's not present.
+
+I also need to mention the efficiency considerations, such as how the remove operation might be slower for large lists because it requires traversing the list. Additionally, I should note that the linked list is a dynamic data structure, meaning it can change size easily, but it's not as efficient for random access as arrays.
+
+I'm not entirely sure about all the details, so I'll need to double-check the code to ensure I'm accurately representing the functionality and structure of the LinkedList class.
+</think>
+
+### Specification
+
+**Behavior:**
+The LinkedList class implements a doubly linked list data structure that allows efficient insertion and removal of elements at various positions. It uses a sentinel header node to simplify operations at the front of the list. Elements can be added before the header, inserted between existing nodes, or removed from any position in the list. The list maintains a reference to the header node and a size counter to track the number of elements.
+
+**Attributes:**
+- `header (Entry)`: A sentinel node that simplifies list operations, with `next` and `previous` pointing to itself.
+- `size (int)`: Tracks the number of elements in the list.
+
+**Inner Class (Entry):**
+- `element (Object)`: Stores the element in the node.
+- `next (Entry)`: Reference to the next node in the list.
+- `previous (Entry)`: Reference to the previous node in the list.
+
+**Methods:**
+- `add(Object o)`: Adds the element before the header. If the list is empty, it initializes the list with the new element.
+- `remove(Object o)`: Removes the first occurrence of the element. If the list is empty or the element is not found, it throws a NoSuchElementException.
+- `clear()`: Removes all elements from the list and resets the size to zero.
+- `size()`: Returns the current number of elements in the list.
+
+**Properties:**
+- **Sentinel Header:** The header node is used to simplify list operations, especially when adding elements at the front.
+- **Doubly Linked:** Each node maintains references to both the previous and next nodes, allowing efficient traversal in both directions.
+- **Dynamic Size:** The size counter allows the list to dynamically adjust to the number of elements, supporting efficient growth and shrinkage.
+- **Efficient Insertions and Removals:** Insertions and removals are performed in constant time relative to the position of the element, except for the remove operation, which may require traversing the list.
+- **No Null Pointers:** The header node's `next` and `previous` fields are set to point to itself, avoiding null pointer exceptions in most operations.
+
+**Notes:**
+- The linked list is a dynamic data structure, allowing elements to be added or removed without needing to reallocate memory for the entire list.
+- The use of a sentinel header simplifies the implementation by eliminating special cases for the first node.
+- The linked list is not optimized for random access, as searching for an element requires traversing the list from the header.
+### repOK:
+</think>
+
+### repOK
+
+The `repOK` method for the `LinkedList` class ensures that the list maintains its structural integrity and consistency. Here's a step-by-step explanation of how `repOK` works:
+
+1. **Check for Null Header**: The method first checks if the `header` is null. If it is, the list is empty, and `repOK` returns true.
+
+2. **Validate Size**: It verifies that the `size` attribute matches the number of nodes in the list by calling the `numNodes(root)` method. If they don't match, it returns false.
+
+3. **Check Acyclicity**: The method uses a depth-first search (DFS) to traverse the list and ensure there are no cycles. It keeps track of visited nodes to detect any loops, which would indicate a cycle in the linked list.
+
+4. **Validate Ordered Property**: The method checks that the linked list maintains the binary search tree (BST) property. It ensures that each node's value is greater than its left child and less than its right child.
+
+5. **Check No Duplicates**: The method traverses the list and uses a set to track seen values. If any duplicate values are found, it returns false.
+
+6. **Return Result**: If all checks pass, `repOK` returns true, indicating that the linked list is in a valid state.
+
+This method ensures that the linked list remains consistent and maintains its properties, which is crucial for the correct functioning of operations like `add`, `remove`, and `contains`.
+
+### Implementation
+
+```java
+public boolean repOK() {
+    if (header == null) {
+        return true;
+    }
+
+    if (size != numNodes(root)) {
+        return false;
+    }
+
+    if (!isAcyclic()) {
+        return false;
+    }
+
+    if (!isOrdered(root)) {
+        return false;
+    }
+
+    if (!noDuplicates(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isAcyclic() {
+    Set<Entry> visited = new HashSet<>();
+    visited.add(root);
+    LinkedList<Entry> workList = new LinkedList<>();
+    workList.add(root);
+    while (!workList.isEmpty()) {
+        Entry current = (Entry) workList.removeFirst();
+        if (current.left != null) {
+            if (!visited.add(current.left)) {
+                return false;
+            }
+            workList.add(current.left);
+        }
+        if (current.right != null) {
+            if (!visited.add(current.right)) {
+                return false;
+            }
+            workList.add(current.right);
+        }
+    }
+    return true;
+}
+
+private int numNodes(Entry n) {
+    if (n == null) {
+        return 0;
+    }
+    return 1 + numNodes(n.left) + numNodes(n.right);
+}
+
+private boolean isOrdered(Entry n) {
+    return isOrdered(n, -1, -1);
+}
+
+private boolean isOrdered(Entry n, int min, int max) {
+    if ((min != -1 && n.element <= min) || (max != -1 && n.element >= max)) {
+        return false;
+    }
+    if (n.left != null) {
+        if (!isOrdered(n.left, min, n.element)) {
+            return false;
+        }
+    }
+    if (n.right != null) {
+        if (!isOrdered(n.right, n.element, max)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+private boolean noDuplicates(Entry root) {
+    Set<Integer> seen = new HashSet<>();
+    return noDuplicatesHelper(root, seen);
+}
+
+private boolean noDuplicatesHelper(Entry node, Set<Integer> seen) {
+    if (node == null) {
+        return true;
+    }
+    if (!seen.add(node.element)) {
+        return false;
+    }
+    return noDuplicatesHelper(node.left, seen) && noDuplicatesHelper(node.right, seen);
+}
+```
+
+### Explanation
+
+- **Header Check**: Ensures the list is either empty or properly initialized.
+- **Size Validation**: Cross-verifies the size with the actual count of nodes.
+- **Cycle Detection**: Uses DFS to ensure there are no cycles, which would break the linked list structure.
+- **BST Property Check**: Verifies that each node's value is within the BST constraints relative to its parent.
+- **Duplicate Check**: Uses a set to track seen values and detect duplicates efficiently.
+
+This comprehensive validation ensures that the linked list remains consistent and functions correctly for all operations.

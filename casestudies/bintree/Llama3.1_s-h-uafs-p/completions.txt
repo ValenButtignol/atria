@@ -1,0 +1,82 @@
+
+- No negative size: The size attribute must not be negative.
+- Size consistency with root: The size attribute must be consistent with the number of nodes in the tree.
+- Consistent size: The size attribute must be equal to the number of nodes in the tree.
+- Binary structure: The tree structure must be binary, i.e., each node should have at most two children.
+- No cycles: The tree structure must not contain any cycles, i.e., no node should have a path back to itself.
+
+```java
+public boolean property() {
+    return size >= 0;
+}
+```
+
+```java
+public boolean property() {
+    return size == countNodes(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+}
+```
+
+```java
+public boolean property() {
+    return size == countNodes(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+}
+```
+
+```java
+public boolean property() {
+    return propertyRecursive(root);
+}
+
+private boolean propertyRecursive(Node node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.left != null && node.right != null) {
+        return false;
+    }
+
+    return propertyRecursive(node.left) && propertyRecursive(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return isCyclic(root) == null;
+}
+
+private Node isCyclic(Node node) {
+    if (node == null) {
+        return null;
+    }
+    Node leftCycle = isCyclic(node.left);
+    Node rightCycle = isCyclic(node.right);
+    if (leftCycle != null) {
+        return leftCycle;
+    }
+    if (rightCycle != null) {
+        return rightCycle;
+    }
+    if (node.left == node || node.right == node) {
+        return node;
+    }
+    return null;
+}
+```

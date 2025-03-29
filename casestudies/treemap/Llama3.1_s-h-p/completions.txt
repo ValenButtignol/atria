@@ -1,0 +1,66 @@
+
+- The root node is either null or a valid Node object: The root node should always be either null (when the tree is empty) or a valid Node object (when the tree is not empty).
+- All nodes have a valid key and value: Each Node object should have a valid key and value associated with it.
+- The color of the root node is always BLACK: In a Red-Black tree, the root node should always be BLACK.
+- The color of the leaf nodes is always BLACK: In a Red-Black tree, all leaf nodes (i.e., nodes with no children) should always be BLACK.
+- The tree is balanced: The height of the left and right subtrees of every node should differ by at most one.
+
+```java
+public boolean property() {
+    return root == null || (root != null && root instanceof Node);
+}
+```
+
+```java
+public boolean property() {
+    if (root == null) return true;
+
+    return checkNode(root);
+}
+
+private boolean checkNode(Node node) {
+    if (node == null) return true;
+
+    if (node.key == null || node.value == null) return false;
+
+    return checkNode(node.left) && checkNode(node.right);
+}
+```
+
+```java
+public boolean isRootBlack() {
+    return root != null && root.color == BLACK;
+}
+```
+
+```java
+public boolean isLeafNodesBlack() {
+    return isLeafNodesBlack(root);
+}
+
+private boolean isLeafNodesBlack(Node node) {
+    if (node == null) return true;
+    if (node.left == null && node.right == null) {
+        return node.color == BLACK;
+    }
+    return isLeafNodesBlack(node.left) && isLeafNodesBlack(node.right);
+}
+```
+
+```java
+private boolean isBalanced() {
+    return isBalanced(root, 0);
+}
+
+private int isBalanced(Node node, int height) {
+    if (node == null) {
+        return height;
+    }
+    int leftHeight = isBalanced(node.left, height + 1);
+    int rightHeight = isBalanced(node.right, height + 1);
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return -1; // tree is not balanced
+    }
+    return Math.max(leftHeight, rightHeight);
+}
+```

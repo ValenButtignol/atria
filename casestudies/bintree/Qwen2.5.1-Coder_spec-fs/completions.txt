@@ -1,0 +1,47 @@
+
+### Behavior
+The BinTree class represents a binary search tree (BST) that stores unique integer values. It consists of a private inner Node class, where each node holds an integer value and references to its left and right children. The tree maintains a reference to the root node and a size counter to track the number of elements. The add method inserts a new integer into the tree, ensuring that duplicates are not allowed, placing smaller values in the left subtree and larger values in the right subtree recursively. The contains method checks whether a given integer exists in the tree by traversing it recursively according to BST rules. Finally, the getSize method returns the total number of elements in the tree.
+
+### Attributes
+- root (Node): A reference to the root node of the binary search tree. It is initially null when the tree is empty.
+- size (int): Tracks the number of elements currently in the tree. It starts at zero and increases with insertions while decreasing with deletions.
+
+### Properties
+- No duplicates: The tree should not contain duplicate values.
+- BST property: For every node, all values in its left subtree are smaller, and all values in its right subtree are larger.
+- Consistent size: The size attribute must be equal to the number of nodes in the tree.
+- No cycles: The tree structure must be acyclic, i.e., no node should have a path back to itself.
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (root == null) {
+        return size == 0;
+    }
+
+    return checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE) && checkSize(root, 0);
+}
+
+private boolean checkBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.info <= min || node.info >= max) {
+        return false;
+    }
+
+    return checkBST(node.left, min, node.info) && checkBST(node.right, node.info, max);
+}
+
+private boolean checkSize(Node node, int currentSize) {
+    if (node == null) {
+        return currentSize == size;
+    }
+
+    return checkSize(node.left, currentSize + 1) && checkSize(node.right, currentSize + 1);
+}
+```

@@ -166,36 +166,6 @@ public class NodeCachingLinkedList {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        if (!property_3())
-            return false;
-        if (!property_4())
-            return false;
-        if (!property_5())
-            return false;
         return true;
-    }
-
-    public boolean property() {
-        return !(firstCachedNode != null && cacheSize <= 0);
-    }
-
-    public boolean property_2() {
-        return size >= 0;
-    }
-
-    public boolean property_3() {
-        return !(header.next != header) || size > 0;
-    }
-
-    public boolean property_4() {
-        return cacheSize >= 0;
-    }
-
-    public boolean property_5() {
-        return cacheSize <= maximumCacheSize;
     }
 }

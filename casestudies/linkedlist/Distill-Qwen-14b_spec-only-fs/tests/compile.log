@@ -1,17 +1,29 @@
-> Task :compileJava
-> Task :processResources
-> Task :classes
-> Task :jar
-> Task :startScripts
-> Task :distTar
-> Task :distZip
-> Task :assemble
-> Task :compileTestJava NO-SOURCE
-> Task :processTestResources NO-SOURCE
-> Task :testClasses UP-TO-DATE
-> Task :test NO-SOURCE
-> Task :check UP-TO-DATE
-> Task :build
 
-BUILD SUCCESSFUL in 641ms
-6 actionable tasks: 6 executed
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:145: error: bad operand types for binary operator '<='
+            if (!(current.element <= next.element)) {
+                                  ^
+  first type:  Object
+  second type: Object
+1 error
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/LinkedList.java:145: error: bad operand types for binary operator '<='
+              if (!(current.element <= next.element)) {
+                                    ^
+    first type:  Object
+    second type: Object
+  1 error
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 371ms
+1 actionable task: 1 executed

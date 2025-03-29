@@ -1,0 +1,62 @@
+
+- Red-Black Tree Property 1: Every node is either red or black.
+- Red-Black Tree Property 2: The root is black.
+- Red-Black Tree Property 3: All leaves are black.
+- Red-Black Tree Property 4: If a node is red, both its children must be black.
+- Red-Black Tree Property 5: For any node, all paths from the node to its descendant leaves contain the same number of black nodes.
+
+```java
+public boolean property() {
+    return root != null && (root.color == RED || root.color == BLACK);
+}
+```
+
+```java
+public boolean property() {
+    return root != null && root.color == BLACK;
+}
+```
+
+```java
+public boolean property() {
+    return isBlack(root);
+}
+
+private boolean isBlack(Node node) {
+    if (node == null) return true;
+    if (node.color == RED) return false;
+    return isBlack(node.left) && isBlack(node.right);
+}
+```
+
+```java
+public boolean property() {
+    return checkNode(root);
+}
+
+private boolean checkNode(Node node) {
+    if (node == null) return true;
+    if (node.color == RED) {
+        if (node.left != null && node.left.color == RED) return false;
+        if (node.right != null && node.right.color == RED) return false;
+    }
+    return checkNode(node.left) && checkNode(node.right);
+}
+```
+
+```java
+public boolean property() {
+    int blackCount = 0;
+    Node current = root;
+    while (current != null) {
+        blackCount += (current.color == BLACK) ? 1 : 0;
+        current = current.left;
+    }
+    current = root;
+    while (current != null) {
+        blackCount += (current.color == BLACK) ? 1 : 0;
+        current = current.right;
+    }
+    return blackCount == size;
+}
+```

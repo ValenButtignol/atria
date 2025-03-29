@@ -1,0 +1,199 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:284: error: method isHeapPropertyMaintained in class BinomialHeap cannot be applied to given types;
+        return isHeapPropertyMaintained(Nodes);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: method isHeapPropertyMaintained in class BinomialHeap cannot be applied to given types;
+        return isHeapPropertyMaintained(node.sibling) && isHeapPropertyMaintained(node.child);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: method isHeapPropertyMaintained in class BinomialHeap cannot be applied to given types;
+        return isHeapPropertyMaintained(node.sibling) && isHeapPropertyMaintained(node.child);
+                                                         ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:297: error: method isAcyclic in class BinomialHeap cannot be applied to given types;
+        return isAcyclic(Nodes, visited);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode,Set<BinomialHeapNode>
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:306: error: method isAcyclic in class BinomialHeap cannot be applied to given types;
+        return isAcyclic(node.sibling, visited) && isAcyclic(node.child, visited);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode,Set<BinomialHeapNode>
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:306: error: method isAcyclic in class BinomialHeap cannot be applied to given types;
+        return isAcyclic(node.sibling, visited) && isAcyclic(node.child, visited);
+                                                   ^
+  required: no arguments
+  found:    BinomialHeapNode,Set<BinomialHeapNode>
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:310: error: method countNodes in class BinomialHeap cannot be applied to given types;
+        return countNodes(Nodes);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:316: error: method countNodes in class BinomialHeap cannot be applied to given types;
+        return 1 + countNodes(node.sibling) + countNodes(node.child);
+                   ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:316: error: method countNodes in class BinomialHeap cannot be applied to given types;
+        return 1 + countNodes(node.sibling) + countNodes(node.child);
+                                              ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:320: error: method isConsistentDegree in class BinomialHeap cannot be applied to given types;
+        return isConsistentDegree(Nodes);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: method isConsistentDegree in class BinomialHeap cannot be applied to given types;
+        return isConsistentDegree(node.sibling) && isConsistentDegree(node.child);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: method isConsistentDegree in class BinomialHeap cannot be applied to given types;
+        return isConsistentDegree(node.sibling) && isConsistentDegree(node.child);
+                                                   ^
+  required: no arguments
+  found:    BinomialHeapNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:339: error: method noDuplicateKeys in class BinomialHeap cannot be applied to given types;
+        return noDuplicateKeys(Nodes, keys);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode,Set<Integer>
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:348: error: method noDuplicateKeys in class BinomialHeap cannot be applied to given types;
+        return noDuplicateKeys(node.sibling, keys) && noDuplicateKeys(node.child, keys);
+               ^
+  required: no arguments
+  found:    BinomialHeapNode,Set<Integer>
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:348: error: method noDuplicateKeys in class BinomialHeap cannot be applied to given types;
+        return noDuplicateKeys(node.sibling, keys) && noDuplicateKeys(node.child, keys);
+                                                      ^
+  required: no arguments
+  found:    BinomialHeapNode,Set<Integer>
+  reason: actual and formal argument lists differ in length
+15 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:284: error: method isHeapPropertyMaintained in class BinomialHeap cannot be applied to given types;
+          return isHeapPropertyMaintained(Nodes);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: method isHeapPropertyMaintained in class BinomialHeap cannot be applied to given types;
+          return isHeapPropertyMaintained(node.sibling) && isHeapPropertyMaintained(node.child);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:292: error: method isHeapPropertyMaintained in class BinomialHeap cannot be applied to given types;
+          return isHeapPropertyMaintained(node.sibling) && isHeapPropertyMaintained(node.child);
+                                                           ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:297: error: method isAcyclic in class BinomialHeap cannot be applied to given types;
+          return isAcyclic(Nodes, visited);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode,Set<BinomialHeapNode>
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:306: error: method isAcyclic in class BinomialHeap cannot be applied to given types;
+          return isAcyclic(node.sibling, visited) && isAcyclic(node.child, visited);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode,Set<BinomialHeapNode>
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:306: error: method isAcyclic in class BinomialHeap cannot be applied to given types;
+          return isAcyclic(node.sibling, visited) && isAcyclic(node.child, visited);
+                                                     ^
+    required: no arguments
+    found:    BinomialHeapNode,Set<BinomialHeapNode>
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:310: error: method countNodes in class BinomialHeap cannot be applied to given types;
+          return countNodes(Nodes);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:316: error: method countNodes in class BinomialHeap cannot be applied to given types;
+          return 1 + countNodes(node.sibling) + countNodes(node.child);
+                     ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:316: error: method countNodes in class BinomialHeap cannot be applied to given types;
+          return 1 + countNodes(node.sibling) + countNodes(node.child);
+                                                ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:320: error: method isConsistentDegree in class BinomialHeap cannot be applied to given types;
+          return isConsistentDegree(Nodes);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: method isConsistentDegree in class BinomialHeap cannot be applied to given types;
+          return isConsistentDegree(node.sibling) && isConsistentDegree(node.child);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:328: error: method isConsistentDegree in class BinomialHeap cannot be applied to given types;
+          return isConsistentDegree(node.sibling) && isConsistentDegree(node.child);
+                                                     ^
+    required: no arguments
+    found:    BinomialHeapNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:339: error: method noDuplicateKeys in class BinomialHeap cannot be applied to given types;
+          return noDuplicateKeys(Nodes, keys);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode,Set<Integer>
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:348: error: method noDuplicateKeys in class BinomialHeap cannot be applied to given types;
+          return noDuplicateKeys(node.sibling, keys) && noDuplicateKeys(node.child, keys);
+                 ^
+    required: no arguments
+    found:    BinomialHeapNode,Set<Integer>
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinomialHeap.java:348: error: method noDuplicateKeys in class BinomialHeap cannot be applied to given types;
+          return noDuplicateKeys(node.sibling, keys) && noDuplicateKeys(node.child, keys);
+                                                        ^
+    required: no arguments
+    found:    BinomialHeapNode,Set<Integer>
+    reason: actual and formal argument lists differ in length
+  15 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 380ms
+1 actionable task: 1 executed

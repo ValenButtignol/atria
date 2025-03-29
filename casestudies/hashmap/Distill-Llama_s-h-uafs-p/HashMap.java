@@ -242,33 +242,6 @@ public class HashMap {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        return true;
-    }
-
-    public boolean property() {
-        for (int i = 0; i < table.length; i++) {
-            Entry e = table[i];
-            if (e != null && !(e instanceof Entry)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean property_2() {
-        for (Entry e : table) {
-            if (e == null)
-                continue;
-            Object key = e.getKey();
-            int computedHash = hash(key);
-            if (computedHash != e.hash) {
-                return false;
-            }
-        }
         return true;
     }
 }

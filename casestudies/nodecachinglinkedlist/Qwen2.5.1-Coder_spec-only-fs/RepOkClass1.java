@@ -1,61 +1,58 @@
 public class RepOkClass1{
     public boolean repOK() {
-        // Check if the size is consistent with the actual number of nodes in the list
-        if (size < 0) {
+        if (header == null)
+            return size == 0;
+    
+        if (size != numNodes())
             return false;
-        }
     
-        // Check if the linked structure is consistent
-        int count = 0;
-        LinkedListNode current = header.next;
-        while (current != null) {
-            count++;
-            current = current.next;
-        }
-        if (count != size) {
+        if (!isDoublyLinked())
             return false;
-        }
     
-        // Check if the cache management is consistent
-        if (cacheSize < 0 || cacheSize > maximumCacheSize) {
+        if (!cacheIsValid())
             return false;
-        }
-    
-        // Check if the cache does not exceed the maximum cache size
-        current = firstCachedNode;
-        while (current != null) {
-            cacheSize--;
-            current = current.next;
-        }
-        if (cacheSize < 0) {
-            return false;
-        }
-    
-        // Check if the node reusability is consistent
-        current = header.next;
-        while (current != null) {
-            if (current.value == null) {
-                return false;
-            }
-            current = current.next;
-        }
-    
-        // Check if the isEqualValue method is consistent
-        current = header.next;
-        while (current != null) {
-            if (!isEqualValue(current.value, current.value)) {
-                return false;
-            }
-            current = current.next;
-        }
     
         return true;
     }
 
-    private boolean isEqualValue(Object a, Object b) {
-        if (a == null) {
-            return b == null;
+    private int numNodes() {
+        int count = 0;
+        LinkedListNode current = header.next;
+        while (current != header) {
+            count++;
+            current = current.next;
         }
+        return count;
+    }
+
+    private boolean isDoublyLinked() {
+        LinkedListNode current = header.next;
+        while (current != header) {
+            if (current.prev == null || current.next == null)
+                return false;
+            current = current.next;
+        }
+        return true;
+    }
+
+    private boolean cacheIsValid() {
+        if (cacheSize > maximumCacheSize)
+            return false;
+    
+        LinkedListNode current = firstCachedNode;
+        int count = 0;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        return count == cacheSize;
+    }
+
+    private boolean isEqualValue(Object a, Object b) {
+        if (a == null && b == null)
+            return true;
+        if (a == null || b == null)
+            return false;
         return a.equals(b);
     }
 

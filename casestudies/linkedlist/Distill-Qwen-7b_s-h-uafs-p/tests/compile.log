@@ -1,17 +1,248 @@
-> Task :compileJava
-> Task :processResources
-> Task :classes
-> Task :jar
-> Task :startScripts
-> Task :distTar
-> Task :distZip
-> Task :assemble
-> Task :compileTestJava NO-SOURCE
-> Task :processTestResources NO-SOURCE
-> Task :testClasses UP-TO-DATE
-> Task :test NO-SOURCE
-> Task :check UP-TO-DATE
-> Task :build
 
-BUILD SUCCESSFUL in 642ms
-6 actionable tasks: 6 executed
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+        Set<Node> visited = new HashSet<>();
+        ^
+  symbol:   class Set
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+        Set<Node> visited = new HashSet<>();
+            ^
+  symbol:   class Node
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+        Set<Node> visited = new HashSet<>();
+                                ^
+  symbol:   class HashSet
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:7: error: cannot find symbol
+        visited.add(header);
+                    ^
+  symbol:   variable header
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:8: error: cannot find symbol
+        LinkedList<Node> workList = new LinkedList<>();
+                   ^
+  symbol:   class Node
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:8: error: type LinkedList does not take parameters
+        LinkedList<Node> workList = new LinkedList<>();
+                  ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:8: error: cannot infer type arguments for LinkedList
+        LinkedList<Node> workList = new LinkedList<>();
+                                                  ^
+  reason: cannot use '<>' with non-generic class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:9: error: cannot find symbol
+        workList.add(header.next);
+                     ^
+  symbol:   variable header
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:11: error: cannot find symbol
+            Node current = (Node) workList.removeFirst();
+            ^
+  symbol:   class Node
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:11: error: cannot find symbol
+            Node current = (Node) workList.removeFirst();
+                            ^
+  symbol:   class Node
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:12: error: cannot find symbol
+            if (current == header) {
+                           ^
+  symbol:   variable header
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:23: error: cannot find symbol
+            if (current == tail) {
+                           ^
+  symbol:   variable tail
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+        Entry current = header.next;
+        ^
+  symbol:   class Entry
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+        Entry current = header.next;
+                        ^
+  symbol:   variable header
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:8: error: cannot find symbol
+        while (current != header) {
+                          ^
+  symbol:   variable header
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:14: error: cannot find symbol
+        return actualSize == size;
+                             ^
+  symbol:   variable size
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        Entry header = (Entry) this.header;
+        ^
+  symbol:   class Entry
+  location: class RepOkClass2
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        Entry header = (Entry) this.header;
+                        ^
+  symbol:   class Entry
+  location: class RepOkClass2
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        Entry header = (Entry) this.header;
+                                   ^
+  symbol: variable header
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:11: error: cannot find symbol
+        Entry nextNode = header.next;
+        ^
+  symbol:   class Entry
+  location: class RepOkClass2
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+        Entry current = header.next;
+        ^
+  symbol:   class Entry
+  location: class RepOkClass3
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+        Entry current = header.next;
+                        ^
+  symbol:   variable header
+  location: class RepOkClass3
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:7: error: cannot find symbol
+        while (current != header && current.next != null) {
+                          ^
+  symbol:   variable header
+  location: class RepOkClass3
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:10: error: cannot find symbol
+        if (current != header) {
+                       ^
+  symbol:   variable header
+  location: class RepOkClass3
+24 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          Entry header = (Entry) this.header;
+                                     ^
+    symbol: variable header/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+          Set<Node> visited = new HashSet<>();
+          ^
+    symbol:   class Set
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+          Set<Node> visited = new HashSet<>();
+              ^
+    symbol:   class Node
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+          Set<Node> visited = new HashSet<>();
+                                  ^
+    symbol:   class HashSet
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:7: error: cannot find symbol
+          visited.add(header);
+                      ^
+    symbol:   variable header
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:8: error: cannot find symbol
+          LinkedList<Node> workList = new LinkedList<>();
+                     ^
+    symbol:   class Node
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:9: error: cannot find symbol
+          workList.add(header.next);
+                       ^
+    symbol:   variable header
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:11: error: cannot find symbol
+              Node current = (Node) workList.removeFirst();
+              ^
+    symbol:   class Node
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:11: error: cannot find symbol
+              Node current = (Node) workList.removeFirst();
+                              ^
+    symbol:   class Node
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:12: error: cannot find symbol
+              if (current == header) {
+                             ^
+    symbol:   variable header
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:23: error: cannot find symbol
+              if (current == tail) {
+                             ^
+    symbol:   variable tail
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+          Entry current = header.next;
+          ^
+    symbol:   class Entry
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+          Entry current = header.next;
+                          ^
+    symbol:   variable header
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:8: error: cannot find symbol
+          while (current != header) {
+                            ^
+    symbol:   variable header
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:14: error: cannot find symbol
+          return actualSize == size;
+                               ^
+    symbol:   variable size
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          Entry header = (Entry) this.header;
+          ^
+    symbol:   class Entry
+    location: class RepOkClass2
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          Entry header = (Entry) this.header;
+                          ^
+    symbol:   class Entry
+    location: class RepOkClass2
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:11: error: cannot find symbol
+          Entry nextNode = header.next;
+          ^
+    symbol:   class Entry
+    location: class RepOkClass2
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+          Entry current = header.next;
+          ^
+    symbol:   class Entry
+    location: class RepOkClass3
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+          Entry current = header.next;
+                          ^
+    symbol:   variable header
+    location: class RepOkClass3
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:7: error: cannot find symbol
+          while (current != header && current.next != null) {
+                            ^
+    symbol:   variable header
+    location: class RepOkClass3
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:10: error: cannot find symbol
+          if (current != header) {
+                         ^
+    symbol:   variable header
+    location: class RepOkClass3/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:8: error: cannot infer type arguments for LinkedList
+          LinkedList<Node> workList = new LinkedList<>();
+                                                    ^
+    reason: cannot use '<>' with non-generic class LinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:8: error: type LinkedList does not take parameters
+          LinkedList<Node> workList = new LinkedList<>();
+                    ^
+  24 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 403ms
+1 actionable task: 1 executed

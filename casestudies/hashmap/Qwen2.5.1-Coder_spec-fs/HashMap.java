@@ -1,15 +1,23 @@
 package casestudies.hashmap;
 
+import java.util.*;
+
 public class HashMap {
-    
+
     static final int DEFAULT_INITIAL_CAPACITY = 16;
+
     static final int MAXIMUM_CAPACITY = 1 << 30;
+
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
     public Entry[] table;
+
     int size;
+
     int threshold;
+
     final float loadFactor;
+
     public volatile int modCount;
 
     public HashMap(int initialCapacity, float loadFactor) {
@@ -21,17 +29,12 @@ public class HashMap {
         if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
             throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
         }
-
         int capacity = 1;
-        while (capacity < initialCapacity)
-            capacity <<= 1;
-
+        while (capacity < initialCapacity) capacity <<= 1;
         this.loadFactor = loadFactor;
         threshold = (int) (capacity * loadFactor);
         table = new Entry[capacity];
-        for (int i = 0; i < table.length; i++)
-            table[i] = null;
-
+        for (int i = 0; i < table.length; i++) table[i] = null;
         init();
     }
 
@@ -61,7 +64,6 @@ public class HashMap {
 
     static int hash(Object x) {
         int h = x.hashCode();
-
         h += ~(h << 9);
         h ^= (h >>> 14);
         h += (h << 4);
@@ -104,7 +106,6 @@ public class HashMap {
         Object k = maskNull(key);
         int hash = hash(k);
         int i = indexFor(hash, table.length);
-
         for (Entry e = table[i]; e != null; e = e.next) {
             if (e.hash == hash && eq(k, e.key)) {
                 Object oldValue = e.value;
@@ -112,7 +113,6 @@ public class HashMap {
                 return oldValue;
             }
         }
-
         modCount++;
         addEntry(hash, k, value, i);
         return null;
@@ -125,7 +125,6 @@ public class HashMap {
             threshold = Integer.MAX_VALUE;
             return;
         }
-
         Entry[] newTable = new Entry[newCapacity];
         transfer(newTable);
         table = newTable;
@@ -161,7 +160,6 @@ public class HashMap {
         int i = indexFor(hash, table.length);
         Entry prev = table[i];
         Entry e = prev;
-
         while (e != null) {
             Entry next = e.next;
             if (e.hash == hash && eq(k, e.key)) {
@@ -176,15 +174,13 @@ public class HashMap {
             prev = e;
             e = next;
         }
-
         return e;
     }
 
     public void clear() {
         modCount++;
         Entry[] tab = table;
-        for (int i = 0; i < tab.length; i++)
-            tab[i] = null;
+        for (int i = 0; i < tab.length; i++) tab[i] = null;
         size = 0;
     }
 
@@ -195,9 +191,13 @@ public class HashMap {
     }
 
     public static class Entry {
+
         public final Object key;
+
         public Object value;
+
         public int hash;
+
         Entry next;
 
         Entry(int h, Object k, Object v, Entry n) {
@@ -235,9 +235,13 @@ public class HashMap {
             }
             return false;
         }
-        
+
         public int hashCode() {
             return (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
         }
+    }
+
+    public boolean repOK() {
+        return true;
     }
 }

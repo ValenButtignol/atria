@@ -1,33 +1,32 @@
 
 > Task :runRandoop
 Randoop for Java version "4.3.2, local changes, branch master, commit df17bc8, 2023-01-08".
-ANNOTATION: Detected @CheckRep-annotated method "public boolean system.classfixer.classes.NodeCachingLinkedList.property_3()". Will use it to check rep invariant of class system.classfixer.classes.NodeCachingLinkedList during generation.
 
 Will try to generate tests for 1 classes.
-PUBLIC MEMBERS=17
+PUBLIC MEMBERS=15
 Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
     allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
-Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-26T05:12:20.470086378Z     7,95M used)
-Progress update: steps=1000, test inputs generated=783, failing inputs=0      (2025-03-26T05:12:30.895608653Z     181M used)
-Progress update: steps=1323, test inputs generated=1001, failing inputs=0      (2025-03-26T05:12:33.244191822Z     113M used)
-Normal method executions: 4080351
-Exceptional method executions: 15
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-27T11:04:49.433904452Z     8,00M used)
+Progress update: steps=1000, test inputs generated=764, failing inputs=0      (2025-03-27T11:05:03.570561298Z     55,2M used)
+Progress update: steps=1338, test inputs generated=1001, failing inputs=0      (2025-03-27T11:05:05.985255943Z     171M used)
+Normal method executions: 2313130
+Exceptional method executions: 12
 
-Average method execution time (normal termination):      2,75e-05
-Average method execution time (exceptional termination): 0,0276
-Approximate memory usage 113M
-Explorer = ForwardGenerator(steps: 1323, null steps: 322, num_sequences_generated: 1001;
+Average method execution time (normal termination):      4,18e-05
+Average method execution time (exceptional termination): 0,0309
+Approximate memory usage 171M
+Explorer = ForwardGenerator(steps: 1338, null steps: 337, num_sequences_generated: 1001;
     allSequences: 1001, regresson seqs: 1000, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
 No error-revealing tests to output.
 
-About to look for failing assertions in 461 regression sequences.
+About to look for failing assertions in 490 regression sequences.
 
 Regression test output:
-Regression test count: 461
+Regression test count: 490
 Writing regression JUnit tests...
 Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest0.java
 Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest.java
@@ -36,5 +35,5 @@ About to look for flaky methods.
 
 Invalid tests generated: 0
 
-BUILD SUCCESSFUL in 16s
+BUILD SUCCESSFUL in 18s
 1 actionable task: 1 executed

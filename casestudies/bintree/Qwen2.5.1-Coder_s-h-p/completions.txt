@@ -1,0 +1,95 @@
+
+- `isBinaryTree`: Ensures that the tree structure is binary.
+- `isBalanced`: Ensures that the tree is balanced.
+- `isSorted`: Ensures that the tree elements are sorted in ascending order.
+- `noDuplicates`: Ensures that there are no duplicate elements in the tree.
+- `validSize`: Ensures that the size attribute matches the actual number of nodes in the tree.
+
+```java
+public boolean isBinaryTree() {
+    return isBinaryTreeRecursive(root);
+}
+
+private boolean isBinaryTreeRecursive(Node current) {
+    if (current == null) {
+        return true;
+    }
+    if (current.left != null && current.left.info >= current.info) {
+        return false;
+    }
+    if (current.right != null && current.right.info <= current.info) {
+        return false;
+    }
+    return isBinaryTreeRecursive(current.left) && isBinaryTreeRecursive(current.right);
+}
+```
+
+```java
+public boolean isBalanced() {
+    return isBalancedRecursive(root);
+}
+
+private boolean isBalancedRecursive(Node node) {
+    if (node == null) {
+        return true;
+    }
+    int leftHeight = getHeight(node.left);
+    int rightHeight = getHeight(node.right);
+    return Math.abs(leftHeight - rightHeight) <= 1 && isBalancedRecursive(node.left) && isBalancedRecursive(node.right);
+}
+
+private int getHeight(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+}
+```
+
+```java
+public boolean isSorted() {
+    return isSortedRecursive(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+}
+
+private boolean isSortedRecursive(Node current, int min, int max) {
+    if (current == null) {
+        return true;
+    }
+    if (current.info <= min || current.info >= max) {
+        return false;
+    }
+    return isSortedRecursive(current.left, min, current.info) && isSortedRecursive(current.right, current.info, max);
+}
+```
+
+```java
+public boolean noDuplicates() {
+    return noDuplicatesRecursive(root);
+}
+
+private boolean noDuplicatesRecursive(Node current) {
+    if (current == null) {
+        return true;
+    }
+    if (current.left != null && current.left.info == current.info) {
+        return false;
+    }
+    if (current.right != null && current.right.info == current.info) {
+        return false;
+    }
+    return noDuplicatesRecursive(current.left) && noDuplicatesRecursive(current.right);
+}
+```
+
+```java
+public boolean validSize() {
+    return size == countNodes(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+```

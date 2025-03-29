@@ -1,0 +1,119 @@
+
+- **Attributes:**
+  - `root`: The root node of the tree.
+  - `comparator`: A comparator for comparing keys, or `null` if natural ordering is used.
+  - `size`: The number of key-value pairs in the map.
+
+- **Methods:**
+  - `TreeMap()`: Constructs an empty `TreeMap` with natural ordering of keys.
+  - `TreeMap(Comparator<? super K> comparator)`: Constructs an empty `TreeMap` with the specified comparator.
+  - `V put(K key, V value)`: Inserts the specified key-value pair into the map. If the key already exists, updates its value and returns the old value. Throws `IllegalArgumentException` if the key is `null`.
+  - `int size()`: Returns the number of key-value pairs in the map.
+  - `boolean isEmpty()`: Returns `true` if the map is empty, `false` otherwise.
+  - `void clear()`: Removes all key-value pairs from the map.
+
+- **Constraints:**
+  - The tree maintains a red-black tree property to ensure balanced operations.
+  - Keys must be unique.
+  - The map supports natural ordering or custom ordering based on the comparator.
+
+To ensure the integrity of the `TreeMap` class, we need to define a `repOK` method that checks the following constraints:
+
+1. The tree maintains the red-black tree properties.
+2. All keys are unique.
+3. The map supports either natural ordering or custom ordering based on the comparator.
+4. The `size` attribute accurately reflects the number of key-value pairs in the map.
+
+Here is the `repOK` method for the `TreeMap` class:
+
+```java
+public boolean repOK() {
+    // Check if the root is null or if it is black
+    if (root != null && root.color != BLACK) {
+        return false;
+    }
+
+    // Check if the tree is balanced
+    if (!isBalanced(root)) {
+        return false;
+    }
+
+    // Check if all keys are unique
+    if (!areKeysUnique(root, null, null)) {
+        return false;
+    }
+
+    // Check if the size attribute is correct
+    if (size != countNodes(root)) {
+        return false;
+    }
+
+    // Check if the map supports either natural ordering or custom ordering
+    if (comparator != null && !isSorted(root, null, null, comparator)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isBalanced(Node node) {
+    if (node == null) {
+        return true;
+    }
+    int leftHeight = getHeight(node.left);
+    int rightHeight = getHeight(node.right);
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+    }
+    return isBalanced(node.left) && isBalanced(node.right);
+}
+
+private int getHeight(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+}
+
+private boolean areKeysUnique(Node node, K min, K max) {
+    if (node == null) {
+        return true;
+    }
+    if (min != null && compare(node.key, min) <= 0) {
+        return false;
+    }
+    if (max != null && compare(node.key, max) >= 0) {
+        return false;
+    }
+    return areKeysUnique(node.left, min, node.key) && areKeysUnique(node.right, node.key, max);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+private boolean isSorted(Node node, K min, K max, Comparator<? super K> comparator) {
+    if (node == null) {
+        return true;
+    }
+    if (min != null && comparator.compare(node.key, min) <= 0) {
+        return false;
+    }
+    if (max != null && comparator.compare(node.key, max) >= 0) {
+        return false;
+    }
+    return isSorted(node.left, min, node.key, comparator) && isSorted(node.right, node.key, max, comparator);
+}
+```
+
+### Explanation:
+1. **Root Color Check**: The root node must be black.
+2. **Balanced Check**: The tree must be balanced, meaning the height difference between the left and right subtrees of any node should not be more than 1.
+3. **Unique Keys Check**: All keys in the tree must be unique.
+4. **Size Check**: The `size` attribute should accurately reflect the number of nodes in the tree.
+5. **Ordering Check**: The tree must maintain the correct order based on the comparator or natural ordering.
+
+This `repOK` method ensures that the `TreeMap` class maintains its invariants and behaves correctly.

@@ -11,3 +11,27 @@ The LinkedList class implements a doubly linked list data structure. It consists
 - Doubly linked structure: Each node must have a reference to both its next and previous nodes.
 - No null elements: The list should not contain null elements, except for the header node.
 - No circular references: The list should not have circular references, ensuring that the header node is the only node with a null previous reference and the last node with a null next reference.
+
+```java
+public boolean repOK() {
+    if (header == null)
+        return false;
+
+    if (size < 0)
+        return false;
+
+    if (header.next == null || header.previous == null)
+        return false;
+
+    int count = 0;
+    Entry current = header.next;
+    while (current != header) {
+        count++;
+        if (current.previous == null || current.next == null)
+            return false;
+        current = current.next;
+    }
+
+    return count == size;
+}
+```

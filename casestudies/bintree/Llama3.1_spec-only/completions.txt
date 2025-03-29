@@ -1,0 +1,107 @@
+
+The BinTree class represents a binary tree data structure. It has two main attributes: root, which is the root node of the tree, and size, which keeps track of the number of nodes in the tree.
+
+The class has two methods for adding nodes to the tree: add, which is a public method that can be used to add nodes to the tree, and addRecursive, which is a private helper method that performs the actual addition of nodes.
+
+The add method checks if the tree is empty. If it is, it creates a new root node with the given value and increments the size. If the tree is not empty, it calls the addRecursive method to add the node to the tree.
+
+The addRecursive method takes a current node and a value to be added as parameters. It checks if the value is equal to the current node's value. If it is, it does nothing. If the value is less than the current node's value, it checks if the current node's left child is null. If it is, it creates a new left child node with the given value and increments the size. If the left child is not null, it recursively calls itself with the left child as the current node. If the value is greater than the current node's value, it performs the same operations as above but with the right child.
+
+The getSize method returns the number of nodes in the tree.
+
+The Node class is a static inner class of BinTree that represents a node in the binary tree. It has three attributes: left, right, and info, which represent the left child, right child, and value of the node, respectively. The Node class has a constructor that takes a value as a parameter and initializes the info attribute with that value.
+
+```java
+public class BinTree {
+    private Node root;
+    private int size;
+
+    public static class Node {
+        public Node left;
+        public Node right;
+        public int info;
+
+        public Node(int info) {
+            this.info = info;
+        }
+    }
+
+    public boolean repOK() {
+        // The tree is empty if and only if the root is null
+        boolean isEmpty = root == null;
+
+        // The size of the tree is the number of nodes in the tree
+        // This is equivalent to the number of nodes in the tree rooted at the root node
+        boolean correctSize = size == countNodes(root);
+
+        // The tree is valid if and only if it is empty or the root node's info is not null
+        boolean validRoot = (isEmpty && root == null) || (root.info != null);
+
+        // The left and right children of a node are valid if and only if they are either null or valid nodes
+        boolean validChildren = isValidNode(root.left) && isValidNode(root.right);
+
+        // The size of the tree is equal to the number of nodes in the tree
+        boolean correctSize2 = size == countNodes(root);
+
+        return isEmpty || (validRoot && validChildren && correctSize2);
+    }
+
+    private boolean isValidNode(Node node) {
+        if (node == null) {
+            return true;
+        }
+        return node.info != null && isValidNode(node.left) && isValidNode(node.right);
+    }
+
+    private int countNodes(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+
+    public void add(int value) {
+        if (root == null) {
+            root = new Node(value);
+            size++;
+        } else {
+            addRecursive(root, value);
+        }
+    }
+
+    private void addRecursive(Node node, int value) {
+        if (value == node.info) {
+            return;
+        }
+        if (value < node.info) {
+            if (node.left == null) {
+                node.left = new Node(value);
+                size++;
+            } else {
+                addRecursive(node.left, value);
+            }
+        } else {
+            if (node.right == null) {
+                node.right = new Node(value);
+                size++;
+            } else {
+                addRecursive(node.right, value);
+            }
+        }
+    }
+
+    public int getSize() {
+        return size;
+    }
+}
+```
+
+In the `repOK` method, we check the following conditions:
+
+1.  The tree is empty if and only if the root is null.
+2.  The size of the tree is the number of nodes in the tree.
+3.  The tree is valid if and only if it is empty or the root node's info is not null.
+4.  The left and right children of a node are valid if and only if they are either null or valid nodes.
+5.  The size of the tree is equal to the number of nodes in the tree.
+
+These conditions ensure that the binary tree is correctly represented and that the `add` method correctly adds nodes to the tree.

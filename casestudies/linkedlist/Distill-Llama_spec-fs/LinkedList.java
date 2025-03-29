@@ -1,10 +1,11 @@
 package casestudies.linkedlist;
 
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class LinkedList {
 
     private transient Entry header = new Entry(null, null, null);
+
     private transient int size = 0;
 
     public LinkedList() {
@@ -56,15 +57,17 @@ public class LinkedList {
         if (e == header) {
             throw new NoSuchElementException();
         }
-
         e.previous.next = e.next;
         e.next.previous = e.previous;
         size--;
     }
 
     public static class Entry {
+
         Object element;
+
         Entry next;
+
         Entry previous;
 
         Entry(Object element, Entry next, Entry previous) {
@@ -72,5 +75,9 @@ public class LinkedList {
             this.next = next;
             this.previous = previous;
         }
+    }
+
+    public boolean repOK() {
+        return true;
     }
 }

@@ -1,0 +1,90 @@
+
+The BinomialHeap class represents a binomial heap data structure, which is a type of heap that is used for efficient insertion and deletion of elements. 
+
+The class has two main attributes: Nodes, which is the root node of the binomial heap, and size, which is the number of elements in the heap.
+
+The class has several methods:
+
+- The insert method inserts a new element into the heap. If the heap is empty, it creates a new node and sets it as the root. Otherwise, it merges the new node with the existing heap.
+
+- The delete method removes the minimum element from the heap. It first finds the minimum element, then decreases its key to the second minimum element, and finally removes the minimum element from the heap.
+
+- The extractMin method removes and returns the minimum element from the heap.
+
+- The findMinimum method returns the key of the minimum element in the heap.
+
+- The decreaseKeyValue method decreases the key of a given element in the heap.
+
+- The decreaseKeyNode method decreases the key of a given node in the heap.
+
+- The merge method merges two binomial heaps into one.
+
+- The unionNodes method merges two binomial heaps into one by combining nodes of the same degree.
+
+The BinomialHeapNode class represents a node in the binomial heap. It has several attributes: key, degree, parent, sibling, and child. It also has several methods:
+
+- The findMinNode method finds the node with the minimum key in the heap.
+
+- The findANodeWithKey method finds a node with a given key in the heap.
+
+The class has several constraints:
+
+- The heap must be a valid binomial heap, meaning that all nodes must have a degree of 0 or more, and all nodes must be connected in a way that satisfies the binomial heap property.
+
+- The size attribute must always be equal to the number of elements in the heap.
+
+- The findMinimum method must return the key of the minimum element in the heap.
+
+- The decreaseKeyValue method must decrease the key of a given element in the heap.
+
+- The decreaseKeyNode method must decrease the key of a given node in the heap.
+
+- The merge method must merge two binomial heaps into one.
+
+- The unionNodes method must merge two binomial heaps into one by combining nodes of the same degree.
+
+Here is the representation invariant for the BinomialHeap class as a Java method called `repOK`:
+
+```java
+public boolean repOK() {
+    // Check if the heap is empty
+    if (Nodes == null) {
+        return size == 0;
+    }
+
+    // Check if all nodes have a degree of 0 or more
+    BinomialHeapNode temp = Nodes;
+    while (temp != null) {
+        if (temp.degree < 0) {
+            return false;
+        }
+        temp = temp.sibling;
+    }
+
+    // Check if all nodes are connected in a way that satisfies the binomial heap property
+    temp = Nodes;
+    while (temp != null) {
+        BinomialHeapNode nextTemp = temp.sibling;
+        while (nextTemp != null) {
+            if (temp.degree != nextTemp.degree
+                    || (nextTemp.sibling != null && nextTemp.sibling.degree == temp.degree)) {
+                return false;
+            }
+            nextTemp = nextTemp.sibling;
+        }
+        temp = temp.sibling;
+    }
+
+    // Check if the size attribute is equal to the number of elements in the heap
+    return size == Nodes.size();
+}
+```
+
+This method checks the following conditions:
+
+1. If the heap is empty, the size attribute should be 0.
+2. All nodes should have a degree of 0 or more.
+3. All nodes should be connected in a way that satisfies the binomial heap property.
+4. The size attribute should be equal to the number of elements in the heap.
+
+If any of these conditions are not met, the method returns false, indicating that the representation invariant is not satisfied. Otherwise, it returns true.

@@ -1,0 +1,122 @@
+
+- **Attributes:**
+  - `root`: The root node of the tree.
+  - `comparator`: A comparator for comparing keys, or `null` if natural ordering is used.
+  - `size`: The number of key-value pairs in the map.
+
+- **Methods:**
+  - `TreeMap()`: Constructs an empty `TreeMap` with natural ordering of keys.
+  - `TreeMap(Comparator<? super K> comparator)`: Constructs an empty `TreeMap` with the specified comparator.
+  - `V put(K key, V value)`: Inserts the specified key-value pair into the map. If the key already exists, updates its value and returns the old value. Throws `IllegalArgumentException` if the key is `null`.
+  - `int size()`: Returns the number of key-value pairs in the map.
+  - `boolean isEmpty()`: Returns `true` if the map is empty, `false` otherwise.
+  - `void clear()`: Removes all key-value pairs from the map.
+
+- **Constraints:**
+  - The tree maintains a red-black tree property to ensure balanced operations.
+  - Keys must be unique.
+  - The map supports natural ordering or custom ordering based on the comparator.
+
+To write the `repOK` method for the `TreeMap` class, we need to ensure that the representation invariant holds true. The representation invariant for a `TreeMap` should include the following constraints:
+
+1. The tree must maintain the red-black tree properties.
+2. All keys in the map must be unique.
+3. If a comparator is provided, it must be used for comparing keys.
+4. The size of the map must be consistent with the number of key-value pairs in the tree.
+
+Here is the `repOK` method for the `TreeMap` class:
+
+```java
+public boolean repOK() {
+    // Check if the size is consistent with the number of key-value pairs in the tree
+    if (size != sizeOfTree(root)) {
+        return false;
+    }
+
+    // Check if the tree maintains the red-black tree properties
+    if (!isRedBlackTree(root)) {
+        return false;
+    }
+
+    // Check if all keys are unique
+    if (!areKeysUnique(root, null)) {
+        return false;
+    }
+
+    // Check if the comparator is used correctly if provided
+    if (comparator != null) {
+        if (!areKeysConsistentWithComparator(root, comparator)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Helper method to calculate the size of the tree
+private int sizeOfTree(TreeNode<K, V> node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + sizeOfTree(node.left) + sizeOfTree(node.right);
+}
+
+// Helper method to check if the tree is a red-black tree
+private boolean isRedBlackTree(TreeNode<K, V> node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.color == RED && node.parent != null && node.parent.color == RED) {
+        return false;
+    }
+    if (!isRedBlackTree(node.left) || !isRedBlackTree(node.right)) {
+        return false;
+    }
+    if (node.left != null && comparator.compare(node.left.key, node.key) > 0) {
+        return false;
+    }
+    if (node.right != null && comparator.compare(node.right.key, node.key) < 0) {
+        return false;
+    }
+    return true;
+}
+
+// Helper method to check if all keys are unique
+private boolean areKeysUnique(TreeNode<K, V> node, TreeNode<K, V> parent) {
+    if (node == null) {
+        return true;
+    }
+    if (parent != null && comparator.compare(node.key, parent.key) == 0) {
+        return false;
+    }
+    if (!areKeysUnique(node.left, node) || !areKeysUnique(node.right, node)) {
+        return false;
+    }
+    return true;
+}
+
+// Helper method to check if keys are consistent with the comparator
+private boolean areKeysConsistentWithComparator(TreeNode<K, V> node, Comparator<? super K> comparator) {
+    if (node == null) {
+        return true;
+    }
+    if (node.left != null && comparator.compare(node.left.key, node.key) > 0) {
+        return false;
+    }
+    if (node.right != null && comparator.compare(node.right.key, node.key) < 0) {
+        return false;
+    }
+    if (!areKeysConsistentWithComparator(node.left, comparator) || !areKeysConsistentWithComparator(node.right, comparator)) {
+        return false;
+    }
+    return true;
+}
+```
+
+### Explanation:
+- **Size Check**: The `sizeOfTree` method calculates the number of nodes in the tree and compares it with the `size` attribute.
+- **Red-Black Tree Check**: The `isRedBlackTree` method ensures that the tree satisfies the red-black tree properties, including the red-black color property and the binary search tree property.
+- **Unique Keys Check**: The `areKeysUnique` method ensures that all keys in the tree are unique by comparing each node with its parent.
+- **Comparator Check**: The `areKeysConsistentWithComparator` method ensures that all keys are consistent with the provided comparator if one is used.
+
+This `repOK` method helps verify that the `TreeMap` class maintains its intended invariants.

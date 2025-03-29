@@ -1,0 +1,272 @@
+
+<think>
+Okay, I need to write an informal specification for the AvlTree class in Java. Let me start by understanding what this class does. It's an implementation of an AVL tree, which is a self-balancing binary search tree. The key here is that the tree maintains its balance through rotations and ensures that the height is kept as balanced as possible, which leads to efficient search, insert, and delete operations.
+
+Looking at the code, the class has a root node of type AvlNode. The root is initially null, meaning the tree is empty. The class provides methods for inserting, removing, finding the minimum element, checking if the tree is empty, and balancing the tree.
+
+First, I'll list the main attributes. The root is the entry point to the tree. Each node has an element, left and right children, and a height. The height is crucial for maintaining balance.
+
+Next, the methods. The insert method adds a new element to the tree. It uses a recursive helper function that inserts the element and then balances the tree. The remove method also uses a helper function to remove an element and rebalance. The findMin method finds the smallest element by traversing to the leftmost node. The isEmpty method checks if the root is null.
+
+The balance method is critical. It checks if the tree is imbalanced and performs rotations or double rotations to rebalance. The rotations (like rotateWithLeftChild) adjust the tree structure to maintain the AVL property, which allows the tree to remain balanced.
+
+I should also note the constraints. The allowed imbalance is set to 1, meaning the tree can be at most one level taller on either side. This ensures that the tree remains approximately balanced, leading to O(log n) time complexity for operations.
+
+I need to make sure the specification is clear about the behavior of each method, the structure of the nodes, and the balancing mechanism. I'll avoid technical jargon but still be precise enough to capture the essence of the implementation.
+
+Wait, in the remove method, when both left and right children are present, it replaces the node's value with the minimum of the right subtree and then removes that value. That's a standard approach in AVL trees to maintain the structure.
+
+Also, the helper methods like findMin, height, and the rotation functions are private, which makes sense because they're internal to the tree's operations.
+
+I should mention that each node's height is updated after any structural changes to ensure the balance is correctly maintained.
+
+Putting it all together, the specification should outline the class's purpose, its main attributes, the operations it supports, and the constraints that ensure the tree remains balanced. I'll structure it in sections for clarity, making it easy to understand each part without getting bogged down in implementation details.
+</think>
+
+The `AvlTree` class implements a self-balancing binary search tree (BST) using the AVL tree algorithm. The tree maintains its balance by ensuring the difference in heights between left and right subtrees is at most one. This guarantees logarithmic time complexity for insertion, deletion, and search operations.
+
+### Key Attributes:
+- `root`: The root node of the tree. Initially `null` when the tree is empty.
+- `ALLOWED_IMBALANCE`: A static constant defining the maximum allowed height difference between left and right subtrees (1).
+
+### Methods:
+1. **insert(int x)**:
+   - Inserts a new node containing integer `x` into the tree.
+   - Maintains tree balance using recursive insertion and balancing.
+
+2. **remove(int x)**:
+   - Removes the node containing integer `x` from the tree.
+   - Handles cases where the node has zero, one, or two children.
+   - Rebalances the tree after removal.
+
+3. **findMin()**:
+   - Returns the minimum element in the tree.
+   - Throws a `RuntimeException` if the tree is empty.
+
+4. **isEmpty()**:
+   - Returns `true` if the tree is empty (`root` is `null`).
+
+5. **balance(AvlNode t)**:
+   - Balances the subtree rooted at `t`.
+   - Performs rotations or double rotations as needed to maintain the AVL property.
+
+6. **rotateWithLeftChild(AvlNode k2)**:
+   - Performs a left rotation on the subtree rooted at `k2`.
+
+7. **rotateWithRightChild(AvlNode k1)**:
+   - Performs a right rotation on the subtree rooted at `k1`.
+
+8. **doubleWithLeftChild(AvlNode k3)**:
+   - Performs a double left rotation on the subtree rooted at `k3`.
+
+9. **doubleWithRightChild(AvlNode k1)**:
+   - Performs a double right rotation on the subtree rooted at `k1`.
+
+### AvlNode Class:
+- Represents a node in the AVL tree.
+- Contains:
+  - `element`: The integer value stored in the node.
+  - `left`: Pointer to the left child node.
+  - `right`: Pointer to the right child node.
+  - `height`: Height of the subtree rooted at this node.
+
+### Constraints:
+- The height difference between left and right subtrees of any node is at most `ALLOWED_IMBALANCE` (1).
+- Each node's height is updated after any structural changes to maintain balance.
+- The tree maintains the BST property, where for every node, all elements in the left subtree are less than the node's element, and all elements in the right subtree are greater.
+
+<think>
+Okay, I need to write a representation invariant for the AvlTree class. The invariant should be a method called repOK that checks all the invariants of the tree. Let me think about what these invariants are.
+
+First, the tree is a binary search tree (BST), so for every node, all elements in the left subtree must be less than the node's element, and all elements in the right subtree must be greater. So I need to check that the BST property holds for the entire tree.
+
+Next, the AVL tree maintains balance by ensuring that the difference in heights between left and right subtrees of any node is at most 1. So for every node, the height difference should not exceed ALLOWED_IMBALANCE, which is 1.
+
+Also, each node's height must be correctly updated. The height of a node is the maximum height of its left and right children plus one. So I need to verify that the height stored in each node is accurate.
+
+Let me break this down into steps:
+
+1. **BST Property Check**: Traverse the tree and ensure that for every node, all left descendants are less than the node, and all right descendants are greater.
+
+2. **AVL Balance Check**: For every node, the absolute difference between the heights of the left and right subtrees should be ≤ 1.
+
+3. **Height Correctness**: For every node, its height should be equal to 1 + the maximum of the heights of its left and right children. If a node is a leaf, its height should be 1.
+
+4. **Null Checks**: The root can be null if the tree is empty. All left and right children should be null for leaf nodes.
+
+5. **Consistency in Height Updates**: After any operation (insert, delete), the heights should be correctly updated. So the repOK method should ensure that all nodes have the correct height.
+
+How to implement this:
+
+- Start by checking if the tree is empty. If root is null, it's okay. Otherwise, proceed.
+
+- For each node, check the BST property. Maybe perform an inorder traversal and ensure the elements are in order. Alternatively, recursively check each node's left and right children.
+
+- For each node, calculate the height difference between left and right. If any node has a difference greater than 1, return false.
+
+- For each node, check if its height is correctly computed as 1 + max(left height, right height). If any node's height doesn't match this, return false.
+
+Wait, but how do I traverse the tree? Maybe a helper method that recursively checks each node.
+
+Let me outline the steps in code:
+
+public boolean repOK() {
+    if (root == null) {
+        // Tree is empty, which is valid.
+        return true;
+    }
+
+    // Check BST property
+    if (!checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+        return false;
+    }
+
+    // Check AVL balance
+    if (!checkBalance(root)) {
+        return false;
+    }
+
+    // Check height correctness
+    if (!checkHeights(root)) {
+        return false;
+    }
+
+    return true;
+}
+
+Now, implement the helper methods.
+
+For checkBST(node, min, max):
+- If node is null, return true.
+- If node.element < min or node.element > max, return false.
+- Recursively check left subtree with max = node.element.
+- Recursively check right subtree with min = node.element.
+
+For checkBalance(node):
+- If node is null, return true.
+- Calculate leftHeight = node.left != null ? node.left.height : 0;
+- Calculate rightHeight = node.right != null ? node.right.height : 0;
+- If absolute difference > ALLOWED_IMBALANCE, return false.
+- Recursively check left and right subtrees.
+
+For checkHeights(node):
+- If node is null, return true.
+- int leftHeight = node.left != null ? node.left.height : 0;
+- int rightHeight = node.right != null ? node.right.height : 0;
+- int maxChildHeight = Math.max(leftHeight, rightHeight);
+- if (node.height != maxChildHeight + 1) {
+    return false;
+}
+- Recursively check left and right.
+
+Wait, but what about the case where a node's height is not correctly updated? For example, if a node's left child's height is 2, right is 1, then the node's height should be 3. So the helper function should catch that.
+
+Also, need to handle the case where a node's left or right is null, so their height is 0.
+
+Another thing: the root's height should be correct as well.
+
+What about the case where the tree is not balanced but the height is correct? Like, maybe the tree is unbalanced but each node's height is correct. But the AVL invariant requires that the balance is maintained, so the checkBalance should catch that.
+
+Wait, the checkBalance is ensuring that for every node, the height difference is at most 1. So that should cover the AVL part.
+
+Putting it all together, the repOK method will perform these three checks.
+
+I should also consider edge cases, like a tree with one node, two nodes, etc.
+
+Wait, what about when a node's left or right is null? For example, a leaf node has left and right as null, so their heights are 0, and the node's height should be 1. So the checkHeights should ensure that.
+
+Another point: the height of a node is the height of the subtree rooted at that node. So for a leaf node, it's 1. For a node with one child (left or right), the height is 2, etc.
+
+I think this covers all the necessary checks. Now, I'll write the code accordingly.
+</think>
+
+To write the representation invariant for the `AvlTree` class, we need to ensure that the tree maintains the properties of a balanced AVL tree and a binary search tree (BST). The invariant will check the BST property, AVL balance, and correct height updates for all nodes.
+
+### Approach
+The representation invariant method `repOK` will perform three main checks:
+1. **BST Property Check**: Ensures that for every node, all elements in the left subtree are less than the node's element, and all elements in the right subtree are greater.
+2. **AVL Balance Check**: Ensures that the height difference between the left and right subtrees of any node does not exceed `ALLOWED_IMBALANCE` (1).
+3. **Height Correctness Check**: Ensures that each node's height is correctly updated as 1 plus the maximum height of its left and right children.
+
+### Solution Code
+```java
+public class AvlTree {
+    private AvlNode root;
+    private static final int ALLOWED_IMBALANCE = 1;
+
+    // Other methods like insert, remove, etc., are assumed to be correctly implemented.
+
+    public boolean repOK() {
+        if (root == null) {
+            return true;
+        }
+
+        // Check BST property
+        if (!checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+            return false;
+        }
+
+        // Check AVL balance
+        if (!checkBalance(root)) {
+            return false;
+        }
+
+        // Check height correctness
+        if (!checkHeights(root)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkBST(AvlNode node, int min, int max) {
+        if (node == null) {
+            return true;
+        }
+
+        if (node.element < min || node.element > max) {
+            return false;
+        }
+
+        return checkBST(node.left, min, node.element) && checkBST(node.right, node.element, max);
+    }
+
+    private boolean checkBalance(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+
+        int leftHeight = node.left != null ? node.left.height : 0;
+        int rightHeight = node.right != null ? node.right.height : 0;
+
+        if (Math.abs(leftHeight - rightHeight) > ALLOWED_IMBALANCE) {
+            return false;
+        }
+
+        return checkBalance(node.left) && checkBalance(node.right);
+    }
+
+    private boolean checkHeights(AvlNode node) {
+        if (node == null) {
+            return true;
+        }
+
+        int leftHeight = node.left != null ? node.left.height : 0;
+        int rightHeight = node.right != null ? node.right.height : 0;
+        int maxHeight = Math.max(leftHeight, rightHeight);
+
+        if (node.height != maxHeight + 1) {
+            return false;
+        }
+
+        return checkHeights(node.left) && checkHeights(node.right);
+    }
+}
+```
+
+### Explanation
+1. **BST Property Check**: The `checkBST` method recursively verifies that each node's value is within the allowed range, ensuring the tree maintains the BST property.
+2. **AVL Balance Check**: The `checkBalance` method ensures that the height difference between the left and right subtrees of each node does not exceed the allowed imbalance.
+3. **Height Correctness Check**: The `checkHeights` method verifies that each node's height is correctly calculated as one more than the maximum height of its children, ensuring the tree's structural integrity.
+
+By combining these checks, the `repOK` method ensures that the `AvlTree` maintains all necessary invariants, confirming it is a correctly balanced AVL tree and a valid BST.

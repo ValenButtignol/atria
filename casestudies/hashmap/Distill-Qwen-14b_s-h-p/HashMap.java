@@ -242,24 +242,6 @@ public class HashMap {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
-        if (!property_2())
-            return false;
-        if (!property_3())
-            return false;
         return true;
-    }
-
-    public boolean property() {
-        return threshold >= 0;
-    }
-
-    public boolean property_2() {
-        return size >= 0 && size <= MAXIMUM_CAPACITY;
-    }
-
-    public boolean property_3() {
-        return loadFactor > 0;
     }
 }

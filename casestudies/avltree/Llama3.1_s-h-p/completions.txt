@@ -1,0 +1,50 @@
+
+- The root node is not null: The representation invariant should check if the root node is not null.
+- The height of the left subtree is less than or equal to the height of the right subtree plus the allowed imbalance: The representation invariant should check if the height of the left subtree is less than or equal to the height of the right subtree plus the allowed imbalance.
+- The height of the right subtree is less than or equal to the height of the left subtree plus the allowed imbalance: The representation invariant should check if the height of the right subtree is less than or equal to the height of the left subtree plus the allowed imbalance.
+- The height of each node is non-negative: The representation invariant should check if the height of each node is non-negative.
+- The height of each node is consistent with the height of its children: The representation invariant should check if the height of each node is consistent with the height of its children.
+
+```java
+public boolean property() {
+    return root != null;
+}
+```
+
+```java
+public boolean isLeftSubtreeBalanced() {
+    return height(root.left) <= height(root.right) + ALLOWED_IMBALANCE;
+}
+```
+
+```java
+public boolean isRightSubtreeBalanced() {
+    return height(root.left) - height(root.right) <= ALLOWED_IMBALANCE;
+}
+```
+
+```java
+public boolean property() {
+    return height(root) >= 0;
+}
+
+private int height(AvlNode t) {
+    return t == null ? -1 : t.height;
+}
+```
+
+```java
+public boolean property() {
+    return property(root);
+}
+
+private boolean property(AvlNode t) {
+    if (t == null)
+        return true;
+
+    if (t.height != Math.max(height(t.left), height(t.right)) + 1)
+        return false;
+
+    return property(t.left) && property(t.right);
+}
+```

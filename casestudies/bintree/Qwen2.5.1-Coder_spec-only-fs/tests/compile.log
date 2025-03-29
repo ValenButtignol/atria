@@ -1,0 +1,59 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:77: error: cannot find symbol
+        if (node.data <= min || node.data >= max) {
+                ^
+  symbol:   variable data
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:77: error: cannot find symbol
+        if (node.data <= min || node.data >= max) {
+                                    ^
+  symbol:   variable data
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:80: error: cannot find symbol
+        return checkBST(node.left, min, node.data) && checkBST(node.right, node.data, max);
+                                            ^
+  symbol:   variable data
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:80: error: cannot find symbol
+        return checkBST(node.left, min, node.data) && checkBST(node.right, node.data, max);
+                                                                               ^
+  symbol:   variable data
+  location: variable node of type Node
+4 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:77: error: cannot find symbol
+          if (node.data <= min || node.data >= max) {
+                  ^
+    symbol:   variable data
+    location: variable node of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:77: error: cannot find symbol
+          if (node.data <= min || node.data >= max) {
+                                      ^
+    symbol:   variable data
+    location: variable node of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:80: error: cannot find symbol
+          return checkBST(node.left, min, node.data) && checkBST(node.right, node.data, max);
+                                              ^
+    symbol:   variable data
+    location: variable node of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/BinTree.java:80: error: cannot find symbol
+          return checkBST(node.left, min, node.data) && checkBST(node.right, node.data, max);
+                                                                                 ^
+    symbol:   variable data
+    location: variable node of type Node
+  4 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 374ms
+1 actionable task: 1 executed

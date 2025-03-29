@@ -21,3 +21,41 @@ The LinkedList class represents a doubly-linked list data structure, where each 
 ### Constraints
 - The list must not be modified while iterating over it.
 - The remove method throws a NoSuchElementException if the specified element is not found in the list.
+
+```java
+public boolean repOK() {
+    if (header.next == header) {
+        return size == 0;
+    }
+
+    Entry current = header.next;
+    while (current != header) {
+        if (current.next == current || current.previous == current) {
+            return false;
+        }
+        current = current.next;
+    }
+
+    if (size != countElements()) {
+        return false;
+    }
+
+    return true;
+}
+
+private int countElements() {
+    int count = 0;
+    Entry current = header.next;
+    while (current != header) {
+        count++;
+        current = current.next;
+    }
+    return count;
+}
+```
+
+Note: The `repOK` method checks the following properties:
+
+1. If the list is empty, the `header.next` and `header.previous` pointers should point to the `header` node, and the `size` attribute should be 0.
+2. The list structure should be acyclic, i.e., no node should have a path back to itself. This is checked by traversing the list and verifying that each node's `next` and `previous` pointers do not point to the same node.
+3. The `size` attribute should be equal to the number of elements in the list. This is checked by counting the number of elements in the list using a separate method (`countElements`) and comparing it to the `size` attribute.

@@ -1,0 +1,56 @@
+
+<think>
+Okay, so I need to write an informal specification for the TreeMap class. Let me look at the code and understand what it's doing.
+
+First, the TreeMap is a class that extends AbstractMap and implements the SortedMap interface. It's a balanced binary search tree, which means it maintains the properties of a balanced tree to ensure O(log n) time complexity for operations like insertion, deletion, and searching.
+
+The class has a Node inner class that represents each node in the tree. Each node has a key, value, color (for balancing), left and right children, and a parent. The color is either RED or BLACK, which helps in maintaining the balance.
+
+The constructor initializes the comparator. If a comparator is provided, it's used for comparisons; otherwise, the natural ordering of the keys is used. The compare method handles the comparison logic, using the comparator if set, or the natural compareTo method otherwise.
+
+The put method is crucial. It inserts a key-value pair into the tree. If the tree is empty, it creates a new root node. Otherwise, it traverses the tree to find the correct position for the new node. If the key is already present, it updates the value. The fixInsertion method is called after insertion to balance the tree, which might involve rotating nodes to maintain the structure.
+
+The fixInsertion method seems complex. It checks the parent's color and might rotate nodes to ensure the tree remains balanced. If the parent is RED, it looks at the grandparent and possibly rotates nodes to make the tree balanced again.
+
+The rotateLeft and rotateRight methods handle the actual rotations. They adjust the pointers of the nodes to maintain the tree's structure during rotations.
+
+The size method returns the number of nodes, and isEmpty checks if the size is zero. The clear method resets the tree by setting the root to null and the size to zero.
+
+So, the key attributes are the root node, the comparator, and the size. The main behavior is inserting nodes, maintaining balance through rotations, and providing methods to access the size and check if the tree is empty.
+
+The constraints are that the tree remains balanced, keys are always non-null, and the comparator is either provided or uses the natural ordering. The purpose is to provide a sorted map with efficient insertion and lookup.
+
+Putting this all together, the informal specification should describe the class as a balanced binary search tree, outline the node structure, the insertion process, balancing mechanisms, and the provided methods for size and emptiness.
+</think>
+
+The TreeMap class is a balanced binary search tree that implements the SortedMap interface. It maintains nodes with keys, values, colors (for balancing), and pointers to left and right children. The tree ensures O(log n) time complexity for insertions, deletions, and searches. The comparator determines the order, defaulting to natural key ordering if not specified. The put method inserts nodes, balancing the tree using rotations, and provides size() and isEmpty() methods for size checks.
+
+<think>
+Okay, I need to write a representation invariant for the TreeMap class. Hmm, what's a representation invariant? From what I remember, it's a condition that must always hold true for the data structure, ensuring it behaves correctly. So, for TreeMap, which is a balanced BST, the invariant should capture the properties that make it balanced and correctly ordered.
+
+Looking at the TreeMap code, I see that each node has a color, either RED or BLACK. The balancing is done through rotations—like rotateLeft and rotateRight. So, the invariant probably has to do with the colors and the structure of the tree.
+
+I recall that in a balanced BST like TreeMap, each node's subtree should have a certain property. Maybe the number of nodes in the left and right subtrees? Or perhaps the height of the tree. Wait, but TreeMap is a self-balancing tree, so it's guaranteed to be balanced without external help, right?
+
+Wait, the key invariant for a self-balancing BST is that for every node, if it's red, then its left subtree's height is at most one more than its right subtree's height. Or maybe it's the other way around. Or perhaps, for a node, the number of nodes in the left and right subtrees have a certain relationship based on their colors.
+
+Alternatively, maybe the invariant is that the root is always black. Because after any rotation, the root should be black to maintain balance. Let me check the code. In the fixInsertion method, after all the rotations, it sets root.color to BLACK. So, the root is always black. That seems like a good candidate for the invariant.
+
+So, the repOK method should check that the root's color is black. That makes sense because if the root were red, the tree might not be balanced. Also, during insertions, the fixInsertion method ensures that the root is set to black after any necessary rotations.
+
+Wait, but is that the only invariant? Maybe there's more. For example, each node's color affects how its children are arranged. But perhaps the main invariant is that the root is always black. That seems straightforward and easy to check.
+
+So, the repOK method would be a static method that takes a TreeMap instance and returns true if the root's color is black, else false. That should capture the invariant that the tree is properly balanced.
+
+Let me think if there are other invariants. For example, the size is correctly maintained, but that's more of an operational invariant rather than a representation one. The comparator is correctly applied, but that's handled by the compare method, so maybe not part of the representation invariant.
+
+No, I think the main invariant is that the root is black. So, the repOK method would check that.
+</think>
+
+To ensure the TreeMap class maintains its balanced BST structure, the key representation invariant is that the root node must always be black. This invariant is crucial for the tree to remain balanced after any insertion or rotation operation.
+
+```java
+public boolean repOK(TreeMap<K, V> treeMap) {
+    return treeMap.root.color == BLACK;
+}
+```

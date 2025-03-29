@@ -1,26 +1,16 @@
 
 > Task :compileJava FAILED
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:189: error: cannot find symbol
-            current = current.nextCachedNode;
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:193: error: cannot find symbol
+            if (!contains(current.value)) {
+                 ^
+  symbol:   method contains(Object)
+  location: class NodeCachingLinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:196: error: cannot find symbol
+            current = current.nextCached;
                              ^
-  symbol:   variable nextCachedNode
+  symbol:   variable nextCached
   location: variable current of type LinkedListNode
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:202: error: cannot find symbol
-            node = node.nextNode;
-                       ^
-  symbol:   variable nextNode
-  location: variable node of type LinkedListNode
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:213: error: cannot find symbol
-            current = current.nextNode;
-                             ^
-  symbol:   variable nextNode
-  location: variable current of type LinkedListNode
-/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:224: error: cannot find symbol
-            node = node.nextNode;
-                       ^
-  symbol:   variable nextNode
-  location: variable node of type LinkedListNode
-4 errors
+2 errors
 
 [Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
 
@@ -29,31 +19,20 @@ FAILURE: Build failed with an exception.
 * What went wrong:
 Execution failed for task ':compileJava'.
 > Compilation failed; see the compiler output below.
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:189: error: cannot find symbol
-              current = current.nextCachedNode;
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:196: error: cannot find symbol
+              current = current.nextCached;
                                ^
-    symbol:   variable nextCachedNode
-    location: variable current of type LinkedListNode
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:202: error: cannot find symbol
-              node = node.nextNode;
-                         ^
-    symbol:   variable nextNode
-    location: variable node of type LinkedListNode
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:213: error: cannot find symbol
-              current = current.nextNode;
-                               ^
-    symbol:   variable nextNode
-    location: variable current of type LinkedListNode
-  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:224: error: cannot find symbol
-              node = node.nextNode;
-                         ^
-    symbol:   variable nextNode
-    location: variable node of type LinkedListNode
-  4 errors
+    symbol:   variable nextCached
+    location: variable current of type LinkedListNode/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:193: error: cannot find symbol
+              if (!contains(current.value)) {
+                   ^
+    symbol:   method contains(Object)
+    location: class NodeCachingLinkedList
+  2 errors
 
 * Try:
 > Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights.
 
-BUILD FAILED in 387ms
+BUILD FAILED in 391ms
 1 actionable task: 1 executed

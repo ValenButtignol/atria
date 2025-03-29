@@ -1,0 +1,79 @@
+
+- Non-null Nodes: The `Nodes` field should not be null.
+- Valid Size: The `size` field should be non-negative and match the actual number of nodes in the heap.
+- Correct Min Node: The `findMinNode` method should return a node with the smallest key in the heap.
+- Proper Node Structure: Each node's degree should be non-negative, and its child should have a degree one less than the node itself.
+- Consistent Parent Pointers: Each node's parent pointer should correctly point to its parent node, except for the root nodes which should have a null parent.
+
+```java
+public boolean property() {
+    return Nodes != null;
+}
+```
+
+```java
+public boolean property() {
+    return size >= 0 && size == countNodes(Nodes);
+}
+
+private int countNodes(BinomialHeapNode node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.child) + countNodes(node.sibling);
+}
+```
+
+```java
+public boolean property() {
+    if (Nodes == null) {
+        return true;
+    }
+    BinomialHeapNode minNode = Nodes.findMinNode();
+    BinomialHeapNode temp = Nodes;
+    while (temp != null) {
+        if (temp.key < minNode.key) {
+            return false;
+        }
+        temp = temp.sibling;
+    }
+    return true;
+}
+```
+
+```java
+public boolean property() {
+    return checkNodeStructure(Nodes);
+}
+
+private boolean checkNodeStructure(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.degree < 0) {
+        return false;
+    }
+    if (node.child != null && node.child.degree != node.degree - 1) {
+        return false;
+    }
+    return checkNodeStructure(node.sibling) && checkNodeStructure(node.child);
+}
+```
+
+```java
+public boolean property() {
+    if (Nodes == null) {
+        return true;
+    }
+
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        if (current.parent != null && current.parent.child != current) {
+            return false;
+        }
+        current = current.sibling;
+    }
+
+    return true;
+}
+```

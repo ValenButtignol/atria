@@ -1,17 +1,179 @@
-> Task :compileJava
-> Task :processResources
-> Task :classes
-> Task :jar
-> Task :startScripts
-> Task :distTar
-> Task :distZip
-> Task :assemble
-> Task :compileTestJava NO-SOURCE
-> Task :processTestResources NO-SOURCE
-> Task :testClasses UP-TO-DATE
-> Task :test NO-SOURCE
-> Task :check UP-TO-DATE
-> Task :build
 
-BUILD SUCCESSFUL in 639ms
-6 actionable tasks: 6 executed
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+        for (Entry e = header.next; e != header; e = e.next) {
+             ^
+  symbol:   class Entry
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+        for (Entry e = header.next; e != header; e = e.next) {
+                       ^
+  symbol:   variable header
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+        for (Entry e = header.next; e != header; e = e.next) {
+                                         ^
+  symbol:   variable header
+  location: class RepOkClass4
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+        for (Entry e = header.next; e != header; e = e.next) {
+             ^
+  symbol:   class Entry
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+        for (Entry e = header.next; e != header; e = e.next) {
+                       ^
+  symbol:   variable header
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+        for (Entry e = header.next; e != header; e = e.next) {
+                                         ^
+  symbol:   variable header
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:10: error: cannot find symbol
+        return count == size;
+                        ^
+  symbol:   variable size
+  location: class RepOkClass1
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        return header.next == header && header.previous == header;
+               ^
+  symbol:   variable header
+  location: class RepOkClass2
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        return header.next == header && header.previous == header;
+                              ^
+  symbol:   variable header
+  location: class RepOkClass2
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        return header.next == header && header.previous == header;
+                                        ^
+  symbol:   variable header
+  location: class RepOkClass2
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+        return header.next == header && header.previous == header;
+                                                           ^
+  symbol:   variable header
+  location: class RepOkClass2
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+        for (Entry e1 = header.next; e1 != header; e1 = e1.next) {
+             ^
+  symbol:   class Entry
+  location: class RepOkClass3
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+        for (Entry e1 = header.next; e1 != header; e1 = e1.next) {
+                        ^
+  symbol:   variable header
+  location: class RepOkClass3
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+        for (Entry e1 = header.next; e1 != header; e1 = e1.next) {
+                                           ^
+  symbol:   variable header
+  location: class RepOkClass3
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:7: error: cannot find symbol
+            for (Entry e2 = e1.next; e2 != header; e2 = e2.next) {
+                 ^
+  symbol:   class Entry
+  location: class RepOkClass3
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:7: error: cannot find symbol
+            for (Entry e2 = e1.next; e2 != header; e2 = e2.next) {
+                                           ^
+  symbol:   variable header
+  location: class RepOkClass3
+16 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+          for (Entry e = header.next; e != header; e = e.next) {
+               ^
+    symbol:   class Entry
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+          for (Entry e = header.next; e != header; e = e.next) {
+                         ^
+    symbol:   variable header
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass4.java:6: error: cannot find symbol
+          for (Entry e = header.next; e != header; e = e.next) {
+                                           ^
+    symbol:   variable header
+    location: class RepOkClass4
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+          for (Entry e = header.next; e != header; e = e.next) {
+               ^
+    symbol:   class Entry
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+          for (Entry e = header.next; e != header; e = e.next) {
+                         ^
+    symbol:   variable header
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:7: error: cannot find symbol
+          for (Entry e = header.next; e != header; e = e.next) {
+                                           ^
+    symbol:   variable header
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass1.java:10: error: cannot find symbol
+          return count == size;
+                          ^
+    symbol:   variable size
+    location: class RepOkClass1
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          return header.next == header && header.previous == header;
+                 ^
+    symbol:   variable header
+    location: class RepOkClass2
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          return header.next == header && header.previous == header;
+                                ^
+    symbol:   variable header
+    location: class RepOkClass2
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          return header.next == header && header.previous == header;
+                                          ^
+    symbol:   variable header
+    location: class RepOkClass2
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass2.java:6: error: cannot find symbol
+          return header.next == header && header.previous == header;
+                                                             ^
+    symbol:   variable header
+    location: class RepOkClass2
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+          for (Entry e1 = header.next; e1 != header; e1 = e1.next) {
+               ^
+    symbol:   class Entry
+    location: class RepOkClass3
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+          for (Entry e1 = header.next; e1 != header; e1 = e1.next) {
+                          ^
+    symbol:   variable header
+    location: class RepOkClass3
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:6: error: cannot find symbol
+          for (Entry e1 = header.next; e1 != header; e1 = e1.next) {
+                                             ^
+    symbol:   variable header
+    location: class RepOkClass3
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:7: error: cannot find symbol
+              for (Entry e2 = e1.next; e2 != header; e2 = e2.next) {
+                   ^
+    symbol:   class Entry
+    location: class RepOkClass3
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/RepOkClass3.java:7: error: cannot find symbol
+              for (Entry e2 = e1.next; e2 != header; e2 = e2.next) {
+                                             ^
+    symbol:   variable header
+    location: class RepOkClass3
+  16 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 383ms
+1 actionable task: 1 executed

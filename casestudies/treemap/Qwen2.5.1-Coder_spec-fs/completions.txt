@@ -1,0 +1,69 @@
+
+### Behavior
+The TreeMap class implements a self-balancing binary search tree (BST) using the Red-Black Tree properties. It stores key-value pairs where keys are unique and ordered. The class supports insertion, removal, and retrieval of elements. The TreeMap class uses a private static inner class Node to represent each node in the tree, which contains a key, a value, references to its left and right children, a reference to its parent, and a color attribute (red or black) to maintain balance.
+
+The TreeMap class provides the following methods:
+- put(K key, V value): Inserts a new key-value pair into the tree. If the key already exists, it updates the value and returns the old value. If the key does not exist, it adds the new key-value pair and returns null.
+- size(): Returns the number of key-value pairs in the tree.
+- isEmpty(): Returns true if the tree is empty, false otherwise.
+- clear(): Removes all key-value pairs from the tree.
+
+### Attributes
+- root (Node): A reference to the root node of the Red-Black Tree. It is initially set to null when the tree is empty.
+- comparator (Comparator<? super K>): A comparator used to order the keys. It can be null, in which case the natural ordering of the keys is used.
+- size (int): Tracks the number of key-value pairs in the tree. It is initialized to 0 when the tree is created and is updated when elements are added or removed.
+
+### Properties
+- Red-Black Tree Properties:
+  - Each node is either red or black.
+  - The root is always black.
+  - All leaves (NIL nodes) are black.
+  - If a node is red, both its children are black.
+  - Every path from a node to its descendant NIL nodes has the same number of black nodes.
+- Binary Search Tree Properties:
+  - For each node, all keys in its left subtree are less than the node's key.
+  - For each node, all keys in its right subtree are greater than the node's key.
+- No duplicate keys: The tree does not allow duplicate keys, ensuring each key is unique.
+- Balanced structure: The tree maintains a balanced structure, preventing it from becoming too skewed, which is ensured by the red-black tree balancing rules.
+
+```java
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+
+    if (root.color != BLACK) {
+        return false;
+    }
+
+    int blackHeight = -1;
+    boolean isBalanced = checkRedBlackProperties(root, 0, blackHeight);
+
+    return isBalanced;
+}
+
+private boolean checkRedBlackProperties(Node node, int currentBlackHeight, int[] blackHeight) {
+    if (node == null) {
+        if (blackHeight == -1) {
+            blackHeight[0] = currentBlackHeight;
+        } else if (blackHeight[0] != currentBlackHeight) {
+            return false;
+        }
+        return true;
+    }
+
+    if (node.color == RED && (node.left != null && node.left.color == RED || node.right != null && node.right.color == RED)) {
+        return false;
+    }
+
+    if (!checkRedBlackProperties(node.left, currentBlackHeight + (node.color == BLACK ? 1 : 0), blackHeight)) {
+        return false;
+    }
+
+    if (!checkRedBlackProperties(node.right, currentBlackHeight + (node.color == BLACK ? 1 : 0), blackHeight)) {
+        return false;
+    }
+
+    return true;
+}
+```

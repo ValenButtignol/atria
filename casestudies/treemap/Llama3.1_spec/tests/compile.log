@@ -1,0 +1,212 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:208: error: method checkLeafNodes in class TreeMap<K,V> cannot be applied to given types;
+        checkLeafNodes(root, true);
+        ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node,boolean
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:220: error: method checkLeafNodes in class TreeMap<K,V> cannot be applied to given types;
+            checkLeafNodes(node.left, false);
+            ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node,boolean
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:221: error: method checkLeafNodes in class TreeMap<K,V> cannot be applied to given types;
+            checkLeafNodes(node.right, true);
+            ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node,boolean
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:226: error: method checkNodeColors in class TreeMap<K,V> cannot be applied to given types;
+        checkNodeColors(root);
+        ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:241: error: method checkNodeColors in class TreeMap<K,V> cannot be applied to given types;
+        checkNodeColors(node.left);
+        ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:242: error: method checkNodeColors in class TreeMap<K,V> cannot be applied to given types;
+        checkNodeColors(node.right);
+        ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:246: error: method checkSelfBalancing in class TreeMap<K,V> cannot be applied to given types;
+        checkSelfBalancing(root, 0);
+        ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node,int
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:257: error: method checkSelfBalancing in class TreeMap<K,V> cannot be applied to given types;
+            checkSelfBalancing(node.left, blackCount);
+            ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node,int
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:260: error: method checkSelfBalancing in class TreeMap<K,V> cannot be applied to given types;
+            checkSelfBalancing(node.right, blackCount);
+            ^
+  required: no arguments
+  found:    TreeMap<K,V>.Node,int
+  reason: actual and formal argument lists differ in length
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:263: error: cannot find symbol
+            if (Math.abs(blackCount - node.left.blackCount) > 1) {
+                                               ^
+  symbol:   variable blackCount
+  location: variable left of type TreeMap<K,V>.Node
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:266: error: cannot find symbol
+            if (Math.abs(blackCount - node.right.blackCount) > 1) {
+                                                ^
+  symbol:   variable blackCount
+  location: variable right of type TreeMap<K,V>.Node
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+11 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:208: error: method checkLeafNodes in class TreeMap<K,V> cannot be applied to given types;
+          checkLeafNodes(root, true);
+          ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node,boolean
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:220: error: method checkLeafNodes in class TreeMap<K,V> cannot be applied to given types;
+              checkLeafNodes(node.left, false);
+              ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node,boolean
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:221: error: method checkLeafNodes in class TreeMap<K,V> cannot be applied to given types;
+              checkLeafNodes(node.right, true);
+              ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node,boolean
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:226: error: method checkNodeColors in class TreeMap<K,V> cannot be applied to given types;
+          checkNodeColors(root);
+          ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:241: error: method checkNodeColors in class TreeMap<K,V> cannot be applied to given types;
+          checkNodeColors(node.left);
+          ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:242: error: method checkNodeColors in class TreeMap<K,V> cannot be applied to given types;
+          checkNodeColors(node.right);
+          ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:246: error: method checkSelfBalancing in class TreeMap<K,V> cannot be applied to given types;
+          checkSelfBalancing(root, 0);
+          ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node,int
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:257: error: method checkSelfBalancing in class TreeMap<K,V> cannot be applied to given types;
+              checkSelfBalancing(node.left, blackCount);
+              ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node,int
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:260: error: method checkSelfBalancing in class TreeMap<K,V> cannot be applied to given types;
+              checkSelfBalancing(node.right, blackCount);
+              ^
+    required: no arguments
+    found:    TreeMap<K,V>.Node,int
+    reason: actual and formal argument lists differ in length
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:263: error: cannot find symbol
+              if (Math.abs(blackCount - node.left.blackCount) > 1) {
+                                                 ^
+    symbol:   variable blackCount
+    location: variable left of type TreeMap<K,V>.Node
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/TreeMap.java:266: error: cannot find symbol
+              if (Math.abs(blackCount - node.right.blackCount) > 1) {
+                                                  ^
+    symbol:   variable blackCount
+    location: variable right of type TreeMap<K,V>.Node
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  11 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 390ms
+1 actionable task: 1 executed

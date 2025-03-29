@@ -1,0 +1,126 @@
+
+### Behavior
+The BinomialHeap class represents a collection of binomial trees, which are a type of tree data structure that supports efficient union and find operations. The class consists of a private inner class BinomialHeapNode, which represents a node in the binomial tree. Each node has a key, a degree, a reference to its parent, sibling, and child nodes. The main class maintains a reference to the root node of the binomial heap and a size counter to track the number of elements.
+
+The class provides methods to insert a new element into the heap, delete an element with a specific key, extract the minimum element from the heap, find the minimum element, decrease the key of an element, and union two binomial heaps.
+
+### Attributes
+- Nodes (BinomialHeapNode): The root node of the binomial heap.
+- size (int): Tracks the number of elements in the heap.
+
+### Inner Class BinomialHeapNode
+- key (int): The key value of the node.
+- degree (int): The degree of the node, which is the number of children it has.
+- parent (BinomialHeapNode): A reference to the parent node.
+- sibling (BinomialHeapNode): A reference to the sibling node.
+- child (BinomialHeapNode): A reference to the child node.
+
+### Properties
+- Consistent size: The size attribute must be equal to the number of nodes in the heap.
+- Acyclic structure: The heap structure must be acyclic, i.e., no node should have a path back to itself.
+- Min-heap property: The heap must maintain the min-heap property, where the key of each node is greater than or equal to the keys of its children.
+- No duplicate keys: No two nodes in the heap should have the same key.
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+
+    if (size == 0) {
+        return Nodes == null;
+    }
+
+    if (Nodes == null) {
+        return false;
+    }
+
+    if (!isAcyclic(Nodes)) {
+        return false;
+    }
+
+    if (!isMinHeap(Nodes)) {
+        return false;
+    }
+
+    if (!noDuplicateKeys(Nodes)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isAcyclic(BinomialHeapNode node) {
+    Set<BinomialHeapNode> visited = new HashSet<>();
+    return isAcyclicHelper(node, visited);
+}
+
+private boolean isAcyclicHelper(BinomialHeapNode node, Set<BinomialHeapNode> visited) {
+    if (node == null) {
+        return true;
+    }
+
+    if (!visited.add(node)) {
+        return false;
+    }
+
+    if (!isAcyclicHelper(node.child, visited)) {
+        return false;
+    }
+
+    if (!isAcyclicHelper(node.sibling, visited)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean isMinHeap(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.child != null && node.key > node.child.key) {
+        return false;
+    }
+
+    if (node.sibling != null && node.key > node.sibling.key) {
+        return false;
+    }
+
+    if (!isMinHeap(node.child)) {
+        return false;
+    }
+
+    if (!isMinHeap(node.sibling)) {
+        return false;
+    }
+
+    return true;
+}
+
+private boolean noDuplicateKeys(BinomialHeapNode node) {
+    Set<Integer> seenKeys = new HashSet<>();
+    return noDuplicateKeysHelper(node, seenKeys);
+}
+
+private boolean noDuplicateKeysHelper(BinomialHeapNode node, Set<Integer> seenKeys) {
+    if (node == null) {
+        return true;
+    }
+
+    if (!seenKeys.add(node.key)) {
+        return false;
+    }
+
+    if (!noDuplicateKeysHelper(node.child, seenKeys)) {
+        return false;
+    }
+
+    if (!noDuplicateKeysHelper(node.sibling, seenKeys)) {
+        return false;
+    }
+
+    return true;
+}
+```

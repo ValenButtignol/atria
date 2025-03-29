@@ -1,17 +1,89 @@
-> Task :compileJava
-> Task :processResources
-> Task :classes
-> Task :jar
-> Task :startScripts
-> Task :distTar
-> Task :distZip
-> Task :assemble
-> Task :compileTestJava NO-SOURCE
-> Task :processTestResources NO-SOURCE
-> Task :testClasses UP-TO-DATE
-> Task :test NO-SOURCE
-> Task :check UP-TO-DATE
-> Task :build
 
-BUILD SUCCESSFUL in 641ms
-6 actionable tasks: 6 executed
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:192: error: cannot find symbol
+        for (LinkedListNode node = firstCachedNode; node != null; node = node.getNextCachedNode()) {
+                                                                             ^
+  symbol:   method getNextCachedNode()
+  location: variable node of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:201: error: cannot find symbol
+            if (current.getPrevious() != null && current.getPrevious() != current) {
+                       ^
+  symbol:   method getPrevious()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:201: error: cannot find symbol
+            if (current.getPrevious() != null && current.getPrevious() != current) {
+                                                        ^
+  symbol:   method getPrevious()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:204: error: cannot find symbol
+            if (current.getNext() != null && current != current.getNext()) {
+                       ^
+  symbol:   method getNext()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:204: error: cannot find symbol
+            if (current.getNext() != null && current != current.getNext()) {
+                                                               ^
+  symbol:   method getNext()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:207: error: cannot find symbol
+            current = current.getNext();
+                             ^
+  symbol:   method getNext()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:213: error: cannot find symbol
+        return node == firstCachedNode || isCachedNode(node.getNextCachedNode());
+                                                           ^
+  symbol:   method getNextCachedNode()
+  location: variable node of type LinkedListNode
+7 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:192: error: cannot find symbol
+          for (LinkedListNode node = firstCachedNode; node != null; node = node.getNextCachedNode()) {
+                                                                               ^
+    symbol:   method getNextCachedNode()
+    location: variable node of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:201: error: cannot find symbol
+              if (current.getPrevious() != null && current.getPrevious() != current) {
+                         ^
+    symbol:   method getPrevious()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:201: error: cannot find symbol
+              if (current.getPrevious() != null && current.getPrevious() != current) {
+                                                          ^
+    symbol:   method getPrevious()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:204: error: cannot find symbol
+              if (current.getNext() != null && current != current.getNext()) {
+                         ^
+    symbol:   method getNext()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:204: error: cannot find symbol
+              if (current.getNext() != null && current != current.getNext()) {
+                                                                 ^
+    symbol:   method getNext()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:207: error: cannot find symbol
+              current = current.getNext();
+                               ^
+    symbol:   method getNext()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/classfixer/classes/NodeCachingLinkedList.java:213: error: cannot find symbol
+          return node == firstCachedNode || isCachedNode(node.getNextCachedNode());
+                                                             ^
+    symbol:   method getNextCachedNode()
+    location: variable node of type LinkedListNode
+  7 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 380ms
+1 actionable task: 1 executed

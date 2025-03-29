@@ -1,0 +1,42 @@
+
+The BinTree class represents a binary tree data structure. It has two main attributes: root, which is the root node of the tree, and size, which keeps track of the number of nodes in the tree.
+
+The class has two methods for adding nodes to the tree: add, which is a public method that can be used to add nodes to the tree, and addRecursive, which is a private helper method that performs the actual addition of nodes.
+
+The add method checks if the tree is empty. If it is, it creates a new root node with the given value and increments the size. If the tree is not empty, it calls the addRecursive method to add the node to the tree.
+
+The addRecursive method takes a current node and a value to be added as parameters. It checks if the value is equal to the current node's value. If it is, it does nothing. If the value is less than the current node's value, it checks if the current node's left child is null. If it is, it creates a new left child node with the given value and increments the size. If the left child is not null, it recursively calls itself with the left child as the current node. If the value is greater than the current node's value, it performs the same operations as above but with the right child.
+
+The getSize method returns the number of nodes in the tree.
+
+The Node class is a static inner class of BinTree that represents a node in the binary tree. It has three attributes: left, right, and info, which represent the left child, right child, and value of the node, respectively. The Node class has a constructor that takes a value as a parameter and initializes the info attribute with that value.
+
+### Representation Invariant for the BinTree class
+
+The representation invariant for the BinTree class is a method called `repOK` that checks if the object's internal state is consistent with its specification. Here's how you can implement it:
+
+```java
+public boolean repOK() {
+    // Check if the root is null, then the size should be 0
+    if (root == null) {
+        return size == 0;
+    }
+    
+    // Check if the size is correct
+    return size == countNodes(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+}
+```
+
+In the `repOK` method, we first check if the root is null. If it is, we check if the size is 0. If the root is not null, we call the `countNodes` method to count the number of nodes in the tree and check if it matches the size.
+
+The `countNodes` method is a recursive method that counts the number of nodes in the tree by traversing the tree and summing up the number of nodes in each subtree.
+
+This representation invariant ensures that the size attribute is always correct and that the tree is consistent with its specification.

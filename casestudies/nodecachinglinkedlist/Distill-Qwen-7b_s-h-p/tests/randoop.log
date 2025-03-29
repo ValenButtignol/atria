@@ -3,30 +3,30 @@
 Randoop for Java version "4.3.2, local changes, branch master, commit df17bc8, 2023-01-08".
 
 Will try to generate tests for 1 classes.
-PUBLIC MEMBERS=19
+PUBLIC MEMBERS=15
 Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
     allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
-Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-26T01:11:26.230892103Z     8,13M used)
-Progress update: steps=1000, test inputs generated=848, failing inputs=0      (2025-03-26T01:11:36.562354864Z     22,9M used)
-Progress update: steps=1195, test inputs generated=1001, failing inputs=0      (2025-03-26T01:11:38.142397544Z     112M used)
-Normal method executions: 1111801
-Exceptional method executions: 25
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-03-27T07:13:49.418739051Z     7,96M used)
+Progress update: steps=1000, test inputs generated=764, failing inputs=0      (2025-03-27T07:13:58.916583086Z     44,6M used)
+Progress update: steps=1338, test inputs generated=1001, failing inputs=0      (2025-03-27T07:14:01.333797939Z     154M used)
+Normal method executions: 2313130
+Exceptional method executions: 12
 
-Average method execution time (normal termination):      5,08e-05
-Average method execution time (exceptional termination): 0,0352
-Approximate memory usage 112M
-Explorer = ForwardGenerator(steps: 1195, null steps: 194, num_sequences_generated: 1001;
+Average method execution time (normal termination):      3,04e-05
+Average method execution time (exceptional termination): 0,0298
+Approximate memory usage 154M
+Explorer = ForwardGenerator(steps: 1338, null steps: 337, num_sequences_generated: 1001;
     allSequences: 1001, regresson seqs: 1000, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
     sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
 
 No error-revealing tests to output.
 
-About to look for failing assertions in 471 regression sequences.
+About to look for failing assertions in 490 regression sequences.
 
 Regression test output:
-Regression test count: 471
+Regression test count: 490
 Writing regression JUnit tests...
 Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest0.java
 Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest.java

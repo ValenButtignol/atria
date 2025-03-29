@@ -1,0 +1,46 @@
+
+### Behavior
+The BinTree class represents a simple binary tree data structure. It consists of a private Node class, which holds an integer value (info) and references to its left and right children. The BinTree class maintains a reference to the root node and tracks the size of the tree. The constructor initializes an empty tree with root set to null and size set to 0. The add method adds a new node containing the given integer value at the appropriate position in the tree, updating the size. The addRecursive method is a helper function that recursively traverses the tree to find the correct position for the new node. The getSize method returns the total number of nodes in the tree.
+
+### Attributes
+- root (Node): This attribute is a reference to the root node of the binary tree. It is initially set to null when the tree is empty.
+- size (int): This integer keeps track of the number of nodes in the binary tree. It is initialized to 0 when the tree is created and is updated when nodes are added.
+
+### Properties
+- No negative size: The size attribute must not be negative.
+- Size consistency with root: The size attribute must be consistent with root attribute.
+- Consistent size: The size attribute must be equal to the number of nodes in the tree.
+- Acyclic structure: The binary tree structure must be acyclic, i.e., no node should have a path back to itself.
+- Binary property: Each node in the tree must have at most two children (left and right).
+- Root node: The root node must be the topmost node in the tree, and all other nodes must be reachable from it.
+
+```java
+public boolean repOK() {
+    if (size < 0) {
+        return false;
+    }
+    
+    if (size == 0) {
+        return root == null;
+    }
+
+    if (root == null) {
+        return false;
+    }
+
+    int nodeCount = 0;
+    Set<Node> visitedNodes = new HashSet<>();
+    Node current = root;
+
+    while (current != null) {
+        if (!visitedNodes.add(current)) {
+            return false;
+        }
+
+        nodeCount++;
+        current = current.left != null ? current.left : current.right;
+    }
+
+    return nodeCount == size;
+}
+```

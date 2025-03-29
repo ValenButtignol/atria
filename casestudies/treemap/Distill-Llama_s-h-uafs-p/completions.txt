@@ -1,0 +1,40 @@
+
+<think>
+Okay, so I need to figure out the representation invariants for the TreeMap class. I'm a bit new to this, but I'll try my best. Let me start by understanding what a representation invariant is. From what I remember, it's a boolean method in a class that returns true if the object is valid and false otherwise. These invariants help ensure that the object's state is consistent and valid at all times.
+
+Looking at the TreeMap code, it's a generic class that implements a balanced binary search tree. It uses a tree structure with nodes that have keys and values, along with pointers to left and right children, and a parent. Each node also has a color, which I think is used for balancing the tree.
+
+First, I should think about the basic properties that must hold true for the TreeMap to function correctly. One obvious thing is that the size should always be non-negative. If the size ever becomes negative, that's a problem because you can't have a negative number of elements in the tree. So, "No negative size" seems like a good invariant.
+
+Next, the size should be consistent with the structure of the tree. That means the size() method should return the actual number of nodes in the tree. If the size doesn't match the actual count, the tree might be in an inconsistent state. So, "Consistent size" is another invariant.
+
+Then, the tree must be acyclic. A linked list structure, as in the LinkedList class, should never have cycles. In the TreeMap, each node points to its parent, but there shouldn't be any loops. So, "Acyclic structure" is important.
+
+I also notice that the TreeMap uses a comparator to order the elements. The comparator could be null, but when it's not null, it should consistently return the same comparison results each time. If the comparator changes or is not used correctly, the tree might not behave as expected. So, "Consistent comparator usage" might be another invariant.
+
+Wait, but in the TreeMap code, the comparator is either provided at construction or defaults to natural ordering. Maybe I should think about whether the comparator is applied correctly during insertion and searching. If the comparator isn't used properly, the tree might not maintain its order correctly. So, ensuring that the comparator is used consistently is important.
+
+Another thing is that the tree should maintain its invariants during all operations, like insertions and extractions. For example, when inserting a new node, the tree should rebalance itself to maintain the heap property. If the rebalancing isn't done correctly, the tree might violate some invariant. But I'm not sure how to phrase that as a property.
+
+Also, the root node should always exist unless the tree is empty. If the root is null, the tree is empty. So, "Root exists if and only if the tree is non-empty" could be another invariant.
+
+Hmm, but I'm not entirely sure if all these are representation invariants. Maybe I'm overcomplicating it. Let me try to list the ones I'm more confident about:
+
+1. No negative size: The size must always be >= 0.
+2. Consistent size: The size must match the actual number of nodes.
+3. Acyclic structure: No cycles in the tree.
+4. Consistent comparator usage: The comparator, if provided, must be used consistently in comparisons.
+5. Root exists if and only if the tree is non-empty.
+
+I think these cover the main points. I'm not sure if I'm missing any, but these seem like they would help ensure the TreeMap is always in a valid state.
+</think>
+
+Here is a list of representation invariants for the TreeMap class:
+
+1. **No negative size**: The size attribute must always be non-negative.
+2. **Consistent size**: The size attribute must accurately reflect the number of nodes in the tree.
+3. **Acyclic structure**: The tree must be acyclic, preventing any node from pointing back to itself.
+4. **Consistent comparator usage**: If a comparator is provided, it must be used consistently throughout the tree's operations.
+5. **Root exists if and only if the tree is non-empty**: The root node exists precisely when the tree contains elements.
+
+These invariants ensure that the TreeMap maintains a valid and consistent structure at all times.

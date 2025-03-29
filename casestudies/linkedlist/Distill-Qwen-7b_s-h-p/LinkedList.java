@@ -78,12 +78,6 @@ public class LinkedList {
     }
 
     public boolean repOK() {
-        if (!property())
-            return false;
         return true;
-    }
-
-    public boolean property() {
-        return size >= 0;
     }
 }

@@ -1,0 +1,25 @@
+public boolean repOK() {
+    if (root == null) {
+        return size == 0;
+    }
+
+    Set<Node> visited = new HashSet<>();
+    int[] count = {0};
+    boolean isValid = checkBST(root, visited, count, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+    return isValid && count[0] == size;
+}
+
+private boolean checkBST(Node node, Set<Node> visited, int[] count, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+
+    if (node.info < min || node.info > max || !visited.add(node)) {
+        return false;
+    }
+
+    count[0]++;
+    return checkBST(node.left, visited, count, min, node.info - 1) && 
+           checkBST(node.right, visited, count, node.info + 1, max);
+}

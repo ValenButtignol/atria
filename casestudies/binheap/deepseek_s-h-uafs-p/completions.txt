@@ -1,0 +1,96 @@
+- Valid heap structure: Each binomial tree in the heap must maintain the min-heap property where the parent node's key is less than or equal to its children's keys.
+- Correct degree order: The sibling nodes of each binomial tree must be in strictly increasing order of their degrees.
+- Size consistency: The size attribute must be equal to the total number of nodes in the heap.
+- Valid parent-child relationships: Each child node must correctly reference its parent, and each parent's child must reference its siblings in the correct order.
+- No duplicate roots: No two root nodes in the heap should have the same degree.
+
+
+
+
+public boolean property() {
+    if (Nodes == null) {
+        return true;
+    }
+    return checkHeapProperty(Nodes);
+}
+
+private boolean checkHeapProperty(BinomialHeapNode node) {
+    if (node == null) {
+        return true;
+    }
+    if (node.child != null && node.child.key < node.key) {
+        return false;
+    }
+    if (node.sibling != null && node.sibling.key < node.key) {
+        return false;
+    }
+    return checkHeapProperty(node.child) && checkHeapProperty(node.sibling);
+}
+
+public boolean property() {
+    BinomialHeapNode current = Nodes;
+    while (current != null && current.sibling != null) {
+        if (current.degree >= current.sibling.degree) {
+            return false;
+        }
+        current = current.sibling;
+    }
+    return true;
+}
+
+public boolean property() {
+    if (Nodes == null) {
+        return size == 0;
+    }
+    return Nodes.size() == size;
+}
+
+public boolean property() {
+    if (Nodes == null) {
+        return size == 0;
+    }
+    Set<BinomialHeapNode> visited = new HashSet<>();
+    Queue<BinomialHeapNode> queue = new LinkedList<>();
+    queue.add(Nodes);
+    int nodeCount = 0;
+
+    while (!queue.isEmpty()) {
+        BinomialHeapNode current = queue.poll();
+        if (visited.contains(current)) {
+            return false;
+        }
+        visited.add(current);
+        nodeCount++;
+
+        if (current.child != null) {
+            BinomialHeapNode child = current.child;
+            if (child.parent != current) {
+                return false;
+            }
+            queue.add(child);
+            BinomialHeapNode sibling = child.sibling;
+            while (sibling != null) {
+                if (sibling.parent != current) {
+                    return false;
+                }
+                queue.add(sibling);
+                sibling = sibling.sibling;
+            }
+        }
+    }
+    return nodeCount == size;
+}
+
+
+public boolean property() {
+    Set<Integer> degrees = new HashSet<Integer>();
+    BinomialHeapNode current = Nodes;
+    while (current != null) {
+        if (degrees.contains(current.degree)) {
+            return false;
+        }
+        degrees.add(current.degree);
+        current = current.sibling;
+    }
+    return true;
+}

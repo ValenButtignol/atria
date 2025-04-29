@@ -1,0 +1,55 @@
+- AVL Balance Property: For every node, the height difference between left and right subtrees must not exceed ALLOWED_IMBALANCE.
+- Height Consistency: The height of each node must be correctly computed as the maximum height of its children plus one.
+- Binary Search Tree Property: For every node, all elements in the left subtree must be less than the node's element, and all elements in the right subtree must be greater.
+- Non-negative Height: The height of any node must be non-negative.
+
+
+public boolean property() {
+    return checkBalance(root);
+}
+
+private boolean checkBalance(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+    
+    int heightDiff = height(node.left) - height(node.right);
+    if (Math.abs(heightDiff) > ALLOWED_IMBALANCE) {
+        return false;
+    }
+    
+    return checkBalance(node.left) && checkBalance(node.right);
+}
+
+
+public boolean property() {
+    return checkHeight(root);
+}
+
+private boolean checkHeight(AvlNode node) {
+    if (node == null) {
+        return true;
+    }
+    int leftHeight = height(node.left);
+    int rightHeight = height(node.right);
+    boolean balanced = Math.abs(leftHeight - rightHeight) <= ALLOWED_IMBALANCE;
+    boolean heightCorrect = node.height == Math.max(leftHeight, rightHeight) + 1;
+    return balanced && heightCorrect && checkHeight(node.left) && checkHeight(node.right);
+}
+
+public boolean property() {
+    return isBst(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+}
+
+private boolean isBst(AvlNode node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.element <= min || node.element >= max) {
+        return false;
+    }
+    return isBst(node.left, min, node.element) && isBst(node.right, node.element, max);
+}
+
+
+

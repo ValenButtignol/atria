@@ -1,0 +1,58 @@
+- Valid Cache Size: The cacheSize must always be less than or equal to the maximumCacheSize.
+- Consistent List Size: The size attribute must accurately reflect the number of nodes in the linked list.
+- Valid Node Links: All nodes in the list must have valid previous and next links, forming a consistent doubly-linked list structure.
+- Cache Integrity: Cached nodes must have their value set to null and maintain valid next links to form a consistent cache chain.
+- Header Node Invariant: The header node must always have its previous and next links pointing to itself when the list is empty, or to the first and last nodes respectively when the list is non-empty.
+
+public boolean property() {
+    if (size == 0) {
+        return header.next == header && header.previous == header;
+    } else {
+        return header.next != header && header.previous != header 
+               && header.next.previous == header 
+               && header.previous.next == header;
+    }
+}
+
+public boolean property() {
+    int count = 0;
+    LinkedListNode current = firstCachedNode;
+    while (current != null) {
+        if (current.getValue() != null) {
+            return false;
+        }
+        count++;
+        current = current.next;
+    }
+    return count == cacheSize;
+}
+
+public boolean property() {
+    if (header == null) {
+        return false;
+    }
+    
+    LinkedListNode current = header.next;
+    while (current != header) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+    return true;
+}
+
+public boolean property() {
+    int count = 0;
+    for (LinkedListNode node = header.next; node != header; node = node.next) {
+        count++;
+    }
+    return count == size;
+}
+
+public boolean property() {
+    return cacheSize <= maximumCacheSize;
+}

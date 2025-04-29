@@ -1,0 +1,72 @@
+- Consistent size: The size attribute must be equal to the number of entries in the list.
+- Circular structure: The header's next and previous pointers must form a consistent circular linked list.
+- No null entries: All entries in the list must have non-null element fields (except for the header, which can have a null element).
+- Valid links: For every entry in the list, the next entry's previous pointer must point back to the current entry, and the previous entry's next pointer must point forward to the current entry.
+- Header integrity: The header's next and previous pointers must never be null and must always point to valid entries (or back to itself if the list is empty).
+
+
+public boolean property() {
+    if (header.next == null || header.previous == null) {
+        return false;
+    }
+    if (size == 0) {
+        return header.next == header && header.previous == header;
+    }
+    Entry current = header.next;
+    while (current != header) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        current = current.next;
+    }
+    return true;
+}
+
+
+public boolean property() {
+    Entry current = header.next;
+    while (current != header) {
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+    return true;
+}
+
+public boolean property() {
+    for (Entry e = header.next; e != header; e = e.next) {
+        if (e.element == null) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+public boolean property() {
+    if (header.next == null || header.previous == null) {
+        return false;
+    }
+    Entry current = header.next;
+    while (current != header) {
+        if (current.next == null || current.previous == null) {
+            return false;
+        }
+        if (current.next.previous != current || current.previous.next != current) {
+            return false;
+        }
+        current = current.next;
+    }
+    return true;
+}
+
+public boolean property() {
+    int count = 0;
+    Entry current = header.next;
+    while (current != header) {
+        count++;
+        current = current.next;
+    }
+    return count == size;
+}

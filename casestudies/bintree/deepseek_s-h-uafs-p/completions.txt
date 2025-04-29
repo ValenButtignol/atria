@@ -1,0 +1,51 @@
+- No negative size: The size attribute must not be negative.
+- Size consistency with nodes: The size attribute must be equal to the number of nodes in the tree.
+- Binary Search Tree Property: For each node, all left descendants must have values less than the node's value, and all right descendants must have values greater than the node's value.
+- No cycles: The tree structure must be acyclic, i.e., no node should have a path back to itself.
+
+
+public boolean property() {
+    java.util.Set<Node> visited = new java.util.HashSet<>();
+    return isAcyclic(root, visited);
+}
+
+private boolean isAcyclic(Node node, java.util.Set<Node> visited) {
+    if (node == null) {
+        return true;
+    }
+    if (visited.contains(node)) {
+        return false;
+    }
+    visited.add(node);
+    return isAcyclic(node.left, new java.util.HashSet<>(visited)) && 
+           isAcyclic(node.right, new java.util.HashSet<>(visited));
+}
+
+public boolean property() {
+    return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+}
+
+private boolean isBST(Node node, int min, int max) {
+    if (node == null) {
+        return true;
+    }
+    if (node.info <= min || node.info >= max) {
+        return false;
+    }
+    return isBST(node.left, min, node.info) && isBST(node.right, node.info, max);
+}
+
+public boolean property() {
+    return size == countNodes(root);
+}
+
+private int countNodes(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return 1 + countNodes(node.left) + countNodes(node.right);
+}
+
+public boolean property() {
+    return size >= 0;
+}

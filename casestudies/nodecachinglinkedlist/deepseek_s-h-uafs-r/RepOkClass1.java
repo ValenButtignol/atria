@@ -1,0 +1,65 @@
+public class RepOkClass1 {
+    public boolean repOK() {
+        if (header == null)
+            return false;
+    
+        if (size < 0)
+            return false;
+    
+        if (cacheSize < 0 || cacheSize > maximumCacheSize)
+            return false;
+    
+        if (maximumCacheSize < 0)
+            return false;
+    
+        if (firstCachedNode != null && cacheSize == 0)
+            return false;
+    
+        if (firstCachedNode == null && cacheSize != 0)
+            return false;
+    
+        if (!checkListStructure())
+            return false;
+    
+        if (!checkCacheStructure())
+            return false;
+    
+        return true;
+    }
+    
+    private boolean checkListStructure() {
+        if (header.next == null || header.previous == null)
+            return false;
+    
+        Set<LinkedListNode> visited = new HashSet<>();
+        LinkedListNode current = header.next;
+        while (current != header) {
+            if (current == null || current.next == null || current.previous == null)
+                return false;
+            if (!visited.add(current))
+                return false;
+            current = current.next;
+        }
+        return true;
+    }
+    
+    private boolean checkCacheStructure() {
+        if (firstCachedNode == null)
+            return true;
+    
+        Set<LinkedListNode> visited = new HashSet<>();
+        LinkedListNode current = firstCachedNode;
+        int count = 0;
+        while (current != null) {
+            if (current.previous != null)
+                return false;
+            if (current.getValue() != null)
+                return false;
+            if (!visited.add(current))
+                return false;
+            current = current.next;
+            count++;
+        }
+        return count == cacheSize;
+    }
+}

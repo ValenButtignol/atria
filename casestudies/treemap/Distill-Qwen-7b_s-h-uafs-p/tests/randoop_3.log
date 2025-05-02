@@ -1,0 +1,41 @@
+
+> Task :runRandoop
+Randoop for Java version "4.3.2, local changes, branch master, commit df17bc8, 2023-01-08".
+ANNOTATION: Detected @CheckRep-annotated method "public boolean system.testclass.TreeMap.property_3()". Will use it to check rep invariant of class system.testclass.TreeMap during generation.
+
+Will try to generate tests for 1 classes.
+PUBLIC MEMBERS=10
+Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
+    allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
+
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-05-02T19:04:33.706511013Z     7,54M used)
+Progress update: steps=1000, test inputs generated=698, failing inputs=0      (2025-05-02T19:04:41.361288398Z     235M used)
+Progress update: steps=1432, test inputs generated=1001, failing inputs=0      (2025-05-02T19:04:43.810202596Z     145M used)
+Normal method executions: 28895
+Exceptional method executions: 8
+
+Average method execution time (normal termination):      0,000906
+Average method execution time (exceptional termination): 0,0378
+Approximate memory usage 145M
+Explorer = ForwardGenerator(steps: 1432, null steps: 431, num_sequences_generated: 1001;
+    allSequences: 1001, regresson seqs: 1000, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 39)
+
+No error-revealing tests to output.
+
+About to look for failing assertions in 536 regression sequences.
+
+Regression test output:
+Regression test count: 536
+Writing regression JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest1.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest.java
+Wrote regression JUnit tests.
+About to look for flaky methods.
+
+Invalid tests generated: 0
+
+BUILD SUCCESSFUL in 11s
+1 actionable task: 1 executed

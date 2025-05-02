@@ -1,0 +1,70 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:215: error: incompatible types: bad type in conditional expression
+        int leftMax = (node.left != null) ? node.left.key : -1;
+                                                     ^
+    K cannot be converted to int
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:216: error: incompatible types: bad type in conditional expression
+        int rightMin = (node.right != null) ? node.right.key : Integer.MAX_VALUE;
+                                                        ^
+    K cannot be converted to int
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:217: error: bad operand types for binary operator '>='
+        if (node.left != null && node.left.key >= node.key) {
+                                               ^
+  first type:  K
+  second type: K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:220: error: bad operand types for binary operator '<='
+        if (node.right != null && node.right.key <= node.key) {
+                                                 ^
+  first type:  K
+  second type: K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+4 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:217: error: bad operand types for binary operator '>='
+          if (node.left != null && node.left.key >= node.key) {
+                                                 ^
+    first type:  K
+    second type: K
+    where K is a type-variable:
+      K extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:220: error: bad operand types for binary operator '<='
+          if (node.right != null && node.right.key <= node.key) {
+                                                   ^
+    first type:  K
+    second type: K
+    where K is a type-variable:
+      K extends Object declared in class TreeMap/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:215: error: incompatible types: bad type in conditional expression
+          int leftMax = (node.left != null) ? node.left.key : -1;
+                                                       ^
+      K cannot be converted to int
+    where K is a type-variable:
+      K extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:216: error: incompatible types: bad type in conditional expression
+          int rightMin = (node.right != null) ? node.right.key : Integer.MAX_VALUE;
+                                                          ^
+      K cannot be converted to int
+    where K is a type-variable:
+      K extends Object declared in class TreeMap
+  4 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 358ms
+1 actionable task: 1 executed

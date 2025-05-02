@@ -1,0 +1,80 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:189: error: method property_5() is already defined in class AvlTree
+    public boolean property_5() {
+                   ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:204: error: method property_5() is already defined in class AvlTree
+    public boolean property_5() {
+                   ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:168: error: cannot find symbol
+            return size == 0;
+                   ^
+  symbol:   variable size
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:171: error: cannot find symbol
+            return size != 0;
+                   ^
+  symbol:   variable size
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:192: error: cannot find symbol
+            return size == 0;
+                   ^
+  symbol:   variable size
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:194: error: cannot find symbol
+            return size != 0;
+                   ^
+  symbol:   variable size
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:200: error: cannot find symbol
+        return nodeCount == size;
+                            ^
+  symbol:   variable size
+  location: class AvlTree
+7 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:168: error: cannot find symbol
+              return size == 0;
+                     ^
+    symbol:   variable size
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:171: error: cannot find symbol
+              return size != 0;
+                     ^
+    symbol:   variable size
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:192: error: cannot find symbol
+              return size == 0;
+                     ^
+    symbol:   variable size
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:194: error: cannot find symbol
+              return size != 0;
+                     ^
+    symbol:   variable size
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:200: error: cannot find symbol
+          return nodeCount == size;
+                              ^
+    symbol:   variable size
+    location: class AvlTree/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:189: error: method property_5() is already defined in class AvlTree
+      public boolean property_5() {
+                     ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:204: error: method property_5() is already defined in class AvlTree
+      public boolean property_5() {
+                     ^
+  7 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 399ms
+1 actionable task: 1 executed

@@ -1,0 +1,46 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:257: error: method isEmpty() is already defined in class TreeMap
+    public boolean isEmpty() {
+                   ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:261: error: method size() is already defined in class TreeMap
+    public int size() {
+               ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:206: error: cannot find symbol
+        if (comparator != null && comparator.class != Comparator.class) {
+                                  ^
+  symbol:   class comparator
+  location: class TreeMap<K,V>
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+3 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:206: error: cannot find symbol
+          if (comparator != null && comparator.class != Comparator.class) {
+                                    ^
+    symbol:   class comparator
+    location: class TreeMap<K,V>
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:257: error: method isEmpty() is already defined in class TreeMap
+      public boolean isEmpty() {
+                     ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:261: error: method size() is already defined in class TreeMap
+      public int size() {
+                 ^
+  3 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 368ms
+1 actionable task: 1 executed

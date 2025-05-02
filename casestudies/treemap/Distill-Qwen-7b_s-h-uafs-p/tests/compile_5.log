@@ -1,0 +1,57 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:239: error: method getKeys in class TreeMap<K#1,V> cannot be applied to given types;
+        getKeys(root, keys);
+        ^
+  required: TreeMap<K#1,V>.Node,List<K#2>
+  found:    TreeMap<K#1,V>.Node,List<K#1>
+  reason: inference variable K#2 has incompatible bounds
+    equality constraints: K#1
+    upper bounds: Comparable<? super K#2>
+  where K#1,V,K#2 are type-variables:
+    K#1 extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+    K#2 extends Comparable<? super K#2> declared in method <K#2>getKeys(TreeMap<K#1,V>.Node,List<K#2>)
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:247: error: incompatible types: K#1 cannot be converted to K#2
+        keys.add(node.key);
+                     ^
+  where K#1,K#2,V are type-variables:
+    K#1 extends Object declared in class TreeMap
+    K#2 extends Comparable<? super K#2> declared in method <K#2>getKeys(TreeMap<K#1,V>.Node,List<K#2>)
+    V extends Object declared in class TreeMap
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:239: error: method getKeys in class TreeMap<K#1,V> cannot be applied to given types;
+          getKeys(root, keys);
+          ^
+    required: TreeMap<K#1,V>.Node,List<K#2>
+    found:    TreeMap<K#1,V>.Node,List<K#1>
+    reason: inference variable K#2 has incompatible bounds
+      equality constraints: K#1
+      upper bounds: Comparable<? super K#2>
+    where K#1,V,K#2 are type-variables:
+      K#1 extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+      K#2 extends Comparable<? super K#2> declared in method <K#2>getKeys(TreeMap<K#1,V>.Node,List<K#2>)/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:247: error: incompatible types: K#1 cannot be converted to K#2
+          keys.add(node.key);
+                       ^
+    where K#1,K#2,V are type-variables:
+      K#1 extends Object declared in class TreeMap
+      K#2 extends Comparable<? super K#2> declared in method <K#2>getKeys(TreeMap<K#1,V>.Node,List<K#2>)
+      V extends Object declared in class TreeMap
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 1s
+1 actionable task: 1 executed

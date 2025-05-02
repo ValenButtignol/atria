@@ -1,0 +1,40 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:86: error: class Node is already defined in class BinTree
+    private static class Node {
+                   ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:73: error: cannot find symbol
+        if (node.data <= min || node.data >= max) {
+                ^
+  symbol:   variable data
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:73: error: cannot find symbol
+        if (node.data <= min || node.data >= max) {
+                                    ^
+  symbol:   variable data
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:76: error: cannot find symbol
+        return checkBST(node.left, min, node.data) && checkBST(node.right, node.data, max);
+                                            ^
+  symbol:   variable data
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:76: error: cannot find symbol
+        return checkBST(node.left, min, node.data) && checkBST(node.right, node.data, max);
+                                                                               ^
+  symbol:   variable data
+  location: variable node of type Node
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> java.lang.NullPointerException: Cannot invoke "javax.lang.model.element.TypeElement.getNestingKind()" because "typeElement" is null
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 405ms
+1 actionable task: 1 executed

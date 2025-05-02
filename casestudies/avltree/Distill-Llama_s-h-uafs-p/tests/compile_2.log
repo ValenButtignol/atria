@@ -1,0 +1,29 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:144: error: bad operand types for binary operator '!='
+        return dfs(root, null) != null;
+                               ^
+  first type:  boolean
+  second type: <null>
+1 error
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:144: error: bad operand types for binary operator '!='
+          return dfs(root, null) != null;
+                                 ^
+    first type:  boolean
+    second type: <null>
+  1 error
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 389ms
+1 actionable task: 1 executed

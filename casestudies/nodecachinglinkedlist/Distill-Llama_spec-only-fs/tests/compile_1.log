@@ -1,0 +1,89 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:188: error: cannot find symbol
+        for (LinkedListNode node = firstCachedNode; node != null; node = node.getNextCachedNode()) {
+                                                                             ^
+  symbol:   method getNextCachedNode()
+  location: variable node of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:197: error: cannot find symbol
+            if (current.getPrevious() != null && current.getPrevious() != current) {
+                       ^
+  symbol:   method getPrevious()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:197: error: cannot find symbol
+            if (current.getPrevious() != null && current.getPrevious() != current) {
+                                                        ^
+  symbol:   method getPrevious()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:200: error: cannot find symbol
+            if (current.getNext() != null && current != current.getNext()) {
+                       ^
+  symbol:   method getNext()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:200: error: cannot find symbol
+            if (current.getNext() != null && current != current.getNext()) {
+                                                               ^
+  symbol:   method getNext()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:203: error: cannot find symbol
+            current = current.getNext();
+                             ^
+  symbol:   method getNext()
+  location: variable current of type LinkedListNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:209: error: cannot find symbol
+        return node == firstCachedNode || isCachedNode(node.getNextCachedNode());
+                                                           ^
+  symbol:   method getNextCachedNode()
+  location: variable node of type LinkedListNode
+7 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:188: error: cannot find symbol
+          for (LinkedListNode node = firstCachedNode; node != null; node = node.getNextCachedNode()) {
+                                                                               ^
+    symbol:   method getNextCachedNode()
+    location: variable node of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:197: error: cannot find symbol
+              if (current.getPrevious() != null && current.getPrevious() != current) {
+                         ^
+    symbol:   method getPrevious()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:197: error: cannot find symbol
+              if (current.getPrevious() != null && current.getPrevious() != current) {
+                                                          ^
+    symbol:   method getPrevious()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:200: error: cannot find symbol
+              if (current.getNext() != null && current != current.getNext()) {
+                         ^
+    symbol:   method getNext()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:200: error: cannot find symbol
+              if (current.getNext() != null && current != current.getNext()) {
+                                                                 ^
+    symbol:   method getNext()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:203: error: cannot find symbol
+              current = current.getNext();
+                               ^
+    symbol:   method getNext()
+    location: variable current of type LinkedListNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:209: error: cannot find symbol
+          return node == firstCachedNode || isCachedNode(node.getNextCachedNode());
+                                                             ^
+    symbol:   method getNextCachedNode()
+    location: variable node of type LinkedListNode
+  7 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 362ms
+1 actionable task: 1 executed

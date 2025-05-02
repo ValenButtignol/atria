@@ -1,0 +1,39 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:256: error: class TreeMap.Node is already defined in class TreeMap
+    private static class Node {
+                   ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:219: error: cannot find symbol
+        if (min != null && node.key.compareTo(min) <= 0) {
+                                   ^
+  symbol:   method compareTo(K)
+  location: variable key of type K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:222: error: cannot find symbol
+        if (max != null && node.key.compareTo(max) >= 0) {
+                                   ^
+  symbol:   method compareTo(K)
+  location: variable key of type K
+  where K is a type-variable:
+    K extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:229: error: bad operand types for binary operator '=='
+        return node != null && node.color == Color.RED;
+                                          ^
+  first type:  boolean
+  second type: Color
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> java.lang.NullPointerException: Cannot invoke "javax.lang.model.element.TypeElement.getNestingKind()" because "typeElement" is null
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 365ms
+1 actionable task: 1 executed

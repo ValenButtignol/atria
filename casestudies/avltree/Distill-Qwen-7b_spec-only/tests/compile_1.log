@@ -1,0 +1,79 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:147: error: cannot find symbol
+    private boolean checkBalance(node Node) {
+                                 ^
+  symbol:   class node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:148: error: cannot find symbol
+        if (node == null) {
+            ^
+  symbol:   variable node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:151: error: cannot find symbol
+        if (Math.abs(node.getBalance()) > 1) {
+                     ^
+  symbol:   variable node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:152: error: cannot find symbol
+            throw new AssertionFailedException("Balance factor exceeds allowed range (-1 to 1)");
+                      ^
+  symbol:   class AssertionFailedException
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:154: error: cannot find symbol
+        return checkBalance(node.getLeft()) && checkBalance(node.getRight());
+                            ^
+  symbol:   variable node
+  location: class AvlTree
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:154: error: cannot find symbol
+        return checkBalance(node.getLeft()) && checkBalance(node.getRight());
+                                                            ^
+  symbol:   variable node
+  location: class AvlTree
+6 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:147: error: cannot find symbol
+      private boolean checkBalance(node Node) {
+                                   ^
+    symbol:   class node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:148: error: cannot find symbol
+          if (node == null) {
+              ^
+    symbol:   variable node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:151: error: cannot find symbol
+          if (Math.abs(node.getBalance()) > 1) {
+                       ^
+    symbol:   variable node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:152: error: cannot find symbol
+              throw new AssertionFailedException("Balance factor exceeds allowed range (-1 to 1)");
+                        ^
+    symbol:   class AssertionFailedException
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:154: error: cannot find symbol
+          return checkBalance(node.getLeft()) && checkBalance(node.getRight());
+                              ^
+    symbol:   variable node
+    location: class AvlTree
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:154: error: cannot find symbol
+          return checkBalance(node.getLeft()) && checkBalance(node.getRight());
+                                                              ^
+    symbol:   variable node
+    location: class AvlTree
+  6 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 443ms
+1 actionable task: 1 executed

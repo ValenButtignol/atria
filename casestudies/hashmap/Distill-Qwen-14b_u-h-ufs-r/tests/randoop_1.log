@@ -1,0 +1,45 @@
+
+> Task :runRandoop
+Randoop for Java version "4.3.2, local changes, branch master, commit df17bc8, 2023-01-08".
+ANNOTATION: Detected @CheckRep-annotated method "public boolean system.testclass.HashMap.repOK_1()". Will use it to check rep invariant of class system.testclass.HashMap during generation.
+
+Will try to generate tests for 1 classes.
+PUBLIC MEMBERS=24
+Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
+    allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
+
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-05-02T17:38:13.697181068Z     7,74M used)
+Progress update: steps=1000, test inputs generated=529, failing inputs=40      (2025-05-02T17:38:23.405518063Z     26,5M used)
+Progress update: steps=1960, test inputs generated=1001, failing inputs=74      (2025-05-02T17:38:27.629981176Z     235M used)
+Normal method executions: 612682
+Exceptional method executions: 66
+
+Average method execution time (normal termination):      8,93e-05
+Average method execution time (exceptional termination): 0,0956
+Approximate memory usage 235M
+Explorer = ForwardGenerator(steps: 1960, null steps: 959, num_sequences_generated: 1001;
+    allSequences: 1001, regresson seqs: 926, error seqs: 74=74=74, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 43)
+
+Error-revealing test output:
+Error-revealing test count: 74
+Writing error-revealing JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/ErrorTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/ErrorTest.java
+Wrote error-revealing JUnit tests.
+
+About to look for failing assertions in 460 regression sequences.
+
+Regression test output:
+Regression test count: 460
+Writing regression JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest.java
+Wrote regression JUnit tests.
+About to look for flaky methods.
+
+Invalid tests generated: 0
+
+BUILD SUCCESSFUL in 15s
+1 actionable task: 1 executed

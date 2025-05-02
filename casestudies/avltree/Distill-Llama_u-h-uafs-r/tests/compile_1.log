@@ -1,0 +1,43 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:152: error: method repOK_1 in class AvlTree cannot be applied to given types;
+        return repOK_1(root.left) && repOK_1(root.right);
+               ^
+  required: no arguments
+  found:    AvlNode
+  reason: actual and formal argument lists differ in length
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:152: error: method repOK_1 in class AvlTree cannot be applied to given types;
+        return repOK_1(root.left) && repOK_1(root.right);
+                                     ^
+  required: no arguments
+  found:    AvlNode
+  reason: actual and formal argument lists differ in length
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:152: error: method repOK_1 in class AvlTree cannot be applied to given types;
+          return repOK_1(root.left) && repOK_1(root.right);
+                 ^
+    required: no arguments
+    found:    AvlNode
+    reason: actual and formal argument lists differ in length
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:152: error: method repOK_1 in class AvlTree cannot be applied to given types;
+          return repOK_1(root.left) && repOK_1(root.right);
+                                       ^
+    required: no arguments
+    found:    AvlNode
+    reason: actual and formal argument lists differ in length
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 376ms
+1 actionable task: 1 executed

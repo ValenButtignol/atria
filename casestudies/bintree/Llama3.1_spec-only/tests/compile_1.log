@@ -1,0 +1,56 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:88: error: method add(int) is already defined in class BinTree
+    public void add(int value) {
+                ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:97: error: method addRecursive(Node,int) is already defined in class BinTree
+    private void addRecursive(Node node, int value) {
+                 ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:118: error: method getSize() is already defined in class BinTree
+    public int getSize() {
+               ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:66: error: bad operand types for binary operator '!='
+        boolean validRoot = (isEmpty && root == null) || (root.info != null);
+                                                                    ^
+  first type:  int
+  second type: <null>
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:78: error: bad operand types for binary operator '!='
+        return node.info != null && isValidNode(node.left) && isValidNode(node.right);
+                         ^
+  first type:  int
+  second type: <null>
+5 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:66: error: bad operand types for binary operator '!='
+          boolean validRoot = (isEmpty && root == null) || (root.info != null);
+                                                                      ^
+    first type:  int
+    second type: <null>
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:78: error: bad operand types for binary operator '!='
+          return node.info != null && isValidNode(node.left) && isValidNode(node.right);
+                           ^
+    first type:  int
+    second type: <null>/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:88: error: method add(int) is already defined in class BinTree
+      public void add(int value) {
+                  ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:97: error: method addRecursive(Node,int) is already defined in class BinTree
+      private void addRecursive(Node node, int value) {
+                   ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:118: error: method getSize() is already defined in class BinTree
+      public int getSize() {
+                 ^
+  5 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 394ms
+1 actionable task: 1 executed

@@ -1,0 +1,23 @@
+
+> Task :compileJava
+Note: /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :processResources
+> Task :classes
+> Task :jar
+> Task :startScripts
+> Task :distTar
+> Task :distZip
+> Task :assemble
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test NO-SOURCE
+> Task :check UP-TO-DATE
+> Task :build
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 652ms
+6 actionable tasks: 6 executed

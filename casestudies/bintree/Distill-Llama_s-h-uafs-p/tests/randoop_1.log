@@ -1,0 +1,52 @@
+
+> Task :runRandoop
+Randoop for Java version "4.3.2, local changes, branch master, commit df17bc8, 2023-01-08".
+ANNOTATION: Detected @CheckRep-annotated method "public boolean system.testclass.BinTree.property_1()". Will use it to check rep invariant of class system.testclass.BinTree during generation.
+
+Will try to generate tests for 1 classes.
+PUBLIC MEMBERS=6
+Explorer = ForwardGenerator(steps: 0, null steps: 0, num_sequences_generated: 0;
+    allSequences: 0, regresson seqs: 0, error seqs: 0=0=0, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 0;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
+
+Progress update: steps=1, test inputs generated=0, failing inputs=0      (2025-05-02T17:10:55.458815337Z     8,10M used)
+Progress update: steps=1000, test inputs generated=230, failing inputs=149      (2025-05-02T17:10:58.318763955Z     100M used)
+Progress update: steps=2000, test inputs generated=392, failing inputs=290      (2025-05-02T17:10:59.714866817Z     31,4M used)
+Progress update: steps=3000, test inputs generated=529, failing inputs=413      (2025-05-02T17:11:00.778341674Z     72,1M used)
+Progress update: steps=4000, test inputs generated=643, failing inputs=511      (2025-05-02T17:11:01.660982543Z     125M used)
+Progress update: steps=5000, test inputs generated=755, failing inputs=608      (2025-05-02T17:11:02.515856997Z     195M used)
+Progress update: steps=6000, test inputs generated=868, failing inputs=710      (2025-05-02T17:11:03.380146157Z     120M used)
+Progress update: steps=7000, test inputs generated=944, failing inputs=781      (2025-05-02T17:11:03.956737031Z     133M used)
+Progress update: steps=7555, test inputs generated=1001, failing inputs=836      (2025-05-02T17:11:04.365863226Z     228M used)
+Normal method executions: 34301
+Exceptional method executions: 1672
+
+Average method execution time (normal termination):      0,000525
+Average method execution time (exceptional termination): 0,0393
+Approximate memory usage 228M
+Explorer = ForwardGenerator(steps: 7555, null steps: 6554, num_sequences_generated: 1001;
+    allSequences: 1001, regresson seqs: 164, error seqs: 836=836=836, invalid seqs: 0, subsumed_sequences: 0, num_failed_output_test: 1;
+    sideEffectFreeMethods: 1113, runtimePrimitivesSeen: 38)
+
+Error-revealing test output:
+Error-revealing test count: 836
+Writing error-revealing JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/ErrorTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/ErrorTest1.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/ErrorTest.java
+Wrote error-revealing JUnit tests.
+
+About to look for failing assertions in 83 regression sequences.
+
+Regression test output:
+Regression test count: 83
+Writing regression JUnit tests...
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest0.java
+Created file /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/test/java/RegressionTest.java
+Wrote regression JUnit tests.
+About to look for flaky methods.
+
+Invalid tests generated: 0
+
+BUILD SUCCESSFUL in 10s
+1 actionable task: 1 executed

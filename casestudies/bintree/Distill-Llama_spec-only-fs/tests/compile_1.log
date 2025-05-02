@@ -1,0 +1,79 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:77: error: cannot find symbol
+        if (seenValues.contains(node.value)) {
+                                    ^
+  symbol:   variable value
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:80: error: cannot find symbol
+        seenValues.add(node.value);
+                           ^
+  symbol:   variable value
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:84: error: cannot find symbol
+            if (node.left.value >= node.value) {
+                         ^
+  symbol:   variable value
+  location: variable left of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:84: error: cannot find symbol
+            if (node.left.value >= node.value) {
+                                       ^
+  symbol:   variable value
+  location: variable node of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:93: error: cannot find symbol
+            if (node.right.value <= node.value) {
+                          ^
+  symbol:   variable value
+  location: variable right of type Node
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:93: error: cannot find symbol
+            if (node.right.value <= node.value) {
+                                        ^
+  symbol:   variable value
+  location: variable node of type Node
+6 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:77: error: cannot find symbol
+          if (seenValues.contains(node.value)) {
+                                      ^
+    symbol:   variable value
+    location: variable node of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:80: error: cannot find symbol
+          seenValues.add(node.value);
+                             ^
+    symbol:   variable value
+    location: variable node of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:84: error: cannot find symbol
+              if (node.left.value >= node.value) {
+                           ^
+    symbol:   variable value
+    location: variable left of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:84: error: cannot find symbol
+              if (node.left.value >= node.value) {
+                                         ^
+    symbol:   variable value
+    location: variable node of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:93: error: cannot find symbol
+              if (node.right.value <= node.value) {
+                            ^
+    symbol:   variable value
+    location: variable right of type Node
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinTree.java:93: error: cannot find symbol
+              if (node.right.value <= node.value) {
+                                          ^
+    symbol:   variable value
+    location: variable node of type Node
+  6 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 370ms
+1 actionable task: 1 executed

@@ -1,0 +1,17 @@
+> Task :compileJava
+> Task :processResources
+> Task :classes
+> Task :jar UP-TO-DATE
+> Task :startScripts UP-TO-DATE
+> Task :distTar UP-TO-DATE
+> Task :distZip UP-TO-DATE
+> Task :assemble UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test NO-SOURCE
+> Task :check UP-TO-DATE
+> Task :build UP-TO-DATE
+
+BUILD SUCCESSFUL in 369ms
+6 actionable tasks: 2 executed, 4 up-to-date

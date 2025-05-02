@@ -1,0 +1,44 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:185: error: cannot find symbol
+        for (LinkedListNode cachedNode : getCache()) {
+                                         ^
+  symbol:   method getCache()
+  location: class NodeCachingLinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:217: error: method remove in interface Set<E> cannot be applied to given types;
+            cache.add(cache.remove().next);
+                           ^
+  required: Object
+  found:    no arguments
+  reason: actual and formal argument lists differ in length
+  where E is a type-variable:
+    E extends Object declared in interface Set
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:217: error: method remove in interface Set<E> cannot be applied to given types;
+              cache.add(cache.remove().next);
+                             ^
+    required: Object
+    found:    no arguments
+    reason: actual and formal argument lists differ in length
+    where E is a type-variable:
+      E extends Object declared in interface Set/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:185: error: cannot find symbol
+          for (LinkedListNode cachedNode : getCache()) {
+                                           ^
+    symbol:   method getCache()
+    location: class NodeCachingLinkedList
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 450ms
+1 actionable task: 1 executed

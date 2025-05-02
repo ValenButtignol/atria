@@ -1,0 +1,79 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:249: error: incompatible types: Entry cannot be converted to Entry[]
+        for (Entry[] tab : table) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:250: error: incompatible types: Entry[] cannot be converted to Entry
+            for (Entry e = tab; e != null; e = e.next) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:258: error: incompatible types: Entry cannot be converted to Entry[]
+        for (Entry[] tab : table) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:259: error: incompatible types: Entry[] cannot be converted to Entry
+            for (Entry e = tab; e != null; e = e.next) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:267: error: incompatible types: Entry cannot be converted to Entry[]
+        for (Entry[] tab : table) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:268: error: incompatible types: Entry[] cannot be converted to Entry
+            for (Entry e = tab; e != null; e = e.next) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:285: error: incompatible types: Entry cannot be converted to Entry[]
+        for (Entry[] tab : table) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:286: error: incompatible types: Entry[] cannot be converted to Entry
+            for (Entry e = tab; e != null; e = e.next) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:303: error: incompatible types: Entry cannot be converted to Entry[]
+        for (Entry[] tab : table) {
+                           ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:304: error: incompatible types: Entry[] cannot be converted to Entry
+            for (Entry e = tab; e != null; e = e.next) {
+                           ^
+10 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:249: error: incompatible types: Entry cannot be converted to Entry[]
+          for (Entry[] tab : table) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:250: error: incompatible types: Entry[] cannot be converted to Entry
+              for (Entry e = tab; e != null; e = e.next) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:258: error: incompatible types: Entry cannot be converted to Entry[]
+          for (Entry[] tab : table) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:259: error: incompatible types: Entry[] cannot be converted to Entry
+              for (Entry e = tab; e != null; e = e.next) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:267: error: incompatible types: Entry cannot be converted to Entry[]
+          for (Entry[] tab : table) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:268: error: incompatible types: Entry[] cannot be converted to Entry
+              for (Entry e = tab; e != null; e = e.next) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:285: error: incompatible types: Entry cannot be converted to Entry[]
+          for (Entry[] tab : table) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:286: error: incompatible types: Entry[] cannot be converted to Entry
+              for (Entry e = tab; e != null; e = e.next) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:303: error: incompatible types: Entry cannot be converted to Entry[]
+          for (Entry[] tab : table) {
+                             ^
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:304: error: incompatible types: Entry[] cannot be converted to Entry
+              for (Entry e = tab; e != null; e = e.next) {
+                             ^
+  10 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 399ms
+1 actionable task: 1 executed

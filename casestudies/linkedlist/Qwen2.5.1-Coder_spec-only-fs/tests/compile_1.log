@@ -1,0 +1,69 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:88: error: cannot find symbol
+            return header.next == header && header.prev == header;
+                                                  ^
+  symbol:   variable prev
+  location: variable header of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:92: error: cannot find symbol
+            if (current == null || current.prev == null || current.next == null)
+                                          ^
+  symbol:   variable prev
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+            if (current.prev.next != current || current.next.prev != current)
+                       ^
+  symbol:   variable prev
+  location: variable current of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+            if (current.prev.next != current || current.next.prev != current)
+                                                            ^
+  symbol:   variable prev
+  location: variable next of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:96: error: cannot find symbol
+            if (current.info == null)
+                       ^
+  symbol:   variable info
+  location: variable current of type Entry
+5 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:88: error: cannot find symbol
+              return header.next == header && header.prev == header;
+                                                    ^
+    symbol:   variable prev
+    location: variable header of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:92: error: cannot find symbol
+              if (current == null || current.prev == null || current.next == null)
+                                            ^
+    symbol:   variable prev
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+              if (current.prev.next != current || current.next.prev != current)
+                         ^
+    symbol:   variable prev
+    location: variable current of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+              if (current.prev.next != current || current.next.prev != current)
+                                                              ^
+    symbol:   variable prev
+    location: variable next of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:96: error: cannot find symbol
+              if (current.info == null)
+                         ^
+    symbol:   variable info
+    location: variable current of type Entry
+  5 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 371ms
+1 actionable task: 1 executed

@@ -1,0 +1,69 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:175: error: cannot find symbol
+        if (node.data <= min || node.data >= max) {
+                ^
+  symbol:   variable data
+  location: variable node of type AvlNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:175: error: cannot find symbol
+        if (node.data <= min || node.data >= max) {
+                                    ^
+  symbol:   variable data
+  location: variable node of type AvlNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:178: error: cannot find symbol
+        return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+                                         ^
+  symbol:   variable data
+  location: variable node of type AvlNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:178: error: cannot find symbol
+        return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+                                                                         ^
+  symbol:   variable data
+  location: variable node of type AvlNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:193: error: cannot find symbol
+        if (!seen.add(node.data)) {
+                          ^
+  symbol:   variable data
+  location: variable node of type AvlNode
+5 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:175: error: cannot find symbol
+          if (node.data <= min || node.data >= max) {
+                  ^
+    symbol:   variable data
+    location: variable node of type AvlNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:175: error: cannot find symbol
+          if (node.data <= min || node.data >= max) {
+                                      ^
+    symbol:   variable data
+    location: variable node of type AvlNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:178: error: cannot find symbol
+          return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+                                           ^
+    symbol:   variable data
+    location: variable node of type AvlNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:178: error: cannot find symbol
+          return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+                                                                           ^
+    symbol:   variable data
+    location: variable node of type AvlNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/AvlTree.java:193: error: cannot find symbol
+          if (!seen.add(node.data)) {
+                            ^
+    symbol:   variable data
+    location: variable node of type AvlNode
+  5 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 388ms
+1 actionable task: 1 executed

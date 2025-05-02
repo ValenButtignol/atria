@@ -1,0 +1,81 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:129: error: cannot find symbol
+        Set<Node> visited = new HashSet<>();
+            ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:131: error: cannot find symbol
+        LinkedList<Node> workList = new LinkedList<>();
+                   ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:131: error: type LinkedList does not take parameters
+        LinkedList<Node> workList = new LinkedList<>();
+                  ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:131: error: cannot infer type arguments for LinkedList
+        LinkedList<Node> workList = new LinkedList<>();
+                                                  ^
+  reason: cannot use '<>' with non-generic class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:134: error: cannot find symbol
+            Node current = (Node) workList.removeFirst();
+            ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:134: error: cannot find symbol
+            Node current = (Node) workList.removeFirst();
+                            ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:146: error: cannot find symbol
+            if (current == tail) {
+                           ^
+  symbol:   variable tail
+  location: class LinkedList
+7 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:129: error: cannot find symbol
+          Set<Node> visited = new HashSet<>();
+              ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:131: error: cannot find symbol
+          LinkedList<Node> workList = new LinkedList<>();
+                     ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:134: error: cannot find symbol
+              Node current = (Node) workList.removeFirst();
+              ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:134: error: cannot find symbol
+              Node current = (Node) workList.removeFirst();
+                              ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:146: error: cannot find symbol
+              if (current == tail) {
+                             ^
+    symbol:   variable tail
+    location: class LinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:131: error: cannot infer type arguments for LinkedList
+          LinkedList<Node> workList = new LinkedList<>();
+                                                    ^
+    reason: cannot use '<>' with non-generic class LinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:131: error: type LinkedList does not take parameters
+          LinkedList<Node> workList = new LinkedList<>();
+                    ^
+  7 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 377ms
+1 actionable task: 1 executed

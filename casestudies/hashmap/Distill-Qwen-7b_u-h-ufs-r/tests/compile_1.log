@@ -1,0 +1,39 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:260: error: cannot find symbol
+            if (capacity != MAXIMUM_CAPACITY) {
+                ^
+  symbol:   variable capacity
+  location: class HashMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:263: error: cannot find symbol
+        } else if (threshold != (int) (capacity * loadFactor)) {
+                                       ^
+  symbol:   variable capacity
+  location: class HashMap
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:260: error: cannot find symbol
+              if (capacity != MAXIMUM_CAPACITY) {
+                  ^
+    symbol:   variable capacity
+    location: class HashMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/HashMap.java:263: error: cannot find symbol
+          } else if (threshold != (int) (capacity * loadFactor)) {
+                                         ^
+    symbol:   variable capacity
+    location: class HashMap
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 365ms
+1 actionable task: 1 executed

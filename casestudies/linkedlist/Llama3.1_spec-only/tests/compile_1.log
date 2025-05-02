@@ -1,0 +1,98 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:86: error: cannot find symbol
+            return header == header.getPrev() && header == header.getNext();
+                                   ^
+  symbol:   method getPrev()
+  location: variable header of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:86: error: cannot find symbol
+            return header == header.getPrev() && header == header.getNext();
+                                                                 ^
+  symbol:   method getNext()
+  location: variable header of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:90: error: cannot find symbol
+            if (header != header.getPrev() || header != header.getNext()) {
+                                ^
+  symbol:   method getPrev()
+  location: variable header of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:90: error: cannot find symbol
+            if (header != header.getPrev() || header != header.getNext()) {
+                                                              ^
+  symbol:   method getNext()
+  location: variable header of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+            Node prev = header.getPrev();
+            ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+            Node prev = header.getPrev();
+                              ^
+  symbol:   method getPrev()
+  location: variable header of type Entry
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:95: error: cannot find symbol
+            Node curr = header;
+            ^
+  symbol:   class Node
+  location: class LinkedList
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:108: error: cannot find symbol
+            for (Node node = header; node != header; node = node.getNext()) {
+                 ^
+  symbol:   class Node
+  location: class LinkedList
+8 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+              Node prev = header.getPrev();
+              ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:95: error: cannot find symbol
+              Node curr = header;
+              ^
+    symbol:   class Node
+    location: class LinkedList
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:108: error: cannot find symbol
+              for (Node node = header; node != header; node = node.getNext()) {
+                   ^
+    symbol:   class Node
+    location: class LinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:86: error: cannot find symbol
+              return header == header.getPrev() && header == header.getNext();
+                                     ^
+    symbol:   method getPrev()
+    location: variable header of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:86: error: cannot find symbol
+              return header == header.getPrev() && header == header.getNext();
+                                                                   ^
+    symbol:   method getNext()
+    location: variable header of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:90: error: cannot find symbol
+              if (header != header.getPrev() || header != header.getNext()) {
+                                  ^
+    symbol:   method getPrev()
+    location: variable header of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:90: error: cannot find symbol
+              if (header != header.getPrev() || header != header.getNext()) {
+                                                                ^
+    symbol:   method getNext()
+    location: variable header of type Entry
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/LinkedList.java:94: error: cannot find symbol
+              Node prev = header.getPrev();
+                                ^
+    symbol:   method getPrev()
+    location: variable header of type Entry
+  8 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 368ms
+1 actionable task: 1 executed

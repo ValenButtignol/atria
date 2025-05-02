@@ -1,0 +1,39 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:185: error: incompatible types: LinkedListNode cannot be converted to NodeCachingLinkedList
+        NodeCachingLinkedList current = header.next;
+                                              ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:186: error: incomparable types: NodeCachingLinkedList and LinkedListNode
+        while (current != header) {
+                       ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:188: error: cannot find symbol
+            current = current.next;
+                             ^
+  symbol:   variable next
+  location: variable current of type NodeCachingLinkedList
+3 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:186: error: incomparable types: NodeCachingLinkedList and LinkedListNode
+          while (current != header) {
+                         ^/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:188: error: cannot find symbol
+              current = current.next;
+                               ^
+    symbol:   variable next
+    location: variable current of type NodeCachingLinkedList/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/NodeCachingLinkedList.java:185: error: incompatible types: LinkedListNode cannot be converted to NodeCachingLinkedList
+          NodeCachingLinkedList current = header.next;
+                                                ^
+  3 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 400ms
+1 actionable task: 1 executed

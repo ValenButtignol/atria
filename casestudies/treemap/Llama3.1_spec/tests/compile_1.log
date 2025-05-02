@@ -1,0 +1,51 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:259: error: cannot find symbol
+            if (Math.abs(blackCount - node.left.blackCount) > 1) {
+                                               ^
+  symbol:   variable blackCount
+  location: variable left of type TreeMap<K,V>.Node
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:262: error: cannot find symbol
+            if (Math.abs(blackCount - node.right.blackCount) > 1) {
+                                                ^
+  symbol:   variable blackCount
+  location: variable right of type TreeMap<K,V>.Node
+  where K,V are type-variables:
+    K extends Object declared in class TreeMap
+    V extends Object declared in class TreeMap
+2 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:259: error: cannot find symbol
+              if (Math.abs(blackCount - node.left.blackCount) > 1) {
+                                                 ^
+    symbol:   variable blackCount
+    location: variable left of type TreeMap<K,V>.Node
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/TreeMap.java:262: error: cannot find symbol
+              if (Math.abs(blackCount - node.right.blackCount) > 1) {
+                                                  ^
+    symbol:   variable blackCount
+    location: variable right of type TreeMap<K,V>.Node
+    where K,V are type-variables:
+      K extends Object declared in class TreeMap
+      V extends Object declared in class TreeMap
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 1s
+1 actionable task: 1 executed

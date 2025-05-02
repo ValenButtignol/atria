@@ -1,0 +1,70 @@
+Starting a Gradle Daemon, 1 busy Daemon could not be reused, use --status for details
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:269: error: cannot find symbol
+            if (!Nodes.isBinomialTree()) {
+                      ^
+  symbol:   method isBinomialTree()
+  location: variable Nodes of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:278: error: cannot find symbol
+                if (!Nodes.sibling.isBinomialTree()) {
+                                  ^
+  symbol:   method isBinomialTree()
+  location: variable sibling of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:287: error: cannot find symbol
+                if (!Nodes.child.isBinomialTree()) {
+                                ^
+  symbol:   method isBinomialTree()
+  location: variable child of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:319: error: cannot find symbol
+            if (!node.child.isBinomialTree()) {
+                           ^
+  symbol:   method isBinomialTree()
+  location: variable child of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:328: error: cannot find symbol
+            if (!node.sibling.isBinomialTree()) {
+                             ^
+  symbol:   method isBinomialTree()
+  location: variable sibling of type BinomialHeapNode
+5 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:269: error: cannot find symbol
+              if (!Nodes.isBinomialTree()) {
+                        ^
+    symbol:   method isBinomialTree()
+    location: variable Nodes of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:278: error: cannot find symbol
+                  if (!Nodes.sibling.isBinomialTree()) {
+                                    ^
+    symbol:   method isBinomialTree()
+    location: variable sibling of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:287: error: cannot find symbol
+                  if (!Nodes.child.isBinomialTree()) {
+                                  ^
+    symbol:   method isBinomialTree()
+    location: variable child of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:319: error: cannot find symbol
+              if (!node.child.isBinomialTree()) {
+                             ^
+    symbol:   method isBinomialTree()
+    location: variable child of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:328: error: cannot find symbol
+              if (!node.sibling.isBinomialTree()) {
+                               ^
+    symbol:   method isBinomialTree()
+    location: variable sibling of type BinomialHeapNode
+  5 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 3s
+1 actionable task: 1 executed

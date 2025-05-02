@@ -1,0 +1,52 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:265: error: cannot find symbol
+        int numNodes = Nodes.numNodes();
+                            ^
+  symbol:   method numNodes()
+  location: variable Nodes of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: bad operand types for binary operator '!='
+            if (temp.degree != temp.child != null ? temp.child.size() : 0) {
+                            ^
+  first type:  int
+  second type: BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: incompatible types: int cannot be converted to boolean
+            if (temp.degree != temp.child != null ? temp.child.size() : 0) {
+                                                  ^
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:283: error: for-each not applicable to expression type
+        for (BinomialHeapNode node : Nodes) {
+                                     ^
+  required: array or java.lang.Iterable
+  found:    BinomialHeapNode
+4 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:283: error: for-each not applicable to expression type
+          for (BinomialHeapNode node : Nodes) {
+                                       ^
+    required: array or java.lang.Iterable
+    found:    BinomialHeapNode/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: bad operand types for binary operator '!='
+              if (temp.degree != temp.child != null ? temp.child.size() : 0) {
+                              ^
+    first type:  int
+    second type: BinomialHeapNode/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: incompatible types: int cannot be converted to boolean
+              if (temp.degree != temp.child != null ? temp.child.size() : 0) {
+                                                    ^/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:265: error: cannot find symbol
+          int numNodes = Nodes.numNodes();
+                              ^
+    symbol:   method numNodes()
+    location: variable Nodes of type BinomialHeapNode
+  4 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 373ms
+1 actionable task: 1 executed

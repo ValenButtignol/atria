@@ -1,0 +1,89 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:285: error: cannot find symbol
+    private boolean isValidBinaryTree(Node node) {
+                                      ^
+  symbol:   class Node
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:298: error: cannot find symbol
+    private boolean isBinomialHeapPropertySatisfied(Node node) {
+                                                    ^
+  symbol:   class Node
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:308: error: cannot find symbol
+    private boolean areDegreesPowersOfTwo(Node node) {
+                                          ^
+  symbol:   class Node
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:267: error: cannot find symbol
+        if (root == null) {
+            ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:271: error: cannot find symbol
+        if (!isValidBinaryTree(root)) {
+                               ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: cannot find symbol
+        if (!isBinomialHeapPropertySatisfied(root)) {
+                                             ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:279: error: cannot find symbol
+        if (!areDegreesPowersOfTwo(root)) {
+                                   ^
+  symbol:   variable root
+  location: class BinomialHeap
+7 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:285: error: cannot find symbol
+      private boolean isValidBinaryTree(Node node) {
+                                        ^
+    symbol:   class Node
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:298: error: cannot find symbol
+      private boolean isBinomialHeapPropertySatisfied(Node node) {
+                                                      ^
+    symbol:   class Node
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:308: error: cannot find symbol
+      private boolean areDegreesPowersOfTwo(Node node) {
+                                            ^
+    symbol:   class Node
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:267: error: cannot find symbol
+          if (root == null) {
+              ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:271: error: cannot find symbol
+          if (!isValidBinaryTree(root)) {
+                                 ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: cannot find symbol
+          if (!isBinomialHeapPropertySatisfied(root)) {
+                                               ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:279: error: cannot find symbol
+          if (!areDegreesPowersOfTwo(root)) {
+                                     ^
+    symbol:   variable root
+    location: class BinomialHeap
+  7 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 405ms
+1 actionable task: 1 executed

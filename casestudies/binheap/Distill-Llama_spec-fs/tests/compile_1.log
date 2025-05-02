@@ -1,0 +1,239 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:263: error: cannot find symbol
+        if (size != numNodes(rootNode)) {
+                             ^
+  symbol:   variable rootNode
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:267: error: cannot find symbol
+        if (!hasDuplicates(rootNode)) {
+                           ^
+  symbol:   variable rootNode
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:271: error: cannot find symbol
+        if (!isHeapStructureValid(rootNode)) {
+                                  ^
+  symbol:   variable rootNode
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: cannot find symbol
+        if (!isCompleteBinaryTree(rootNode)) {
+                                  ^
+  symbol:   variable rootNode
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:285: error: cannot find symbol
+        return 1 + numNodes(rootNode.leftChild) + numNodes(rootNode.rightChild);
+                                    ^
+  symbol:   variable leftChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:285: error: cannot find symbol
+        return 1 + numNodes(rootNode.leftChild) + numNodes(rootNode.rightChild);
+                                                                   ^
+  symbol:   variable rightChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:301: error: cannot find symbol
+        return hasDuplicatesHelper(node.leftChild, seenKeys) && hasDuplicatesHelper(node.rightChild, seenKeys);
+                                       ^
+  symbol:   variable leftChild
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:301: error: cannot find symbol
+        return hasDuplicatesHelper(node.leftChild, seenKeys) && hasDuplicatesHelper(node.rightChild, seenKeys);
+                                                                                        ^
+  symbol:   variable rightChild
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:309: error: cannot find symbol
+        if (!isLeftChildValid(rootNode.leftChild, rootNode.getKey())) {
+                                      ^
+  symbol:   variable leftChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:312: error: cannot find symbol
+        if (!isRightChildValid(rootNode.rightChild, rootNode.getKey())) {
+                                       ^
+  symbol:   variable rightChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:316: error: cannot find symbol
+        return isHeapStructureValid(rootNode.leftChild) && isHeapStructureValid(rootNode.rightChild);
+                                            ^
+  symbol:   variable leftChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:316: error: cannot find symbol
+        return isHeapStructureValid(rootNode.leftChild) && isHeapStructureValid(rootNode.rightChild);
+                                                                                        ^
+  symbol:   variable rightChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:344: error: cannot find symbol
+        return isCompleteBinaryTreeHelper(rootNode.leftChild, rootNode.rightChild);
+                                                  ^
+  symbol:   variable leftChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:344: error: cannot find symbol
+        return isCompleteBinaryTreeHelper(rootNode.leftChild, rootNode.rightChild);
+                                                                      ^
+  symbol:   variable rightChild
+  location: variable rootNode of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+        return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                              ^
+  symbol:   variable leftChild
+  location: variable left of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+        return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                                                            ^
+  symbol:   variable rightChild
+  location: variable left of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+        return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                                                                                            ^
+  symbol:   variable leftChild
+  location: variable right of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+        return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                                                                                                                           ^
+  symbol:   variable rightChild
+  location: variable right of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+        return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                   ^
+  symbol:   variable leftChild
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+        return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                                             ^
+  symbol:   variable rightChild
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+        return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                                                                                   ^
+  symbol:   variable leftChild
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+        return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                                                                                                                 ^
+  symbol:   variable rightChild
+  location: variable node of type BinomialHeapNode
+22 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:263: error: cannot find symbol
+          if (size != numNodes(rootNode)) {
+                               ^
+    symbol:   variable rootNode
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:267: error: cannot find symbol
+          if (!hasDuplicates(rootNode)) {
+                             ^
+    symbol:   variable rootNode
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:271: error: cannot find symbol
+          if (!isHeapStructureValid(rootNode)) {
+                                    ^
+    symbol:   variable rootNode
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: cannot find symbol
+          if (!isCompleteBinaryTree(rootNode)) {
+                                    ^
+    symbol:   variable rootNode
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:285: error: cannot find symbol
+          return 1 + numNodes(rootNode.leftChild) + numNodes(rootNode.rightChild);
+                                      ^
+    symbol:   variable leftChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:285: error: cannot find symbol
+          return 1 + numNodes(rootNode.leftChild) + numNodes(rootNode.rightChild);
+                                                                     ^
+    symbol:   variable rightChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:301: error: cannot find symbol
+          return hasDuplicatesHelper(node.leftChild, seenKeys) && hasDuplicatesHelper(node.rightChild, seenKeys);
+                                         ^
+    symbol:   variable leftChild
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:301: error: cannot find symbol
+          return hasDuplicatesHelper(node.leftChild, seenKeys) && hasDuplicatesHelper(node.rightChild, seenKeys);
+                                                                                          ^
+    symbol:   variable rightChild
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:309: error: cannot find symbol
+          if (!isLeftChildValid(rootNode.leftChild, rootNode.getKey())) {
+                                        ^
+    symbol:   variable leftChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:312: error: cannot find symbol
+          if (!isRightChildValid(rootNode.rightChild, rootNode.getKey())) {
+                                         ^
+    symbol:   variable rightChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:316: error: cannot find symbol
+          return isHeapStructureValid(rootNode.leftChild) && isHeapStructureValid(rootNode.rightChild);
+                                              ^
+    symbol:   variable leftChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:316: error: cannot find symbol
+          return isHeapStructureValid(rootNode.leftChild) && isHeapStructureValid(rootNode.rightChild);
+                                                                                          ^
+    symbol:   variable rightChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:344: error: cannot find symbol
+          return isCompleteBinaryTreeHelper(rootNode.leftChild, rootNode.rightChild);
+                                                    ^
+    symbol:   variable leftChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:344: error: cannot find symbol
+          return isCompleteBinaryTreeHelper(rootNode.leftChild, rootNode.rightChild);
+                                                                        ^
+    symbol:   variable rightChild
+    location: variable rootNode of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+          return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                                ^
+    symbol:   variable leftChild
+    location: variable left of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+          return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                                                              ^
+    symbol:   variable rightChild
+    location: variable left of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+          return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                                                                                              ^
+    symbol:   variable leftChild
+    location: variable right of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:358: error: cannot find symbol
+          return isComplete(left.leftChild) && isComplete(left.rightChild) && isComplete(right.leftChild) && isComplete(right.rightChild);
+                                                                                                                             ^
+    symbol:   variable rightChild
+    location: variable right of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+          return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                     ^
+    symbol:   variable leftChild
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+          return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                                               ^
+    symbol:   variable rightChild
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+          return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                                                                                     ^
+    symbol:   variable leftChild
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:366: error: cannot find symbol
+          return node.leftChild != null && node.rightChild != null && isComplete(node.leftChild) && isComplete(node.rightChild);
+                                                                                                                   ^
+    symbol:   variable rightChild
+    location: variable node of type BinomialHeapNode
+  22 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 375ms
+1 actionable task: 1 executed

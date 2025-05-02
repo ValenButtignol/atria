@@ -1,0 +1,79 @@
+
+> Task :compileJava FAILED
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:262: error: cannot find symbol
+        if (root == null) {
+            ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:267: error: cannot find symbol
+        stack.push(root);
+                   ^
+  symbol:   variable root
+  location: class BinomialHeap
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:274: error: cannot find symbol
+            if (node.left != null) {
+                    ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: cannot find symbol
+                stack.push(node.left);
+                               ^
+  symbol:   variable left
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:277: error: cannot find symbol
+            if (node.right != null) {
+                    ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+/home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:278: error: cannot find symbol
+                stack.push(node.right);
+                               ^
+  symbol:   variable right
+  location: variable node of type BinomialHeapNode
+6 errors
+
+[Incubating] Problems report is available at: file:///home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:262: error: cannot find symbol
+          if (root == null) {
+              ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:267: error: cannot find symbol
+          stack.push(root);
+                     ^
+    symbol:   variable root
+    location: class BinomialHeap
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:274: error: cannot find symbol
+              if (node.left != null) {
+                      ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:275: error: cannot find symbol
+                  stack.push(node.left);
+                                 ^
+    symbol:   variable left
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:277: error: cannot find symbol
+              if (node.right != null) {
+                      ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  /home/investigador/vbuttignol/atria/tools/repok-verifier-and-injector/src/main/java/system/testclass/BinomialHeap.java:278: error: cannot find symbol
+                  stack.push(node.right);
+                                 ^
+    symbol:   variable right
+    location: variable node of type BinomialHeapNode
+  6 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 372ms
+1 actionable task: 1 executed

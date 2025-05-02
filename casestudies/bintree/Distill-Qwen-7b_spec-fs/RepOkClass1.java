@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the BST property holds for all nodes
         if (!verifyBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
             return false;

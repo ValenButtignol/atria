@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the table is not null and is an array of Entries
         if (table == null || table.length == 0) {
             return (size == 0);

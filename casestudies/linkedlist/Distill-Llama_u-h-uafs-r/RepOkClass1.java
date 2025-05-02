@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the size is correct
         if (size != 0) {
             // Traverse the list to check structure and consistency

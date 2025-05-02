@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check header's previous and next pointers
         if (header.previous != header || header.next != header) {
             return false;

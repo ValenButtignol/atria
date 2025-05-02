@@ -1,5 +1,5 @@
 public class RepOkClass4{
-    public boolean property() {
+    public boolean property_4() {
         // Check if the header node is correctly set
         if (header.next == null && firstCachedNode != null) {
             throw new IllegalStateException("Header node is null while cache is non-empty");

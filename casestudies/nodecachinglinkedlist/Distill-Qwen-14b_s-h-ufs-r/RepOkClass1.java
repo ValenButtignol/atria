@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check header's previous and next
         if (header.getPrevious() != header || header.getNext() == null) {
             return false;

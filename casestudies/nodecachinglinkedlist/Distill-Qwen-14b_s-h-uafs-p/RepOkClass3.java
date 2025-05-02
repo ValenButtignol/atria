@@ -1,5 +1,5 @@
 public class RepOkClass3{
-    public boolean property() {
+    public boolean property_3() {
         Set<LinkedListNode> visited = new HashSet<>();
         LinkedListNode current = header.next;
         visited.add(header);

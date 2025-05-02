@@ -1,19 +1,19 @@
 public class RepOkClass1{
-    public boolean repOK() {
-        return repOK(root);
+    public boolean repOK_1() {
+        return repOK_1(root);
     }
 
-    private boolean repOK(AvlNode t) {
+    private boolean repOK_1(AvlNode t) {
         if (t == null) {
             return true;
         } else {
             if (!(t instanceof AvlNode)) {
                 return false;
             }
-            if (t.left != null && t.left != root && !repOK(t.left)) {
+            if (t.left != null && t.left != root && !repOK_1(t.left)) {
                 return false;
             }
-            if (t.right != null && t.right != root && !repOK(t.right)) {
+            if (t.right != null && t.right != root && !repOK_1(t.right)) {
                 return false;
             }
             if (t.height < 0) {

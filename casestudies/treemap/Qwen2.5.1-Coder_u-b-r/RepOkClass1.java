@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Root property: The root node is always black.
         if (root != null && root.color != BLACK) {
             return false;

@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (root == null) {
             return true;
         }
@@ -19,14 +19,14 @@ public class RepOkClass1{
             }
         }
     
-        return repOK(root.left) && repOK(root.right);
+        return repOK_1(root.left) && repOK_1(root.right);
     }
 
     private int height(AvlNode t) {
         return t == null ? -1 : t.height;
     }
 
-    private boolean repOK(AvlNode t) {
+    private boolean repOK_1(AvlNode t) {
         if (t == null) {
             return true;
         }
@@ -39,7 +39,7 @@ public class RepOkClass1{
             return false;
         }
     
-        return repOK(t.left) && repOK(t.right);
+        return repOK_1(t.left) && repOK_1(t.right);
     }
 
 

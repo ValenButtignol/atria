@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // The header node should be the first node in the list
         if (header.next != header) {
             return false;

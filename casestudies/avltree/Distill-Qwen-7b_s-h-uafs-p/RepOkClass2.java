@@ -1,5 +1,5 @@
 public class RepOkClass2{
-    public boolean property() {
+    public boolean property_2() {
         if (isEmpty()) {
             return true;
         }

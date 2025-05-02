@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the tree is empty and size is 0
         if (root == null) {
             return size == 0;
@@ -22,7 +22,7 @@ public class RepOkClass1{
                 if (left.value >= root.value) {
                     return false;
                 }
-                if (!repOK(left)) {
+                if (!repOK_1(left)) {
                     return false;
                 }
             }
@@ -32,7 +32,7 @@ public class RepOkClass1{
                 if (right.value <= root.value) {
                     return false;
                 }
-                if (!repOK(right)) {
+                if (!repOK_1(right)) {
                     return false;
                 }
             }

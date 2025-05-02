@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check cache size is within valid range
         if (cacheSize < 0 || cacheSize > maximumCacheSize) {
             return false;

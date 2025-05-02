@@ -1,5 +1,5 @@
 public class RepOkClass1{
-        public boolean repOK() {
+        public boolean repOK_1() {
             // Check if the tree is a BST
             if (!isBST(root, null, null)) {
                 return false;

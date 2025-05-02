@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (table == null) return false;
         if (size < 0) return false;
         if (threshold < 0) return false;

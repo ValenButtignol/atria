@@ -1,5 +1,5 @@
 public class RepOkClass4{
-    public boolean property() {
+    public boolean property_4() {
         // Check if the header's next is itself, which would indicate a cycle.
         if (header.next == header) {
             return false;

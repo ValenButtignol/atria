@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (size < 0) {
             return false;
         }
@@ -13,7 +13,7 @@ public class RepOkClass1{
         }
     
         if (Nodes != null) {
-            if (!Nodes.repOK()) {
+            if (!Nodes.repOK_1()) {
                 return false;
             }
         }

@@ -1,5 +1,5 @@
 public class RepOkClass3{
-    public boolean property() {
+    public boolean property_3() {
         // Create a node with a specific value
         Object value = "testValue";
         LinkedListNode node = createNode(value);

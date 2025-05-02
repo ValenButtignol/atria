@@ -1,5 +1,5 @@
 public class RepOkClass4{
-    public boolean property() {
+    public boolean property_4() {
         List<Integer> inOrderList = new ArrayList<>();
         inOrderTraversal(root, inOrderList);
         for (int i = 1; i < inOrderList.size(); i++) {

@@ -1,5 +1,5 @@
 public class RepOkClass4{
-        private boolean property(Node node) {
+        private boolean property_4(Node node) {
             if (node == null) {
                 return true;
             }
@@ -8,11 +8,11 @@ public class RepOkClass4{
                     return false;
                 }
             }
-            return property(node.left) && property(node.right);
+            return property_4(node.left) && property_4(node.right);
         }
 
         public boolean invariant() {
-            return property(root);
+            return property_4(root);
         }
 
 

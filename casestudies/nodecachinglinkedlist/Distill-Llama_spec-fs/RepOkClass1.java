@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the size is correct
         if (size != (header.next != header ? 1 : 0) + (cacheSize)) {
             return false;

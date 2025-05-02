@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         int expectedSize = size();
         if (expectedSize != size) {
             return false;

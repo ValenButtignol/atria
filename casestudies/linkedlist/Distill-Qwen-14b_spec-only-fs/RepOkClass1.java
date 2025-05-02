@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the size is consistent with the list structure
         if (size != 0) {
             // The first node should be the one after the header

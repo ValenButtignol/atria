@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         Entry e = header.next;
         int count = 0;
         while (e != header) {

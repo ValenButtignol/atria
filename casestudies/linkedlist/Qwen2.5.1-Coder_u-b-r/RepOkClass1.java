@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the header is correctly linked to itself
         if (header.next != header || header.previous != header) {
             return false;

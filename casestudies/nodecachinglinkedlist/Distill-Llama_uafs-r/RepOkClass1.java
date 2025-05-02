@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the header's next is the first node
         if (header.next != firstCachedNode) {
             return false;

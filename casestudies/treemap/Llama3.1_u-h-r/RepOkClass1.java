@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    private boolean repOK() {
+    private boolean repOK_1() {
         if (root != null) {
             if (root.color != BLACK) {
                 return false;

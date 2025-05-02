@@ -1,5 +1,5 @@
 public class RepOkClass2{
-    private boolean property() {
+    private boolean property_2() {
         if (root == null) {
             return true;
         }

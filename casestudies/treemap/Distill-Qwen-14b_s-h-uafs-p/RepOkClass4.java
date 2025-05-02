@@ -1,5 +1,5 @@
 public class RepOkClass4{
-    public boolean property() {
+    public boolean property_4() {
         if (root != null) {
             // Check root's parent is null
             if (root.parent != null) {

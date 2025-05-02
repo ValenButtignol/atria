@@ -1,5 +1,5 @@
 public class RepOkClass5{
-    public boolean property() {
+    public boolean property_5() {
         List<K> keys = new ArrayList<>();
         getKeys(root, keys);
         return keys.size() == size;

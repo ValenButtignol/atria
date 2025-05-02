@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean property() {
+    public boolean property_1() {
         int actualSize = 0;
         LinkedListNode current = header.next;
         while (current != header && current != null) {

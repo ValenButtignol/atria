@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (size < 0)
             return false;
     
@@ -25,7 +25,7 @@ public class RepOkClass1{
         return true;
     }
 
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (size < 0)
             return false;
     

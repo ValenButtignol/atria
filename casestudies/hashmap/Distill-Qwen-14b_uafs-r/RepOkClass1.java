@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check size consistency
         int actualSize = 0;
         for (Entry[] tab : new Entry[]{table}) { // To avoid issues with table being modified during iteration

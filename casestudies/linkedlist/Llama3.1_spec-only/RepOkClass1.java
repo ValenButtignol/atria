@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the list is not empty
         if (size() == 0) {
             // If the list is empty, the header node should be the only node in the list

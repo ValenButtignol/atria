@@ -1,5 +1,5 @@
 public class RepOkClass5{
-    public boolean property() {
+    public boolean property_5() {
         int blackCount = 0;
         Node current = root;
         while (current != null) {

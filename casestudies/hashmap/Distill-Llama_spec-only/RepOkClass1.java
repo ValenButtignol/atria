@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the size is correctly maintained
         if (size != table.length - threshold) {
             return false;

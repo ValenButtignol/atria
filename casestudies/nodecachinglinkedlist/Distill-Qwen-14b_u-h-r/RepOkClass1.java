@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (header == null) return false;
         if (header.previous != header || header.next != header) return false;
         if (size < 0) return false;

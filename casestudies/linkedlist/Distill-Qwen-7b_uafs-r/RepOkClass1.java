@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the list is empty
         if (size == 0) {
             // Header's next should be null if the list is empty

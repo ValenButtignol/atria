@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean property() {
+    public boolean property_1() {
         int actualSize = countNodes(Nodes);
         return actualSize == size;
     }

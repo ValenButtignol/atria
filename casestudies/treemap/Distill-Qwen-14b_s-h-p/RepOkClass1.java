@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean property() {
+    public boolean property_1() {
         return (root == null) || (root.color == BLACK);
     }
 

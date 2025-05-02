@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check that the size is consistent with the number of entries in the table
         if (size != numEntries()) {
             return false;

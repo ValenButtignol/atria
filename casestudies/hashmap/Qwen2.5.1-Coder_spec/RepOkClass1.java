@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check initial capacity and load factor constraints
         if (initialCapacity < 0) {
             return false;

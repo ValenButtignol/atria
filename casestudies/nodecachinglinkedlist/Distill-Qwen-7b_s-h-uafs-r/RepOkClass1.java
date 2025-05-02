@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check that the size matches the number of nodes in the linked list
         if (size != countNodes(header)) {
             return false;

@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check that the table is properly filled with valid entries or nulls
         for (int i = 0; i < table.length; i++) {
             Entry e = table[i];

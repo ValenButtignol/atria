@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the header's next is itself, which would mean an empty list
         if (header.next == header) {
             if (size != 0) {

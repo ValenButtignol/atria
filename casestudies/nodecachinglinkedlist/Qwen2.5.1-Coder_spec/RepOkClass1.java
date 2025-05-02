@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the linked list is circular
         if (header.next != header || header.previous != header) {
             return false;

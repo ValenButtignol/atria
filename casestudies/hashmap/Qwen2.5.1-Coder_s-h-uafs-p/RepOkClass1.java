@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean property() {
+    public boolean property_1() {
         for (int i = 0; i < table.length; i++) {
             Entry e = table[i];
             while (e != null) {

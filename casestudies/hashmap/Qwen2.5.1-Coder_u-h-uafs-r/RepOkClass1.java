@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (size < 0) return false;
         if (size > table.length) return false;
         if (loadFactor <= 0 || Float.isNaN(loadFactor)) return false;

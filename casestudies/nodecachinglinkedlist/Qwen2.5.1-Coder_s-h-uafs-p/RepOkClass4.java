@@ -1,5 +1,5 @@
 public class RepOkClass4{
-    public boolean property() {
+    public boolean property_4() {
         for (LinkedListNode node = header.next; node != header; node = node.next) {
             if (node.getValue() == null) {
                 return false;

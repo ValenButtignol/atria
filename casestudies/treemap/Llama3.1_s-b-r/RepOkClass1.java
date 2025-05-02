@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    private boolean repOK() {
+    private boolean repOK_1() {
         // 1. The root is either null or a valid node
         if (root == null) {
             return true;

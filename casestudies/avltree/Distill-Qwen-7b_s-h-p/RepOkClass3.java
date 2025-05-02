@@ -1,5 +1,5 @@
 public class RepOkClass3{
-    public boolean property(AvlTree tree) {
+    public boolean property_3(AvlTree tree) {
         if (tree.isEmpty()) {
             throw new IllegalStateException("Tree is empty");
         }

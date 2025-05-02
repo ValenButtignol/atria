@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK(TreeMap<K, V> treeMap) {
+    public boolean repOK_1(TreeMap<K, V> treeMap) {
         return treeMap.root.color == BLACK;
     }
 

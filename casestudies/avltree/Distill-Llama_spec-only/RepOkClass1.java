@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the root is null (empty tree is valid)
         if (root == null) {
             return true;
@@ -24,8 +24,8 @@ public class RepOkClass1{
         }
     
         // Recursively check the left and right subtrees
-        return (root.left == null || root.left.repOK()) &&
-               (root.right == null || root.right.repOK());
+        return (root.left == null || root.left.repOK_1()) &&
+               (root.right == null || root.right.repOK_1());
     }
 
 

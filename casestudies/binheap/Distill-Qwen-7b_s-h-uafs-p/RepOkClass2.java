@@ -1,5 +1,5 @@
 public class RepOkClass2{
-    public boolean property() {
+    public boolean property_2() {
         List<Integer> degrees = new ArrayList<>();
         BinomialHeapNode current = Nodes;
         while (current != null) {
@@ -23,7 +23,7 @@ public class RepOkClass2{
         return true;
     }
 
-    public boolean property() {
+    public boolean property_2() {
         List<Integer> degrees = new ArrayList<>();
         BinomialHeapNode current = Nodes;
         while (current != null) {

@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the header is not null and the size is correct
         if (header == null && size != 0) {
             return false;

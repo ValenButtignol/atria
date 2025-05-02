@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check header node's previous points to itself
         if (header.getPreviousNode() != header) {
             return false;

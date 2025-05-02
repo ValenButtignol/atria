@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the root is null or if it is black
         if (root != null && root.color != BLACK) {
             return false;

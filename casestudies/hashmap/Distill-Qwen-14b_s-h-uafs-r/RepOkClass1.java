@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check that the table is initialized and has a valid capacity
         if (table == null) {
             return false;

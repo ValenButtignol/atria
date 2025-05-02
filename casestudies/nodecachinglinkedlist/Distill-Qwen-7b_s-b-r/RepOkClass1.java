@@ -1,5 +1,5 @@
 public class RepOkClass1{
-        private boolean repOK() {
+        private boolean repOK_1() {
             // Check that header is never null
             if (header == null) {
                 return false;

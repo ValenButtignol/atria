@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check that the header is a sentinel node
         if (header.previous != header || header.next != header) {
             return false;

@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    private boolean repOK() {
+    private boolean repOK_1() {
         if (root != null) {
             if (root.color != BLACK) {
                 return false;
@@ -10,17 +10,17 @@ public class RepOkClass1{
             if (root.right != null && root.right.parent != root) {
                 return false;
             }
-            if (!repOK(root.left)) {
+            if (!repOK_1(root.left)) {
                 return false;
             }
-            if (!repOK(root.right)) {
+            if (!repOK_1(root.right)) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean repOK(Node node) {
+    private boolean repOK_1(Node node) {
         if (node == null) {
             return true;
         }
@@ -36,7 +36,7 @@ public class RepOkClass1{
         if (node.left != null && node.right != null && node.left.parent == node.right) {
             return false;
         }
-        return repOK(node.left) && repOK(node.right);
+        return repOK_1(node.left) && repOK_1(node.right);
     }
 
 

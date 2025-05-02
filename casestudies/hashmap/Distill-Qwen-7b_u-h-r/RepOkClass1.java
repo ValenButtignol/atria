@@ -1,5 +1,5 @@
 public class RepOkClass1{
-        public boolean repOK() {
+        public boolean repOK_1() {
             // Check that the size is non-negative
             if (size < 0) {
                 return false;

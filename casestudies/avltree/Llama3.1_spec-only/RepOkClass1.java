@@ -1,9 +1,9 @@
 public class RepOkClass1{
-        private boolean repOK() {
-            return repOK(this.root);
+        private boolean repOK_1() {
+            return repOK_1(this.root);
         }
 
-        private boolean repOK(AvlNode t) {
+        private boolean repOK_1(AvlNode t) {
             if (t == null) {
                 return true;
             }
@@ -24,7 +24,7 @@ public class RepOkClass1{
                 return false;
             }
     
-            return repOK(t.left) && repOK(t.right);
+            return repOK_1(t.left) && repOK_1(t.right);
         }
 
     public class Main {
@@ -38,7 +38,7 @@ public class RepOkClass1{
             tree.insert(6);
             tree.insert(8);
     
-            System.out.println(tree.repOK()); // prints: true
+            System.out.println(tree.repOK_1()); // prints: true
         }
     }
 

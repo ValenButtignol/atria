@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the root is null, in which case the tree is empty
         if (root == null) {
             return size == 0;

@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    private boolean repOK() {
+    private boolean repOK_1() {
         // Check if the table size is a power of 2
         if ((table.length & (table.length - 1)) != 0) {
             return false;

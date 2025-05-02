@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the table is null or has an invalid capacity
         if (table == null) {
             return false;

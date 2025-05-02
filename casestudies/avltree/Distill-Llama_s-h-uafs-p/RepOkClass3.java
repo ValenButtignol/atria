@@ -1,5 +1,5 @@
 public class RepOkClass3{
-    public boolean property() {
+    public boolean property_3() {
         int nodeCount = 0;
         AvlNode current = root;
     

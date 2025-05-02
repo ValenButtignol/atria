@@ -1,5 +1,5 @@
 public class RepOkClass4{
-    public boolean property() {
+    public boolean property_4() {
         int[] bucketCounts = new int[table.length];
         for (Entry e : table) {
             while (e != null) {

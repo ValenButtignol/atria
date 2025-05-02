@@ -1,5 +1,5 @@
 public class RepOkClass3{
-    public boolean property() {
+    public boolean property_3() {
         Set<BinomialHeapNode> visited = new HashSet<BinomialHeapNode>();
         visited.add(Nodes);
         LinkedList<BinomialHeapNode> workList = new LinkedList<BinomialHeapNode>();

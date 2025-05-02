@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (isEmpty()) {
             return root == null;
         }
@@ -32,7 +32,7 @@ public class RepOkClass1{
         k1.right = k2;
         k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
         k1.height = Math.max(height(k1.left), k2.height) + 1;
-        return repOK();
+        return repOK_1();
     }
 
     private boolean repOKAfterRotateRight(AvlNode k1) {
@@ -41,7 +41,7 @@ public class RepOkClass1{
         k2.left = k1;
         k1.height = Math.max(height(k1.left), height(k1.right)) + 1;
         k2.height = Math.max(height(k2.right), k1.height) + 1;
-        return repOK();
+        return repOK_1();
     }
 
     private boolean repOKAfterDoubleLeft(AvlNode k3) {

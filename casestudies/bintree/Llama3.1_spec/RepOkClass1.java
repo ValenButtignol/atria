@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the root is null, then the size should be 0
         if (root == null) {
             return size == 0;

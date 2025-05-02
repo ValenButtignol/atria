@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (table == null) {
             return size == 0;
         }
@@ -24,7 +24,7 @@ public class RepOkClass1{
         return true;
     }
 
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (table == null) {
             return size == 0;
         }

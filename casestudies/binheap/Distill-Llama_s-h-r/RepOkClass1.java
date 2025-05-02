@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if Nodes is null when size is zero
         if (size != 0 && Nodes == null) {
             return false;

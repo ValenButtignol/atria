@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check table length is a power of two and within maximum capacity
         int tableLength = table.length;
         if ((tableLength & (tableLength - 1)) != 0) {

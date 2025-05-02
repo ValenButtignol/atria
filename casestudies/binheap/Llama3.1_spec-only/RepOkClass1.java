@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the size attribute is equal to the number of elements in the heap
         if (size != countNodes()) {
             return false;

@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check that size is correct
         int actualSize = countNodes(root);
         if (actualSize != size) {

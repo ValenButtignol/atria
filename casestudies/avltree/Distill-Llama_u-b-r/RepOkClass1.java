@@ -1,9 +1,9 @@
 public class RepOkClass1{
-    public boolean repOK() {
-        return repOK(root);
+    public boolean repOK_1() {
+        return repOK_1(root);
     }
 
-    private boolean repOK(AvlNode t) {
+    private boolean repOK_1(AvlNode t) {
         if (t == null) {
             return true;
         }
@@ -25,7 +25,7 @@ public class RepOkClass1{
         }
     
         // Recursively check the balance and structure of left and right subtrees
-        return repOK(t.left) && repOK(t.right);
+        return repOK_1(t.left) && repOK_1(t.right);
     }
 
 

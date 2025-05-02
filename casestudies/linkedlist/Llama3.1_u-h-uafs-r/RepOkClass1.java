@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (header.next != header) {
             for (Entry e = header.next; e != header; e = e.next) {
                 if (e.previous != e.previous.previous) {

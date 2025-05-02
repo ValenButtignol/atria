@@ -1,6 +1,6 @@
 public class RepOkClass1{
-    public boolean repOK() {
-        return (Nodes == null ? true : Nodes.repOK()) && (size == (Nodes == null ? 0 : Nodes.size()));
+    public boolean repOK_1() {
+        return (Nodes == null ? true : Nodes.repOK_1()) && (size == (Nodes == null ? 0 : Nodes.size()));
     }
 
 

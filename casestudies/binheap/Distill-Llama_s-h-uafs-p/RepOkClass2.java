@@ -1,5 +1,5 @@
 public class RepOkClass2{
-    public boolean property() {
+    public boolean property_2() {
         Set<BinomialHeapNode> visited = new HashSet<>();
         Stack<BinomialHeapNode> stack = new Stack<>();
         stack.push(root);

@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the header node is correctly initialized
         if (header == null || header.next != header || header.previous != header) {
             return false;

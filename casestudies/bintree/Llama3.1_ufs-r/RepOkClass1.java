@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (size < 0) {
             return false;
         }
@@ -41,11 +41,11 @@ public class RepOkClass1{
         binTree.add(6);
         binTree.add(8);
     
-        System.out.println(binTree.repOK()); // prints: true
+        System.out.println(binTree.repOK_1()); // prints: true
     
         binTree.add(1); // adds a value that breaks the BST property
     
-        System.out.println(binTree.repOK()); // prints: false
+        System.out.println(binTree.repOK_1()); // prints: false
     }
 
 

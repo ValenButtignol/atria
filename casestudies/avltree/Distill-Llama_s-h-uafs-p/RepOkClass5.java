@@ -1,5 +1,5 @@
 public class RepOkClass5{
-    public boolean property() {
+    public boolean property_5() {
         // Check if root is null
         if (root == null) {
             // If root is null, size must be zero
@@ -24,7 +24,7 @@ public class RepOkClass5{
         return nodeCount;
     }
 
-    public boolean property() {
+    public boolean property_5() {
         // Check root condition
         if (root == null) {
             return size == 0;
@@ -38,8 +38,8 @@ public class RepOkClass5{
         return nodeCount == size;
     }
 
-    public boolean property() {
-        return sizeConsistency() && property();
+    public boolean property_5() {
+        return sizeConsistency() && property_5();
     }
 
 

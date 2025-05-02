@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         int expectedSize = size;
         Entry current = header.next;
         int actualSize = 0;

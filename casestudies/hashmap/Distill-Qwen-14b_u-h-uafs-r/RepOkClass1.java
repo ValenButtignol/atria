@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (table == null) {
             return size == 0 && threshold == 0 && loadFactor == DEFAULT_LOAD_FACTOR;
         }

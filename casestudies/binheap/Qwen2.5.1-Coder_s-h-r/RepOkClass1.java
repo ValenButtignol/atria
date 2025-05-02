@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (size < 0) {
             return false;
         }
@@ -28,18 +28,18 @@ public class RepOkClass1{
             return false;
         }
     
-        if (Nodes.sibling != null && !repOK(Nodes.sibling)) {
+        if (Nodes.sibling != null && !repOK_1(Nodes.sibling)) {
             return false;
         }
     
-        if (Nodes.child != null && !repOK(Nodes.child)) {
+        if (Nodes.child != null && !repOK_1(Nodes.child)) {
             return false;
         }
     
         return true;
     }
 
-    private boolean repOK(BinomialHeapNode node) {
+    private boolean repOK_1(BinomialHeapNode node) {
         if (node.degree < 0) {
             return false;
         }
@@ -60,11 +60,11 @@ public class RepOkClass1{
             return false;
         }
     
-        if (node.sibling != null && !repOK(node.sibling)) {
+        if (node.sibling != null && !repOK_1(node.sibling)) {
             return false;
         }
     
-        if (node.child != null && !repOK(node.child)) {
+        if (node.child != null && !repOK_1(node.child)) {
             return false;
         }
     

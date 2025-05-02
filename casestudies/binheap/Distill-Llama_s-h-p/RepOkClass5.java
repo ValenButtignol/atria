@@ -1,5 +1,5 @@
 public class RepOkClass5{
-    public boolean property() {
+    public boolean property_5() {
         // Check if the size is correctly initialized
         if (size != 0 && Nodes == null) {
             return false;

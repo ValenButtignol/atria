@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         // Check if the table is not null and its length is consistent with the size.
         if (table == null || table.length != size) {
             return false;

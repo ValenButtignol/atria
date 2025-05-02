@@ -1,5 +1,5 @@
 public class RepOkClass4{
-    public boolean property() {
+    public boolean property_4() {
         Set<AvlNode> visited = new HashSet<>();
         return dfs(root, visited);
     }

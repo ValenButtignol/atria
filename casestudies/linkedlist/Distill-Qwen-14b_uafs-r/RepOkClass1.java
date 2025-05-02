@@ -1,5 +1,5 @@
 public class RepOkClass1{
-    public boolean repOK() {
+    public boolean repOK_1() {
         if (size == 0) {
             // Check if the list is empty and header forms a cycle with itself
             return (header.next == header) && (header.previous == header) && (header.next.next == header);

@@ -1,5 +1,5 @@
 public class RepOkClass2{
-    public boolean property() {
+    public boolean property_2() {
         Set<Object> seenElements = new HashSet<>();
         for (Entry e = header.next; e != header; e = e.next) {
             if (e.element != null) {

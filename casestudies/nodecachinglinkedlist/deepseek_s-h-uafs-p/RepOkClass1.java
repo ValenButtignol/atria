@@ -1,5 +1,5 @@
 public class RepOkClass1 {
-    public boolean property() {
+    public boolean property_1() {
         if (size == 0) {
             return header.next == header && header.previous == header;
         } else {

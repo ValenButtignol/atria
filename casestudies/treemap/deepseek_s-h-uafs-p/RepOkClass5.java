@@ -1,5 +1,5 @@
 public class RepOkClass5 {
-    public boolean property() {
+    public boolean property_5() {
         return checkRedRedViolation(root);
     }
     

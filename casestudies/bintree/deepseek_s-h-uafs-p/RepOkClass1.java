@@ -1,5 +1,5 @@
 public class RepOkClass1 {
-    public boolean property() {
+    public boolean property_1() {
         java.util.Set<Node> visited = new java.util.HashSet<>();
         return isAcyclic(root, visited);
     }

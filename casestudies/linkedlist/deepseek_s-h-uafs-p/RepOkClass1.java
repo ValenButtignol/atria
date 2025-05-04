@@ -1,5 +1,5 @@
 public class RepOkClass1 {
-    public boolean property() {
+    public boolean property_1() {
         if (header.next == null || header.previous == null) {
             return false;
         }

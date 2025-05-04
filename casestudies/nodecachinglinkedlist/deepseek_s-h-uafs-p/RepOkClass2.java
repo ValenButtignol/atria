@@ -1,5 +1,5 @@
 public class RepOkClass2 {
-    public boolean property() {
+    public boolean property_3() {
         int count = 0;
         LinkedListNode current = firstCachedNode;
         while (current != null) {

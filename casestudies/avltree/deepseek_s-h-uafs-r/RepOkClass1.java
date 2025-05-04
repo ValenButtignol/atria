@@ -1,5 +1,5 @@
 public class RepOkClass1 {
-    public boolean repOK() {
+    public boolean repOK_1() {
         return isBalanced(root) && isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE) && heightConsistent(root);
     }
     

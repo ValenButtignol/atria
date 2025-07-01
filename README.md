@@ -1,4 +1,4 @@
-![AtrIA Logo](logo.jpeg)
+![AtrIA Logo](logo.png)
 
 ## Thesis pdf
 [Document](tesis.pdf)

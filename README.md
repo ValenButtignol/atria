@@ -1,6 +1,9 @@
-# ATRIA: AI & Testing-based RepOk Inference Approach
+![AtrIA Logo](logo.jpeg)
 
-### Steps for tool setup
+## Thesis pdf
+[Document](tesis.pdf)
+
+## Steps for tool setup
 
 1. Clone the repository with its submodules
 ```bash
